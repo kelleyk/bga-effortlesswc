@@ -151,14 +151,16 @@ module.exports = function (grunt) {
         },
         src: ['client/**/*.css'],
       },
-      // XXX: This does not currently work.
-      //
-      // server_php: {
-      //   options: {
-      //     configFile: './prettierrc.php.toml',
-      //   },
-      //   src: ['server/**/*.php'],
-      // },
+    },
+
+    shell: {
+      // The prettier-php plugin causes module loading errors when we
+      // try to define a grunt-prettier task, so we use this
+      // workaround.
+      prettier_server_php: {
+        command:
+          "find server -iname '*.php' -print0 | xargs -0 -n50 npm run prettier -- --config ./prettierrc.php.toml --write",
+      },
     },
 
     // XXX: Run `pcon` here.
@@ -254,33 +256,30 @@ module.exports = function (grunt) {
   //     'cardData',
   // ]);
 
-  grunt.registerTask('lintClient', []);
+  grunt.registerTask('lint:client', []);
 
   grunt.registerTask('client', [
+    'lint:client',
     'uglify',
     'cssmin',
+    'build-ts',
+    'uglify',
+  ]);
 
-    // These steps are the actual TypeScript build.
+  // These steps are the actual TypeScript build.
+  grunt.registerTask('build-ts', [
     'copy:client_ts_sources',
     'stripJsonComments:tsconfig',
     'prettier:tsconfig',
     'jsonlint:tsconfig',
     'ts',
-
-    'uglify',
   ]);
 
-  grunt.registerTask('lintServer', ['jsonlint:bga_metadata']);
+  grunt.registerTask('lint:server', ['jsonlint:bga_metadata']);
 
-  grunt.registerTask('server', ['lintServer', 'copy:server_sources']);
+  grunt.registerTask('server', ['lint:server', 'copy:server_sources']);
 
-  grunt.registerTask('fix', ['prettier']);
+  grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 
-  grunt.registerTask('default', ['server', 'client']);
-
-  // // XXX: This doesn't work at the moment because of something to do
-  // // with how the plugin is imported.  Yay.
-  // grunt.registerTask('fix', [
-  //     'prettier',
-  // ]);
+  grunt.registerTask('default', ['fix', 'server', 'client']);
 };

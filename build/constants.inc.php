@@ -73,6 +73,5 @@ const ALTERED_CLASS_ROGUE = 'class:rogue';
 // the action/card of another location with a rift token.
 const ALTERED_CLASS_WIZARD = 'class:wizard';
 
-
 // N.B.: SETTING_TRAVELING requires some pre-scoring user input from
 //   all players.
