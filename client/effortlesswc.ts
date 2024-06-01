@@ -28,9 +28,11 @@ class EffortlessWC extends Gamegui {
     console.log('Starting game setup');
 
     // Setting up player boards
-    for (const player_id in gamedatas.players) {
-      const player = gamedatas.players[player_id];
-      // TODO: Setting up players boards if needed
+    for (const playerId in gamedatas.players) {
+      if (gamedatas.players.hasOwnProperty(playerId)) {
+        const player = gamedatas.players[playerId];
+        // TODO: Setting up players boards if needed
+      }
     }
 
     // TODO: Set up your game interface here, according to "gamedatas"
@@ -159,7 +161,8 @@ class EffortlessWC extends Gamegui {
 
 	// The argument here should be one of there things:
 	// - `Notif`: A notification with all possible arguments defined by the NotifTypes interface. See {@link Notif}.
-	// - `NotifFrom<'cardPlayed'>`: A notification matching any other notification with the same arguments as 'cardPlayed' (A type can be used here instead). See {@link NotifFrom}.
+	// - `NotifFrom<'cardPlayed'>`: A notification matching any other notification with the same arguments as 'cardPlayed'
+	//   (A type can be used here instead). See {@link NotifFrom}.
 	// - `NotifAs<'cardPlayed'>`: A notification that is explicitly a 'cardPlayed' Notif. See {@link NotifAs}.
 	notif_cardPlayed( notif: NotifFrom<'cardPlayed'> )
 	{
@@ -169,6 +172,7 @@ class EffortlessWC extends Gamegui {
 	*/
 }
 
-// The global 'bgagame.effortlesswc' class is instantiated when the page is loaded. The following code sets this variable to your game class.
+// The global 'bgagame.effortlesswc' class is instantiated when the page is loaded. The following code sets this
+// variable to your game class.
 dojo.setObject('bgagame.effortlesswc', EffortlessWC);
 // Same as: (window.bgagame ??= {}).effortlesswc = EffortlessWC;
