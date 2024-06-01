@@ -1,15 +1,15 @@
 <?php
 /**
-  * expressionswc.game.php
-  *
-  * This is the main file for your game logic.
-  *
-  * In this PHP file, you are going to defines the rules of the game.
-  */
+ * effortlesswc.game.php
+ *
+ * This is the main file for your game logic.
+ *
+ * In this PHP file, you are going to defines the rules of the game.
+ */
 
 $swdNamespaceAutoload = function ($class) {
   $classParts = explode('\\', $class);
-  if ($classParts[0] == 'Expressionswc') {
+  if ($classParts[0] == 'EffortlessWC') {
     array_shift($classParts);
     $file = dirname(__FILE__) . '/modules/php/' . implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
     if (file_exists($file)) {
@@ -21,7 +21,8 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
-// require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
+// @phan-suppress-next-line PhanUndeclaredConstant
+require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
 // require_once 'modules/php/card_data.inc.php';
 // require_once 'modules/php/constants.inc.php';
@@ -39,48 +40,48 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 // require_once 'modules/php/Models/Token.php';
 // require_once 'modules/php/Models/Wall.php';
 
-// // use ExpressionsWC\Managers\Board;
+// // use EffortlessWC\Managers\Board;
 
-// use ExpressionsWC\Models\Chip;
-// use ExpressionsWC\Models\Entity;
-// use ExpressionsWC\Models\Position;
-// use ExpressionsWC\Models\Tile;
+// use EffortlessWC\Models\Chip;
+// use EffortlessWC\Models\Entity;
+// use EffortlessWC\Models\Position;
+// use EffortlessWC\Models\Tile;
 
-class Expressionswc extends Table
+class Effortlesswc extends Table
 {
-  // use ExpressionsWC\Bouncer;
-  // use ExpressionsWC\ClientRender;
-  // use ExpressionsWC\DataLayer;
-  // use ExpressionsWC\GameEffects;
-  // use ExpressionsWC\GameEffectUtils;
-  // use ExpressionsWC\GameFlow;
-  // use ExpressionsWC\GameOptions;
-  use ExpressionsWC\Setup;
-  // use ExpressionsWC\TurnOrder;
-  // use ExpressionsWC\WorldImpl;
-  // use ExpressionsWC\Logging;
+  // use EffortlessWC\Bouncer;
+  // use EffortlessWC\ClientRender;
+  // use EffortlessWC\DataLayer;
+  // use EffortlessWC\GameEffects;
+  // use EffortlessWC\GameEffectUtils;
+  // use EffortlessWC\GameFlow;
+  // use EffortlessWC\GameOptions;
+  use EffortlessWC\Setup;
+  // use EffortlessWC\TurnOrder;
+  // use EffortlessWC\WorldImpl;
+  // use EffortlessWC\Logging;
 
-  // use ExpressionsWC\Models\EntityManager;
-  // use ExpressionsWC\Models\FinaleManager;
-  // use ExpressionsWC\Models\TileManager;
-  // use ExpressionsWC\Models\WallManager;
+  // use EffortlessWC\Models\EntityManager;
+  // use EffortlessWC\Models\FinaleManager;
+  // use EffortlessWC\Models\TileManager;
+  // use EffortlessWC\Models\WallManager;
 
-  // use ExpressionsWC\Utilities\GameState;
+  // use EffortlessWC\Utilities\GameState;
 
-  // use ExpressionsWC\States\ActionWindow;
-  // use ExpressionsWC\States\CharacterSelection;
-  // use ExpressionsWC\States\CharacterSelectionRoundEnd;
-  // use ExpressionsWC\States\FinishSetup;
-  // use ExpressionsWC\States\NextCharacter;
-  // use ExpressionsWC\States\NpcTurn;
-  // use ExpressionsWC\States\PlaceEntranceTokens;
-  // use ExpressionsWC\States\PlayerTurn;
-  // use ExpressionsWC\States\PlayerTurnEnds;
-  // use ExpressionsWC\States\PlayerTurnEnterMap;
-  // use ExpressionsWC\States\ResolveEffect;
-  // use ExpressionsWC\States\TargetSelection;
+  // use EffortlessWC\States\ActionWindow;
+  // use EffortlessWC\States\CharacterSelection;
+  // use EffortlessWC\States\CharacterSelectionRoundEnd;
+  // use EffortlessWC\States\FinishSetup;
+  // use EffortlessWC\States\NextCharacter;
+  // use EffortlessWC\States\NpcTurn;
+  // use EffortlessWC\States\PlaceEntranceTokens;
+  // use EffortlessWC\States\PlayerTurn;
+  // use EffortlessWC\States\PlayerTurnEnds;
+  // use EffortlessWC\States\PlayerTurnEnterMap;
+  // use EffortlessWC\States\ResolveEffect;
+  // use EffortlessWC\States\TargetSelection;
 
-  // public \ExpressionsWC\Utilities\DiceRoller $dice_roller;
+  // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
 
   function __construct()
   {
@@ -96,12 +97,12 @@ class Expressionswc extends Table
       // 'optionVariantDeadDrops' => OPTION_VARIANT_DEAD_DROPS,
       // 'optionVariantCasingTheJoint' => OPTION_VARIANT_CASING_THE_JOINT,
     ]);
-    // $this->dice_roller = new \Expressionswc\Utilities\DiceRoller();
+    // $this->dice_roller = new \Effortlesswc\Utilities\DiceRoller();
   }
 
   protected function getGameName()
   {
-    return 'expressionswc';
+    return 'effortlesswc';
   }
 
   // -----------

@@ -1,6 +1,6 @@
 <?php
 
- // WARNING: THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
+// WARNING: THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
 
 class action_effortlesswc extends APP_GameAction
 {
@@ -8,7 +8,7 @@ class action_effortlesswc extends APP_GameAction
   //
   /** @var Effortlesswc $game */
   // @phan-suppress-next-line PhanUndeclaredTypeProperty
- protected $game; // Enforces functions exist on Table class
+  protected $game; // Enforces functions exist on Table class
 
   // Constructor: please do not modify
   public function __default()

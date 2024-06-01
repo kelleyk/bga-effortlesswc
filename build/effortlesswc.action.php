@@ -1,18 +1,13 @@
 <?php
-/*
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
- *------
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * EffortlessWC implementation : © Kevin Kelley <kelleyk@kelleyk.net>
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- * -----
- */
+
+// WARNING: THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
 
 class action_effortlesswc extends APP_GameAction
 {
-  /** @var effortlesswc $game */
+  // TODO: It'd be nice to find a way to eliminate the need for the phan suppression directive here.
+  //
+  /** @var Effortlesswc $game */
+  // @phan-suppress-next-line PhanUndeclaredTypeProperty
   protected $game; // Enforces functions exist on Table class
 
   // Constructor: please do not modify
@@ -27,22 +22,22 @@ class action_effortlesswc extends APP_GameAction
     }
   }
 
-  public function playCard()
-  {
-    self::setAjaxMode();
+  // public function playCard()
+  // {
+  //   self::setAjaxMode();
 
-    /** @var int $card_id */
-    $card_id = self::getArg('card_id', AT_int, true);
+  //   /** @var int $card_id */
+  //   $card_id = self::getArg('card_id', AT_int, true);
 
-    $this->game->playCard($card_id);
-    self::ajaxResponse();
-  }
+  //   $this->game->playCard($card_id);
+  //   self::ajaxResponse();
+  // }
 
-  public function pass()
-  {
-    self::setAjaxMode();
+  // public function pass()
+  // {
+  //   self::setAjaxMode();
 
-    $this->game->pass();
-    self::ajaxResponse();
-  }
+  //   $this->game->pass();
+  //   self::ajaxResponse();
+  // }
 }

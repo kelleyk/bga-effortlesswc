@@ -14,11 +14,11 @@ module.exports = function (grunt) {
       },
       files: {
         src: [
-          "client/**/*.ts",
+          'client/**/*.ts',
 
           // XXX: Without this, we get an error about .d.ts files not being part
           // of the project; but we do want to lint them!
-          "!client/**/*.d.ts",
+          '!client/**/*.d.ts',
         ],
       },
     },
@@ -36,6 +36,15 @@ module.exports = function (grunt) {
       },
     },
     copy: {
+      assets: {
+        files: [{
+          expand: true,
+          cwd: './assets',
+          src: ['**'],
+          dest: 'build/img/',
+          filter: 'isFile',
+        }],
+      },
       tsconfig: {
         files: [
           {
@@ -190,7 +199,7 @@ module.exports = function (grunt) {
         //
         // This will fail if any warnings are emitted.
         command:
-        'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output -v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
+          'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output -v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
       },
     },
   });
@@ -223,11 +232,7 @@ module.exports = function (grunt) {
   ]);
 
   // These steps are the actual TypeScript build.
-  grunt.registerTask('build-ts', [
-    'copy:client_ts_sources',
-    'tsconfig',
-    'ts',
-  ]);
+  grunt.registerTask('build-ts', ['copy:client_ts_sources', 'tsconfig', 'ts']);
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 
@@ -235,5 +240,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 
-  grunt.registerTask('default', ['fix', 'server', 'client']);
+  grunt.registerTask('default', ['fix', 'server', 'client', 'copy:assets']);
 };
