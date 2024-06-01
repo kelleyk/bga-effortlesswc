@@ -63,21 +63,21 @@ class Deck extends APP_GameClass {
     function deleteAll() {
         self::DbQuery("DELETE FROM " . $this->table);
     }
-    
+
     // Pick the first card on top of specified deck and give it to specified player
     // Return card infos or null if no card in the specified location
     function pickCard( $location, $player_id )
     {
         return self::pickCardForLocation( $location, "hand", $player_id );
     }
-    
+
     // Pick the "nbr" first cards on top of specified deck and give it to specified player
     // Return card infos (array) or null if no card in the specified location
     function pickCards( $nbr, $location, $player_id )
     {
         return self::pickCardsForLocation( $nbr, $location, "hand", $player_id );
     }
-    
+
     // Pick the first card on top of specified deck and place it in target location
     // Return card infos or null if no card in the specified location
     function pickCardForLocation( $from_location, $to_location, $location_arg=0 )
@@ -91,8 +91,8 @@ class Deck extends APP_GameClass {
         self::checkLocation($from_location);
         return [];
     }
-    
-    
+
+
 
     /**
      * Return card on top of this location, top defined as item with higher state value
@@ -192,7 +192,7 @@ class Deck extends APP_GameClass {
         return [];
     }
 
-    
+
     // Get cards from their IDs (same as getCards), but with a location specified. Raises an exception if the cards are not in the specified location.
     function getCardsFromLocation( $cards_array, $location, $location_arg = null )
     {
@@ -204,26 +204,26 @@ class Deck extends APP_GameClass {
     {
       return [];
     }
-    
+
     // Get cards of a specific type in a specific location
     function getCardsOfTypeInLocation( $type, $type_arg=null, $location, $location_arg = null )
     {
         return [];
     }
-    
+
     // Move a card to discard pile
     function playCard( $card_id )
     {
 
     }
-    
-    
+
+
     // Return count of cards in location with optional arg
     function countCardsInLocation( $location, $location_arg=null )
     {
         return 0;
     }
-    
+
     // Return an array "location" => number of cards
     function countCardsInLocations( )
     {
@@ -234,7 +234,7 @@ class Deck extends APP_GameClass {
     function countCardsByLocationArgs( $location )
     {
         return [];
-        
+
     }
 
     final function checkLocation($location, $like = false) {
@@ -243,7 +243,7 @@ class Deck extends APP_GameClass {
         $extra = "";
         if ($like)
             $extra = "%";
-        if (preg_match("/^[A-Za-z${extra}][A-Za-z_0-9${extra}-]*$/", $location) == 0) {
+        if (preg_match("/^[A-Za-z{$extra}][A-Za-z_0-9{$extra}-]*$/", $location) == 0) {
             throw new feException("location must be alphanum and underscore non empty string");
         }
     }

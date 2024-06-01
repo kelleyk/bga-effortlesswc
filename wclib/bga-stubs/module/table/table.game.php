@@ -266,7 +266,7 @@ abstract class Table extends APP_GameClass {
     public bool $not_a_move_notification = false;
     /** when set to true there is another table to track multiactive players */
     public $bIndependantMultiactiveTable = false;
-    
+
     /** hold player prefrences table - only available during setupNewGame */
     var $player_preferences;
 
@@ -299,7 +299,7 @@ abstract class Table extends APP_GameClass {
         return [ ];
     }
 
-    /**  
+    /**
      * Send buffered notifications to players. This method is autmatically called at the end of each AJAX action, but can be called more often if long operations are beeing performed.
      * It is not recommended to override or call this method manually.
      */
@@ -582,9 +582,9 @@ class GUser {
 }
 // Arg types
 define('AT_int', 0); //  an integer
-define('AT_posint', 1); //  a positive integer 
+define('AT_posint', 1); //  a positive integer
 define('AT_float', 2); //  a float
-define('AT_email', 3); //  an email  
+define('AT_email', 3); //  an email
 define('AT_url', 4); //  a URL
 define('AT_bool', 5); //  1/0/true/false
 define('AT_enum', 6); //  argTypeDetails list the possible values

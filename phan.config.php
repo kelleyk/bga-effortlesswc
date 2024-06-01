@@ -70,6 +70,10 @@ return [
       'include_paths' => [
       ],
 
+      'globals_type_map' => [
+      'APP_BASE_PATH' => 'string',
+    ],
+
     // A list of directories holding code that we want
     // to parse, but not analyze
     "exclude_analysis_directory_list" => [
