@@ -110,6 +110,7 @@ class GameState {
         return $this->current_state;
     }
 
+  /** @return array<string,mixed> */
     function state() {
         if (array_key_exists($this->current_state, $this->states)) {
             $state = $this->states [$this->current_state];
@@ -119,9 +120,9 @@ class GameState {
         return [ ];
     }
 
-    function getStateNumberByTransition($transition) {
-        $state = $this->state();
-        foreach ( $state ['transitions'] as $pos => $next_state ) {
+  function getStateNumberByTransition(string $transition): int {
+      $state = $this->state();
+      foreach ( $state ['transitions'] as $pos => $next_state ) {
             if ($transition == $pos || !$transition) {
                 return $next_state;
             }
@@ -514,7 +515,8 @@ abstract class Table extends APP_GameClass {
     }
 
     function getNew($deck_definition): object {
-        return null;
+      class NoSuchObject {}
+      return new NoSuchObject();
     }
 
     // Give standard extra time to this player
