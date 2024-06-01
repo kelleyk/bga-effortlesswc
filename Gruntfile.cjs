@@ -126,7 +126,7 @@ module.exports = function (grunt) {
           // mergeIntoShorthands: false,
         },
         files: {
-          'build/burglebrostwo.css': [
+          'build/effortlesswc.css': [
             'client/*.css',
             'tmp/effortlesswc.*.css',
             'assets/effortlesswc.*.css',
@@ -172,9 +172,15 @@ module.exports = function (grunt) {
         command:
           "find server -iname '*.php' -print0 | xargs -0 -n50 npm run prettier -- --config ./prettierrc.php.toml --write",
       },
+      phan: {
+        // N.B.: When running manually, I'd probably do `docker run -it --rm ...`.
+        //
+        // This will fail if any warnings are emitted.
+        command:
+        "mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)",
+      },
     },
 
-    // XXX: Run `pcon` here.
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -184,6 +190,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-prettier');
+
+  grunt.registerTask('phan', ['shell:phan']);
 
   grunt.registerTask('lint:client', []);
 
@@ -204,7 +212,7 @@ module.exports = function (grunt) {
     'ts',
   ]);
 
-  grunt.registerTask('lint:server', ['jsonlint:bga_metadata']);
+  grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 
   grunt.registerTask('server', ['lint:server', 'copy:server_sources']);
 
