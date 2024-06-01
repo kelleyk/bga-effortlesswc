@@ -97,10 +97,19 @@ module.exports = function(grunt) {
         // We do this to strip trailing commas and things like that.
         tsconfig: {
           options: {
-            configFile: './prettierrc.json.json',
+            configFile: './prettierrc.json.toml',
           },
           files: {
-            'tmp/tsconfig.json': 'tmp/tsconfig.json'
+            'tmp/tsconfig.json': 'tmp/tsconfig.json',
+          },
+        },
+        // For this code!
+        gruntfile: {
+          options: {
+            configFile: './prettierrc.ts.toml',
+          },
+          files: {
+            'Gruntfile.cjs': 'Gruntfile.cjs',
           }
         },
       },
