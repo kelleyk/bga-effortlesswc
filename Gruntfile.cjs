@@ -2,9 +2,24 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     tslint: {
-      options: "tslint.yaml",
+      options: {
+        configuration: 'tslint.yaml',
+        // This is necessary for rules related to type-checking.
+        project: 'tsconfig.json5',
+        // If set to true, tslint errors will be reported, but not
+        // fail the task.  If set to false, tslint errors will be
+        // reported, and the task will fail.
+        force: false,
+        fix: false,
+      },
       files: {
-        src: ["client/**/*.ts"],
+        src: [
+          "client/**/*.ts",
+
+          // XXX: Without this, we get an error about .d.ts files not being part
+          // of the project; but we do want to lint them!
+          "!client/**/*.d.ts",
+        ],
       },
     },
     uglify: {
@@ -175,10 +190,9 @@ module.exports = function (grunt) {
         //
         // This will fail if any warnings are emitted.
         command:
-        "mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)",
+          'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
       },
     },
-
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -192,9 +206,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('phan', ['shell:phan']);
 
-  grunt.registerTask('lint:client', [
-    'tslint',
-  ]);
+  grunt.registerTask('lint:client', ['tslint']);
 
   grunt.registerTask('client', [
     'lint:client',
@@ -204,12 +216,16 @@ module.exports = function (grunt) {
     'uglify',
   ]);
 
-  // These steps are the actual TypeScript build.
-  grunt.registerTask('build-ts', [
-    'copy:client_ts_sources',
+  grunt.registerTask('tsconfig', [
     'jsonlint:tsconfig', // Lint (but don't modify) the source tsconfig.
     'copy:tsconfig',
     'jsonlint:output_tsconfig', // This rewrites the JSON5 input as plain ol' JSON.
+  ]);
+
+  // These steps are the actual TypeScript build.
+  grunt.registerTask('build-ts', [
+    'copy:client_ts_sources',
+    'tsconfig',
     'ts',
   ]);
 

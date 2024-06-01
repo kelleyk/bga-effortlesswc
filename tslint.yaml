@@ -19,6 +19,9 @@ rules:
             - time
             - timeEnd
             - trace
+    quotemark: [true, "single"]
+    interface-name: [true, "never-prefix"]
+
 jsRules:
     max-line-length:
         options: [120]

@@ -19,6 +19,7 @@
 		"typeRoots": [
 			"../node_modules/bga-ts-template/typescript/types", // NEVER CHANGE. This ensures modules have the correct paths.
 			"../node_modules/@types", // Recommended (default when typeRoots not defined)
+      "client/**/*.d.ts",
 		],
 		"paths": {
 			// When cookbook files are added, this lets you import them without the full path.

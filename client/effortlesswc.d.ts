@@ -1,15 +1,5 @@
-/*
- *------
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * EffortlessWC implementation : © Kevin Kelley <kelleyk@kelleyk.net>
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- * -----
- */
-
-// If you have any imports/exports in this file, 'declare global' is access/merge your game specific types with framework types. 'export {};' is used to avoid possible confusion with imports/exports.
-declare global {
+// // If you have any imports/exports in this file, 'declare global' is access/merge your game specific types with framework types. 'export {};' is used to avoid possible confusion with imports/exports.
+// declare global {
   /** @gameSpecific Add game specific notifications / arguments here. See {@link NotifTypes} for more information. */
   interface NotifTypes {
     // [name: string]: any; // Uncomment to remove type safety on notification names and arguments
@@ -32,6 +22,6 @@ declare global {
   interface PlayerActions {
     // [action: string]: Record<keyof any, any>; // Uncomment to remove type safety on player action names and arguments
   }
-}
+// }
 
-export {}; // Force this file to be a module.
+// export {}; // Force this file to be a module.
