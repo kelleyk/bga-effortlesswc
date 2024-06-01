@@ -134,11 +134,6 @@ module.exports = function (grunt) {
         },
       },
     },
-    // XXX: I don't know how to express this well, but we need to
-    // run the `copy:client_ts_sources` task before this one.
-    //
-    // We also need to run `stripJsonComments:tsconfig` in order to
-    // produce this config file from the JSONC source.
     ts: {
       default: {
         tsconfig: './tmp/tsconfig.json',
@@ -189,86 +184,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-prettier');
-
-  // grunt.registerTask('cardImageMetadata', 'Preprocess card metadata', function() {
-  //     grunt.task.requires('sprite:cards');
-  //     var cardJson = grunt.file.readJSON('tmp/burglebrostwo.cards.json');
-
-  //     var cardsPerRow = 0;
-  //     var expectedWidth = 0;
-  //     var expectedHeight = 0;
-
-  //     var cardImages = {};
-  //     Object.entries(cardJson).forEach(function([asset_filename, info]) {
-  //         if (cardsPerRow == 0) {
-  //             cardsPerRow = info['total_width'] / info['width'];
-  //             expectedWidth = info['width'];
-  //             expectedHeight = info['height'];
-  //         }
-
-  //         if (info['width'] != expectedWidth) {
-  //             grunt.log.error('Cards do not all have same width.');
-  //         }
-  //         if (info['height'] != expectedHeight) {
-  //             grunt.log.error('Cards do not all have same height.');
-  //         }
-
-  //         var m = asset_filename.match(/^card_([^_]+)_(.*)$/);
-  //         var cardImageType = m[1];  // or call this "deck"?  value like "bros", "gear", etc.
-  //         var cardImageId = m[2];  // a card type ID, or "back"
-
-  //         var cardImageIndex = ((info['y']/expectedHeight)*cardsPerRow) + (info['x']/expectedWidth);
-
-  //         if (cardImages[cardImageType] === undefined) {
-  //             cardImages[cardImageType] = {};
-  //         }
-  //         cardImages[cardImageType][cardImageId] = cardImageIndex;
-  //     });
-
-  //     var outTs = 'class StaticData {\n';
-  //     outTs += '  static cardsPerRow: number = ' + cardsPerRow + ';\n';
-  //     outTs += '  static cardImageIds: any = ' + JSON.stringify(cardImages) + ';\n';
-  //     outTs += '};\n';
-  //     grunt.file.write('tmp/client/StaticData.ts', outTs);
-  // });
-
-  // grunt.registerTask('cardData', 'Preprocess card metadata', function() {
-  //     var dataFile = grunt.file.readYAML('common/cards.yaml');
-
-  //     var out = '<?php\n\n';
-
-  //     out += 'const CARD_DATA = array(\n';
-  //     Object.entries(dataFile['cardGroups']).forEach(function([i, cardGroup]) {
-  //         // console.log(cardGroup);
-  //         out += '  "'+cardGroup['name']+'" => array(\n';
-  //         Object.entries(cardGroup['cardTypes']).forEach(function([j, cardType]) {
-  //             var imageSlug = cardType['image'];
-  //             if (imageSlug === undefined) {
-  //                 imageSlug = cardType['cardType'];
-  //             }
-
-  //             out += '    "'+cardType['cardType']+'" => array(\n';
-  //             out += '      "title" => "'+cardType['title']+'",\n';
-  //             out += '      "image" => "'+imageSlug+'",\n';
-  //             out += '      "bro" => "'+cardType['bro']+'",\n';
-  //             out += '      "back" => "'+cardType['back']+'",\n';
-  //             out += '      "uses" => '+(cardType['uses'] ?? 1)+',\n';
-  //             out += '    ),\n';
-  //         });
-  //         out += '  ),\n';
-  //     });
-  //     out += ');\n';
-
-  //     // XXX: Also need to generate parts of the "materials" file
-  //     //   from this data.
-
-  //     grunt.file.write('tmp/card_data.inc.php', out);
-  // });
-
-  // grunt.registerTask('staticData', [
-  //     'cardImageMetadata',  // depends on "sprite:cards"
-  //     'cardData',
-  // ]);
 
   grunt.registerTask('lint:client', []);
 
