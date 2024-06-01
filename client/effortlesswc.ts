@@ -24,12 +24,12 @@ class EffortlessWC extends Gamegui {
   }
 
   /** @gameSpecific See {@link Gamegui.setup} for more information. */
-  setup(gamedatas: Gamedatas): void {
+  public setup(gamedatas: Gamedatas): void {
     console.log('Starting game setup');
 
     // Setting up player boards
-    for (var player_id in gamedatas.players) {
-      var player = gamedatas.players[player_id];
+    for (const player_id in gamedatas.players) {
+      const player = gamedatas.players[player_id];
       // TODO: Setting up players boards if needed
     }
 
@@ -45,7 +45,10 @@ class EffortlessWC extends Gamegui {
   //// Game & client states
 
   /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
-  onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void {
+  public onEnteringState(
+    stateName: GameStateName,
+    args: CurrentStateArgs,
+  ): void {
     console.log('Entering state: ' + stateName);
 
     switch (stateName) {
@@ -55,7 +58,7 @@ class EffortlessWC extends Gamegui {
   }
 
   /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-  onLeavingState(stateName: GameStateName): void {
+  public onLeavingState(stateName: GameStateName): void {
     console.log('Leaving state: ' + stateName);
 
     switch (stateName) {
@@ -65,13 +68,15 @@ class EffortlessWC extends Gamegui {
   }
 
   /** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
-  onUpdateActionButtons(
+  public onUpdateActionButtons(
     stateName: GameStateName,
     args: AnyGameStateArgs | null,
   ): void {
     console.log('onUpdateActionButtons: ' + stateName, args);
 
-    if (!this.isCurrentPlayerActive()) return;
+    if (!this.isCurrentPlayerActive()) {
+      return;
+    }
 
     switch (stateName) {
       case 'dummmy':
@@ -93,7 +98,7 @@ class EffortlessWC extends Gamegui {
 
   /*
 		Here, you are defining methods to handle player's action (ex: results of mouse click on game objects).
-		
+
 		Most of the time, these methods:
 		- check the action is possible at this game state.
 		- make a call to the game server
@@ -114,8 +119,8 @@ class EffortlessWC extends Gamegui {
 		if(!this.checkAction( 'myAction' ))
 			return;
 
-		this.ajaxcall( "/yourgamename/yourgamename/myAction.html", { 
-			lock: true, 
+		this.ajaxcall( "/yourgamename/yourgamename/myAction.html", {
+			lock: true,
 			myArgument1: arg1,
 			myArgument2: arg2,
 		}, this, function( result ) {
@@ -137,7 +142,7 @@ class EffortlessWC extends Gamegui {
   //// Reaction to cometD notifications
 
   /** @gameSpecific See {@link Gamegui.setupNotifications} for more information. */
-  setupNotifications() {
+  public setupNotifications() {
     console.log('notifications subscriptions setup');
 
     // TODO: here, associate your game notifications with local methods
@@ -151,7 +156,7 @@ class EffortlessWC extends Gamegui {
 
   /*
 	Example:
-	
+
 	// The argument here should be one of there things:
 	// - `Notif`: A notification with all possible arguments defined by the NotifTypes interface. See {@link Notif}.
 	// - `NotifFrom<'cardPlayed'>`: A notification matching any other notification with the same arguments as 'cardPlayed' (A type can be used here instead). See {@link NotifFrom}.
