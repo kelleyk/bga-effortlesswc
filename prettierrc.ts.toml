@@ -1,5 +1,6 @@
-tabWidth = 2
-trailingComma = "es5"
+editorconfig = true
+
+# trailingComma = "es5"
+trailingComma = "all"
 semi = true
-printWidth = 120
 singleQuote = true
