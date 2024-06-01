@@ -139,21 +139,29 @@ module.exports = function (grunt) {
           'Gruntfile.cjs': 'Gruntfile.cjs',
         },
       },
+      client_ts: {
+        options: {
+          configFile: './prettierrc.ts.toml',
+        },
+        src: ['client/**/*.ts'],
+      },
+      client_css: {
+        options: {
+          configFile: './prettierrc.css.toml',
+        },
+        src: ['client/**/*.css'],
+      },
+      // XXX: This does not currently work.
+      //
+      // server_php: {
+      //   options: {
+      //     configFile: './prettierrc.php.toml',
+      //   },
+      //   src: ['server/**/*.php'],
+      // },
     },
-    // prettier: {
-    //     options: {
-    //         configFile: './prettierrc.json',
-    //     },
-    //     files: {
-    //         src: [
-    //             'server/**/*.php',
-    //             'client/**/*.ts',
-    //             'client/**/*.cs',
-    //         ],
-    //     },
-    // },
 
-    // XXX: Get `prettier` (& etc.) working; run `pcon` here.
+    // XXX: Run `pcon` here.
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -265,6 +273,8 @@ module.exports = function (grunt) {
   grunt.registerTask('lintServer', ['jsonlint:bga_metadata']);
 
   grunt.registerTask('server', ['lintServer', 'copy:server_sources']);
+
+  grunt.registerTask('fix', ['prettier']);
 
   grunt.registerTask('default', ['server', 'client']);
 

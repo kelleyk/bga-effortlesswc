@@ -1,0 +1,1 @@
+- Need to check out Prettier's "integration with linters" and "pre-commit hook" sections.

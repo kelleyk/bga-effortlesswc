@@ -10,104 +10,96 @@
 /// <amd-module name="bgagame/effortlesswc"/>
 
 import Gamegui = require('ebg/core/gamegui');
-import "ebg/counter";
+import 'ebg/counter';
 
 /** The root for all of your game code. */
-class EffortlessWC extends Gamegui
-{
-	// myGlobalValue: number = 0;
-	// myGlobalArray: string[] = [];
+class EffortlessWC extends Gamegui {
+  // myGlobalValue: number = 0;
+  // myGlobalArray: string[] = [];
 
-	/** @gameSpecific See {@link Gamegui} for more information. */
-	constructor(){
-		super();
-		console.log('effortlesswc constructor');
-	}
+  /** @gameSpecific See {@link Gamegui} for more information. */
+  constructor() {
+    super();
+    console.log('effortlesswc constructor');
+  }
 
-	/** @gameSpecific See {@link Gamegui.setup} for more information. */
-	setup(gamedatas: Gamedatas): void
-	{
-		console.log( "Starting game setup" );
-		
-		// Setting up player boards
-		for( var player_id in gamedatas.players )
-		{
-			var player = gamedatas.players[player_id];
-			// TODO: Setting up players boards if needed
-		}
-		
-		// TODO: Set up your game interface here, according to "gamedatas"
+  /** @gameSpecific See {@link Gamegui.setup} for more information. */
+  setup(gamedatas: Gamedatas): void {
+    console.log('Starting game setup');
 
-		// Setup game notifications to handle (see "setupNotifications" method below)
-		this.setupNotifications();
+    // Setting up player boards
+    for (var player_id in gamedatas.players) {
+      var player = gamedatas.players[player_id];
+      // TODO: Setting up players boards if needed
+    }
 
-		console.log( "Ending game setup" );
-	}
+    // TODO: Set up your game interface here, according to "gamedatas"
 
-	///////////////////////////////////////////////////
-	//// Game & client states
-	
-	/** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
-	onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void
-	{
-		console.log( 'Entering state: '+stateName );
-		
-		switch( stateName )
-		{
-		case 'dummmy':
-			break;
-		}
-	}
+    // Setup game notifications to handle (see "setupNotifications" method below)
+    this.setupNotifications();
 
-	/** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-	onLeavingState(stateName: GameStateName): void
-	{
-		console.log( 'Leaving state: '+stateName );
-		
-		switch( stateName )
-		{
-		case 'dummmy':
-			break;
-		}
-	}
+    console.log('Ending game setup');
+  }
 
-	/** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
-	onUpdateActionButtons(stateName: GameStateName, args: AnyGameStateArgs | null): void
-	{
-		console.log( 'onUpdateActionButtons: ' + stateName, args );
+  ///////////////////////////////////////////////////
+  //// Game & client states
 
-		if(!this.isCurrentPlayerActive())
-			return;
+  /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
+  onEnteringState(stateName: GameStateName, args: CurrentStateArgs): void {
+    console.log('Entering state: ' + stateName);
 
-		switch( stateName )
-		{
-		case 'dummmy':
-			// Add buttons if needed
-			break;
-		}
-	}
+    switch (stateName) {
+      case 'dummmy':
+        break;
+    }
+  }
 
-	///////////////////////////////////////////////////
-	//// Utility methods
-	
-	/*
+  /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
+  onLeavingState(stateName: GameStateName): void {
+    console.log('Leaving state: ' + stateName);
+
+    switch (stateName) {
+      case 'dummmy':
+        break;
+    }
+  }
+
+  /** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
+  onUpdateActionButtons(
+    stateName: GameStateName,
+    args: AnyGameStateArgs | null,
+  ): void {
+    console.log('onUpdateActionButtons: ' + stateName, args);
+
+    if (!this.isCurrentPlayerActive()) return;
+
+    switch (stateName) {
+      case 'dummmy':
+        // Add buttons if needed
+        break;
+    }
+  }
+
+  ///////////////////////////////////////////////////
+  //// Utility methods
+
+  /*
 		Here, you can defines some utility methods that you can use everywhere in your typescript
 		script.
 	*/
 
+  ///////////////////////////////////////////////////
+  //// Player's action
 
-	///////////////////////////////////////////////////
-	//// Player's action
-	
-	/*
+  /*
 		Here, you are defining methods to handle player's action (ex: results of mouse click on game objects).
 		
 		Most of the time, these methods:
 		- check the action is possible at this game state.
 		- make a call to the game server
 	*/
-	
-	/*
+
+  /*
 	Example:
 	onMyMethodToCall1( evt: Event )
 	{
@@ -141,24 +133,23 @@ class EffortlessWC extends Gamegui
 	}
 	*/
 
-	///////////////////////////////////////////////////
-	//// Reaction to cometD notifications
+  ///////////////////////////////////////////////////
+  //// Reaction to cometD notifications
 
-	/** @gameSpecific See {@link Gamegui.setupNotifications} for more information. */
-	setupNotifications()
-	{
-		console.log( 'notifications subscriptions setup' );
-		
-		// TODO: here, associate your game notifications with local methods
-		
-		// With base Gamegui class...
-		// dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+  /** @gameSpecific See {@link Gamegui.setupNotifications} for more information. */
+  setupNotifications() {
+    console.log('notifications subscriptions setup');
 
-		// With GameguiCookbook::Common class...
-		// this.subscribeNotif( 'cardPlayed', this.notif_cardPlayed ); // Adds type safety to the subscription
-	}
+    // TODO: here, associate your game notifications with local methods
 
-	/*
+    // With base Gamegui class...
+    // dojo.subscribe( 'cardPlayed', this, "notif_cardPlayed" );
+
+    // With GameguiCookbook::Common class...
+    // this.subscribeNotif( 'cardPlayed', this.notif_cardPlayed ); // Adds type safety to the subscription
+  }
+
+  /*
 	Example:
 	
 	// The argument here should be one of there things:
@@ -173,7 +164,6 @@ class EffortlessWC extends Gamegui
 	*/
 }
 
-
 // The global 'bgagame.effortlesswc' class is instantiated when the page is loaded. The following code sets this variable to your game class.
-dojo.setObject( "bgagame.effortlesswc", EffortlessWC );
+dojo.setObject('bgagame.effortlesswc', EffortlessWC);
 // Same as: (window.bgagame ??= {}).effortlesswc = EffortlessWC;
