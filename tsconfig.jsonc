@@ -1,0 +1,42 @@
+// N.B.: Paths are relative to the "tmp" subdirectory.
+{
+  "include": [
+    // "tmp/client/**/GameBasics.ts",
+    "client/**/*.ts"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../**/*.spec.ts"
+  ],
+	"compilerOptions": {
+		/* NEVER CHANGE THESE */
+		"target": "es5", // This is the framework's version
+		"module": "AMD", // This is what allows for imports and automatically creates the define function.
+
+		/* Recommended, should not need to change. */
+		"moduleResolution": "node10",
+		"lib": [ "dom", "esnext" ],
+		"typeRoots": [
+			"../node_modules/bga-ts-template/typescript/types", // NEVER CHANGE. This ensures modules have the correct paths.
+			"../node_modules/@types", // Recommended (default when typeRoots not defined)
+		],
+		"paths": {
+			// When cookbook files are added, this lets you import them without the full path.
+			"cookbook/*": [ "../node_modules/bga-ts-template/typescript/cookbook/*" ]
+		},
+
+    // See https://www.typescriptlang.org/tsconfig/ for details.
+    //
+    // Do we want any more of these?
+    //
+		"strict": true,
+		"noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"removeComments": true, // Comments are always removed from JS in production, so you don't need to remove them when compiling.
+		"sourceMap": true,
+	},
+}

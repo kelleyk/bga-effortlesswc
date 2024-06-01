@@ -1,0 +1,3 @@
+- An example of using React: https://github.com/cdelaforge/reflection
+- Tissac tried using Vue and doesn't suggest it.
+- This looks interesting; should compare to my own TS type definitions: https://github.com/NevinAF/bga-ts-template

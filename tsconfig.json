@@ -1,0 +1,21 @@
+{
+    "rootDir": ".",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "none",
+        "lib": ["dom", "esnext"],
+        "sourceMap": false,
+        "typeRoots": [
+            "tmp/client/types",
+            "./node_modules/@types"
+        ]
+    },
+    "include": [
+        "tmp/client/**/GameBasics.ts",
+        "tmp/client/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}
