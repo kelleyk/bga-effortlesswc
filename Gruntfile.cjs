@@ -11,7 +11,8 @@ module.exports = function (grunt) {
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        banner:
+          '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
       },
       build: {
         src: [
@@ -23,7 +24,15 @@ module.exports = function (grunt) {
     },
     copy: {
       client_ts_sources: {
-        files: [{ expand: true, cwd: 'client/', src: ['**/*.ts'], dest: 'tmp/client/', filter: 'isFile' }],
+        files: [
+          {
+            expand: true,
+            cwd: 'client/',
+            src: ['**/*.ts'],
+            dest: 'tmp/client/',
+            filter: 'isFile',
+          },
+        ],
       },
       server_sources: {
         files: [
@@ -34,11 +43,35 @@ module.exports = function (grunt) {
             dest: 'build/modules/php/',
             filter: 'isFile',
           },
-          { expand: true, cwd: 'server/', src: ['*.php'], dest: 'build/', filter: 'isFile' },
+          {
+            expand: true,
+            cwd: 'server/',
+            src: ['*.php'],
+            dest: 'build/',
+            filter: 'isFile',
+          },
           // {expand: true, cwd: 'tmp/', src: ['card_data.inc.php'], dest: 'build/modules/php/', filter: 'isFile'},
-          { expand: true, cwd: 'server/', src: ['dbmodel.sql'], dest: 'build/', filter: 'isFile' },
-          { expand: true, cwd: 'server/', src: ['*.json'], dest: 'build/', filter: 'isFile' },
-          { expand: true, cwd: 'server/', src: ['*.tpl'], dest: 'build/', filter: 'isFile' },
+          {
+            expand: true,
+            cwd: 'server/',
+            src: ['dbmodel.sql'],
+            dest: 'build/',
+            filter: 'isFile',
+          },
+          {
+            expand: true,
+            cwd: 'server/',
+            src: ['*.json'],
+            dest: 'build/',
+            filter: 'isFile',
+          },
+          {
+            expand: true,
+            cwd: 'server/',
+            src: ['*.tpl'],
+            dest: 'build/',
+            filter: 'isFile',
+          },
         ],
       },
     },
@@ -68,7 +101,11 @@ module.exports = function (grunt) {
           // mergeIntoShorthands: false,
         },
         files: {
-          'build/burglebrostwo.css': ['client/*.css', 'tmp/effortlesswc.*.css', 'assets/effortlesswc.*.css'],
+          'build/burglebrostwo.css': [
+            'client/*.css',
+            'tmp/effortlesswc.*.css',
+            'assets/effortlesswc.*.css',
+          ],
         },
       },
     },
