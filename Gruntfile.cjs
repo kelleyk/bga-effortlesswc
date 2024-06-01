@@ -1,12 +1,10 @@
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    stripJsonComments: {
-      tsconfig: {
-        options: { whitespace: true },
-        files: {
-          'tmp/tsconfig.json': 'tsconfig.jsonc',
-        },
+    tslint: {
+      options: "tslint.yaml",
+      files: {
+        src: ["client/**/*.ts"],
       },
     },
     uglify: {
@@ -190,10 +188,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-prettier');
+  grunt.loadNpmTasks('grunt-tslint');
 
   grunt.registerTask('phan', ['shell:phan']);
 
-  grunt.registerTask('lint:client', []);
+  grunt.registerTask('lint:client', [
+    'tslint',
+  ]);
 
   grunt.registerTask('client', [
     'lint:client',
