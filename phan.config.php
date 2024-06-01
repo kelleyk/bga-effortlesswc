@@ -62,18 +62,19 @@ return [
          // // project depends on.
          // // `phan --init` will generate a list of folders for you
          // 'src/vendor',
+
+         // These are mounted read-only from `wclib`.
+         '/wclib/bga-stubs'
     ],
+
+      'include_paths' => [
+      ],
 
     // A list of directories holding code that we want
     // to parse, but not analyze
     "exclude_analysis_directory_list" => [
+      // XXX: These are left over from LocalArena; should weed them out.
         'src/vendor',
         'src/dojox/analytics/logger',
-        // XXX: Tidy this up once we have the games in a subdirectory.
-        'src/burglebrostwo',
-        'src/thecrew',
-        'src/hearts',
-        'src/reversi',
-        'src/emppty',
     ],
 ];

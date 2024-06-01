@@ -190,7 +190,7 @@ module.exports = function (grunt) {
         //
         // This will fail if any warnings are emitted.
         command:
-          'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
+        'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output -v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
       },
     },
   });
