@@ -1,3 +1,19 @@
+/*
+  Ruby setup for Sass:
+
+  - brew install rbenv ruby-build
+  - Add this to ~/.zshrc or ~/.zshenv (and then source shell env):
+    eval "$(rbenv init - zsh)"
+
+  - `rbenv install -l` (to see versions) and then `rbenv install 3.3.2` (to install)
+
+  - And then `rbenv local 3.3.2` to set local version for the project directory (though that obviously doesn't need to be repeated when setting up a new machine).
+
+  - gem install bundler
+  - gem update --system
+  - gem install sass
+  */
+
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -151,11 +167,24 @@ module.exports = function (grunt) {
         },
         files: {
           'build/effortlesswc.css': [
-            'client/*.css',
-            'tmp/effortlesswc.*.css',
-            'assets/effortlesswc.*.css',
+            'client/**/*.css',
+            'tmp/**/*.css',
+            'assets/**/*.css',
           ],
         },
+      },
+    },
+    sass: {
+      target: {
+        files: [
+          {
+            expand: true,
+            cwd: 'client/',
+            src: ['**/*.scss'],
+            dest: 'tmp/',
+            ext: '.css',
+          },
+        ],
       },
     },
     ts: {
@@ -206,6 +235,7 @@ module.exports = function (grunt) {
     },
   });
 
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-shell');
@@ -221,6 +251,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('client', [
     'lint:client',
+    'sass',
     'cssmin',
     'build-ts',
     'uglify',

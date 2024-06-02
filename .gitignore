@@ -18,5 +18,6 @@ yarn.lock
 tmp/
 .tscache/
 .DS_Store
+.sass-cache/
 
 # ----

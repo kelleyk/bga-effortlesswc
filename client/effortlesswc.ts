@@ -56,6 +56,20 @@ class EffortlessWC extends Gamegui {
         $('ewc_setlocarea_column_' + (i % 2))!,
       );
     }
+
+    document.querySelector('#ewc_setloc_panel_0 .ewc_setloc_location')!.classList.add('location_cabin');
+    document.querySelector('#ewc_setloc_panel_1 .ewc_setloc_location')!.classList.add('location_forest');
+    document.querySelector('#ewc_setloc_panel_2 .ewc_setloc_location')!.classList.add('location_garden');
+    document.querySelector('#ewc_setloc_panel_3 .ewc_setloc_location')!.classList.add('location_river');
+    document.querySelector('#ewc_setloc_panel_4 .ewc_setloc_location')!.classList.add('location_stables');
+    document.querySelector('#ewc_setloc_panel_5 .ewc_setloc_location')!.classList.add('location_city');
+
+    document.querySelector('#ewc_setloc_panel_0 .ewc_setloc_setting')!.classList.add('setting_battling');
+    document.querySelector('#ewc_setloc_panel_1 .ewc_setloc_setting')!.classList.add('setting_secret');
+    document.querySelector('#ewc_setloc_panel_2 .ewc_setloc_setting')!.classList.add('setting_traveling');
+    document.querySelector('#ewc_setloc_panel_3 .ewc_setloc_setting')!.classList.add('setting_active');
+    document.querySelector('#ewc_setloc_panel_4 .ewc_setloc_setting')!.classList.add('setting_eerie');
+    document.querySelector('#ewc_setloc_panel_5 .ewc_setloc_setting')!.classList.add('setting_starved');
   }
 
   ///////////////////////////////////////////////////
