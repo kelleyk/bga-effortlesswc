@@ -1,7 +1,7 @@
 .card_armor_assassin_chest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1713.6px -300px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -9,8 +9,8 @@
 }
 .card_armor_assassin_feet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1713.6px -663.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -18,8 +18,8 @@
 }
 .card_armor_assassin_hands {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1713.6px -1027.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -27,8 +27,8 @@
 }
 .card_armor_assassin_head {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -36,8 +36,8 @@
 }
 .card_armor_leather_chest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -233.4px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -45,8 +45,8 @@
 }
 .card_armor_leather_feet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -466.8px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -54,8 +54,8 @@
 }
 .card_armor_leather_hands {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -700.2px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -63,8 +63,8 @@
 }
 .card_armor_leather_head {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -933.6px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -72,8 +72,8 @@
 }
 .card_armor_mage_chest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1167px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -81,8 +81,8 @@
 }
 .card_armor_mage_feet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1400.4px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -90,8 +90,8 @@
 }
 .card_armor_mage_hands {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1633.8px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -99,8 +99,8 @@
 }
 .card_armor_mage_head {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1867.2px -1500px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -108,8 +108,8 @@
 }
 .card_armor_obsidian_chest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2142px 0px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -117,8 +117,8 @@
 }
 .card_armor_obsidian_feet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2142px -363.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -126,8 +126,8 @@
 }
 .card_armor_obsidian_hands {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2142px -727.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -135,8 +135,8 @@
 }
 .card_armor_obsidian_head {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2142px -1090.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -144,8 +144,8 @@
 }
 .card_armor_plate_chest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2142px -1454.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -153,8 +153,8 @@
 }
 .card_armor_plate_feet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -162,8 +162,8 @@
 }
 .card_armor_plate_hands {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -233.4px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -171,8 +171,8 @@
 }
 .card_armor_plate_head {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -466.8px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -180,8 +180,8 @@
 }
 .card_armor_scale_chest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -700.2px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -189,8 +189,8 @@
 }
 .card_armor_scale_feet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -933.6px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -198,8 +198,8 @@
 }
 .card_armor_scale_hands {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1167px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -207,8 +207,8 @@
 }
 .card_armor_scale_head {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1400.4px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -216,8 +216,8 @@
 }
 .card_attr_cha_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1633.8px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -225,8 +225,8 @@
 }
 .card_attr_cha_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1867.2px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -234,8 +234,8 @@
 }
 .card_attr_dex_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2100.6px -1863.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -243,8 +243,8 @@
 }
 .card_attr_dex_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2375.4px 0px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -252,8 +252,8 @@
 }
 .card_attr_int_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2375.4px -363.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -261,8 +261,8 @@
 }
 .card_attr_int_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2375.4px -727.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -270,8 +270,8 @@
 }
 .card_attr_str_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2375.4px -1090.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -279,8 +279,8 @@
 }
 .card_attr_str_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2375.4px -1454.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -288,8 +288,8 @@
 }
 .card_attr_wis_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2375.4px -1818px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -297,8 +297,8 @@
 }
 .card_attr_wis_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -306,8 +306,8 @@
 }
 .card_dwarf {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px 0px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -315,8 +315,8 @@
 }
 .card_elf {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -363px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px -1090.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -324,8 +324,8 @@
 }
 .card_exp {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -233.4px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -333,8 +333,8 @@
 }
 .card_fairy {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -726px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px -1453.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -342,8 +342,8 @@
 }
 .card_gnome {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -1089px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px -1816.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -351,8 +351,8 @@
 }
 .card_goblin {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -1452px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px -2179.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -360,8 +360,8 @@
 }
 .card_grit {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -466.8px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -369,8 +369,8 @@
 }
 .card_human {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -1815px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -378,8 +378,8 @@
 }
 .card_item_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -700.2px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -387,8 +387,8 @@
 }
 .card_item_10 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -933.6px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -396,8 +396,8 @@
 }
 .card_item_11 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1167px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -405,8 +405,8 @@
 }
 .card_item_12 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1400.4px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -414,8 +414,8 @@
 }
 .card_item_13 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1633.8px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -423,8 +423,8 @@
 }
 .card_item_14 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1867.2px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -432,8 +432,8 @@
 }
 .card_item_15 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2100.6px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -441,8 +441,8 @@
 }
 .card_item_16 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2334px -2227.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -450,8 +450,8 @@
 }
 .card_item_17 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px 0px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -459,8 +459,8 @@
 }
 .card_item_18 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px -363.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -468,8 +468,8 @@
 }
 .card_item_19 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px -727.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -477,8 +477,8 @@
 }
 .card_item_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px -1090.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -486,8 +486,8 @@
 }
 .card_item_20 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px -1454.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -495,8 +495,8 @@
 }
 .card_item_21 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px -1818px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -504,8 +504,8 @@
 }
 .card_item_3 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2608.8px -2181.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -513,8 +513,8 @@
 }
 .card_item_4 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px 0px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -522,8 +522,8 @@
 }
 .card_item_5 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px -363.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -531,8 +531,8 @@
 }
 .card_item_6 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px -727.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -540,8 +540,8 @@
 }
 .card_item_7 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px -1090.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -549,8 +549,8 @@
 }
 .card_item_8 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px -1454.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -558,8 +558,8 @@
 }
 .card_item_9 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px -1818px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   border-radius: 8px;
@@ -567,8 +567,8 @@
 }
 .card_orc {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -2178px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px -363px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   border-radius: 8px;
@@ -576,737 +576,737 @@
 }
 .class_alchemist {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3309px -2541px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px -726px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_artificer {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px -1089px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_barbarian {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -233.4px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px -1452px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_bard {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -466.8px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px -1815px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_cleric {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -700.2px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2800.8px -2178px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_druid {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -933.6px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_fighter {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1167px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_merchant {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1400.4px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_monk {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1633.8px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_necromancer {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1867.2px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_paladin {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2100.6px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_ranger {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2334px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_rogue {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2567.4px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .class_wizard {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -2954.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -2545.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
   transition: background-image 1s;
 }
 .threat_threat_1 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2842.2px -2181.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_10 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_11 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -233.4px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_12 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -466.8px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_13 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -700.2px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_14 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -933.6px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px -727.2px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_15 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1167px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px -1090.8px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_16 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1400.4px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px -1454.4px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_17 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1633.8px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px -1818px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_18 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1867.2px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: 0px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_19 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2100.6px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -233.4px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_2 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2334px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -466.8px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_20 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2567.4px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -700.2px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_21 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -2590.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -933.6px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_3 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px 0px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1167px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_4 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -363.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1400.4px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_5 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -727.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1633.8px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_6 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -1090.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -1867.2px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_7 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -1454.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_8 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -1818px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334px -2181.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_9 {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -2181.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px 0px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .threat_threat_vacant {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3075.6px -2545.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2567.4px -363.6px;
+  background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363.6px;
   transition: background-image 1s;
 }
 .icon_attr_cha_card {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -3135.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -3034.2px -2730px;
+  background-size: 3334.2px 3328.2px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_cha_stat {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -3256.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -3268.2px -2730px;
+  background-size: 3334.2px 3328.2px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_con_card {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3620.4px -3135.6px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -3112.2px -2730px;
+  background-size: 3334.2px 3328.2px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_con_stat {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3602.4px -3256.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -3268.2px -2790px;
+  background-size: 3334.2px 3328.2px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_dex_card {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1947px -300px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -3190.2px -2730px;
+  background-size: 3334.2px 3328.2px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_dex_stat {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3662.4px -3256.8px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2334.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_int_card {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2025px -300px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2100.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_int_stat {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1947px -542.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2394.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_str_card {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1947px -421.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2178.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_str_stat {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2007px -542.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2454.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_wis_card {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2025px -421.2px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2256.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_wis_stat {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2067px -542.4px;
-  background-size: 3752.4px 3558.6px;
+  background-position: -2514.6px -2755.2px;
+  background-size: 3334.2px 3328.2px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .location_cabin {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px 0px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -2100.6px -2545.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_caravan {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -428.4px 0px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -2400.6px -2545.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_cave {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -300px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -2700.6px -2545.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_city {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -428.4px -300px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px 0px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_coliseum {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -856.8px 0px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -210px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_crypt {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -856.8px -300px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -420px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_docks {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -600px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -630px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_dungeon {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -428.4px -600px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -840px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_forest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -856.8px -600px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -1050px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_garden {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -900px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -1260px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_laboratory {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -428.4px -900px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -1470px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_labyrinth {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -856.8px -900px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -1680px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_library {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1285.2px 0px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -1890px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_market {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1285.2px -300px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -2100px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_observatory {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1285.2px -600px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -2310px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_portal {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1285.2px -900px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -3034.2px -2520px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_prison {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -1200px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: 0px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_river {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -428.4px -1200px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -300px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_stables {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -856.8px -1200px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -600px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_temple {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1285.2px -1200px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -900px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .location_tunnels {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1713.6px 0px;
-  background-size: 3752.4px 3558.6px;
-  width: 428.4px;
-  height: 300px;
+  background-position: -1200px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_active {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -2954.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1500px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_barren {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3244.2px -2954.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1683px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_battling {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px 0px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1866px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_capable {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -241.2px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2049px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_corrupted {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -482.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2232px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_crowded {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -723.6px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2415px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_eerie {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -964.8px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2598px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_equipped {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -1206px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2781px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_ghostly {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -1447.2px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2964px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_hidden {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -1688.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -3147px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_holy {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -1929.6px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: 0px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_lively {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -2170.8px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -183px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_magical {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -2412px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -366px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_nonexistent {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -2653.2px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -549px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_overgrown {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3542.4px -2894.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -732px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_peaceful {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -915px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_quiet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -210px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1098px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_secret {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -420px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1281px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_sheltered {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -630px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1464px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_starved {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -840px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1647px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_transcendent {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1050px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -1830px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_traveling {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1260px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2013px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
 .setting_treacherous {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1470px -3317.4px;
-  background-size: 3752.4px 3558.6px;
-  width: 210px;
-  height: 241.2px;
+  background-position: -2196px -3118.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 183px;
+  height: 210px;
   transition: background-image 1s;
 }
