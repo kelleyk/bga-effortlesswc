@@ -47,6 +47,15 @@
 
 .ewc_setlocarea_column {
   background:pink;
+
+  float: left;
+  width: 50%;
+}
+
+@media screen and (max-width: 1500px) {
+  .ewc_setlocarea_column {
+    width: 100%;
+  }
 }
 
 .ewc_setloc_panel {

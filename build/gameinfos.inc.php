@@ -8,8 +8,15 @@ $gameinfos = [
   'publisher_bgg_id' => 54543,
   'bgg_id' => 396716,
   'players' => [1, 2, 3, 4, 5],
+  // N.B.: These are official player colors from the designer.
+  'player_colors' => [
+    '001489', // blue
+    'ff5fa2', // pink
+    '00b796', // teal
+    'ffe900', // yellow
+    'ffffff', // white
+  ],
   // XXX: Metadata below this line hasn't been filled in yet.
-  'player_colors' => ['ff0000', '008000', '0000ff', 'ffa500', '773300'],
   'favorite_colors_support' => true,
   'suggest_player_number' => null,
   'not_recommend_player_number' => null,
