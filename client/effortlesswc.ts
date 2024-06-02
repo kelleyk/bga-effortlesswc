@@ -38,10 +38,24 @@ class EffortlessWC extends Gamegui {
 
     // TODO: Set up your game interface here, according to "gamedatas"
 
+    this.setupPlayArea();
+
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
 
     console.log('Ending game setup');
+  }
+
+  public setupPlayArea() {
+    for (let i = 0; i < 6; ++i) {
+      dojo.place(
+        this.format_block('jstpl_setloc_panel', {
+          classes: '',
+          id: 'ewc_setloc_panel_' + i,
+        }),
+        $('ewc_setlocarea_column_' + (i % 2))!,
+      );
+    }
   }
 
   ///////////////////////////////////////////////////
