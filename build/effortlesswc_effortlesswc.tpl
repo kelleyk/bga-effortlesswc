@@ -1,0 +1,5 @@
+{OVERALL_GAME_HEADER}
+
+Hello, BGA world!
+
+{OVERALL_GAME_FOOTER}

@@ -1,23 +1,14 @@
-<?php
-/*
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
- *------
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * EffortlessWC implementation : © Kevin Kelley <kelleyk@kelleyk.net>
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- * -----
- */
+<?php declare(strict_types=1);
 
 /** @var (string|int|null|bool|string[]|int[])[] $gameinfos */
 $gameinfos = [
-  'game_name' => 'My Great Game',
-  'publisher' => 'My Publishing Company',
-  'publisher_website' => 'http://www.mypublishingcompany.com/',
-  'publisher_bgg_id' => 1234,
-  'bgg_id' => 0,
-  'players' => [2, 3, 4],
+  'game_name' => 'Effortless',
+  'publisher' => 'Barn Made Games',
+  'publisher_website' => 'https://www.barnmadegames.com/',
+  'publisher_bgg_id' => 54543,
+  'bgg_id' => 396716,
+  'players' => [1, 2, 3, 4, 5],
+  // XXX: Metadata below this line hasn't been filled in yet.
   'player_colors' => ['ff0000', '008000', '0000ff', 'ffa500', '773300'],
   'favorite_colors_support' => true,
   'suggest_player_number' => null,

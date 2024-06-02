@@ -32,6 +32,7 @@ class EffortlessWC extends Gamegui {
       if (gamedatas.players.hasOwnProperty(playerId)) {
         const player = gamedatas.players[playerId];
         // TODO: Setting up players boards if needed
+        console.log(player);
       }
     }
 
@@ -51,7 +52,7 @@ class EffortlessWC extends Gamegui {
     stateName: GameStateName,
     args: CurrentStateArgs,
   ): void {
-    console.log('Entering state: ' + stateName);
+    console.log('Entering state', stateName, args);
 
     switch (stateName) {
       case 'dummmy':

@@ -32,18 +32,20 @@ module.exports = function (grunt) {
           // 'tmp/assets_cards.js',
           'tmp/client/*.js',
         ],
-        dest: 'build/<%= pkg.name %>.js',
+        dest: 'build/effortlesswc.js',
       },
     },
     copy: {
       assets: {
-        files: [{
-          expand: true,
-          cwd: './assets',
-          src: ['**'],
-          dest: 'build/img/',
-          filter: 'isFile',
-        }],
+        files: [
+          {
+            expand: true,
+            cwd: './assets',
+            src: ['**/*.jpg'],
+            dest: 'build/img/',
+            filter: 'isFile',
+          },
+        ],
       },
       tsconfig: {
         files: [
@@ -219,7 +221,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('client', [
     'lint:client',
-    'uglify',
     'cssmin',
     'build-ts',
     'uglify',
