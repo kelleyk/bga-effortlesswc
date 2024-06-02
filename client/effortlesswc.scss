@@ -61,8 +61,19 @@
 .ewc_setloc_location {
   // margin-left: -41px;
   background:green;
+
+  // Let's get the puzzle pieces to overlap!
+  z-index: 40;
+  position: relative;
+  margin-left: -42px;
 }
 
 .ewc_setloc_setting {
   background:blue;
+
+  clip-path: url(#ewc_clip_puzzle);
+
+  // Let's get the puzzle pieces to overlap!
+  z-index: 45;
+  position: relative;
 }
