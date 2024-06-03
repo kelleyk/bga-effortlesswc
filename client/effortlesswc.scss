@@ -86,3 +86,28 @@
   z-index: 45;
   position: relative;
 }
+
+// Size scaling for cards in the play-area.
+.ewc_card_playarea {
+  width: 116.7px;
+  height: 181.8px;
+}
+
+.ewc_card_wrap {
+}
+
+.ewc_setloc_cards_wrap {
+}
+
+.ewc_setloc_cards {
+  position: relative;
+
+  // transform-origin: top left;
+  //
+  // width: 33%;
+  // height: 33%;
+}
+
+.tmp_card_scaling {
+  // transform: scale(.3);
+}

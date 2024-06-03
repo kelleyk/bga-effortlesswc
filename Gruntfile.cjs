@@ -247,10 +247,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('phan', ['shell:phan']);
 
-  grunt.registerTask('lint:client', ['tslint']);
-
   grunt.registerTask('client', [
-    'lint:client',
     'sass',
     'cssmin',
     'build-ts',
@@ -264,7 +261,7 @@ module.exports = function (grunt) {
   ]);
 
   // These steps are the actual TypeScript build.
-  grunt.registerTask('build-ts', ['copy:client_ts_sources', 'tsconfig', 'ts']);
+  grunt.registerTask('build-ts', ['copy:client_ts_sources', 'prettier:client_ts', 'tslint', 'tsconfig', 'ts']);
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 

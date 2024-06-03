@@ -57,19 +57,88 @@ class EffortlessWC extends Gamegui {
       );
     }
 
-    document.querySelector('#ewc_setloc_panel_0 .ewc_setloc_location')!.classList.add('location_cabin');
-    document.querySelector('#ewc_setloc_panel_1 .ewc_setloc_location')!.classList.add('location_forest');
-    document.querySelector('#ewc_setloc_panel_2 .ewc_setloc_location')!.classList.add('location_garden');
-    document.querySelector('#ewc_setloc_panel_3 .ewc_setloc_location')!.classList.add('location_river');
-    document.querySelector('#ewc_setloc_panel_4 .ewc_setloc_location')!.classList.add('location_stables');
-    document.querySelector('#ewc_setloc_panel_5 .ewc_setloc_location')!.classList.add('location_city');
+    document
+      .querySelector('#ewc_setloc_panel_0 .ewc_setloc_location')!
+      .classList.add('location_cabin');
+    document
+      .querySelector('#ewc_setloc_panel_1 .ewc_setloc_location')!
+      .classList.add('location_forest');
+    document
+      .querySelector('#ewc_setloc_panel_2 .ewc_setloc_location')!
+      .classList.add('location_garden');
+    document
+      .querySelector('#ewc_setloc_panel_3 .ewc_setloc_location')!
+      .classList.add('location_river');
+    document
+      .querySelector('#ewc_setloc_panel_4 .ewc_setloc_location')!
+      .classList.add('location_stables');
+    document
+      .querySelector('#ewc_setloc_panel_5 .ewc_setloc_location')!
+      .classList.add('location_city');
 
-    document.querySelector('#ewc_setloc_panel_0 .ewc_setloc_setting')!.classList.add('setting_battling');
-    document.querySelector('#ewc_setloc_panel_1 .ewc_setloc_setting')!.classList.add('setting_secret');
-    document.querySelector('#ewc_setloc_panel_2 .ewc_setloc_setting')!.classList.add('setting_traveling');
-    document.querySelector('#ewc_setloc_panel_3 .ewc_setloc_setting')!.classList.add('setting_active');
-    document.querySelector('#ewc_setloc_panel_4 .ewc_setloc_setting')!.classList.add('setting_eerie');
-    document.querySelector('#ewc_setloc_panel_5 .ewc_setloc_setting')!.classList.add('setting_starved');
+    document
+      .querySelector('#ewc_setloc_panel_0 .ewc_setloc_setting')!
+      .classList.add('setting_battling');
+    document
+      .querySelector('#ewc_setloc_panel_1 .ewc_setloc_setting')!
+      .classList.add('setting_secret');
+    document
+      .querySelector('#ewc_setloc_panel_2 .ewc_setloc_setting')!
+      .classList.add('setting_traveling');
+    document
+      .querySelector('#ewc_setloc_panel_3 .ewc_setloc_setting')!
+      .classList.add('setting_active');
+    document
+      .querySelector('#ewc_setloc_panel_4 .ewc_setloc_setting')!
+      .classList.add('setting_eerie');
+    document
+      .querySelector('#ewc_setloc_panel_5 .ewc_setloc_setting')!
+      .classList.add('setting_starved');
+
+    // This function assumes that the matched element has a parent wrapper element.
+    console.log('*** qsa ***');
+    document.querySelectorAll('.tmp_scalable').forEach((rawEl: Element) => {
+      console.log('*** qsa foreach', rawEl);
+      const el = rawEl as HTMLElement;
+
+      el.classList.add('tmp_scaled');
+
+      // const height = parseInt(el.style.height, 10);
+      // const width = parseInt(el.style.width, 10);
+      // console.log(el.style.height, el.style.width);
+      // console.log(el.offsetHeight, el.offsetWidth);
+
+      // const height = 123;
+      // const width = 234;
+
+      const scaleFactor = 0.4;
+
+      // el.css(
+      //   '-webkit-transform',
+      //   'scale(' + scaleFactor + ', ' + scaleFactor + ')',
+      // );
+
+      // // In CSS, we'd call this e.g. "-webkit-transform".
+      // //
+      // // For details on these attributes, see https://stackoverflow.com/questions/708895/.
+      // //
+      // el.style.webkitTransform =
+      //   'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+      // el.style.MozTransform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+
+      el.style.transform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+      el.style.transformOrigin = 'top left';
+
+      console.log(
+        '  *** new dims ',
+        el.offsetWidth * scaleFactor,
+        el.offsetHeight * scaleFactor,
+      );
+
+      const parentEl = el.parentNode! as HTMLElement;
+      parentEl.style.width = el.offsetWidth * scaleFactor + 'px';
+      parentEl.style.height = el.offsetHeight * scaleFactor + 'px';
+    });
   }
 
   ///////////////////////////////////////////////////
