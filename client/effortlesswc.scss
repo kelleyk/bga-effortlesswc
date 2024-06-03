@@ -42,11 +42,11 @@
 */
 
 .ewc_setlocarea {
-  background:purple;
+  // background:purple;
 }
 
 .ewc_setlocarea_column {
-  background:pink;
+  // background:pink;
 
   float: left;
   width: 50%;
@@ -59,7 +59,7 @@
 }
 
 .ewc_setloc_panel {
-  background:red;
+  // background:red;
   margin: 4px;
 }
 
@@ -69,7 +69,6 @@
 
 .ewc_setloc_location {
   // margin-left: -41px;
-  background:green;
 
   // Let's get the puzzle pieces to overlap!
   z-index: 40;
@@ -78,8 +77,6 @@
 }
 
 .ewc_setloc_setting {
-  background:blue;
-
   clip-path: url(#ewc_clip_puzzle);
 
   // Let's get the puzzle pieces to overlap!
@@ -87,10 +84,21 @@
   position: relative;
 }
 
-// Size scaling for cards in the play-area.
+.ewc_card {
+  border: 1px solid #333333;
+  filter: drop-shadow(4px 4px 3px #555555);
+}
+
+// Wraps both the setting and location within the setloc panel.
+.ewc_setloc_setloc_wrap {
+  border: 1px solid #333333;
+  filter: drop-shadow(4px 4px 3px #555555);
+}
+
+// XXX: Maybe this gets replaced with a "within playarea" selector for .ewc_card?
 .ewc_card_playarea {
-  width: 116.7px;
-  height: 181.8px;
+  // XXX: Can we make this scaling-agnostic?
+  margin-right: -80px;
 }
 
 .ewc_card_wrap {
@@ -101,6 +109,8 @@
 
 .ewc_setloc_cards {
   position: relative;
+  padding: 5px;
+  padding-left: 15px;  // Creates the space between the cards and the setloc.
 
   // transform-origin: top left;
   //

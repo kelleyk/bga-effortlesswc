@@ -116,7 +116,7 @@ class EffortlessWC extends Gamegui {
       // const height = 123;
       // const width = 234;
 
-      const scaleFactor = 0.4;
+      const scaleFactor = 0.5;
 
       this.rescaleSprite(el, scaleFactor);
 

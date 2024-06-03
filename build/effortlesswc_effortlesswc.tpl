@@ -27,25 +27,29 @@
 /** XXX: Find a better way to define templates. **/
 
 let jstpl_setloc_panel =
-'<div id="${id}" class="ewc_setloc_panel ${classes}">' +
+  '<div id="${id}" class="ewc_setloc_panel ${classes}">' +
+  '<div class="ewc_setloc_setloc_wrap">' +
   '<div class="ewc_setloc_setting_wrap">' +
-    '<div class="ewc_setloc_setting">' +
-    //  <div class="ewc_setloc_effort"></div>' +
-    '</div>' +
-  '</div>' +
-  '<div class="ewc_setloc_location_wrap">' +
-    '<div class="ewc_setloc_location">' +
-    '</div>' +
-  '</div>' +
-  /* '<div class="ewc_setloc_cards_wrap">' + */
-  /* '<div class="ewc_setloc_cards">' + */
-      '<div class="ewc_card_wrap">' +
-        '<div class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
-      '</div>' +
+        '<div class="ewc_setloc_setting">' +
+        //  <div class="ewc_setloc_effort"></div>' +
+  '</div>' +  // .ewc_setloc_setting
+  '</div>' + // .ewc_setloc_setting_wrap
+      '<div class="ewc_setloc_location_wrap">' +
+        '<div class="ewc_setloc_location">' +
+        '</div>' +  // .ewc_setloc_location
+  '</div>' +    // .ewc_setloc_location_wrap
+  '</div>' +    // .ewc_setloc_setloc_wrap
+  '<div class="ewc_setloc_cards_wrap">' +
+    '<div class="ewc_setloc_cards">' +
+  /* '<div class="ewc_card_wrap">' + */
+    '<div id="XXX_card_123" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
+    '<div id="XXX_card_124" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
+    '<div id="XXX_card_125" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
   /* '</div>' + */
-  /* '</div>' + */
+    '</div>' +
+  '</div>' +  // .ewc_setloc_cards_wrap
   //'<div class="ewc_setloc_threat"></div>' +
-  '</div>';
+  '</div>';  // .ewc_setloc_panel
 
 </script>
 
