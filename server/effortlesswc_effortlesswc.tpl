@@ -37,13 +37,13 @@ let jstpl_setloc_panel =
     '<div class="ewc_setloc_location">' +
     '</div>' +
   '</div>' +
-  '<div class="ewc_setloc_cards_wrap">' +
-    '<div class="ewc_setloc_cards">' +
+  /* '<div class="ewc_setloc_cards_wrap">' + */
+  /* '<div class="ewc_setloc_cards">' + */
       '<div class="ewc_card_wrap">' +
         '<div class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
       '</div>' +
-    '</div>' +
-  '</div>' +
+  /* '</div>' + */
+  /* '</div>' + */
   //'<div class="ewc_setloc_threat"></div>' +
   '</div>';
 

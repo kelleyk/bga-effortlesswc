@@ -98,10 +98,15 @@ class EffortlessWC extends Gamegui {
     // This function assumes that the matched element has a parent wrapper element.
     console.log('*** qsa ***');
     document.querySelectorAll('.tmp_scalable').forEach((rawEl: Element) => {
-      console.log('*** qsa foreach', rawEl);
       const el = rawEl as HTMLElement;
 
+      // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
+      if (el.classList.contains('tmp_scaled')) {
+        return;
+      }
       el.classList.add('tmp_scaled');
+
+      console.log('*** qsa foreach', rawEl);
 
       // const height = parseInt(el.style.height, 10);
       // const width = parseInt(el.style.width, 10);
@@ -113,32 +118,50 @@ class EffortlessWC extends Gamegui {
 
       const scaleFactor = 0.4;
 
-      // el.css(
-      //   '-webkit-transform',
-      //   'scale(' + scaleFactor + ', ' + scaleFactor + ')',
+      this.rescaleSprite(el, scaleFactor);
+
+      // // el.css(
+      // //   '-webkit-transform',
+      // //   'scale(' + scaleFactor + ', ' + scaleFactor + ')',
+      // // );
+
+      // // // In CSS, we'd call this e.g. "-webkit-transform".
+      // // //
+      // // // For details on these attributes, see https://stackoverflow.com/questions/708895/.
+      // // //
+      // // el.style.webkitTransform =
+      // //   'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+      // // el.style.MozTransform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+
+      // el.style.transform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+      // el.style.transformOrigin = 'top left';
+
+      // console.log(
+      //   '  *** new dims ',
+      //   el.offsetWidth * scaleFactor,
+      //   el.offsetHeight * scaleFactor,
       // );
 
-      // // In CSS, we'd call this e.g. "-webkit-transform".
-      // //
-      // // For details on these attributes, see https://stackoverflow.com/questions/708895/.
-      // //
-      // el.style.webkitTransform =
-      //   'scale(' + scaleFactor + ', ' + scaleFactor + ')';
-      // el.style.MozTransform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
+      // const parentEl = el.parentNode! as HTMLElement;
+      // parentEl.style.width = el.offsetWidth * scaleFactor + 'px';
+      // parentEl.style.height = el.offsetHeight * scaleFactor + 'px';
 
-      el.style.transform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
-      el.style.transformOrigin = 'top left';
-
-      console.log(
-        '  *** new dims ',
-        el.offsetWidth * scaleFactor,
-        el.offsetHeight * scaleFactor,
-      );
-
-      const parentEl = el.parentNode! as HTMLElement;
-      parentEl.style.width = el.offsetWidth * scaleFactor + 'px';
-      parentEl.style.height = el.offsetHeight * scaleFactor + 'px';
+      // // XXX: is this also necessary, or...?
+      // el.style.width = el.offsetWidth * scaleFactor + 'px';
+      // el.style.height = el.offsetHeight * scaleFactor + 'px';
     });
+  }
+
+  public rescaleSprite(el: HTMLElement, scale: number) {
+    el.style.height = 363.6 * scale + 'px';
+    el.style.width = 233.4 * scale + 'px';
+
+    const bgSize = 3334.2 * scale + 'px ' + 3328.2 * scale + 'px';
+    console.log('*** bgSize = ', bgSize);
+    el.style.backgroundSize = bgSize;
+
+    el.style.backgroundPosition =
+      -700.2 * scale + 'px ' + -1090.8 * scale + 'px';
   }
 
   ///////////////////////////////////////////////////
