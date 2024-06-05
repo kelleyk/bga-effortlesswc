@@ -1,5 +1,108 @@
 <?php declare(strict_types=1);
 
+// ------------------------
+// Sets
+// ------------------------
+
+const SET_BASE = 'set:base';
+const SET_ALTERED = 'set:altered';
+const SET_HUNTED = 'set:hunted';
+
+// ------------------------
+// Game states
+// ------------------------
+
+const ST_BGA_GAME_SETUP = 1;
+const ST_BGA_GAME_END = 99;
+
+// Game state.  Setlocs are drawn, the decks are built and shuffled, etc.  Transitions to ST_ALTERED_INPUT.
+const ST_INITIAL_SETUP = 2;
+
+// Multi-active state.  (Or game state using ST_INPUT?)  Players choose races/classes.  Skipped if not playing with
+// races/classes.  Transitions to ST_PREGAME.
+//
+// XXX: Or maybe we structure this like we structure ST_PRE_SCORING and merge it with ST_PREGAME?
+const ST_ALTERED_INPUT = 15;
+
+// Multi-active state.  (Or game state using ST_INPUT?)  If players have any pre-game decisions to make, they make them
+// here.  Transitions to ST_NEXT_TURN.
+const ST_PREGAME = 16;
+
+// Game state.  The next seat in the turn order that has effort in its reserve is activated and a transition is taken to
+// ST_PLACE_EFFORT (if the seat is occupied by a human player) or ST_NPC_TURN (if the seat is not).  If no seat has
+// effort, transitions to ST_TRIGGER_END_GAME.
+const ST_NEXT_TURN = 3;
+
+// Single-active state.  The human player whose turn it is selects a setloc to visit; one effort from their seat's
+// reserve is placed on that setloc.  Transitions to ST_RESOLVE_LOCATION.
+//
+// (XXX: Or is this a game state that uses ST_INPUT?)
+const ST_PLACE_EFFORT = 4;
+
+// Game state.  The effect of the visited location is resolved.  Transitions to ST_TURN_UPKEEP.
+const ST_RESOLVE_LOCATION = 5;
+
+// Game state.  Any end-of-turn effects are resolved here; then, transitions to ST_NEXT_TURN (or ST_ROUND_UPKEEP, if
+// each seat has now taken a turn).
+const ST_TURN_UPKEEP = 6;
+
+// Game state.  Occurs after ST_TURN_UPKEEP every time each seat has taken a turn.
+//
+// Transitions to ST_DRAW_THREAT or to ST_NEXT_TURN.
+//
+// Game elements resolved here:
+// - Threats
+const ST_ROUND_UPKEEP = 7;
+
+// XXX: Do we want these to all transition back to ST_ROUND_UPKEEP instead of directly to ST_NEXT_TURN?
+//
+// Game state.  Draws a threat and places it at a random location.  Transitions to ST_FIGHT_THREAT (if there is already
+// a threat at that location), or to ST_NEXT_TURN (if there is not).
+const ST_DRAW_THREAT = 8;
+
+// XXX: Do we want these to all transition back to ST_ROUND_UPKEEP instead of directly to ST_NEXT_TURN?
+//
+// Game state.  Each player fights the threat, and is sent information about how that fight went.  Transitions to
+// ST_NEXT_TURN.
+//
+// XXX: If we were going to have something like "sticky messages", this would be a great place to use that, so that each
+// player sees the results of the fight and has to acknowledge it next time they see the table.
+const ST_FIGHT_THREAT = 9;
+
+// Game state.  Transitions to ST_PRE_SCORING.
+const ST_TRIGGER_END_GAME = 10;
+
+// Game state.  Acts for a seat that is not occupied by a human player.  Note that this state may still transition into
+// ST_INPUT if human player(s) need to make decisions for the NPC seat.
+const ST_NPC_TURN = 12;
+
+// Multi-active state.  A player or group of players have been asked for input.
+const ST_INPUT = 11;
+
+// Game state.
+//
+// XXX: Should we use private states here so that players can make their own pre-scoring decisions?  Or do we need the
+// players to move roughly in lockstep anyhow?
+//
+// XXX: Player(s) will be put in ST_INPUT here repeatedly until they have made all of their pre-scoring
+// decisions.
+//
+// Once scoring can be completed, does so and transitions to ST_SCORING_FINAL.
+//
+// Game elements resolved here:
+// - Alchemist (class)
+// - Traveling (setting)
+// - Secret (location) -- no input needed
+const ST_PRE_SCORING = 13;
+
+// Game state.  This state exists to serve information back to players about what happened during scoring (via state
+// args).  Transitions to ST_BGA_GAME_END.
+const ST_SCORING_FINAL = 14;
+
+// ------------------------
+// Classes from the "Altered" expansion
+// ------------------------
+
 // After the last effort is played and before scoring, all cards on
 // locations are discarded.  The alchemist can then replace up to 3
 // cards from their hand with 3 cards from the discard pile.

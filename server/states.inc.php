@@ -21,7 +21,7 @@ if (false) {
 }
 
 $machinestates = [
-  1 => [
+  ST_BGA_GAME_SETUP => [
     'name' => 'gameSetup',
     'description' => '',
     'type' => 'manager',
@@ -30,6 +30,14 @@ $machinestates = [
       '' => 2,
     ],
   ],
+  ST_BGA_GAME_END => [
+    'name' => 'gameEnd',
+    'description' => clienttranslate('End of game'),
+    'type' => 'manager',
+    'action' => 'stGameEnd',
+    'args' => 'argGameEnd',
+  ],
+
   2 => [
     'name' => 'dummmy',
     'description' => clienttranslate('${actplayer} must play a card or pass'),
@@ -40,12 +48,5 @@ $machinestates = [
       'playCard' => 2,
       'pass' => 2,
     ],
-  ],
-  99 => [
-    'name' => 'gameEnd',
-    'description' => clienttranslate('End of game'),
-    'type' => 'manager',
-    'action' => 'stGameEnd',
-    'args' => 'argGameEnd',
   ],
 ];

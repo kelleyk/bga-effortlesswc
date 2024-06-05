@@ -57,11 +57,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: './assets',
-            src: [
-              '**/*.jpg',
-              '**/*.png',
-              '**/*.webp',
-            ],
+            src: ['**/*.jpg', '**/*.png', '**/*.webp'],
             dest: 'build/img/',
             filter: 'isFile',
           },
