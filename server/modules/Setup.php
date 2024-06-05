@@ -2,9 +2,13 @@
 
 namespace EffortlessWC;
 
+require_once('modules/TableBase.php');
+
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
+  use \TableBase;
+
   protected function setupNewGame($players, $options = [])
   {
     // Set the colors of the players with HTML color code
