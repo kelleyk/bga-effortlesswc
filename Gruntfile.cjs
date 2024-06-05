@@ -57,7 +57,11 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: './assets',
-            src: ['**/*.jpg'],
+            src: [
+              '**/*.jpg',
+              '**/*.png',
+              '**/*.webp',
+            ],
             dest: 'build/img/',
             filter: 'isFile',
           },
@@ -247,12 +251,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('phan', ['shell:phan']);
 
-  grunt.registerTask('client', [
-    'sass',
-    'cssmin',
-    'build-ts',
-    'uglify',
-  ]);
+  grunt.registerTask('client', ['sass', 'cssmin', 'build-ts', 'uglify']);
 
   grunt.registerTask('tsconfig', [
     'jsonlint:tsconfig', // Lint (but don't modify) the source tsconfig.
@@ -261,7 +260,13 @@ module.exports = function (grunt) {
   ]);
 
   // These steps are the actual TypeScript build.
-  grunt.registerTask('build-ts', ['copy:client_ts_sources', 'prettier:client_ts', 'tslint', 'tsconfig', 'ts']);
+  grunt.registerTask('build-ts', [
+    'copy:client_ts_sources',
+    'prettier:client_ts',
+    'tslint',
+    'tsconfig',
+    'ts',
+  ]);
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 

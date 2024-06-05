@@ -189,9 +189,13 @@
   right: 8px;
 }
 
-// All children.
+// All children.  XXX: This doesn't actually appear to work; the cubes are still translucent!
 .ewc_effort_counter * {
   opacity: 100%;
+}
+
+.tmp_offset_cube {
+  vertical-align: text-top;
 }
 
 // // XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
