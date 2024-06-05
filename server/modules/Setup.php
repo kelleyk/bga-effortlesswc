@@ -3,11 +3,12 @@
 namespace EffortlessWC;
 
 require_once('modules/TableBase.php');
+require_once('modules/WcLib/BgaTableTrait.php');
 
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
-  use \TableBase;
+  use \WcLib\BgaTableTrait;
 
   protected function setupNewGame($players, $options = [])
   {

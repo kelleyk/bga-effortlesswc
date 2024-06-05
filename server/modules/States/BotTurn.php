@@ -6,7 +6,7 @@ require_once('modules/TableBase.php');
 
 trait BotTurn
 {
-  use \TableBase;
+  use \WcLib\BgaTableTrait;
 
   public function stBotTurn() {
 

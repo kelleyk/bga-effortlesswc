@@ -18,6 +18,13 @@ const T_BEGIN_HUMAN_TURN = 'tBeginHumanTurn';
 const T_BEGIN_BOT_TURN = 'tBeginBotTurn';
 const T_GET_INPUT = 'tGetInput';
 const T_RESOLVE_LOCATION = 'tResolveLocation';
+const T_ROUND_UPKEEP = 'tRoundUpkeep';
+const T_TURN_UPKEEP = 'tEndUpkeep';
+
+const T_RET_BOT_TURN = 'tRetBotTurn';
+const T_RET_PLACE_EFFORT = 'tRetPlaceEffort';
+const T_RET_PRE_SCORING = 'tRetPreScoring';
+const T_RET_RESOLVE_LOCATION = 'tRetResolveLocation';
 
 // ------------------------
 // Game states
@@ -98,7 +105,7 @@ const ST_INPUT = 11;
 // XXX: Player(s) will be put in ST_INPUT here repeatedly until they have made all of their pre-scoring
 // decisions.
 //
-// Once scoring can be completed, does so and transitions to ST_SCORING_FINAL.
+// Once scoring can be completed, does so and transitions to ST_POST_SCORING.
 //
 // Game elements resolved here:
 // - Alchemist (class)
@@ -108,7 +115,7 @@ const ST_PRE_SCORING = 13;
 
 // Game state.  This state exists to serve information back to players about what happened during scoring (via state
 // args).  Transitions to ST_BGA_GAME_END.
-const ST_SCORING_FINAL = 14;
+const ST_POST_SCORING = 14;
 
 // ------------------------
 // Classes from the "Altered" expansion

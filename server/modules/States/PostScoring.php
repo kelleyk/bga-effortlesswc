@@ -6,7 +6,7 @@ require_once('modules/TableBase.php');
 
 trait PostScoring
 {
-  use \TableBase;
+  use \WcLib\BgaTableTrait;
 
   public function stPostScoring() {
 

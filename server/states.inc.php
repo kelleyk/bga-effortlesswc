@@ -64,7 +64,7 @@ $machinestates = [
       ],
     ],
 
-    ST_PLACE_EFFORT = [
+    ST_PLACE_EFFORT => [
       'name' => 'stPlaceEffort',
       'action' => 'stPlaceEffort',
       'type' => 'game',
@@ -75,7 +75,7 @@ $machinestates = [
       ],
     ],
 
-    ST_RESOLVE_LOCATION = [
+    ST_RESOLVE_LOCATION => [
       'name' => 'stResolveLocation',
       'action' => 'stResolveLocation',
       'type' => 'game',
@@ -86,7 +86,7 @@ $machinestates = [
       ],
     ],
 
-    ST_TURN_UPKEEP = [
+    ST_TURN_UPKEEP => [
       'name' => 'stTurnUpkeep',
       'action' => 'stTurnUpkeep',
       'type' => 'game',
@@ -97,7 +97,7 @@ $machinestates = [
       ],
     ],
 
-    ST_ROUND_UPKEEP = [
+    ST_ROUND_UPKEEP => [
       'name' => 'stRoundUpkeep',
       'action' => 'stRoundUpkeep',
       'type' => 'game',
@@ -110,7 +110,7 @@ $machinestates = [
 
     // TODO: ST_DRAW_THREAT, ST_FIGHT_THREAT when we implement Hunted's threats
 
-    ST_BOT_TURN = [
+    ST_BOT_TURN => [
       'name' => 'stBotTurn',
       'action' => 'stBotTurn',
       'type' => 'game',
@@ -122,7 +122,7 @@ $machinestates = [
     ],
 
   // The player needs to select one or more objects on the field.
-    ST_INPUT = [
+    ST_INPUT => [
       'name' => 'stInput',
       'action' => 'stInput',
       'args' => 'argInput',
@@ -142,18 +142,18 @@ $machinestates = [
       ],
     ],
 
-    ST_PRE_SCORING = [
+    ST_PRE_SCORING => [
       'name' => 'stPreScoring',
       'action' => 'stPreScoring',
       'type' => 'game',
       'description' => clienttranslate('...'),
       'transitions' => [
         T_GET_INPUT => ST_INPUT,
-        T_DONE => ST_SCORING_FINAL,
+        T_DONE => ST_POST_SCORING,
       ],
     ],
 
-    ST_POST_SCORING = [
+    ST_POST_SCORING => [
       'name' => 'stPostScoring',
       'action' => 'stPostScoring',
       'args' => 'argPostScoring',

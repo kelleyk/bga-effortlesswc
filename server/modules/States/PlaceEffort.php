@@ -6,7 +6,7 @@ require_once('modules/TableBase.php');
 
 trait PlaceEffort
 {
-  use \TableBase;
+  use \WcLib\BgaTableTrait;
 
   public function stPlaceEffort() {
 
