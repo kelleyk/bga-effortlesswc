@@ -209,3 +209,18 @@
 //   margin-top: 175px;
 //   margin-left: 65px;
 // }
+
+
+/* Hand area */
+
+.ewc_handarea {
+  height: 90px;
+  background: white;
+
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+
+  mask-image: linear-gradient(to right, transparent, white 1%, white 99%, transparent);
+}
+
+/* -- end -- */

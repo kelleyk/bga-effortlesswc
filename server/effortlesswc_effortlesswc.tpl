@@ -2,6 +2,9 @@
 
 <div id="ewc_playarea" class="ewc_playarea">
 
+  <div id="ewc_handarea" class="ewc_handarea">
+  </div>
+
   <div id="ewc_setlocarea" class="ewc_setlocarea">
     <div id="ewc_setlocarea_column_0" class="ewc_setlocarea_column">
     </div>
