@@ -30,17 +30,20 @@ let jstpl_setloc_panel =
   '<div id="${id}" class="ewc_setloc_panel ${classes}">' +
   '<div class="ewc_setloc_setloc_wrap">' +
   '<div class="ewc_setloc_setting_wrap">' +
+
   '<div class="ewc_setloc_setting">' +
+  /* '<span style="position:absolute; bottom:0px; right:10px; margin-right:30px;">XXX</span>' +
+   */
   '<div class="ewc_effort_counter_wrap">' +
+  '<div class="ewc_effort_counter">X &#x2715; 4</div>' +
+  /* '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube"> 4</div>' + */
+  '</div>' +
 
-  /* '<div class="ewc_effort_counter">X &#x2715; 4</div>' + */
-  '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube"> 4</div>' +
-
-    '</div>' +
   /* '<div class="icon_effort tmp_tintable tmp_offset_cube"></div>' + */
         //  <div class="ewc_setloc_effort"></div>' +
   /* '</div>' +  // .ewc_setloc_player_effort */
-    '</div>' +  // .ewc_setloc_setting
+  '</div>' +  // .ewc_setloc_setting
+
   '</div>' + // .ewc_setloc_setting_wrap
       '<div class="ewc_setloc_location_wrap">' +
         '<div class="ewc_setloc_location">' +

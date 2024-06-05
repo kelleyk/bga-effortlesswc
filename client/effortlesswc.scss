@@ -173,19 +173,30 @@
 
 // XXX: This offsets a single cube into the lower right part of the setting area.
 .ewc_effort_counter_wrap {
-  display: flex;
-  margin-top: 175px;
-  margin-left: 65px;
+  // display: flex;
+  // margin-top: 175px;
+  // margin-left: 65px;
+
+  position:absolute;
+  // bottom:0px;
+  // right:10px;
+  // margin-right:30px;  // This accounts for the overlapped part of the "setting" puzzle piece.
+
+  // Because of how the "pill shape" is constructed, the div is actually much wider than it appears; if we fixed that,
+  // we'd need to increase `right` or `margin-right` here to account for the overlapped part of the "setting" puzzle
+  // piece.
+  bottom: 5px;
+  right: 8px;
 }
 
-// XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
-.ewc_setloc_panel .ewc_effort_counter {
-  // display: flex;
-}
+// // XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
+// .ewc_setloc_panel .ewc_effort_counter {
+//   // display: flex;
+// }
 
-// XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
-.ewc_setloc_panel .ewc_effort_counter_wrap {
-  // display: flex;
-  margin-top: 175px;
-  margin-left: 65px;
-}
+// // XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
+// .ewc_setloc_panel .ewc_effort_counter_wrap {
+//   // display: flex;
+//   margin-top: 175px;
+//   margin-left: 65px;
+// }
