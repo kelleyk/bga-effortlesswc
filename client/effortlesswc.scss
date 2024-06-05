@@ -122,20 +122,6 @@
   // transform: scale(.3);
 }
 
-.ewc_effort_counter_wrap {
-  width: 150px;
-}
-
-.ewc_effort_counter {
-  text-align: center;
-  width: 50px;
-  position: relative;
-  margin: 5px auto 0 auto;
-  border-radius: 20%/50%;
-  background: white;
-  border: 2px solid #222222;
-}
-
 .ewc_playercolor_bg_blue {
   background-color: #001489;
 }
@@ -165,3 +151,41 @@
 //   mask-size: 981px 887px;
 //   -webkit-mask-size: 981px 887px;
 // }
+
+
+.ewc_effort_counter_wrap {
+  width: 90px;
+}
+
+.ewc_effort_counter {
+  text-align: center;
+  width: 50px;
+  position: relative;
+  margin: 5px auto 0 auto;
+
+  border-radius: 20%/50%;
+  border: 2px solid #888;
+
+  background: #555;
+  opacity: 80%;
+  color: #ccc;
+}
+
+// XXX: This offsets a single cube into the lower right part of the setting area.
+.ewc_effort_counter_wrap {
+  display: flex;
+  margin-top: 175px;
+  margin-left: 65px;
+}
+
+// XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
+.ewc_setloc_panel .ewc_effort_counter {
+  // display: flex;
+}
+
+// XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
+.ewc_setloc_panel .ewc_effort_counter_wrap {
+  // display: flex;
+  margin-top: 175px;
+  margin-left: 65px;
+}
