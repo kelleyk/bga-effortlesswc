@@ -9,6 +9,24 @@ const SET_ALTERED = 'set:altered';
 const SET_HUNTED = 'set:hunted';
 
 // ------------------------
+// Transitions
+// ------------------------
+
+const T_DONE = 'tDone';
+const T_END_GAME = 'tEndGame';
+const T_BEGIN_HUMAN_TURN = 'tBeginHumanTurn';
+const T_BEGIN_BOT_TURN = 'tBeginBotTurn';
+const T_GET_INPUT = 'tGetInput';
+const T_RESOLVE_LOCATION = 'tResolveLocation';
+const T_ROUND_UPKEEP = 'tRoundUpkeep';
+const T_TURN_UPKEEP = 'tEndUpkeep';
+
+const T_RET_BOT_TURN = 'tRetBotTurn';
+const T_RET_PLACE_EFFORT = 'tRetPlaceEffort';
+const T_RET_PRE_SCORING = 'tRetPreScoring';
+const T_RET_RESOLVE_LOCATION = 'tRetResolveLocation';
+
+// ------------------------
 // Game states
 // ------------------------
 
@@ -29,7 +47,7 @@ const ST_ALTERED_INPUT = 15;
 const ST_PREGAME = 16;
 
 // Game state.  The next seat in the turn order that has effort in its reserve is activated and a transition is taken to
-// ST_PLACE_EFFORT (if the seat is occupied by a human player) or ST_NPC_TURN (if the seat is not).  If no seat has
+// ST_PLACE_EFFORT (if the seat is occupied by a human player) or ST_BOT_TURN (if the seat is not).  If no seat has
 // effort, transitions to ST_TRIGGER_END_GAME.
 const ST_NEXT_TURN = 3;
 
@@ -74,7 +92,7 @@ const ST_TRIGGER_END_GAME = 10;
 
 // Game state.  Acts for a seat that is not occupied by a human player.  Note that this state may still transition into
 // ST_INPUT if human player(s) need to make decisions for the NPC seat.
-const ST_NPC_TURN = 12;
+const ST_BOT_TURN = 12;
 
 // Multi-active state.  A player or group of players have been asked for input.
 const ST_INPUT = 11;
@@ -87,7 +105,7 @@ const ST_INPUT = 11;
 // XXX: Player(s) will be put in ST_INPUT here repeatedly until they have made all of their pre-scoring
 // decisions.
 //
-// Once scoring can be completed, does so and transitions to ST_SCORING_FINAL.
+// Once scoring can be completed, does so and transitions to ST_POST_SCORING.
 //
 // Game elements resolved here:
 // - Alchemist (class)
@@ -97,7 +115,7 @@ const ST_PRE_SCORING = 13;
 
 // Game state.  This state exists to serve information back to players about what happened during scoring (via state
 // args).  Transitions to ST_BGA_GAME_END.
-const ST_SCORING_FINAL = 14;
+const ST_POST_SCORING = 14;
 
 // ------------------------
 // Classes from the "Altered" expansion

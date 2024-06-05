@@ -29,6 +29,8 @@ class BattlingSetting extends Setting
 }
 
 // "When fighting a Threat, gain +1 Grit for every 3 Effort you have here."
+//
+// XXX: complication
 class CapableSetting extends Setting
 {
   const SETTING_ID = 'setting:capable';
@@ -39,6 +41,8 @@ class CapableSetting extends Setting
 //
 // "When fighting a Threat at this Location, players may only use 2 of the Threat's Weaknesses to deal damage.
 // (Critical Weaknesses still do 3 damage.)"
+//
+// XXX: complication
 class CorruptedSetting extends Setting
 {
   const SETTING_ID = 'setting:corrupted';
@@ -103,6 +107,8 @@ class MagicalSetting extends Setting
 // class NonexistentSetting - KS exclusive
 
 // "Threats are dealt facedown at this Location.  Reveal the threat when fighting."
+//
+// XXX: complication
 class OvergrownSetting extends Setting
 {
   const SETTING_ID = 'setting:overgrown';
@@ -154,6 +160,8 @@ class TranscendentSetting extends Setting
 
 // "At the end of the game, before Scoring Locations, players may move effort from here to any other locations (in
 // reverse turn order)."
+//
+// XXX: complication -- pre-scoring user input
 class TravelingSetting extends Setting
 {
   const SETTING_ID = 'setting:traveling';
