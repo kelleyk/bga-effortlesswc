@@ -30,9 +30,10 @@ let jstpl_setloc_panel =
   '<div id="${id}" class="ewc_setloc_panel ${classes}">' +
   '<div class="ewc_setloc_setloc_wrap">' +
   '<div class="ewc_setloc_setting_wrap">' +
-        '<div class="ewc_setloc_setting">' +
-        //  <div class="ewc_setloc_effort"></div>' +
-  '</div>' +  // .ewc_setloc_setting
+    '<div class="ewc_setloc_setting">' +
+  /* '<div class="icon_effort tmp_tintable"></div>' + */
+  //  <div class="ewc_setloc_effort"></div>' +
+    '</div>' +  // .ewc_setloc_setting
   '</div>' + // .ewc_setloc_setting_wrap
       '<div class="ewc_setloc_location_wrap">' +
         '<div class="ewc_setloc_location">' +

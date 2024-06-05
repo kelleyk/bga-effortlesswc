@@ -121,3 +121,47 @@
 .tmp_card_scaling {
   // transform: scale(.3);
 }
+
+.ewc_effort_counter_wrap {
+  width: 150px;
+}
+
+.ewc_effort_counter {
+  text-align: center;
+  width: 50px;
+  position: relative;
+  margin: 5px auto 0 auto;
+  border-radius: 20%/50%;
+  background: white;
+  border: 2px solid #222222;
+}
+
+.ewc_playercolor_bg_blue {
+  background-color: #001489;
+}
+.ewc_playercolor_bg_pink {
+  background-color: #ff5fa2;
+}
+.ewc_playercolor_bg_teal {
+  background-color: #00b796;
+}
+.ewc_playercolor_bg_yellow {
+  background-color: #ffe900;
+}
+.ewc_playercolor_bg_white {
+  background-color: #ffffff;
+}
+
+// .tmp_tint_effort_cube {
+//   background-blend-mode: multiply;
+
+//   /* XXX: These are copied to match the background, background-position,
+//    and background-size properties.  We should autogenerate this for
+//    the images where we need it. */
+//   mask-image: url('img/sprites.png');
+//   -webkit-mask-image: url('img/sprites.png');
+//   mask-position: -902px -110px;
+//   -webkit-mask-position: -902px -110px;
+//   mask-size: 981px 887px;
+//   -webkit-mask-size: 981px 887px;
+// }

@@ -150,6 +150,18 @@ class EffortlessWC extends Gamegui {
       // el.style.width = el.offsetWidth * scaleFactor + 'px';
       // el.style.height = el.offsetHeight * scaleFactor + 'px';
     });
+
+    // document.querySelectorAll('.tmp_tintable').forEach((rawEl: Element) => {
+    //   const el = rawEl as HTMLElement;
+
+    //   // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
+    //   if (el.classList.contains('tmp_tinted')) {
+    //     return;
+    //   }
+    //   el.classList.add('tmp_tinted');
+
+    //   this.tintSprite(el, '#00b796');
+    // });
   }
 
   public rescaleSprite(el: HTMLElement, scale: number) {
@@ -162,6 +174,16 @@ class EffortlessWC extends Gamegui {
 
     el.style.backgroundPosition =
       -700.2 * scale + 'px ' + -1090.8 * scale + 'px';
+  }
+
+  public tintSprite(el: HTMLElement, color: string) {
+    el.style.backgroundBlendMode = 'multiply';
+
+    el.style.maskImage = el.style.background;
+    el.style.maskPosition = el.style.backgroundPosition;
+    el.style.maskSize = el.style.backgroundSize;
+
+    el.style.backgroundColor = color;
   }
 
   ///////////////////////////////////////////////////
