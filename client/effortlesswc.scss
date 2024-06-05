@@ -189,6 +189,11 @@
   right: 8px;
 }
 
+// All children.
+.ewc_effort_counter * {
+  opacity: 100%;
+}
+
 // // XXX: This is necessary to get `display:flex` to override the ".ewc_setloc_panel div" rule.
 // .ewc_setloc_panel .ewc_effort_counter {
 //   // display: flex;

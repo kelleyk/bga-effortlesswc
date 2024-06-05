@@ -151,6 +151,20 @@ class EffortlessWC extends Gamegui {
       // el.style.height = el.offsetHeight * scaleFactor + 'px';
     });
 
+    document
+      .querySelectorAll('.tmp_scalable_cube')
+      .forEach((rawEl: Element) => {
+        const el = rawEl as HTMLElement;
+
+        // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
+        if (el.classList.contains('tmp_scaled_cube')) {
+          return;
+        }
+        el.classList.add('tmp_scale_cube');
+
+        this.rescaleSpriteCube(el, 0.6);
+      });
+
     document.querySelectorAll('.tmp_tintable').forEach((rawEl: Element) => {
       const el = rawEl as HTMLElement;
 
@@ -160,7 +174,12 @@ class EffortlessWC extends Gamegui {
       }
       el.classList.add('tmp_tinted');
 
-      // this.tintSprite(el, '#00b796');
+      if (el.classList.contains('ewc_playercolor_teal')) {
+        this.tintSprite(el, '#00b796');
+      }
+      if (el.classList.contains('ewc_playercolor_pink')) {
+        this.tintSprite(el, '#ff5fa2');
+      }
     });
   }
 
@@ -174,6 +193,18 @@ class EffortlessWC extends Gamegui {
 
     el.style.backgroundPosition =
       -700.2 * scale + 'px ' + -1090.8 * scale + 'px';
+  }
+
+  public rescaleSpriteCube(el: HTMLElement, scale: number) {
+    el.style.height = 30.0 * scale + 'px';
+    el.style.width = 30.0 * scale + 'px';
+
+    const bgSize = 3334.2 * scale + 'px ' + 3328.2 * scale + 'px';
+    console.log('*** bgSize = ', bgSize);
+    el.style.backgroundSize = bgSize;
+
+    el.style.backgroundPosition =
+      -3034.2 * scale + 'px ' + -2851.2 * scale + 'px';
   }
 
   public tintSprite(el: HTMLElement, color: string) {

@@ -35,8 +35,10 @@ let jstpl_setloc_panel =
   /* '<span style="position:absolute; bottom:0px; right:10px; margin-right:30px;">XXX</span>' +
    */
   '<div class="ewc_effort_counter_wrap">' +
-  '<div class="ewc_effort_counter">X &#x2715; 4</div>' +
-  /* '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube"> 4</div>' + */
+  /* '<div class="ewc_effort_counter">X &#x2715; 4</div>' +
+   * '<div class="ewc_effort_counter">X &#x2715; 5</div>' + */
+  '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_teal"></div> 4</div>' +
+  '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_pink"></div> 5</div>' +
   '</div>' +
 
   /* '<div class="icon_effort tmp_tintable tmp_offset_cube"></div>' + */
