@@ -969,6 +969,14 @@
 }
 .icon_effort {
   background-image: url(../build/img/sprites.jpg);
+  background-position: -3064.2px -2851.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 30px;
+  height: 30px;
+  transition: background-image 1s;
+}
+.icon_effort_mask {
+  background-image: url(../build/img/sprites.jpg);
   background-position: -3034.2px -2851.2px;
   background-size: 3334.2px 3328.2px;
   width: 30px;

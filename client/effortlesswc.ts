@@ -202,18 +202,27 @@ class EffortlessWC extends Gamegui {
     const bgSize = 3334.2 * scale + 'px ' + 3328.2 * scale + 'px';
     console.log('*** bgSize = ', bgSize);
     el.style.backgroundSize = bgSize;
+    el.style.maskSize = bgSize;
 
     el.style.backgroundPosition =
-      -3034.2 * scale + 'px ' + -2851.2 * scale + 'px';
+      -3064.2 * scale + 'px ' + -2851.2 * scale + 'px';
+
+    // From ".icon_effort_mask".
+    //
+    // XXX: Should this code go here?  The "mask*" properties are part of what's necessary just to have the sprite
+    // appear as it should, separate from any scaling.
+    el.style.maskPosition = -3034.2 * scale + 'px ' + -2851.2 * scale + 'px';
+
+    // XXX: "el.style.backgroundImage" returns empty because that's set by a class and not on this element.  Must be a
+    // way to do a proper lookup.
+    el.style.maskImage = 'url(img/sprites.jpg)';
+
+    // console.log('*** bgImage/maskImage = ', el.style.backgroundImage);
+    // el.style.setProperty('mask-image', el.style.backgroundImage);
   }
 
   public tintSprite(el: HTMLElement, color: string) {
     el.style.backgroundBlendMode = 'multiply';
-
-    el.style.maskImage = el.style.background;
-    el.style.maskPosition = el.style.backgroundPosition;
-    el.style.maskSize = el.style.backgroundSize;
-
     el.style.backgroundColor = color;
   }
 
