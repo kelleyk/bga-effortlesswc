@@ -27,6 +27,21 @@ const T_RET_PRE_SCORING = 'tRetPreScoring';
 const T_RET_RESOLVE_LOCATION = 'tRetResolveLocation';
 
 // ------------------------
+// Game options
+// ------------------------
+
+const GAMEOPTION_DISABLED = 1;
+const GAMEOPTION_ENABLED = 2;
+
+const GAMEOPTION_RULESET = 100;
+const GAMEOPTION_RULESET_COMPETITIVE = 1;
+const GAMEOPTION_RULESET_COOPERATIVE = 2;
+
+const GAMEOPTION_ALTERED_RACECLASS = 101;
+
+const GAMEOPTION_HUNTED_THREATS = 102;
+
+// ------------------------
 // Game states
 // ------------------------
 

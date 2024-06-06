@@ -10,4 +10,9 @@ class WorldImpl implements World
   {
     $this->table_ = $table;
   }
+
+  public function effortBySeat(Setting $setting)
+  {
+    throw new \feException('XXX:');
+  }
 }
