@@ -37,4 +37,6 @@ interface World
 
   // Moves one effort from $src to $dst.  They may be piles or locations.
   public function moveEffort($src, $dst);
+
+  public function fillCards(Location $loc): void;
 }

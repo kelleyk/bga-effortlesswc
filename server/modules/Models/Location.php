@@ -69,6 +69,18 @@ abstract class Location
   {
     throw new \feException('XXX: foo');
   }
+
+  public function cardsFaceUp(): int
+  {
+    $rc = new \ReflectionClass(self::class);
+    return $rc->hasConstant('CARDS_FACE_UP') ? self::CARDS_FACE_UP : 0;
+  }
+
+  public function cardsFaceDown(): int
+  {
+    $rc = new \ReflectionClass(self::class);
+    return $rc->hasConstant('CARDS_FACE_DOWN') ? self::CARDS_FACE_DOWN : 0;
+  }
 }
 
 // XXX: An "effort pile" is a (setloc, seat) pair.
@@ -77,6 +89,8 @@ class CaveLocation extends Location
 {
   const LOCATION_ID = 'location:cave';
   const SET_ID = SET_BASE;
+
+  const CARDS_FACE_DOWN = 1;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -89,6 +103,8 @@ class CityLocation extends Location
 {
   const LOCATION_ID = 'location:city';
   const SET_ID = SET_BASE;
+
+  const CARDS_FACE_UP = 1;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -105,6 +121,8 @@ class ColiseumLocation extends Location
 {
   const LOCATION_ID = 'location:coliseum';
   const SET_ID = SET_BASE;
+
+  const CARDS_FACE_UP = 2;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -149,6 +167,8 @@ class DocksLocation extends Location
   const LOCATION_ID = 'location:docks';
   const SET_ID = SET_BASE;
 
+  const CARDS_FACE_UP = 1;
+
   public function onVisited(World $world, Seat $seat)
   {
     if ($this->effortPileForSeat($seat)->qty() <= 1) {
@@ -177,6 +197,8 @@ class LibraryLocation extends Location
   const LOCATION_ID = 'location:library';
   const SET_ID = SET_BASE;
 
+  const CARDS_FACE_DOWN = 2;
+
   public function onVisited(World $world, Seat $seat)
   {
     $world->moveCardToHand($this->getParameterCardAtLocation($world, 0, $this), $seat);
@@ -188,6 +210,8 @@ class MarketLocation extends Location
 {
   const LOCATION_ID = 'location:market';
   const SET_ID = SET_BASE;
+
+  const CARDS_FACE_UP = 2;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -204,6 +228,8 @@ class PrisonLocation extends Location
 {
   const LOCATION_ID = 'location:prison';
   const SET_ID = SET_BASE;
+
+  const CARDS_FACE_UP = 1;
 
   public function getValidTargets(World $world)
   {
@@ -227,6 +253,8 @@ class RiverLocation extends Location
 {
   const LOCATION_ID = 'location:river';
   const SET_ID = SET_BASE;
+
+  const CARDS_FACE_UP = 1;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -263,6 +291,8 @@ class TunnelsLocation extends Location
   const LOCATION_ID = 'location:tunnels';
   const SET_ID = SET_BASE;
 
+  const CARDS_FACE_UP = 1;
+
   public function getValidSourcePiles(World $world)
   {
     $piles = [];
@@ -297,6 +327,8 @@ class WastelandLocation extends Location
   const LOCATION_ID = 'location:wasteland';
   const SET_ID = SET_BASE;
 
+  const CARDS_FACE_UP = 1;
+
   public function onVisited(World $world, Seat $seat)
   {
     // No effect.
@@ -308,6 +340,8 @@ class DungeonLocation extends Location
 {
   const LOCATION_ID = 'location:dungeon';
   const SET_ID = SET_ALTERED;
+
+  const CARDS_FACE_UP = 1;
 
   public function getValidTargets(World $world)
   {
@@ -349,6 +383,9 @@ class ObservatoryLocation extends Location
   const LOCATION_ID = 'location:observatory';
   const SET_ID = SET_ALTERED;
 
+  const CARDS_FACE_UP = 1;
+  const CARDS_FACE_DOWN = 1;
+
   public function onVisited(World $world, Seat $seat)
   {
     throw new \feException('XXX: not implemented');
@@ -362,6 +399,8 @@ class PortalLocation extends Location
 {
   const LOCATION_ID = 'location:portal';
   const SET_ID = SET_ALTERED;
+
+  const CARDS_FACE_UP = 1;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -377,6 +416,8 @@ class StablesLocation extends Location
   const LOCATION_ID = 'location:stables';
   const SET_ID = SET_ALTERED;
 
+  const CARDS_FACE_UP = 1;
+
   public function onVisited(World $world, Seat $seat)
   {
     throw new \feException('XXX: not implemented');
@@ -388,6 +429,8 @@ class ForestLocation extends Location
 {
   const LOCATION_ID = 'location:forest';
   const SET_ID = SET_HUNTED;
+
+  const CARDS_FACE_UP = 1;
 
   public function onVisited(World $world, Seat $seat)
   {
@@ -412,6 +455,8 @@ class LaboratoryLocation extends Location
   const LOCATION_ID = 'location:laboratory';
   const SET_ID = SET_HUNTED;
 
+  const CARDS_FACE_UP = 1;
+
   public function onVisited(World $world, Seat $seat)
   {
     throw new \feException('XXX: not implemented');
@@ -426,6 +471,8 @@ class LabyrinthLocation extends Location
   const LOCATION_ID = 'location:labyrinth';
   const SET_ID = SET_HUNTED;
 
+  const CARDS_FACE_UP = 1;
+
   public function onVisited(World $world, Seat $seat)
   {
     throw new \feException('XXX: not implemented');
@@ -439,6 +486,8 @@ class CabinLocation extends Location
 {
   const LOCATION_ID = 'location:cabin';
   const SET_ID = SET_HUNTED;
+
+  const CARDS_FACE_UP = 1;
 
   // Returns a list of effort piles.
   public function getValidTargets(World $world)
@@ -463,6 +512,8 @@ class CaravanLocation extends Location
 {
   const LOCATION_ID = 'location:hunted';
   const SET_ID = SET_HUNTED;
+
+  const CARDS_FACE_UP = 2;
 
   public function onVisited(World $world, Seat $seat)
   {

@@ -9,6 +9,18 @@ const SET_ALTERED = 'set:altered';
 const SET_HUNTED = 'set:hunted';
 
 // ------------------------
+// Global game-state types
+// ------------------------
+
+const GAMESTATE_INT_ACTIVE_SEAT = 'activeSeat';
+
+// XXX: For this game, which has a much simpler effect system, I think that we really only need to know which T_RET_*
+// transition to take when we're done.
+const GAMESTATE_JSON_RESOLVE_STACK = 'resolveStack';
+
+const GAMESTATE_JSON_RESOLVE_VALUE_STACK = 'resolveValueStack';
+
+// ------------------------
 // Transitions
 // ------------------------
 

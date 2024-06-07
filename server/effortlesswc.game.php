@@ -92,6 +92,10 @@ class Effortlesswc extends Table
       'optionHuntedThreats' => GAMEOPTION_HUNTED_THREATS,
     ]);
     // $this->dice_roller = new \Effortlesswc\Utilities\DiceRoller();
+
+    $this->mainDeck = new \WcLib\WcDeck('main');
+    $this->locationDeck = new \WcLib\WcDeck('location');
+    $this->settingDeck = new \WcLib\WcDeck('setting');
   }
 
   protected function getGameName()
