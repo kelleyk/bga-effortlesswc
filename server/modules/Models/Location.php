@@ -53,6 +53,12 @@ abstract class Location
     throw new \feException('XXX: foo');
   }
 
+  // Returns `Location[]`.
+  public function adjacentLocations(World $world)
+  {
+    throw new \feException('XXX: foo');
+  }
+
   public function isAdjacentTo(World $world, Location $other)
   {
     throw new \feException('XXX: foo');
@@ -67,50 +73,6 @@ abstract class Location
 
 // XXX: An "effort pile" is a (setloc, seat) pair.
 
-// class AlleyLocation extends Location -- KS exclusive
-
-// "Move any other effort from any other location to here."
-//
-// XXX: UI input -- pick setloc and effort type
-class CabinLocation extends Location
-{
-  const LOCATION_ID = 'location:cabin';
-  const SET_ID = SET_HUNTED;
-
-  // Returns a list of effort piles.
-  public function getValidTargets(World $world)
-  {
-    return array_values(
-      array_filter(function ($pile) use ($this) {
-        return $pile->qty() > 0 &&
-          $pile->location()->id() != $this->id() &&
-          $pile->seat()->id() != $world->activeSeat()->id();
-      }, $world->allEffortPiles())
-    );
-  }
-
-  public function onVisited(World $world, Seat $seat)
-  {
-    $world->moveEffort($this->getParameterEffortPile($world, 0, $this->getValidTargets($world)), $this);
-  }
-}
-
-// "Take both cards here and replace one with a card from your hand."
-class CaravanLocation extends Location
-{
-  const LOCATION_ID = 'location:hunted';
-  const SET_ID = SET_HUNTED;
-
-  public function onVisited(World $world, Seat $seat)
-  {
-    $world->moveCardToLocation($this->getParameterCardInHand($world, 0), $this);
-
-    foreach ($this->cards($world) as $card) {
-      $world->moveCardToHand($card, $world->activeSeat());
-    }
-  }
-}
-
 class CaveLocation extends Location
 {
   const LOCATION_ID = 'location:cave';
@@ -123,8 +85,6 @@ class CaveLocation extends Location
 }
 
 // "Move one of your effort from any other location to here."
-//
-// XXX: UI input -- pick setloc
 class CityLocation extends Location
 {
   const LOCATION_ID = 'location:city';
@@ -141,8 +101,6 @@ class CityLocation extends Location
 }
 
 // "Take 1 card from here and discard the other."
-//
-// XXX: UI input -- pick card from options
 class ColiseumLocation extends Location
 {
   const LOCATION_ID = 'location:coliseum';
@@ -242,8 +200,6 @@ class MarketLocation extends Location
 }
 
 // "Move another player's effort from any other location to here."
-//
-// XXX: UI input -- pick setloc/effort
 class PrisonLocation extends Location
 {
   const LOCATION_ID = 'location:prison';
@@ -348,8 +304,6 @@ class WastelandLocation extends Location
 }
 
 // "Move another player's effort from here to an adjacent location OR from an adjacent location to here."
-//
-// XXX: UI input -- pick setloc, effort
 class DungeonLocation extends Location
 {
   const LOCATION_ID = 'location:dungeon';
@@ -369,6 +323,63 @@ class DungeonLocation extends Location
   {
     // XXX: borked
     $world->moveEffort($this->getParameterEffortPile($world, 0, $this->getValidTargets($world)), $this);
+  }
+}
+
+// "Take the card and action of an adjacent location."
+class GardenLocation extends Location
+{
+  const LOCATION_ID = 'location:garden';
+  const SET_ID = SET_ALTERED;
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    $other_loc = $this->getParameterLocation($world, 0, $this->adjacentLocations($world));
+    $other_loc->onVisited($world, $seat);
+  }
+}
+
+// class LairLocation extends Location -- exclusive Dragon mini-expansion
+
+// "Take 1 card from here, then flip the other."
+//
+// XXX: UI input -- pick card from group
+class ObservatoryLocation extends Location
+{
+  const LOCATION_ID = 'location:observatory';
+  const SET_ID = SET_ALTERED;
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    throw new \feException('XXX: not implemented');
+  }
+}
+
+// "Swap any other effort here with an effort at any other location."
+//
+// XXX: UI input -- pick effort here AND pick setloc/effort
+class PortalLocation extends Location
+{
+  const LOCATION_ID = 'location:portal';
+  const SET_ID = SET_ALTERED;
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    throw new \feException('XXX: not implemented');
+  }
+}
+
+// "Move one of your other effort from here to an adjacent location OR from an adjacent location to here."
+//
+// XXX: UI input -- pick setloc
+class StablesLocation extends Location
+{
+  const LOCATION_ID = 'location:stables';
+  const SET_ID = SET_ALTERED;
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    throw new \feException('XXX: not implemented');
   }
 }
 
@@ -392,19 +403,6 @@ class ForestLocation extends Location
   }
 }
 
-// "Take the card and action of an adjacent location."
-//
-// XXX: UI input -- pick setloc
-//
-// XXX: complication -- then begin resolving effect of the other location
-class GardenLocation extends Location
-{
-  const LOCATION_ID = 'location:garden';
-  const SET_ID = SET_ALTERED;
-
-  // XXX: let's leave this one until we get the others working.  might need some special handling above this API.
-}
-
 // "If an attribute is filled on this Location, the threat here gains an additional weakness to cards of that
 // attribute."
 //
@@ -413,6 +411,11 @@ class LaboratoryLocation extends Location
 {
   const LOCATION_ID = 'location:laboratory';
   const SET_ID = SET_HUNTED;
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    throw new \feException('XXX: not implemented');
+  }
 }
 
 // "Effort cannot be moved to or from this location."
@@ -422,35 +425,53 @@ class LabyrinthLocation extends Location
 {
   const LOCATION_ID = 'location:labyrinth';
   const SET_ID = SET_HUNTED;
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    throw new \feException('XXX: not implemented');
+  }
 }
 
-// class LairLocation extends Location -- exclusive Dragon mini-expansion
-
-// "Take 1 card from here, then flip the other."
+// "Move any other effort from any other location to here."
 //
-// XXX: UI input -- pick card from group
-class ObservatoryLocation extends Location
+// XXX: UI input -- pick setloc and effort type
+class CabinLocation extends Location
 {
-  const LOCATION_ID = 'location:observatory';
-  const SET_ID = SET_ALTERED;
+  const LOCATION_ID = 'location:cabin';
+  const SET_ID = SET_HUNTED;
+
+  // Returns a list of effort piles.
+  public function getValidTargets(World $world)
+  {
+    return array_values(
+      array_filter(function ($pile) use ($this) {
+        return $pile->qty() > 0 &&
+          $pile->location()->id() != $this->id() &&
+          $pile->seat()->id() != $world->activeSeat()->id();
+      }, $world->allEffortPiles())
+    );
+  }
+
+  public function onVisited(World $world, Seat $seat)
+  {
+    $world->moveEffort($this->getParameterEffortPile($world, 0, $this->getValidTargets($world)), $this);
+  }
 }
 
-// "Swap any other effort here with an effort at any other location."
-//
-// XXX: UI input -- pick effort here AND pick setloc/effort
-class PortalLocation extends Location
+// "Take both cards here and replace one with a card from your hand."
+class CaravanLocation extends Location
 {
-  const LOCATION_ID = 'location:portal';
-  const SET_ID = SET_ALTERED;
-}
+  const LOCATION_ID = 'location:hunted';
+  const SET_ID = SET_HUNTED;
 
-// "Move one of your other effort from here to an adjacent location OR from an adjacent location to here."
-//
-// XXX: UI input -- pick setloc
-class StablesLocation extends Location
-{
-  const LOCATION_ID = 'location:stables';
-  const SET_ID = SET_ALTERED;
+  public function onVisited(World $world, Seat $seat)
+  {
+    $world->moveCardToLocation($this->getParameterCardInHand($world, 0), $this);
+
+    foreach ($this->cards($world) as $card) {
+      $world->moveCardToHand($card, $world->activeSeat());
+    }
+  }
 }
 
 // class TavernLocation extends Location -- KS exclusive
@@ -462,3 +483,5 @@ class StablesLocation extends Location
 // class VoidLocation extends Location -- KS exclusive
 
 // class UnderworldLocation extends Location -- KS exclusive
+
+// class AlleyLocation extends Location -- KS exclusive
