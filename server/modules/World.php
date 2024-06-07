@@ -19,4 +19,22 @@ interface World
 
   // Like `rankByEffort()` but returns a list of the seat IDs at rank 1.
   public function topByEffort($effort_by_seat, bool $outcome_good, bool $invert = false);
+
+  public function allEffortPiles();
+
+  public function locations();
+
+  public function activeSeat(): Seat;
+
+  public function moveCardToLocation(Card $card, Location $loc);
+
+  public function moveCardToHand(Card $card, Seat $seat);
+
+  // This is roughly `moveCardToHand()` from the deck.
+  public function drawCardToHand(Seat $seat);
+
+  public function discardCard(Card $card);
+
+  // Moves one effort from $src to $dst.  They may be piles or locations.
+  public function moveEffort($src, $dst);
 }
