@@ -12,6 +12,8 @@ trait BgaTableTrait {
 
   abstract public function reattributeColorsBasedOnPreferences($players, $colors);
 
+  abstract public function loadPlayersBasicInfos();
+
   abstract public function reloadPlayersBasicInfos();
 
   abstract protected function activeNextPlayer();
@@ -39,6 +41,8 @@ trait BgaTableTrait {
   abstract public function DbAffectedRow(): int;
 
   abstract public function escapeStringForDB(string $string);
+
+  abstract public function getPlayersNumber(): int;
 
   // -----
 }

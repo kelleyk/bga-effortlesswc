@@ -2,6 +2,10 @@
 
 namespace EffortlessWC;
 
+require_once 'module/php/WcLib/WcDeck.php';
+
+use WcLib\Card;
+
 interface World
 {
   // Map from seat ID to effort count.
@@ -22,6 +26,7 @@ interface World
 
   public function allEffortPiles();
 
+  // Returns `Location[]`.`
   public function locations();
 
   public function activeSeat(): Seat;
@@ -39,4 +44,6 @@ interface World
   public function moveEffort($src, $dst);
 
   public function fillCards(Location $loc): void;
+
+  public function nextState(string $transition): void;
 }

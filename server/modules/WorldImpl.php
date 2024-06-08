@@ -2,9 +2,9 @@
 
 namespace EffortlessWC;
 
-require_once('module/php/WcLib/WcDeck.php');
+require_once 'module/php/WcLib/WcDeck.php';
 
-use \WcLib\Card;
+use WcLib\Card;
 
 class WorldImpl implements World
 {
@@ -109,7 +109,8 @@ class WorldImpl implements World
     throw new \feException('no impl');
   }
 
-  public function nextState(string $transition): void {
+  public function nextState(string $transition): void
+  {
     throw new \feException('no impl');
   }
 }

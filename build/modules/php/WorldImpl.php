@@ -2,9 +2,9 @@
 
 namespace EffortlessWC;
 
-require_once('module/php/WcLib/WcDeck.php');
+require_once 'module/php/WcLib/WcDeck.php';
 
-use \WcLib\Card;
+use WcLib\Card;
 
 class WorldImpl implements World
 {
@@ -19,7 +19,7 @@ class WorldImpl implements World
   {
     $cards_face_up_qty = 0;
     $cards_face_down_qty = 0;
-    foreach ($loc->cards($world) as $card) {
+    foreach ($loc->cards($this) as $card) {
       if ($card->isFaceDown()) {
         ++$cards_face_down_qty;
       } else {
@@ -105,6 +105,11 @@ class WorldImpl implements World
 
   // Moves one effort from $src to $dst.  They may be piles or locations.
   public function moveEffort($src, $dst)
+  {
+    throw new \feException('no impl');
+  }
+
+  public function nextState(string $transition): void
   {
     throw new \feException('no impl');
   }

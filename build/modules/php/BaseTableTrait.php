@@ -2,9 +2,8 @@
 
 namespace EffortlessWC;
 
-// // XXX:
-// require_once 'config.inc.php';
-// require_once 'WcLib/BgaTableTrait.php';
+require_once 'WcLib/BgaTableTrait.php';
+require_once 'WcLib/GameState.php';
 
 use \EffortlessWC\World;
 use \EffortlessWC\WorldImpl;

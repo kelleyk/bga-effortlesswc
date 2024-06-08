@@ -6,7 +6,8 @@ require_once 'modules/Models/Seat.php';
 
 abstract class Location
 {
-  public function id(): int {
+  public function id(): int
+  {
     throw new \feException('XXX: foo');
   }
 
@@ -140,12 +141,10 @@ class ColiseumLocation extends Location
     $selected_card = $this->getParameterCardAtLocation($world, 0);
 
     $other_cards = array_values(
-      array_filter(
-        $this->cards($world),
-        function ($card) use ($selected_card) {
+      array_filter($this->cards($world), function ($card) use ($selected_card) {
         return $card->id() != $selected_card->id();
-      }
-      ));
+      })
+    );
     if (count($other_cards) != 1) {
       throw new \BgaVisibleSystemException('Unexpected card count.');
     }
@@ -192,9 +191,7 @@ class DocksLocation extends Location
       $world,
       0,
       array_values(
-        array_filter(
-          $world->locations(),
-          function ($loc) {
+        array_filter($world->locations(), function ($loc) {
           return $loc->id() != $this->id();
         })
       )
@@ -247,9 +244,7 @@ class PrisonLocation extends Location
   public function getValidTargets(World $world)
   {
     return array_values(
-      array_filter(
-        $world->allEffortPiles(),
-        function ($pile) use ($world) {
+      array_filter($world->allEffortPiles(), function ($pile) use ($world) {
         return $pile->qty() > 0 &&
           $pile->location()->id() != $this->id() &&
           $pile->seat()->id() != $world->activeSeat()->id();
@@ -322,9 +317,7 @@ class TunnelsLocation extends Location
   public function getValidDestinationLocations(World $world)
   {
     return array_values(
-      array_filter(
-        $world->locations(),
-        function ($loc) {
+      array_filter($world->locations(), function ($loc) {
         return $loc->id() != $this->id();
       })
     );
@@ -364,9 +357,7 @@ class DungeonLocation extends Location
   {
     // XXX: borked
     return array_values(
-      array_filter(
-        $world->allEffortPiles(),
-        function ($pile) use ($world) {
+      array_filter($world->allEffortPiles(), function ($pile) use ($world) {
         return $pile->qty() > 0 && $pile->seat()->id() != $world->activeSeat()->id();
       })
     );
@@ -454,9 +445,7 @@ class ForestLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $valid_targets = array_values(
-      array_filter(
-        $this->effortPiles($world),
-        function ($pile) use ($seat, $world) {
+      array_filter($this->effortPiles($world), function ($pile) use ($seat, $world) {
         // If there is only of the active seat's effort here, it's the one we just placed, and we can never move that one.
         // For other seats, any effort is fine.
         return $pile->qty() >= ($pile->seat()->id() == $seat->id() ? 2 : 1);
@@ -514,9 +503,7 @@ class CabinLocation extends Location
   public function getValidTargets(World $world)
   {
     return array_values(
-      array_filter(
-        $world->allEffortPiles(),
-        function ($pile) use ($world) {
+      array_filter($world->allEffortPiles(), function ($pile) use ($world) {
         return $pile->qty() > 0 &&
           $pile->location()->id() != $this->id() &&
           $pile->seat()->id() != $world->activeSeat()->id();

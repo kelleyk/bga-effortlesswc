@@ -4,4 +4,8 @@ namespace EffortlessWC;
 
 class Seat
 {
+  public function id(): int
+  {
+    throw new \feException('XXX: foo');
+  }
 }

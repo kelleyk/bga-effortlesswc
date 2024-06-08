@@ -325,5 +325,5 @@ module.exports = function (grunt) {
     'shell:test_server',
   ]);
 
-  grunt.registerTask('test', ['test:server']);
+  grunt.registerTask('test', ['server', 'test:server']);
 };
