@@ -149,6 +149,15 @@ class WcDeck
     // XXX: refactoring dust
   }
 
+  // --- New (WcLib) API ---
+
+  // XXX: locations? sublocations? indices? args?
+  function drawTo(string $dest_location, ?int $dest_location_index, ?string $src_location = NULL): Card {
+    throw new \feException('XXX: no impl on drawTo');
+
+    // $card = $this->peekTop();
+  }
+
   // --- API ---
 
   function cardLocation()
