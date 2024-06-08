@@ -39,7 +39,9 @@ $game_options = [
         'name' => totranslate('Cooperative'),
         'tmdisplay' => totranslate('Cooperative'),
         // XXX:
-        'description' => totranslate('The players will work together.  These rules are from the Altered expansion.  Threats are always used when playing cooperatively, which makes the game a little bit more complex.'),
+        'description' => totranslate(
+          'The players will work together.  These rules are from the Altered expansion.  Threats are always used when playing cooperatively, which makes the game a little bit more complex.'
+        ),
       ],
     ],
     'default' => GAMEOPTION_RULESET_COMPETITIVE,
