@@ -24,7 +24,7 @@
  *
  */
 
-require_once 'modules/constants.inc.php';
+require_once 'modules/php/constants.inc.php';
 
 $game_options = [
   GAMEOPTION_RULESET => [
@@ -38,13 +38,24 @@ $game_options = [
       GAMEOPTION_RULESET_COOPERATIVE => [
         'name' => totranslate('Cooperative'),
         'tmdisplay' => totranslate('Cooperative'),
-        'description' => totranslate('The players will work together.  These rules are from the Altered expansion.'),
+        // XXX:
+        'description' => totranslate('The players will work together.  These rules are from the Altered expansion.  Threats are always used when playing cooperatively, which makes the game a little bit more complex.'),
       ],
     ],
-    'default' => GAMEOPTION_RULESET_COMPETITVE,
+    'default' => GAMEOPTION_RULESET_COMPETITIVE,
   ],
+
+  // GAMEOPTION_SETLOC_SETS => [
+  //   // XXX: - Base-game only
+  //   // XXX: - All (* but not threat mechanic stuff if threats are not in use)
+  //   // XXX: - Maybe a "remove all negative-scoring settings" option?
+  // ],
+
+  // XXX: Remove "human" as race option -- it's mostly for kids or whatever.
+  //
+  // XXX: Possible future feature -- "beginner selection" for races/classes.
   GAMEOPTION_ALTERED_RACECLASS => [
-    'name' => totranslate('Play with races and classes'),
+    'name' => totranslate('Play with race and class module'),
     'values' => [
       GAMEOPTION_DISABLED => [
         'name' => totranslate('Disabled'),
@@ -59,8 +70,8 @@ $game_options = [
     'default' => GAMEOPTION_DISABLED,
   ],
   # N.B.: This is forced on in Cooperative mode.
-  GAMEOPTION_ALTERED_RACECLASS => [
-    'name' => totranslate('Play with Threats'),
+  GAMEOPTION_HUNTED_THREATS => [
+    'name' => totranslate('Play with Threat module'),
     'values' => [
       GAMEOPTION_DISABLED => [
         'name' => totranslate('Disabled'),
@@ -81,4 +92,7 @@ $game_options = [
       ],
     ],
   ],
+
+  // Add Experience cards to deck at setup?
+  // XXX: 6 cards
 ];

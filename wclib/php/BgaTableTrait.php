@@ -36,7 +36,7 @@ trait BgaTableTrait {
 
   abstract public function DbGetLastId();
 
-  abstract public function DbAffectedRow();
+  abstract public function DbAffectedRow(): int;
 
   abstract public function escapeStringForDB(string $string);
 

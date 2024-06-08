@@ -33,3 +33,56 @@ CREATE TABLE IF NOT EXISTS `gamestate` (
   `gamestate_value_int` INT(11) DEFAULT NULL,
 PRIMARY KEY (`gamestate_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `seat` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`player_id` int(10) UNSIGNED,  // NOT NULL iff this is a player-controlled seat.
+`seat_color` varchar(6) NOT NULL,
+`seat_label` varchar(1) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- XXX: As imported from Burgle Bros 2.
+CREATE TABLE IF NOT EXISTS `card` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+  -- These two strings uniquely identify the card-type.
+  `card_type_group` VARCHAR(32) NOT NULL,
+  `card_type` VARCHAR(32) NOT NULL,
+
+  -- One of "CHARACTER", "GEAR", "PATROL", "DEADDROPS", "LOUNGE", "POOL".
+  `card_location` VARCHAR(32) NOT NULL,
+
+  -- One of "DECK", "DISCARD", "HAND", "PREPPED".
+  --
+  -- The "CHARACTER" location supports the "HAND", "PREPPED", and
+  -- "DISCARD" sublocations.
+  --
+  -- The other locations support the "DECK" and "DISCARD"
+  -- sublocations.
+  `card_sublocation` VARCHAR(32) NOT NULL,
+
+  -- When `card_location` is "CHARACTER", this is the `characterIndex`.
+  -- When `card_location` is "PATROL", this is the Z coordinate (the
+  -- zero-indexed floor number).  Otherwise, this must be NULL.
+  `card_location_index` INT(1),
+
+  -- The order of the card within the (location, sublocation,
+  -- location_index) area.  Lower numbers are "first", or closer to
+  -- the top of a deck.
+  --
+  -- Values should be unique.  When they aren't, behavior is
+  -- undefined, though we try to use `id` to break ties.
+  `card_order` INT(10) NOT NULL,
+
+  -- The number of times the card has been used.  When this number is
+  -- >= the number of uses allowed by the card type, it "flips over":
+  -- we show the corresponding gearBack image in the client and its
+  -- ability changes to whatever the card's back specifies.  When it
+  -- used again in that state, it is discarded.
+  --
+  -- Must be NULL except for prepped gear cards (cards in the
+  -- "PREPPED" sublocation).
+  `use_count` INT(1),
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

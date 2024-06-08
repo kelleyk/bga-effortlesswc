@@ -87,17 +87,15 @@ class Effortlesswc extends Table
   {
     parent::__construct();
     self::initGameStateLabels([
-      // 'optionCharacterSelection' => OPTION_CHARACTER_SELECTION,
-      // // "optionCharacterVariants" => OPTION_CHARACTER_VARIANTS,
-      // 'optionSuspicion' => OPTION_SUSPICION,
-      // 'optionFinale' => OPTION_FINALE,
-      // 'optionMultihanded' => OPTION_MULTIHANDED,
-      // 'optionWallPlacement' => OPTION_WALL_PLACEMENT,
-      // 'optionWallRerolling' => OPTION_WALL_REROLLING,
-      // 'optionVariantDeadDrops' => OPTION_VARIANT_DEAD_DROPS,
-      // 'optionVariantCasingTheJoint' => OPTION_VARIANT_CASING_THE_JOINT,
+      'optionRuleset' => GAMEOPTION_RULESET,
+      'optionAlteredRaceclass' => GAMEOPTION_ALTERED_RACECLASS,
+      'optionHuntedThreats' => GAMEOPTION_HUNTED_THREATS,
     ]);
     // $this->dice_roller = new \Effortlesswc\Utilities\DiceRoller();
+
+    $this->mainDeck = new \WcLib\WcDeck('main');
+    $this->locationDeck = new \WcLib\WcDeck('location');
+    $this->settingDeck = new \WcLib\WcDeck('setting');
   }
 
   protected function getGameName()

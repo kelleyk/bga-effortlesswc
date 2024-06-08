@@ -126,6 +126,13 @@ module.exports = function (grunt) {
             dest: 'build/',
             filter: 'isFile',
           },
+          {
+            expand: true,
+            cwd: 'wclib/php/',
+            src: ['*.php'],  // XXX: Exclude tests?
+            dest: 'build/modules/php/WcLib/',
+            filter: 'isFile',
+          },
         ],
       },
     },
@@ -232,6 +239,19 @@ module.exports = function (grunt) {
         command:
           'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output -v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro -v $PWD/wclib/php:/src/modules/php/WcLib:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
       },
+      test_server: {
+        command: [
+          'docker run -i --rm',
+          '--network localarena_default',
+          '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
+          '-v $PWD/build:/src/game/effortlesswc',
+          '-v $PWD/server:/src/server',
+          '-v $PWD/wclib/php:/src/game/effortlesswc/modules/php/WcLib:ro',
+          '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+          'wardcanyon/localarena-testenv:latest',
+          'phpunit --configuration /src/server/modules/Test/phpunit.xml',
+        ].join(' '),
+      },
     },
   });
 
@@ -271,4 +291,8 @@ module.exports = function (grunt) {
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 
   grunt.registerTask('default', ['fix', 'server', 'client', 'copy:assets']);
+
+  grunt.registerTask('test:server', ['copy:server_sources', 'shell:test_server']);
+
+  grunt.registerTask('test', ['test:server']);
 };
