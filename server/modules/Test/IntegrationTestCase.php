@@ -1,12 +1,23 @@
 <?php declare(strict_types=1);
 
+/**
+  XXX: In order to remove these directives, we need to make LocalArena code visible to Phan. Doing that will require
+  dealing with the redefinition conflicts between LocalArena and the stubs in WcLib.
+
+  @phan-file-suppress PhanUndeclaredConstant
+  @phan-file-suppress PhanUndeclaredExtendedClass
+  @phan-file-suppress PhanUndeclaredClassMethod
+  @phan-file-suppress PhanUndeclaredClassProperty
+  @phan-file-suppress PhanUndeclaredMethod
+ */
+
 namespace EffortlessWC\Test;
 
 require_once '/src/localarena/module/test/IntegrationTestCase.php';
 require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/constants.inc.php';
 require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/WcLib/WcDeck.php';
 
-use LocalArena\Test\PlayerPeer;
+// use LocalArena\Test\PlayerPeer;
 
 // use WcLib\WcDeck;
 
