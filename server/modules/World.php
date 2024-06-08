@@ -26,6 +26,7 @@ interface World
 
   public function allEffortPiles();
 
+  // Returns `Location[]`.`
   public function locations();
 
   public function activeSeat(): Seat;
@@ -45,7 +46,4 @@ interface World
   public function fillCards(Location $loc): void;
 
   public function nextState(string $transition): void;
-
-  // Returns `Location[]`.`
-  public function locations();
 }
