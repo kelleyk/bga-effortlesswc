@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `card` (
   -- When `card_location` is "CHARACTER", this is the `characterIndex`.
   -- When `card_location` is "PATROL", this is the Z coordinate (the
   -- zero-indexed floor number).  Otherwise, this must be NULL.
-  `card_location_index` INT(1),
+  `card_sublocation_index` INT(1),
 
   -- The order of the card within the (location, sublocation,
   -- location_index) area.  Lower numbers are "first", or closer to

@@ -7,10 +7,6 @@ namespace WcLib;
 // XXX: Make this `CardBase` instead?
 class Card
 {
-  // XXX: This is a leftover from our migration to a `Card` type;
-  // need to finish that migration.
-  public $row;
-
   private int $id_;
   private string $type_;
   private string $type_group_;
@@ -27,7 +23,6 @@ class Card
     }
 
     $card = new Card();
-    $card->row = $row;
     $card->id_ = intval($row['id']);
     $card->type_ = $row['card_type'];
     $card->type_group_ = $row['card_type_group'];
@@ -78,50 +73,6 @@ class Card
   {
     return $this->use_count_;
   }
-
-  // // Below this line are BurgleBrosTwo-specific helpers.
-
-  // public function cardTypeData()
-  // {
-  //   return CARD_DATA[$this->type_group_][$this->type_];
-  // }
-
-  // public function maxUses(): int
-  // {
-  //   return $this->cardTypeData()['uses'] ?? 1;
-  // }
-
-  // public function title(): string
-  // {
-  //   return $this->cardTypeData()['title'];
-  // }
-
-  // public function image(): string
-  // {
-  //   return $this->cardTypeData()['image'];
-  // }
-
-  // public function back(): string
-  // {
-  //   return $this->cardTypeData()['back'];
-  // }
-
-  // public function flipped(): bool
-  // {
-  //   if ($this->typeGroup() != 'gear') {
-  //     throw new \BgaVisibleSystemException('Internal error: flipped() only makes sense for gear cards.');
-  //   }
-  //   return $this->useCount() >= $this->maxUses();
-  // }
-
-  // public function effectiveType(): string
-  // {
-  //   if ($this->flipped()) {
-  //     return $this->back();
-  //   } else {
-  //     return $this->type();
-  //   }
-  // }
 }
 
 class WcDeck
@@ -130,19 +81,14 @@ class WcDeck
   // the top of a deck).
 
   // See `card` table schema for details.
-  protected string $card_location;
-  protected ?int $card_location_index;
+  protected $dbo_;
+  protected string $location_;
 
-  protected $dbo;
-  protected string $deck_name;
 
-  function __construct($dbo, string $deck_name, string $card_location = 'DECK', ?int $card_location_index = null)
+  function __construct($dbo, string $location)
   {
-    $this->dbo = $dbo;
-    $this->deck_name = $deck_name;
-
-    $this->card_location = $card_location;
-    $this->card_location_index = $card_location_index;
+    $this->dbo_ = $dbo;
+    $this->location_ = $location;
   }
 
   private function trace(string $msg): void {
@@ -151,23 +97,36 @@ class WcDeck
 
   // --- New (WcLib) API ---
 
-  // XXX: locations? sublocations? indices? args?
-  function drawTo(string $dest_location, ?int $dest_location_index, ?string $src_location = NULL): Card {
-    throw new \feException('XXX: no impl on drawTo');
+  // XXX: Does not handle auto-reshuffling.
+  public function drawTo(string $dest_sublocation, ?int $dest_sublocation_index, string $src_location = 'DECK'): Card
+  {
+    $card = $this->peekTop($src_location);
+    $this->placeOnTop($card, $dest_sublocation, $dest_sublocation_index);
+    return $this->get($card->id());
+  }
 
-    // $card = $this->peekTop();
+  public function location(): string
+  {
+    return $this->location_;
+  }
+
+  // Randomly assign a new `card_order` value to each card in
+  // $card_sublocation.
+  public function shuffle($card_sublocation = 'DECK')
+  {
+    self::trace('WcDeck: shuffle()');
+    $cards = $this->rawGetAll([$card_sublocation]);
+    shuffle($cards);
+
+    $i = 0; // XXX: Should be able to replace this with `foreach()` syntax.
+    foreach ($cards as $card) {
+      self::trace('WcDeck: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
+      $this->dbo_->DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
+      ++$i;
+    }
   }
 
   // --- API ---
-
-  function cardLocation()
-  {
-    return $this->card_location;
-  }
-  function cardLocationIndex()
-  {
-    return $this->card_location_index;
-  }
 
   // Instantiates new cards per $card_specs, assigning them new card
   // IDs in random order.  The new cards are placed on bottom of
@@ -180,9 +139,9 @@ class WcDeck
   // TODO: What should $card_specs be?  Right now, it's an array;
   // each individual card spec is an associative array with one key
   // ("card_type").
-  function createCards($card_specs, $card_sublocation = 'DECK')
+  public function createCards($card_specs, $card_sublocation = 'DECK')
   {
-    // XXX: this isn't going to work when `card_location_index` is NULL yet
+    // XXX: this isn't going to work when `card_sublocation_index` is NULL yet
     //
     // XXX: Also, we need to `$this->shuffle()` the new cards
     // (since all of them are created with a card_order of -1).
@@ -192,19 +151,19 @@ class WcDeck
     foreach ($card_specs as $card_spec) {
       // XXX: update some of these values
       $values[] =
-        '("'.$this->deck_name.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", ' . ($this->card_location_index ?? 'NULL')  . ', -1' . ')';
+        '("'.$this->deck_name_.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", NULL, -1' . ')';
     }
 
     shuffle($values);
     $sql =
-      'INSERT INTO card (`card_type_group`, `card_type`, `card_location`, `card_sublocation`, `card_location_index`, `card_order`) VALUES ' .
+      'INSERT INTO card (`card_type_group`, `card_type`, `card_location`, `card_sublocation`, `card_sublocation_index`, `card_order`) VALUES ' .
       implode(',', $values);
-    $this->dbo->DbQuery($sql);
+    $this->dbo_->DbQuery($sql);
   }
 
   // Takes cards from all $card_sublocations and moves them to
   // $destination_sublocation.
-  function moveAll($card_sublocations, $destination_sublocation = 'DECK'): void
+  public function moveAll($card_sublocations, $destination_sublocation = 'DECK'): void
   {
     foreach ($this->rawGetAll($card_sublocations) as $card) {
       $this->placeOnTop($card, $destination_sublocation);
@@ -212,59 +171,42 @@ class WcDeck
   }
 
   // // XXX: Instead, create a WcDeck with the intended
-  // // location & location_index and use `placeOn{Top,Bottom}()`
+  // // location & sublocation_index and use `placeOn{Top,Bottom}()`
   //
-  // function move($card_id, $destination_location, $destination_sublocation, $destination_location_index = null) {
+  // function move($card_id, $destination_location, $destination_sublocation, $destination_sublocation_index = null) {
   //     $update_subexprs = [
   //         'card_location = "'.$destination_location.'"',
   //         'card_sublocation = "'.$destination_sublocation.'"',
   //     ];
-  //     if (!is_null($destination_location_index)) {
-  //         $update_subexprs[] = 'card_location_index = '.$destination_location_index;
+  //     if (!is_null($destination_sublocation_index)) {
+  //         $update_subexprs[] = 'card_sublocation_index = '.$destination_sublocation_index;
   //     }
-  //     $this->dbo->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
+  //     $this->dbo_->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
   // }
 
-  // Randomly assign a new `card_order` value to each card in
-  // $card_sublocation.
-  function shuffle($card_sublocation = 'DECK')
+  private function rawGetAll($card_sublocations = ['DECK'])
   {
-    self::trace('WcDeck: shuffle()');
-    $cards = $this->rawGetAll([$card_sublocation]);
-    shuffle($cards);
-
-    $i = 0; // XXX: Should be able to replace this with `foreach()` syntax.
-    foreach ($cards as $card) {
-      self::trace('WcDeck: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
-      $this->dbo->DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
-      ++$i;
-    }
+    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations));
   }
 
-  function rawGetAll($card_sublocations = ['DECK'])
-  {
-    return $this->dbo->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations));
-  }
-
-  function getAll($card_sublocations = ['DECK'])
+  public function getAll($card_sublocations = ['DECK'])
   {
     return array_map(function ($row) {
       return Card::fromRow($row);
     }, $this->rawGetAll($card_sublocations));
   }
 
-  function get(int $card_id): Card
+  // XXX: Or should this be on `Card`?
+  public function get(int $card_id): Card
   {
     return Card::fromRow($this->rawGet($card_id));
   }
 
-  function rawGet($cardId)
+  private function rawGet($cardId)
   {
-    $this->assertValidCardId($cardId);
-
     self::trace("WcDeck::rawGet(cardId={$cardId})");
     // XXX: this should probably return an error if the card is not within the scope of this WcDeck
-    $card = $this->dbo->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
+    $card = $this->dbo_->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
     if (is_null($card['id'])) {
       throw new \BgaUserException(
         "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $card=" . print_r($card, true)
@@ -274,15 +216,15 @@ class WcDeck
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
-  function rawGetAllOfType($card_type)
+  private function rawGetAllOfType($card_type)
   {
-    return $this->dbo->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
+    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
-  function rawGetAllOfTypeGroup(string $card_type_group)
+  private function rawGetAllOfTypeGroup(string $card_type_group)
   {
-    return $this->dbo->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
+    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
@@ -295,17 +237,17 @@ class WcDeck
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  function rawPeekTop($card_sublocation = 'DECK')
+  private function rawPeekTop($card_sublocation = 'DECK')
   {
     $sql =
       'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation]) . ' ORDER BY card_order ASC LIMIT 1';
     // self::trace("readMinCardOrder: {$sql}");
-    return $this->dbo->getObjectFromDB($sql);
+    return $this->dbo_->getObjectFromDB($sql);
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  function peekTop($card_sublocation = 'DECK'): ?Card
+  public function peekTop($card_sublocation = 'DECK'): ?Card
   {
     return Card::fromRow($this->rawPeekTop($card_sublocation));
   }
@@ -318,7 +260,7 @@ class WcDeck
   // $card_sublocation and then `shuffle()` them and try again.  If
   // $auto_reshuffle is false, or if there are no cards in either
   // sublocation, returns `null`.
-  function rawDrawAndDiscard($card_sublocation = 'DECK', $destination_sublocation = 'DISCARD', $auto_reshuffle = false)
+  private function rawDrawAndDiscard($card_sublocation = 'DECK', $destination_sublocation = 'DISCARD', $auto_reshuffle = false)
   {
     $card = $this->rawPeekTop($card_sublocation);
 
@@ -336,7 +278,7 @@ class WcDeck
     return $card;
   }
 
-  function drawAndDiscard(
+  public function drawAndDiscard(
     $card_sublocation = 'DECK',
     $destination_sublocation = 'DISCARD',
     $auto_reshuffle = false
@@ -348,7 +290,7 @@ class WcDeck
   // Like `drawAndDiscard()`, but repeats until $predicate returns
   // true for a card.  Cards that do not match are placed in
   // $destination_sublocation.
-  function rawDrawAndDiscardUntil(
+  private function rawDrawAndDiscardUntil(
     $predicate,
     $card_sublocation = 'DECK',
     $destination_sublocation = 'DISCARD',
@@ -365,7 +307,9 @@ class WcDeck
   //
   // Assumes $auto_reshuffle=false, mostly for implementation
   // convenience.  Could be extended to support that.
-  function rawDrawAndDiscardFirstMatching($predicate, $card_sublocation = 'DECK', $destination_sublocation = 'DISCARD')
+  //
+  // XXX: Need to wrap this with a non-raw function.
+  private function rawDrawAndDiscardFirstMatching($predicate, $card_sublocation = 'DECK', $destination_sublocation = 'DISCARD')
   {
     $cards = $this->rawGetAll([$card_sublocation]);
 
@@ -379,116 +323,80 @@ class WcDeck
     return null;
   }
 
-  function assertValidCard($card)
+  public function placeOnTop(Card $card, string $sublocation, ?int $sublocation_index = NULL): void
   {
-    // XXX: This is a leftover from our migration to a `Card` type;
-    // need to finish that migration.
-    if ($card instanceof Card) {
-      $card = $card->row;
-    }
-
-    $this->assertValidCardId($card['id']);
+    $this->shiftCardOrder($sublocation, 1);
+    $this->updateCard($card, $sublocation, /*card_order=*/ 0, $sublocation_index);
   }
 
-  function assertValidCardId($cardId)
+  public function placeOnBottom(Card $card, string $card_sublocation, ?int $sublocation_index = NULL): void
   {
-    // // XXX: This is a string that looks like e.g. "5".
-    // if (!is_int($card['id']) || $card['id'] <= 0) {
-    //     throw new \BgaUserException("WcDeck::placeOnTop(): invalid cardId: {$card['id']} which is a " . get_debug_type($card['id']));
-    // }
+    $this->updateCard($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation) + 1, $sublocation_index);
   }
 
-  function placeOnTop($card, $card_sublocation)
+  // --- This should probably become internal, but it's temporarily external until the API is fleshed out ---
+
+  // XXX: This is partially duplicated by `updateCard()` in "DataLayer.php" in Burgle Bros 2.
+  public function updateCard(Card $card, string $sublocation, int $card_order, ?int $sublocation_index)
   {
-    // XXX: This is a leftover from our migration to a `Card` type;
-    // need to finish that migration.
-    if ($card instanceof Card) {
-      $card = $card->row;
+    $update_subexprs = [
+      'card_location = "' . $this->location_ . '"',
+      'card_sublocation = "' . $sublocation . '"',
+      'card_order = ' . $card_order,
+    ];
+    if (!is_null($sublocation_index)) {
+      $update_subexprs[] = 'card_sublocation_index = ' . $sublocation_index;
+    } else {
+      $update_subexprs[] = 'card_sublocation_index = NULL';
     }
-
-    $this->assertValidCard($card);
-    $this->shiftCardOrder($card_sublocation, 1);
-    $this->updateCard($card, $card_sublocation, /*card_order=*/ 0);
-  }
-
-  function placeOnBottom($card, $card_sublocation)
-  {
-    // XXX: This is a leftover from our migration to a `Card` type;
-    // need to finish that migration.
-    if ($card instanceof Card) {
-      $card = $card->row;
-    }
-
-    $this->assertValidCard($card);
-    $this->updateCard($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation) + 1);
+    $this->dbo_->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card->id());
   }
 
   // --- Internal helpers ---
 
-  function updateCard($card, $card_sublocation, $card_order)
-  {
-    // XXX: This is a leftover from our migration to a `Card` type;
-    // need to finish that migration.
-    if ($card instanceof Card) {
-      $card = $card->row;
-    }
-
-    $this->assertValidCard($card);
-    $update_subexprs = [
-      'card_location = "' . $this->card_location . '"',
-      'card_sublocation = "' . $card_sublocation . '"',
-      'card_order = ' . $card_order,
-    ];
-    if (!is_null($this->card_location_index)) {
-      $update_subexprs[] = 'card_location_index = ' . $this->card_location_index;
-    } else {
-      $update_subexprs[] = 'card_location_index = NULL';
-    }
-    $this->dbo->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card['id']);
-  }
-
   // Modifies all `card_order`s in $card_sublocation by $n.
-  protected function shiftCardOrder($card_sublocation, $n)
+  protected function shiftCardOrder(string $card_sublocation, int $n): void
   {
-    $this->dbo->DbQuery(
+    $this->dbo_->DbQuery(
       'UPDATE `card` SET card_order=(card_order+' . $n . ') WHERE ' . $this->buildWhereClause([$card_sublocation])
     );
   }
 
   // Returns the number of cards in $card_sublocation.
-  protected function cardCount($card_sublocation)
+  protected function cardCount(string $card_sublocation): int
   {
-    return $this->dbo->getUniqueValueFromDB(
+    return $this->dbo_->getUniqueValueFromDB(
       'SELECT COUNT(*) FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation])
     );
   }
 
-  protected function readMaxCardOrder($card_sublocation)
+  protected function readMaxCardOrder(string $card_sublocation):int
   {
-    return $this->dbo->getUniqueValueFromDB(
+    return $this->dbo_->getUniqueValueFromDB(
       'SELECT card_order FROM `card` WHERE ' .
         $this->buildWhereClause([$card_sublocation]) .
         ' ORDER BY card_order DESC LIMIT 1'
     );
   }
 
-  protected function readMinCardOrder($card_sublocation)
+  protected function readMinCardOrder(string $card_sublocation):int
   {
     $sql =
       'SELECT card_order FROM `card` WHERE ' .
       $this->buildWhereClause([$card_sublocation]) .
       ' ORDER BY card_order ASC LIMIT 1';
     self::trace("readMinCardOrder: {$sql}");
-    return $this->dbo->getUniqueValueFromDB($sql);
+    return $this->dbo_->getUniqueValueFromDB($sql);
   }
 
-  protected function buildWhereClause($card_sublocations)
+  // $card_sublocations is `string[]`.`
+  protected function buildWhereClause($card_sublocations): string
   {
-    $clause = 'card_location = "' . $this->card_location . '"';
+    $clause = 'card_location = "' . $this->location_ . '"';
 
-    if (!is_null($this->card_location_index)) {
-      $clause .= ' AND card_location_index = ' . $this->card_location_index;
-    }
+    // if (!is_null($this->sublocation_index_)) {
+    //   $clause .= ' AND card_sublocation_index = ' . $this->sublocation_index_;
+    // }
 
     $sublocation_values = [];
     foreach ($card_sublocations as $card_sublocation) {

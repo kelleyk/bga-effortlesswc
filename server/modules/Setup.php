@@ -144,8 +144,6 @@ trait Setup
       }
     });
 
-    echo '*** createCards: ' . print_r($card_specs, true) . "\n";
-
     $this->locationDeck->createCards($card_specs);
   }
 
