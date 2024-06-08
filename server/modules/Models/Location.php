@@ -6,6 +6,10 @@ require_once 'modules/Models/Seat.php';
 
 abstract class Location
 {
+  public function id(): int {
+    throw new \feException('XXX: foo');
+  }
+
   // XXX: The `getParameter()` stuff should be moved to their own trait; they throw a special exception if we need to
   // ask for user input still.
   public function getParameterEffortPile(World $world, int $param_index, $valid_targets)
@@ -25,7 +29,7 @@ abstract class Location
   }
 
   // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
-  public function getParameterCardAtLocation(World $world, int $param_index, Location $loc)
+  public function getParameterCardAtLocation(World $world, int $param_index)
   {
     // XXX: This should be a thin layer over `getParameterCard()`.
     throw new \feException('XXX: foo');
@@ -115,7 +119,7 @@ class CityLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToLocation($this->getParameterCardInHand($world, 0), $this);
+    $world->moveCardToLocation($this->getParameterCardInHand($world, 0, $seat), $this);
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $world->activeSeat());
@@ -136,16 +140,17 @@ class ColiseumLocation extends Location
     $selected_card = $this->getParameterCardAtLocation($world, 0);
 
     $other_cards = array_values(
-      array_filter(function ($card) use ($this, $world) {
+      array_filter(
+        $this->cards($world),
+        function ($card) use ($selected_card) {
         return $card->id() != $selected_card->id();
-      }),
-      $this->cards($world)
-    );
+      }
+      ));
     if (count($other_cards) != 1) {
       throw new \BgaVisibleSystemException('Unexpected card count.');
     }
 
-    $world->moveCardToHand($card, $seat);
+    $world->moveCardToHand($selected_card, $seat);
     $world->discardCard($other_cards[0]);
   }
 }
@@ -178,7 +183,7 @@ class DocksLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    if ($this->effortPileForSeat($seat)->qty() <= 1) {
+    if ($this->effortPileForSeat($world, $seat)->qty() <= 1) {
       // If there is only one effort here, it's the one we just placed, and we can never move that one.
       return;
     }
@@ -187,11 +192,12 @@ class DocksLocation extends Location
       $world,
       0,
       array_values(
-        array_filter(function ($loc) use ($this, $world) {
+        array_filter(
+          $world->locations(),
+          function ($loc) {
           return $loc->id() != $this->id();
         })
-      ),
-      $world->getAllLocations()
+      )
     );
 
     $world->moveEffort($loc->effortPileForSeat($seat), $this);
@@ -222,7 +228,7 @@ class MarketLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->discardCard($this->getParameterCardInHand($world, 0));
+    $world->discardCard($this->getParameterCardInHand($world, 0, $seat));
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $seat);
@@ -241,11 +247,13 @@ class PrisonLocation extends Location
   public function getValidTargets(World $world)
   {
     return array_values(
-      array_filter(function ($pile) use ($this) {
+      array_filter(
+        $world->allEffortPiles(),
+        function ($pile) use ($world) {
         return $pile->qty() > 0 &&
           $pile->location()->id() != $this->id() &&
           $pile->seat()->id() != $world->activeSeat()->id();
-      }, $world->allEffortPiles())
+      })
     );
   }
 
@@ -284,7 +292,7 @@ class TempleLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->discardCard($this->getParameterCardInHand($world, 0));
+    $world->discardCard($this->getParameterCardInHand($world, 0, $seat));
 
     for ($i = 0; $i < 2; ++$i) {
       $world->drawCardToHand($seat);
@@ -314,9 +322,11 @@ class TunnelsLocation extends Location
   public function getValidDestinationLocations(World $world)
   {
     return array_values(
-      array_filter(function ($loc) {
+      array_filter(
+        $world->locations(),
+        function ($loc) {
         return $loc->id() != $this->id();
-      }, $world->locations())
+      })
     );
   }
 
@@ -354,9 +364,11 @@ class DungeonLocation extends Location
   {
     // XXX: borked
     return array_values(
-      array_filter(function ($pile) use ($this) {
+      array_filter(
+        $world->allEffortPiles(),
+        function ($pile) use ($world) {
         return $pile->qty() > 0 && $pile->seat()->id() != $world->activeSeat()->id();
-      }, $world->allEffortPiles())
+      })
     );
   }
 
@@ -442,11 +454,13 @@ class ForestLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $valid_targets = array_values(
-      array_filter(function ($pile) use ($this, $seat, $world) {
+      array_filter(
+        $this->effortPiles($world),
+        function ($pile) use ($seat, $world) {
         // If there is only of the active seat's effort here, it's the one we just placed, and we can never move that one.
         // For other seats, any effort is fine.
         return $pile->qty() >= ($pile->seat()->id() == $seat->id() ? 2 : 1);
-      }, $this->effortPiles($world))
+      })
     );
 
     $world->moveEffort($this->getParameterEffortPile($world, 0, $valid_targets), $this);
@@ -500,11 +514,13 @@ class CabinLocation extends Location
   public function getValidTargets(World $world)
   {
     return array_values(
-      array_filter(function ($pile) use ($this) {
+      array_filter(
+        $world->allEffortPiles(),
+        function ($pile) use ($world) {
         return $pile->qty() > 0 &&
           $pile->location()->id() != $this->id() &&
           $pile->seat()->id() != $world->activeSeat()->id();
-      }, $world->allEffortPiles())
+      })
     );
   }
 
@@ -524,7 +540,7 @@ class CaravanLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToLocation($this->getParameterCardInHand($world, 0), $this);
+    $world->moveCardToLocation($this->getParameterCardInHand($world, 0, $seat), $this);
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $world->activeSeat());

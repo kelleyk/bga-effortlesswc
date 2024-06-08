@@ -11,6 +11,10 @@ abstract class Setting
   // - SET_ID
   // - OUTCOME_GOOD
 
+  public function id(): int {
+    throw new \feException('XXX: foo');
+  }
+
   public function effortBySeat(World $world)
   {
     throw new \feException('no impl');
