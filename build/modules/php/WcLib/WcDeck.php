@@ -130,13 +130,13 @@ class WcDeck
   // the top of a deck).
 
   // See `card` table schema for details.
-  protected $card_location;
-  protected $card_location_index;
+  protected string $card_location;
+  protected ?int $card_location_index;
 
   protected $dbo;
-  protected $deck_name;
+  protected string $deck_name;
 
-  function __construct($dbo, $deck_name, $card_location = null, $card_location_index = null)
+  function __construct($dbo, string $deck_name, string $card_location = 'DECK', ?int $card_location_index = null)
   {
     $this->dbo = $dbo;
     $this->deck_name = $deck_name;
@@ -183,7 +183,7 @@ class WcDeck
     foreach ($card_specs as $card_spec) {
       // XXX: update some of these values
       $values[] =
-        '("patrol", "' . $card_spec['card_type'] . '", "PATROL", "DECK", ' . $this->card_location_index . ', -1' . ')';
+        '("'.$this->deck_name.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", ' . ($this->card_location_index ?? 'NULL')  . ', -1' . ')';
     }
 
     shuffle($values);

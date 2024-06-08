@@ -2,7 +2,7 @@
 
 namespace EffortlessWC;
 
-require_once 'modules/Models/Seat.php';
+require_once 'Seat.php';
 
 abstract class Location
 {

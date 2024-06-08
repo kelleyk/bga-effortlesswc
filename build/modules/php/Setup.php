@@ -5,6 +5,10 @@ namespace EffortlessWC;
 require_once 'config.inc.php';
 require_once 'WcLib/BgaTableTrait.php';
 
+// We need to include these so that `visitConcreteSubclasses()` can find subclasses in tests.
+require_once 'Models/Setting.php';
+require_once 'Models/Location.php';
+
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
@@ -130,26 +134,27 @@ trait Setup
 
   private function initLocationDeck($sets): void
   {
-    $class = get_called_class();
-
     $card_specs = [];
-    $this->visitConcreteSubclasses('Location', function ($rc) use ($card_specs, $sets, $class) {
-      if (in_array($class::SET_ID, $sets) && !in_array($class::LOCATION_ID, DISABLED_LOCATIONS)) {
-        $card_specs[] = ['card_type' => $class::LOCATION_ID];
+    $this->visitConcreteSubclasses('EffortlessWC\Location', function ($rc) use (&$card_specs, $sets) {
+      if (
+        in_array($rc->getConstant('SET_ID'), $sets) &&
+        !in_array($rc->getConstant('LOCATION_ID'), DISABLED_LOCATIONS)
+      ) {
+        $card_specs[] = ['card_type' => $rc->getConstant('LOCATION_ID')];
       }
     });
+
+    echo '*** createCards: ' . print_r($card_specs, true) . "\n";
 
     $this->locationDeck->createCards($card_specs);
   }
 
   private function initSettingDeck($sets): void
   {
-    $class = get_called_class();
-
     $card_specs = [];
-    $this->visitConcreteSubclasses('Setting', function ($rc) use ($card_specs, $sets, $class) {
-      if (in_array($class::SET_ID, $sets) && !in_array($class::SETTING_ID, DISABLED_SETTINGS)) {
-        $card_specs[] = ['card_type' => $class::SETTING_ID];
+    $this->visitConcreteSubclasses('EffortlessWC\Setting', function ($rc) use (&$card_specs, $sets) {
+      if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), DISABLED_SETTINGS)) {
+        $card_specs[] = ['card_type' => $rc->getConstant('SETTING_ID')];
       }
     });
 
