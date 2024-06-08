@@ -2,6 +2,10 @@
 
 namespace EffortlessWC;
 
+require_once('module/php/WcLib/WcDeck.php');
+
+use \WcLib\Card;
+
 interface World
 {
   // Map from seat ID to effort count.

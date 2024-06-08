@@ -131,8 +131,9 @@ trait Setup
 
   private function initLocationDeck($sets): void
   {
-    $card_specs = [];
+    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
 
+    $card_specs = [];
     $this->visitConcreteSubclasses('Location', function ($rc) use ($card_specs) {
       if (in_array($class::SET_ID, $sets) && !in_array($class::LOCATION_ID, DISABLED_LOCATIONS)) {
         $card_specs[] = ['card_type' => $class::LOCATION_ID];
@@ -144,8 +145,9 @@ trait Setup
 
   private function initSettingDeck(): void
   {
-    $card_specs = [];
+    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
 
+    $card_specs = [];
     $this->visitConcreteSubclasses('Setting', function ($rc) use ($card_specs) {
       if (in_array($class::SET_ID, $sets) && !in_array($class::SETTING_ID, DISABLED_SETTINGS)) {
         $card_specs[] = ['card_type' => $class::SETTING_ID];

@@ -73,13 +73,20 @@ abstract class Location
   public function cardsFaceUp(): int
   {
     $rc = new \ReflectionClass(self::class);
+    /** @phan-suppress-next-line PhanUndeclaredConstantOfClass */
     return $rc->hasConstant('CARDS_FACE_UP') ? self::CARDS_FACE_UP : 0;
   }
 
   public function cardsFaceDown(): int
   {
     $rc = new \ReflectionClass(self::class);
+    /** @phan-suppress-next-line PhanUndeclaredConstantOfClass */
     return $rc->hasConstant('CARDS_FACE_DOWN') ? self::CARDS_FACE_DOWN : 0;
+  }
+
+  public function locationArg(): int
+  {
+    throw new \feException('XXX: foo');
   }
 }
 

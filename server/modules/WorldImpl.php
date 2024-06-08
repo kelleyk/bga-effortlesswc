@@ -19,7 +19,7 @@ class WorldImpl implements World
   {
     $cards_face_up_qty = 0;
     $cards_face_down_qty = 0;
-    foreach ($loc->cards($world) as $card) {
+    foreach ($loc->cards($this) as $card) {
       if ($card->isFaceDown()) {
         ++$cards_face_down_qty;
       } else {

@@ -28,6 +28,7 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
     $params = new \TableParams();
     $params->playerCount = 1;
     $this->initTable($params);
+
     //   $this->assertGameState(ST_CHARACTER_SELECTION);
 
     //   $player = $this->playerByIndex(0);
