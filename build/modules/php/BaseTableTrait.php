@@ -5,15 +5,16 @@ namespace EffortlessWC;
 require_once 'WcLib/BgaTableTrait.php';
 require_once 'WcLib/GameState.php';
 
-use \EffortlessWC\World;
-use \EffortlessWC\WorldImpl;
+use EffortlessWC\World;
+use EffortlessWC\WorldImpl;
 
 trait BaseTableTrait
 {
   use \WcLib\BgaTableTrait;
   use \WcLib\GameState;
 
-  public function world(): World {
+  public function world(): World
+  {
     return new WorldImpl($this);
   }
 }

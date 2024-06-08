@@ -83,6 +83,10 @@ class Effortlesswc extends Table
 
   // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
 
+  public \WcLib\WcDeck $mainDeck;
+  public \WcLib\WcDeck $locationDeck;
+  public \WcLib\WcDeck $settingDeck;
+
   function __construct()
   {
     parent::__construct();

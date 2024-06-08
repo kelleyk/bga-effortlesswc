@@ -15,7 +15,7 @@ trait Setup
   {
     $gameinfos = $this->getGameinfos();
 
-    $this->initPlayers($gameinfos);
+    $this->initPlayers($gameinfos, $players);
     $this->initSeats($gameinfos);
 
     $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
@@ -66,9 +66,9 @@ trait Setup
     return max(3, $this->getPlayersNumber());
   }
 
-  private function initPlayers($gameinfos): void
+  private function initPlayers($gameinfos, $players): void
   {
-    $players = $this->loadPlayersBasicInfos();
+    $default_colors = $gameinfos['player_colors'];
 
     // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
     $values = [];

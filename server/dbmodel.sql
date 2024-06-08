@@ -40,6 +40,9 @@ CREATE TABLE IF NOT EXISTS `seat` (
 `player_id` int(10) UNSIGNED,
 `seat_color` varchar(6) NOT NULL,
 `seat_label` varchar(1) NOT NULL,
+
+-- Game-specific values start here.
+`reserve_effort` INT(10) UNSIGNED NOT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
