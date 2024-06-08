@@ -129,7 +129,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'wclib/php/',
-            src: ['*.php'],  // XXX: Exclude tests?
+            src: ['*.php'], // XXX: Exclude tests?
             dest: 'build/modules/php/WcLib/',
             filter: 'isFile',
           },
@@ -236,10 +236,33 @@ module.exports = function (grunt) {
         // N.B.: When running manually, I'd probably do `docker run -it --rm ...`.
         //
         // This will fail if any warnings are emitted.
-        command:
-          'mkdir -p tmp/phan ; docker run -i --rm -v $PWD/server:/src -v $PWD/phan.config.php:/src/phan.config.php:ro -v $PWD/tmp/phan:/output -v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro -v $PWD/wclib/php:/src/modules/php/WcLib:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt ; PHAN_EXIT_CODE=$? ; cat tmp/phan/analysis.txt ; $(exit $PHAN_EXIT_CODE)',
+        command: [
+          'mkdir -p tmp/phan',
+          [
+            'docker run -i --rm',
+            '-v $PWD/server:/src',
+            '-v $PWD/phan.config.php:/src/phan.config.php:ro',
+            '-v $PWD/tmp/phan:/output',
+            '-v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro',
+            '-v $PWD/wclib/php:/src/modules/php/WcLib:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt',
+          ].join(' '),
+          'PHAN_EXIT_CODE=$?',
+          'cat tmp/phan/analysis.txt',
+          '$(exit $PHAN_EXIT_CODE)',
+        ].join(' ; '),
       },
       test_server: {
+        // This depends on having brought up LocalArena, by running something like this in that repository:
+        //
+        //   $ grunt && docker image prune -f && docker compose down && docker compose up --build
+        //
+        // The LOCALARENA_ROOT env var must also be set to the root path of that repository.
+        //
+        // Notice that we deliberately *don't* mount "wclib/bga-stubs" here; instead, we mount the LocalArena
+        // implementations of those APIs.
+        //
+        // At some point we might want to create real interfaces for the BGA table and so forth.  At the moment, what we
+        // have in LocalArena and in the WcLib stubs (which are based on VictoriaLa's) need to match.
         command: [
           'docker run -i --rm',
           '--network localarena_default',
@@ -292,7 +315,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', ['fix', 'server', 'client', 'copy:assets']);
 
-  grunt.registerTask('test:server', ['copy:server_sources', 'shell:test_server']);
+  grunt.registerTask('test:server', [
+    'copy:server_sources',
+    'shell:test_server',
+  ]);
 
   grunt.registerTask('test', ['test:server']);
 };

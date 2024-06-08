@@ -28,38 +28,38 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
     $params = new \TableParams();
     $params->playerCount = 1;
     $this->initTable($params);
-  //   $this->assertGameState(ST_CHARACTER_SELECTION);
+    //   $this->assertGameState(ST_CHARACTER_SELECTION);
 
-  //   $player = $this->playerByIndex(0);
-  //   for ($i = 0; $i < 2; $i++) {
-  //     $card = array_value_first($this->gamestate()['args']['cards']);
-  //     $player->act('actPlayCard', [
-  //       'cardId' => $card['id'],
-  //     ]);
-  //   }
-  //   $player->act('actPass');
-  //   $this->assertGameState(ST_PLACE_ENTRANCE_TOKENS);
+    //   $player = $this->playerByIndex(0);
+    //   for ($i = 0; $i < 2; $i++) {
+    //     $card = array_value_first($this->gamestate()['args']['cards']);
+    //     $player->act('actPlayCard', [
+    //       'cardId' => $card['id'],
+    //     ]);
+    //   }
+    //   $player->act('actPass');
+    //   $this->assertGameState(ST_PLACE_ENTRANCE_TOKENS);
 
-  //   $player->act('actSelectTile', ['pos' => '0,0,0']);
-  //   $player->act('actSelectTile', ['pos' => '3,3,0']);
-  //   $this->assertGameState(ST_PLAYER_TURN_ENTER_MAP);
+    //   $player->act('actSelectTile', ['pos' => '0,0,0']);
+    //   $player->act('actSelectTile', ['pos' => '3,3,0']);
+    //   $this->assertGameState(ST_PLAYER_TURN_ENTER_MAP);
 
-  //   // Wipe the board clean, so that there isn't anything
-  //   // interesting in the game beyond what each test case creates.
-  //   $this->table()->DbQuery('UPDATE `tile` SET `tile_type` = "' . TILETYPE_NOOP . '", `tile_number` = NULL WHERE TRUE');
-  //   $this->table()->DbQuery('DELETE FROM `wall` WHERE TRUE');
-  //   $this->table()->DbQuery('DELETE FROM `character_npc` WHERE TRUE');
-  //   $this->table()->DbQuery('DELETE FROM `entity` WHERE `entity_type` NOT IN ("CHARACTER_PLAYER", "TOKEN_ENTRANCE")');
+    //   // Wipe the board clean, so that there isn't anything
+    //   // interesting in the game beyond what each test case creates.
+    //   $this->table()->DbQuery('UPDATE `tile` SET `tile_type` = "' . TILETYPE_NOOP . '", `tile_number` = NULL WHERE TRUE');
+    //   $this->table()->DbQuery('DELETE FROM `wall` WHERE TRUE');
+    //   $this->table()->DbQuery('DELETE FROM `character_npc` WHERE TRUE');
+    //   $this->table()->DbQuery('DELETE FROM `entity` WHERE `entity_type` NOT IN ("CHARACTER_PLAYER", "TOKEN_ENTRANCE")');
 
-  //   $player->act('actSelectTile', ['pos' => '0,0,0']);
-  //   $this->assertGameState(ST_PLAYER_TURN);
+    //   $player->act('actSelectTile', ['pos' => '0,0,0']);
+    //   $this->assertGameState(ST_PLAYER_TURN);
 
-  //   // Remove gear cards from player character hands.
-  //   $gear = new CardManager('GEAR');
-  //   // XXX: once we fix the non-static methods that should be static, this should be 'CardManager::...'
-  //   foreach ($gear->rawGetAllOfTypeGroup('gear') as $gear_card) {
-  //     $gear->placeOnTop($gear_card, 'DECK');
-  //   }
+    //   // Remove gear cards from player character hands.
+    //   $gear = new CardManager('GEAR');
+    //   // XXX: once we fix the non-static methods that should be static, this should be 'CardManager::...'
+    //   foreach ($gear->rawGetAllOfTypeGroup('gear') as $gear_card) {
+    //     $gear->placeOnTop($gear_card, 'DECK');
+    //   }
 
     echo "\n" . '** Done with `setupCleanState()`; starting actual test case.' . "\n\n";
   }
