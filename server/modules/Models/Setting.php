@@ -32,14 +32,30 @@ abstract class Setting
   public function rankByEffort(World $world, bool $invert = false)
   {
     // XXX: read $outcome_good from class
-    return $world->rankByEffort($world->effortBySeat($this), $outcome_good, $invert);
+    return $world->rankByEffort($world->effortBySeat($this), $this->isOutcomeGood(), $invert);
   }
 
   // Like `rankByEffort()` but returns a list of the seat IDs at rank 1.
   public function topByEffort(World $world, bool $invert = false)
   {
     // XXX: read $outcome_good from class
-    return $world->topByEffort($world->effortBySeat($this), $outcome_good, $invert);
+    return $world->topByEffort($world->effortBySeat($this), $this->isOutcomeGood(), $invert);
+  }
+
+  public function isOutcomeGood(): bool
+  {
+    $rc = new \ReflectionClass(self::class);
+    if (!$rc->hasConstant('OUTCOME_GOOD')) {
+      throw new \BgaVisibleSystemException('Class does not define required constant OUTCOME_GOOD.');
+    }
+    /** @phan-suppress-next-line PhanUndeclaredConstantOfClass */
+    return self::OUTCOME_GOOD;
+  }
+
+  // Returns the total amount of effort at this location.
+  public function totalEffort(World $world): int
+  {
+    throw new \feException('XXX:');
   }
 
   // Returns a list of seat IDs that have at least $n effort here.
