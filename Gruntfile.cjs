@@ -241,10 +241,10 @@ module.exports = function (grunt) {
           [
             'docker run -i --rm',
             '-v $PWD/server:/src',
-            '-v $PWD/phan.config.php:/src/phan.config.php:ro',
+            '-v $PWD/phan.config.php:/config/phan.config.php:ro',
             '-v $PWD/tmp/phan:/output',
             '-v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro',
-            '-v $PWD/wclib/php:/src/modules/php/WcLib:ro wardcanyon/localarena-testenv:latest phan --config-file=/src/phan.config.php --progress-bar -o /output/analysis.txt',
+            '-v $PWD/wclib/php:/src/modules/php/WcLib:ro wardcanyon/localarena-testenv:latest phan --config-file=/config/phan.config.php --progress-bar -o /output/analysis.txt',
           ].join(' '),
           'PHAN_EXIT_CODE=$?',
           'cat tmp/phan/analysis.txt',

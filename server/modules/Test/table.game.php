@@ -280,11 +280,11 @@ class GameState
   }
 }
 
-class BgaUserException extends BgaUserException
+class BgaUserException extends Exception
 {
-  public function __construct($message, $code = 100)
+  public function __construct($message, $expected = false, $visibility = true, $code = 100, $publicMsg = '')
   {
-    parent::__construct($message, true, true, $code);
+    parent::__construct($message, $code);
   }
 }
 
@@ -299,14 +299,6 @@ class BgaSystemException extends BgaUserException
 class BgaVisibleSystemException extends BgaSystemException
 {
   public function __construct($message, $code = 100)
-  {
-    parent::__construct($message, $code);
-  }
-}
-
-class BgaUserException extends Exception
-{
-  public function __construct($message, $expected = false, $visibility = true, $code = 100, $publicMsg = '')
   {
     parent::__construct($message, $code);
   }

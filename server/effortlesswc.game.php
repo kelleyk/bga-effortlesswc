@@ -93,9 +93,9 @@ class Effortlesswc extends Table
     ]);
     // $this->dice_roller = new \Effortlesswc\Utilities\DiceRoller();
 
-    $this->mainDeck = new \WcLib\WcDeck('main');
-    $this->locationDeck = new \WcLib\WcDeck('location');
-    $this->settingDeck = new \WcLib\WcDeck('setting');
+    $this->mainDeck = new \WcLib\WcDeck($this, 'main');
+    $this->locationDeck = new \WcLib\WcDeck($this, 'location');
+    $this->settingDeck = new \WcLib\WcDeck($this, 'setting');
   }
 
   protected function getGameName()

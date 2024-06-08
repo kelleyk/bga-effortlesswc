@@ -36,7 +36,8 @@ PRIMARY KEY (`gamestate_key`)
 
 CREATE TABLE IF NOT EXISTS `seat` (
 `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-`player_id` int(10) UNSIGNED,  // NOT NULL iff this is a player-controlled seat.
+-- NOT NULL iff this is a player-controlled seat.
+`player_id` int(10) UNSIGNED,
 `seat_color` varchar(6) NOT NULL,
 `seat_label` varchar(1) NOT NULL,
 PRIMARY KEY (`id`)

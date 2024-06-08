@@ -42,30 +42,25 @@ $stats_type = [
   // Statistics existing for each player
   'player' => [
     // heat
-
     // 'discPlayedOnCorner' => [
     //   'id' => 10,
     //   'name' => totranslate('Discs played on a corner'),
     //   'type' => 'int',
     // ],
-
     // 'discPlayedOnBorder' => [
     //   'id' => 11,
     //   'name' => totranslate('Discs played on a border'),
     //   'type' => 'int',
     // ],
-
     // 'discPlayedOnCenter' => [
     //   'id' => 12,
     //   'name' => totranslate('Discs played on board center part'),
     //   'type' => 'int',
     // ],
-
     // 'turnedOver' => [
     //   'id' => 13,
     //   'name' => totranslate('Number of discs turned over'),
     //   'type' => 'int',
     // ],
-
   ],
 ];

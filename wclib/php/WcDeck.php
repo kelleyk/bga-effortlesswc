@@ -1,8 +1,10 @@
 <?php
 
-namespace BurgleBrosTwo\Managers;
+namespace WcLib;
 
 // XXX: There's a lot of overlap between this and `CardPeer`.
+//
+// XXX: Make this `CardBase` instead?
 class Card
 {
   // XXX: This is a leftover from our migration to a `Card` type;
@@ -77,52 +79,52 @@ class Card
     return $this->use_count_;
   }
 
-  // Below this line are BurgleBrosTwo-specific helpers.
+  // // Below this line are BurgleBrosTwo-specific helpers.
 
-  public function cardTypeData()
-  {
-    return CARD_DATA[$this->type_group_][$this->type_];
-  }
+  // public function cardTypeData()
+  // {
+  //   return CARD_DATA[$this->type_group_][$this->type_];
+  // }
 
-  public function maxUses(): int
-  {
-    return $this->cardTypeData()['uses'] ?? 1;
-  }
+  // public function maxUses(): int
+  // {
+  //   return $this->cardTypeData()['uses'] ?? 1;
+  // }
 
-  public function title(): string
-  {
-    return $this->cardTypeData()['title'];
-  }
+  // public function title(): string
+  // {
+  //   return $this->cardTypeData()['title'];
+  // }
 
-  public function image(): string
-  {
-    return $this->cardTypeData()['image'];
-  }
+  // public function image(): string
+  // {
+  //   return $this->cardTypeData()['image'];
+  // }
 
-  public function back(): string
-  {
-    return $this->cardTypeData()['back'];
-  }
+  // public function back(): string
+  // {
+  //   return $this->cardTypeData()['back'];
+  // }
 
-  public function flipped(): bool
-  {
-    if ($this->typeGroup() != 'gear') {
-      throw new \BgaVisibleSystemException('Internal error: flipped() only makes sense for gear cards.');
-    }
-    return $this->useCount() >= $this->maxUses();
-  }
+  // public function flipped(): bool
+  // {
+  //   if ($this->typeGroup() != 'gear') {
+  //     throw new \BgaVisibleSystemException('Internal error: flipped() only makes sense for gear cards.');
+  //   }
+  //   return $this->useCount() >= $this->maxUses();
+  // }
 
-  public function effectiveType(): string
-  {
-    if ($this->flipped()) {
-      return $this->back();
-    } else {
-      return $this->type();
-    }
-  }
+  // public function effectiveType(): string
+  // {
+  //   if ($this->flipped()) {
+  //     return $this->back();
+  //   } else {
+  //     return $this->type();
+  //   }
+  // }
 }
 
-class CardManager extends \APP_DbObject
+class WcDeck
 {
   // N.B.: For `card_order`, lower numbers are "first" (closer to
   // the top of a deck).
@@ -131,12 +133,20 @@ class CardManager extends \APP_DbObject
   protected $card_location;
   protected $card_location_index;
 
-  function __construct($card_location, $card_location_index = null)
+  protected $dbo;
+  protected $deck_name;
+
+  function __construct($dbo, $deck_name, $card_location = null, $card_location_index = null)
   {
-    parent::__construct();
+    $this->dbo = $dbo;
+    $this->deck_name = $deck_name;
 
     $this->card_location = $card_location;
     $this->card_location_index = $card_location_index;
+  }
+
+  private function trace(string $msg): void {
+    // XXX: refactoring dust
   }
 
   // --- API ---
@@ -180,7 +190,7 @@ class CardManager extends \APP_DbObject
     $sql =
       'INSERT INTO card (`card_type_group`, `card_type`, `card_location`, `card_sublocation`, `card_location_index`, `card_order`) VALUES ' .
       implode(',', $values);
-    self::DbQuery($sql);
+    $this->dbo->DbQuery($sql);
   }
 
   // Takes cards from all $card_sublocations and moves them to
@@ -192,7 +202,7 @@ class CardManager extends \APP_DbObject
     }
   }
 
-  // // XXX: Instead, create a CardManager with the intended
+  // // XXX: Instead, create a WcDeck with the intended
   // // location & location_index and use `placeOn{Top,Bottom}()`
   //
   // function move($card_id, $destination_location, $destination_sublocation, $destination_location_index = null) {
@@ -203,28 +213,28 @@ class CardManager extends \APP_DbObject
   //     if (!is_null($destination_location_index)) {
   //         $update_subexprs[] = 'card_location_index = '.$destination_location_index;
   //     }
-  //     self::DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
+  //     $this->dbo->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
   // }
 
   // Randomly assign a new `card_order` value to each card in
   // $card_sublocation.
   function shuffle($card_sublocation = 'DECK')
   {
-    self::trace('CardManager: shuffle()');
+    self::trace('WcDeck: shuffle()');
     $cards = $this->rawGetAll([$card_sublocation]);
     shuffle($cards);
 
     $i = 0; // XXX: Should be able to replace this with `foreach()` syntax.
     foreach ($cards as $card) {
-      self::trace('CardManager: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
-      self::DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
+      self::trace('WcDeck: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
+      $this->dbo->DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
       ++$i;
     }
   }
 
   function rawGetAll($card_sublocations = ['DECK'])
   {
-    return self::getCollectionFromDb('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations));
+    return $this->dbo->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations));
   }
 
   function getAll($card_sublocations = ['DECK'])
@@ -243,12 +253,12 @@ class CardManager extends \APP_DbObject
   {
     $this->assertValidCardId($cardId);
 
-    self::trace("CardManager::rawGet(cardId={$cardId})");
-    // XXX: this should probably return an error if the card is not within the scope of this CardManager
-    $card = self::getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
+    self::trace("WcDeck::rawGet(cardId={$cardId})");
+    // XXX: this should probably return an error if the card is not within the scope of this WcDeck
+    $card = $this->dbo->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
     if (is_null($card['id'])) {
       throw new \BgaUserException(
-        "CardManager::rawGet(cardId={$cardId}) -- card ID is null; $card=" . print_r($card, true)
+        "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $card=" . print_r($card, true)
       );
     }
     return $card;
@@ -257,13 +267,13 @@ class CardManager extends \APP_DbObject
   // XXX: This should be `static` once `getCollectionFromDB()` is.
   function rawGetAllOfType($card_type)
   {
-    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
+    return $this->dbo->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
   function rawGetAllOfTypeGroup(string $card_type_group)
   {
-    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
+    return $this->dbo->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
@@ -281,7 +291,7 @@ class CardManager extends \APP_DbObject
     $sql =
       'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation]) . ' ORDER BY card_order ASC LIMIT 1';
     // self::trace("readMinCardOrder: {$sql}");
-    return $this->getObjectFromDB($sql);
+    return $this->dbo->getObjectFromDB($sql);
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, or
@@ -375,7 +385,7 @@ class CardManager extends \APP_DbObject
   {
     // // XXX: This is a string that looks like e.g. "5".
     // if (!is_int($card['id']) || $card['id'] <= 0) {
-    //     throw new \BgaUserException("CardManager::placeOnTop(): invalid cardId: {$card['id']} which is a " . get_debug_type($card['id']));
+    //     throw new \BgaUserException("WcDeck::placeOnTop(): invalid cardId: {$card['id']} which is a " . get_debug_type($card['id']));
     // }
   }
 
@@ -425,13 +435,13 @@ class CardManager extends \APP_DbObject
     } else {
       $update_subexprs[] = 'card_location_index = NULL';
     }
-    self::DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card['id']);
+    $this->dbo->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card['id']);
   }
 
   // Modifies all `card_order`s in $card_sublocation by $n.
   protected function shiftCardOrder($card_sublocation, $n)
   {
-    self::DbQuery(
+    $this->dbo->DbQuery(
       'UPDATE `card` SET card_order=(card_order+' . $n . ') WHERE ' . $this->buildWhereClause([$card_sublocation])
     );
   }
@@ -439,14 +449,14 @@ class CardManager extends \APP_DbObject
   // Returns the number of cards in $card_sublocation.
   protected function cardCount($card_sublocation)
   {
-    return self::getUniqueValueFromDB(
+    return $this->dbo->getUniqueValueFromDB(
       'SELECT COUNT(*) FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation])
     );
   }
 
   protected function readMaxCardOrder($card_sublocation)
   {
-    return self::getUniqueValueFromDB(
+    return $this->dbo->getUniqueValueFromDB(
       'SELECT card_order FROM `card` WHERE ' .
         $this->buildWhereClause([$card_sublocation]) .
         ' ORDER BY card_order DESC LIMIT 1'
@@ -460,7 +470,7 @@ class CardManager extends \APP_DbObject
       $this->buildWhereClause([$card_sublocation]) .
       ' ORDER BY card_order ASC LIMIT 1';
     self::trace("readMinCardOrder: {$sql}");
-    return self::getUniqueValueFromDB($sql);
+    return $this->dbo->getUniqueValueFromDB($sql);
   }
 
   protected function buildWhereClause($card_sublocations)
