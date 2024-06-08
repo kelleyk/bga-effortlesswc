@@ -43,4 +43,6 @@ interface World
   public function moveEffort($src, $dst);
 
   public function fillCards(Location $loc): void;
+
+  public function nextState(string $transition): void;
 }

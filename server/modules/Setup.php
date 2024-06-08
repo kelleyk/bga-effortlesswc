@@ -8,24 +8,21 @@ require_once 'WcLib/BgaTableTrait.php';
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   // XXX: What should happen here and what should happen in ST_INITIAL_SETUP?
   protected function setupNewGame($players, $options = [])
   {
-    // XXX:
-    // // Set the colors of the players with HTML color code
-    // // The default below is red/green/blue/orange/brown
-    // // The number of colors defined here must correspond to the maximum number of players allowed for the gams
-    // $gameinfos = $this->getGameinfos();
-    // $default_colors = $gameinfos['player_colors'];
+    $gameinfos = $this->getGameinfos();
 
-    $this->initPlayers();
-    $this->initSeats();
+    $this->initPlayers($gameinfos);
+    $this->initSeats($gameinfos);
+
+    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
 
     $this->initMainDeck();
-    $this->initLocationDeck();
-    $this->initSettingDeck();
+    $this->initLocationDeck($sets);
+    $this->initSettingDeck($sets);
 
     $this->fillSetlocs();
     $this->fillSetlocCards();
@@ -69,8 +66,10 @@ trait Setup
     return max(3, $this->getPlayersNumber());
   }
 
-  private function initPlayers(): void
+  private function initPlayers($gameinfos): void
   {
+    $players = $this->loadPlayersBasicInfos();
+
     // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
     $values = [];
     foreach ($players as $player_id => $player) {
@@ -96,7 +95,7 @@ trait Setup
   }
 
   // Depends on `initPlayers()` having been called.
-  private function initSeats(): void
+  private function initSeats($gameinfos): void
   {
     // Set up player seat; assign colors; give 20 effort.
     //
@@ -131,10 +130,10 @@ trait Setup
 
   private function initLocationDeck($sets): void
   {
-    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
+    $class = get_called_class();
 
     $card_specs = [];
-    $this->visitConcreteSubclasses('Location', function ($rc) use ($card_specs) {
+    $this->visitConcreteSubclasses('Location', function ($rc) use ($card_specs, $sets, $class) {
       if (in_array($class::SET_ID, $sets) && !in_array($class::LOCATION_ID, DISABLED_LOCATIONS)) {
         $card_specs[] = ['card_type' => $class::LOCATION_ID];
       }
@@ -143,12 +142,12 @@ trait Setup
     $this->locationDeck->createCards($card_specs);
   }
 
-  private function initSettingDeck(): void
+  private function initSettingDeck($sets): void
   {
-    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
+    $class = get_called_class();
 
     $card_specs = [];
-    $this->visitConcreteSubclasses('Setting', function ($rc) use ($card_specs) {
+    $this->visitConcreteSubclasses('Setting', function ($rc) use ($card_specs, $sets, $class) {
       if (in_array($class::SET_ID, $sets) && !in_array($class::SETTING_ID, DISABLED_SETTINGS)) {
         $card_specs[] = ['card_type' => $class::SETTING_ID];
       }
@@ -203,7 +202,7 @@ trait Setup
   private function fillSetlocCards()
   {
     foreach ($this->world()->locations() as $loc) {
-      $world->fillCards($loc);
+      $this->world()->fillCards($loc);
     }
   }
 }

@@ -108,4 +108,8 @@ class WorldImpl implements World
   {
     throw new \feException('no impl');
   }
+
+  public function nextState(string $transition): void {
+    throw new \feException('no impl');
+  }
 }
