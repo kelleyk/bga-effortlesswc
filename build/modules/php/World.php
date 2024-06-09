@@ -2,7 +2,7 @@
 
 namespace EffortlessWC;
 
-require_once 'module/php/WcLib/WcDeck.php';
+require_once 'WcLib/WcDeck.php';
 
 use WcLib\Card;
 

@@ -2,7 +2,7 @@
 
 namespace EffortlessWC;
 
-require_once 'module/php/WcLib/WcDeck.php';
+require_once 'WcLib/WcDeck.php';
 
 use WcLib\Card;
 
@@ -13,6 +13,16 @@ class WorldImpl implements World
   function __construct($table)
   {
     $this->table_ = $table;
+  }
+
+  public function table()
+  {
+    return $this->table_;
+  }
+
+  public function nextState(string $transition): void
+  {
+    $this->table()->gamestate->nextState($transition);
   }
 
   public function fillCards(Location $loc): void
@@ -105,11 +115,6 @@ class WorldImpl implements World
 
   // Moves one effort from $src to $dst.  They may be piles or locations.
   public function moveEffort($src, $dst)
-  {
-    throw new \feException('no impl');
-  }
-
-  public function nextState(string $transition): void
   {
     throw new \feException('no impl');
   }

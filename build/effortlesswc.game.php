@@ -68,18 +68,7 @@ class Effortlesswc extends Table
 
   // use EffortlessWC\Utilities\GameState;
 
-  // use EffortlessWC\States\ActionWindow;
-  // use EffortlessWC\States\CharacterSelection;
-  // use EffortlessWC\States\CharacterSelectionRoundEnd;
-  // use EffortlessWC\States\FinishSetup;
-  // use EffortlessWC\States\NextCharacter;
-  // use EffortlessWC\States\NpcTurn;
-  // use EffortlessWC\States\PlaceEntranceTokens;
-  // use EffortlessWC\States\PlayerTurn;
-  // use EffortlessWC\States\PlayerTurnEnds;
-  // use EffortlessWC\States\PlayerTurnEnterMap;
-  // use EffortlessWC\States\ResolveEffect;
-  // use EffortlessWC\States\TargetSelection;
+  use EffortlessWC\States\InitialSetup;
 
   // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
 

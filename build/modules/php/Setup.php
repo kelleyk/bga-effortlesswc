@@ -17,31 +17,12 @@ trait Setup
   // XXX: What should happen here and what should happen in ST_INITIAL_SETUP?
   protected function setupNewGame($players, $options = [])
   {
+    echo '*** EffortlessWC setupNewGame()'."\n";
+
     $gameinfos = $this->getGameinfos();
 
     $this->initPlayers($gameinfos, $players);
     $this->initSeats($gameinfos);
-
-    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
-
-    $this->initMainDeck();
-    $this->initLocationDeck($sets);
-    $this->initSettingDeck($sets);
-
-    echo '*** player'."\n";
-    print_r($this->getCollectionFromDB('SELECT * FROM player WHERE TRUE'),true);
-    echo '*** seats'."\n";
-    print_r($this->getCollectionFromDB('SELECT * FROM seat WHERE TRUE'),true);
-    echo '*** location cards'."\n";
-    // card_location = "location"
-    print_r($this->getCollectionFromDB('SELECT * FROM card WHERE TRUE'),true);
-    // foreach ($this->locationDeck->getAll() as $card) {
-    //   echo $card . "\n";
-    // }
-    echo '*** location cards end'."\n";
-
-    $this->fillSetlocs();
-    $this->fillSetlocCards();
 
     // Init global game state.  (XXX: Make sure values are correct.)
     $this->setGameStateInt(GAMESTATE_INT_ACTIVE_SEAT, -1);
@@ -49,9 +30,6 @@ trait Setup
     $this->setGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK, []);
 
     $this->initStats();
-
-    // We're all set!  Transition to ST_NEXT_TURN.
-    $this->world()->nextState(T_DONE);
   }
 
   // TODO: Init statistics.
