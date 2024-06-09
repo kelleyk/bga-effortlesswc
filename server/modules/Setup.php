@@ -2,11 +2,7 @@
 
 namespace EffortlessWC;
 
-// require './no-such-file.php';
-
-require_once './config.inc.php';
-// throw new \feException('yes parsing Setup.php');
-
+require_once 'wc_game_config.inc.php';
 require_once 'WcLib/BgaTableTrait.php';
 
 // We need to include these so that `visitConcreteSubclasses()` can find subclasses in tests.

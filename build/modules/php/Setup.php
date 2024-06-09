@@ -4,8 +4,8 @@ namespace EffortlessWC;
 
 // require './no-such-file.php';
 
-require './config.inc.php';
-throw new \feException('yes parsing Setup.php');
+require_once 'wc_game_config.inc.php';
+// throw new \feException('yes parsing Setup.php');
 
 require_once 'WcLib/BgaTableTrait.php';
 
@@ -132,7 +132,7 @@ trait Setup
     $this->visitConcreteSubclasses('EffortlessWC\Location', function ($rc) use (&$card_specs, $sets) {
       if (
         in_array($rc->getConstant('SET_ID'), $sets) &&
-        !in_array($rc->getConstant('LOCATION_ID'), \DISABLED_LOCATIONS)
+        !in_array($rc->getConstant('LOCATION_ID'), DISABLED_LOCATIONS)
       ) {
         $card_specs[] = [
           'card_type_group' => 'location',
@@ -149,7 +149,7 @@ trait Setup
   {
     $card_specs = [];
     $this->visitConcreteSubclasses('EffortlessWC\Setting', function ($rc) use (&$card_specs, $sets) {
-      if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), \DISABLED_SETTINGS)) {
+      if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), DISABLED_SETTINGS)) {
         $card_specs[] = [
           'card_type_group' => 'setting',
           'card_type' => $rc->getConstant('SETTING_ID'),
