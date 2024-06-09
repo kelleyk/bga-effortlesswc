@@ -2,8 +2,6 @@
 
 namespace EffortlessWC\States;
 
-require_once 'modules/TableBase.php';
-
 trait TurnUpkeep
 {
   use \WcLib\BgaTableTrait;

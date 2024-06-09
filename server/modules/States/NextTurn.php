@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait NextTurn
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stNextTurn()
   {

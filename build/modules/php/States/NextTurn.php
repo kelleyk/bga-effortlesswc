@@ -2,13 +2,13 @@
 
 namespace EffortlessWC\States;
 
-require_once 'modules/TableBase.php';
-
 trait NextTurn
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stNextTurn()
   {
+    // XXX: ...
+    $this->world()->nextState(T_BEGIN_HUMAN_TURN);
   }
 }

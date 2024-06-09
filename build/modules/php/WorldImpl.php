@@ -15,7 +15,8 @@ class WorldImpl implements World
     $this->table_ = $table;
   }
 
-  public function table() {
+  public function table()
+  {
     return $this->table_;
   }
 

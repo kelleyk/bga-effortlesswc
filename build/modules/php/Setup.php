@@ -17,7 +17,7 @@ trait Setup
   // XXX: What should happen here and what should happen in ST_INITIAL_SETUP?
   protected function setupNewGame($players, $options = [])
   {
-    echo '*** EffortlessWC setupNewGame()'."\n";
+    echo '*** EffortlessWC setupNewGame()' . "\n";
 
     $gameinfos = $this->getGameinfos();
 

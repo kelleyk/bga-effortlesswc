@@ -55,7 +55,7 @@ interface Card {
   state: CardState;
 
   // These properties are set iff `state == "FACEUP"`.
-  cardType: ?string;
+  cardType: string | undefined;
 }
 
 interface SetlocState {
@@ -75,7 +75,7 @@ interface PublicSeatState {
   seatId: number;
 
   name: string;
-  playerId: ?string; // Set iff there is a human player controlling this seat.
+  playerId: string | undefined; // Set iff there is a human player controlling this seat.
   colorName: string;
   reserveEffort: number;
 }

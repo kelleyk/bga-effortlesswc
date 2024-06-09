@@ -9,8 +9,10 @@
 
 $swdNamespaceAutoload = function ($class) {
   $classParts = explode('\\', $class);
-  if ($classParts[0] == 'EffortlessWC') {
-    array_shift($classParts);
+  if (in_array($classParts[0], ['EffortlessWC', 'WcLib'])) {
+    if ($classParts[0] == 'EffortlessWC') {
+      array_shift($classParts);
+    }
     $file = dirname(__FILE__) . '/modules/php/' . implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
     if (file_exists($file)) {
       require_once $file;
@@ -69,6 +71,8 @@ class Effortlesswc extends Table
   // use EffortlessWC\Utilities\GameState;
 
   use EffortlessWC\States\InitialSetup;
+  use EffortlessWC\States\NextTurn;
+  use EffortlessWC\States\PlaceEffort;
 
   // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
 
