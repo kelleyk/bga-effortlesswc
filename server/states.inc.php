@@ -67,6 +67,7 @@ $machinestates = [
   ST_PLACE_EFFORT => [
     'name' => 'stPlaceEffort',
     'action' => 'stPlaceEffort',
+    'args' => 'argPlaceEffort',
     'type' => 'game',
     'description' => clienttranslate('...'),
     'transitions' => [

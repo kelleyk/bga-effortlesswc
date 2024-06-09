@@ -27,8 +27,8 @@ trait InitialSetup
     // }
     echo '*** location cards end' . "\n";
 
-    // $this->fillSetlocs();
-    // $this->fillSetlocCards();
+    $this->fillSetlocs();
+    $this->fillSetlocCards();
 
     // We're all set!  Transition to ST_NEXT_TURN.
     $this->world()->nextState(T_DONE);

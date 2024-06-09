@@ -130,11 +130,15 @@ trait Setup
         in_array($rc->getConstant('SET_ID'), $sets) &&
         !in_array($rc->getConstant('LOCATION_ID'), DISABLED_LOCATIONS)
       ) {
-        $card_specs[] = ['card_type' => $rc->getConstant('LOCATION_ID')];
+        $card_specs[] = [
+          'card_type_group' => 'location',
+          'card_type' => $rc->getConstant('LOCATION_ID'),
+        ];
       }
     });
 
     $this->locationDeck->createCards($card_specs);
+    $this->locationDeck->shuffle();
   }
 
   private function initSettingDeck($sets): void
@@ -142,11 +146,15 @@ trait Setup
     $card_specs = [];
     $this->visitConcreteSubclasses('EffortlessWC\Setting', function ($rc) use (&$card_specs, $sets) {
       if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), DISABLED_SETTINGS)) {
-        $card_specs[] = ['card_type' => $rc->getConstant('SETTING_ID')];
+        $card_specs[] = [
+          'card_type_group' => 'setting',
+          'card_type' => $rc->getConstant('SETTING_ID'),
+        ];
       }
     });
 
     $this->settingDeck->createCards($card_specs);
+    $this->settingDeck->shuffle();
   }
 
   private function initMainDeck(): void
@@ -180,7 +188,12 @@ trait Setup
       }
     }
 
+    for ($i = 0; $i < count($card_specs); ++$i) {
+      $card_specs[$i]['card_type_group'] = 'main';
+    }
+
     $this->mainDeck->createCards($card_specs);
+    $this->mainDeck->shuffle();
   }
 
   private function fillSetlocs()

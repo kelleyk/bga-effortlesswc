@@ -115,7 +115,7 @@ class WcDeck
 
   // Randomly assign a new `card_order` value to each card in
   // $card_sublocation.
-  public function shuffle($card_sublocation = 'DECK', ?int $sublocation_index)
+  public function shuffle($card_sublocation = 'DECK', ?int $sublocation_index = NULL)
   {
     self::trace('WcDeck: shuffle()');
     $cards = $this->rawGetAll([$card_sublocation], $sublocation_index);
@@ -154,7 +154,7 @@ class WcDeck
     foreach ($card_specs as $card_spec) {
       // XXX: update some of these values
       $values[] =
-        '("'.$this->location_.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", NULL, -1' . ')';
+        '("'.$card_spec['card_type_group'].'", "' . $card_spec['card_type'] . '", "'.$this->location_.'", "DECK", NULL, -1' . ')';
     }
 
     shuffle($values);
@@ -245,7 +245,8 @@ class WcDeck
   {
     $sql =
       'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index) . ' ORDER BY card_order ASC LIMIT 1';
-    // self::trace("readMinCardOrder: {$sql}");
+    echo '*** rawPeekTop() query: ' . $sql . '<br />';
+    self::trace("rawPeekTop(): {$sql}");
     return $this->dbo_->getObjectFromDB($sql);
   }
 
