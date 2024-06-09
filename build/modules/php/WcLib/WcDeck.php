@@ -98,9 +98,12 @@ class WcDeck
   // --- New (WcLib) API ---
 
   // XXX: Does not handle auto-reshuffling.
-  public function drawTo(string $dest_sublocation, ?int $dest_sublocation_index, string $src_location = 'DECK'): Card
+  public function drawTo(string $dest_sublocation, ?int $dest_sublocation_index, string $src_sublocation = 'DECK', ?int $src_sublocation_index = NULL): Card
   {
-    $card = $this->peekTop($src_location);
+    $card = $this->peekTop($src_sublocation, $src_sublocation_index);
+    if (is_null($card)) {
+      throw new \BgaVisibleSystemException('No cards in ' . $this->location_ . ',' . $src_sublocation . ',' . (is_null($src_sublocation_index) ? 'NULL': $src_sublocation_index));
+    }
     $this->placeOnTop($card, $dest_sublocation, $dest_sublocation_index);
     return $this->get($card->id());
   }
@@ -112,10 +115,10 @@ class WcDeck
 
   // Randomly assign a new `card_order` value to each card in
   // $card_sublocation.
-  public function shuffle($card_sublocation = 'DECK')
+  public function shuffle($card_sublocation = 'DECK', ?int $sublocation_index)
   {
     self::trace('WcDeck: shuffle()');
-    $cards = $this->rawGetAll([$card_sublocation]);
+    $cards = $this->rawGetAll([$card_sublocation], $sublocation_index);
     shuffle($cards);
 
     $i = 0; // XXX: Should be able to replace this with `foreach()` syntax.
@@ -151,7 +154,7 @@ class WcDeck
     foreach ($card_specs as $card_spec) {
       // XXX: update some of these values
       $values[] =
-        '("'.$this->deck_name_.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", NULL, -1' . ')';
+        '("'.$this->location_.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", NULL, -1' . ')';
     }
 
     shuffle($values);
@@ -163,9 +166,9 @@ class WcDeck
 
   // Takes cards from all $card_sublocations and moves them to
   // $destination_sublocation.
-  public function moveAll($card_sublocations, $destination_sublocation = 'DECK'): void
+  public function moveAll($card_sublocations, ?int $sublocation_index, $destination_sublocation = 'DECK'): void
   {
-    foreach ($this->rawGetAll($card_sublocations) as $card) {
+    foreach ($this->rawGetAll($card_sublocations, $sublocation_index) as $card) {
       $this->placeOnTop($card, $destination_sublocation);
     }
   }
@@ -184,16 +187,17 @@ class WcDeck
   //     $this->dbo_->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
   // }
 
-  private function rawGetAll($card_sublocations = ['DECK'])
+  private function rawGetAll($card_sublocations = ['DECK'], ?int $sublocation_index)
   {
-    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations));
+    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations, $sublocation_index));
   }
 
-  public function getAll($card_sublocations = ['DECK'])
+  // XXX: Should this return things in *every* sublocation-index, rather than in the NULL sublocation-index?
+  public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = NULL)
   {
     return array_map(function ($row) {
       return Card::fromRow($row);
-    }, $this->rawGetAll($card_sublocations));
+    }, $this->rawGetAll($card_sublocations, $sublocation_index));
   }
 
   // XXX: Or should this be on `Card`?
@@ -237,19 +241,19 @@ class WcDeck
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  private function rawPeekTop($card_sublocation = 'DECK')
+  private function rawPeekTop($card_sublocation = 'DECK', ?int $sublocation_index)
   {
     $sql =
-      'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation]) . ' ORDER BY card_order ASC LIMIT 1';
+      'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index) . ' ORDER BY card_order ASC LIMIT 1';
     // self::trace("readMinCardOrder: {$sql}");
     return $this->dbo_->getObjectFromDB($sql);
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  public function peekTop($card_sublocation = 'DECK'): ?Card
+  public function peekTop($card_sublocation = 'DECK', ?int $sublocation_index): ?Card
   {
-    return Card::fromRow($this->rawPeekTop($card_sublocation));
+    return Card::fromRow($this->rawPeekTop($card_sublocation, $sublocation_index));
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, and
@@ -260,17 +264,17 @@ class WcDeck
   // $card_sublocation and then `shuffle()` them and try again.  If
   // $auto_reshuffle is false, or if there are no cards in either
   // sublocation, returns `null`.
-  private function rawDrawAndDiscard($card_sublocation = 'DECK', $destination_sublocation = 'DISCARD', $auto_reshuffle = false)
+  private function rawDrawAndDiscard($card_sublocation = 'DECK', ?int $sublocation_index, string $destination_sublocation = 'DISCARD', bool $auto_reshuffle = false): ?Card
   {
-    $card = $this->rawPeekTop($card_sublocation);
+    $card = $this->rawPeekTop($card_sublocation, $sublocation_index);
 
     if ($card === null) {
       if (!$auto_reshuffle) {
         return null;
       }
       $this->moveAll([$destination_sublocation], $card_sublocation);
-      $this->shuffle($card_sublocation);
-      return $this->rawDrawAndDiscard($card_sublocation, $destination_sublocation, /*auto_reshuffle=*/ false);
+      $this->shuffle($card_sublocation, $sublocation_index);
+      return $this->rawDrawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false);
     }
 
     $this->placeOnTop($card, $destination_sublocation);
@@ -309,13 +313,13 @@ class WcDeck
   // convenience.  Could be extended to support that.
   //
   // XXX: Need to wrap this with a non-raw function.
-  private function rawDrawAndDiscardFirstMatching($predicate, $card_sublocation = 'DECK', $destination_sublocation = 'DISCARD')
+  private function rawDrawAndDiscardFirstMatching($predicate, string $card_sublocation = 'DECK', ?int $sublocation_index, string $destination_sublocation = 'DISCARD')
   {
-    $cards = $this->rawGetAll([$card_sublocation]);
+    $cards = $this->rawGetAll([$card_sublocation], $sublocation_index);
 
     foreach ($cards as $card) {
       if ($predicate($card)) {
-        $this->placeOnTop($card, $destination_sublocation);
+        $this->placeOnTop($card, $destination_sublocation, $sublocation_index);
         return $card;
       }
     }
@@ -325,13 +329,13 @@ class WcDeck
 
   public function placeOnTop(Card $card, string $sublocation, ?int $sublocation_index = NULL): void
   {
-    $this->shiftCardOrder($sublocation, 1);
+    $this->shiftCardOrder($sublocation, $sublocation_index, 1);
     $this->updateCard($card, $sublocation, /*card_order=*/ 0, $sublocation_index);
   }
 
   public function placeOnBottom(Card $card, string $card_sublocation, ?int $sublocation_index = NULL): void
   {
-    $this->updateCard($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation) + 1, $sublocation_index);
+    $this->updateCard($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation, $sublocation_index) + 1, $sublocation_index);
   }
 
   // --- This should probably become internal, but it's temporarily external until the API is fleshed out ---
@@ -355,48 +359,48 @@ class WcDeck
   // --- Internal helpers ---
 
   // Modifies all `card_order`s in $card_sublocation by $n.
-  protected function shiftCardOrder(string $card_sublocation, int $n): void
+  protected function shiftCardOrder(string $sublocation, ?int $sublocation_index, int $n): void
   {
     $this->dbo_->DbQuery(
-      'UPDATE `card` SET card_order=(card_order+' . $n . ') WHERE ' . $this->buildWhereClause([$card_sublocation])
+      'UPDATE `card` SET card_order=(card_order+' . $n . ') WHERE ' . $this->buildWhereClause([$sublocation], $sublocation_index)
     );
   }
 
   // Returns the number of cards in $card_sublocation.
-  protected function cardCount(string $card_sublocation): int
+  protected function cardCount(string $card_sublocation, ?int $sublocation_index): int
   {
     return $this->dbo_->getUniqueValueFromDB(
-      'SELECT COUNT(*) FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation])
+      'SELECT COUNT(*) FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index)
     );
   }
 
-  protected function readMaxCardOrder(string $card_sublocation):int
+  protected function readMaxCardOrder(string $card_sublocation, ?int $sublocation_index):int
   {
     return $this->dbo_->getUniqueValueFromDB(
       'SELECT card_order FROM `card` WHERE ' .
-        $this->buildWhereClause([$card_sublocation]) .
+        $this->buildWhereClause([$card_sublocation], $sublocation_index) .
         ' ORDER BY card_order DESC LIMIT 1'
     );
   }
 
-  protected function readMinCardOrder(string $card_sublocation):int
+  protected function readMinCardOrder(string $card_sublocation, ?int $sublocation_index):int
   {
     $sql =
       'SELECT card_order FROM `card` WHERE ' .
-      $this->buildWhereClause([$card_sublocation]) .
+      $this->buildWhereClause([$card_sublocation], $sublocation_index) .
       ' ORDER BY card_order ASC LIMIT 1';
     self::trace("readMinCardOrder: {$sql}");
     return $this->dbo_->getUniqueValueFromDB($sql);
   }
 
   // $card_sublocations is `string[]`.`
-  protected function buildWhereClause($card_sublocations): string
+  protected function buildWhereClause($card_sublocations, ?int $sublocation_index): string
   {
     $clause = 'card_location = "' . $this->location_ . '"';
 
-    // if (!is_null($this->sublocation_index_)) {
-    //   $clause .= ' AND card_sublocation_index = ' . $this->sublocation_index_;
-    // }
+    if (!is_null($sublocation_index)) {
+      $clause .= ' AND card_sublocation_index = ' . $sublocation_index;
+    }
 
     $sublocation_values = [];
     foreach ($card_sublocations as $card_sublocation) {

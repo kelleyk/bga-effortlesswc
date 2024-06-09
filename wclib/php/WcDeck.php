@@ -101,6 +101,9 @@ class WcDeck
   public function drawTo(string $dest_sublocation, ?int $dest_sublocation_index, string $src_sublocation = 'DECK', ?int $src_sublocation_index = NULL): Card
   {
     $card = $this->peekTop($src_sublocation, $src_sublocation_index);
+    if (is_null($card)) {
+      throw new \BgaVisibleSystemException('No cards in ' . $this->location_ . ',' . $src_sublocation . ',' . (is_null($src_sublocation_index) ? 'NULL': $src_sublocation_index));
+    }
     $this->placeOnTop($card, $dest_sublocation, $dest_sublocation_index);
     return $this->get($card->id());
   }
@@ -151,7 +154,7 @@ class WcDeck
     foreach ($card_specs as $card_spec) {
       // XXX: update some of these values
       $values[] =
-        '("'.$this->deck_name_.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", NULL, -1' . ')';
+        '("'.$this->location_.'", "' . $card_spec['card_type'] . '", "PATROL", "DECK", NULL, -1' . ')';
     }
 
     shuffle($values);
@@ -189,7 +192,8 @@ class WcDeck
     return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations, $sublocation_index));
   }
 
-  public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index)
+  // XXX: Should this return things in *every* sublocation-index, rather than in the NULL sublocation-index?
+  public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = NULL)
   {
     return array_map(function ($row) {
       return Card::fromRow($row);
