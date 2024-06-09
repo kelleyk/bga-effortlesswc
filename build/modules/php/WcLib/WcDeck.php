@@ -75,24 +75,21 @@ class Card
   }
 }
 
-class WcDeck
+class WcDeck extends \APP_DbObject
 {
   // N.B.: For `card_order`, lower numbers are "first" (closer to
   // the top of a deck).
 
   // See `card` table schema for details.
-  protected $dbo_;
   protected string $location_;
 
 
-  function __construct($dbo, string $location)
+  function __construct(string $location)
   {
-    $this->dbo_ = $dbo;
-    $this->location_ = $location;
-  }
+    // // XXX: BGA throws an error: "cannot call constructor".
+    // parent::__construct();
 
-  private function trace(string $msg): void {
-    // XXX: refactoring dust
+    $this->location_ = $location;
   }
 
   // --- New (WcLib) API ---
@@ -124,7 +121,7 @@ class WcDeck
     $i = 0; // XXX: Should be able to replace this with `foreach()` syntax.
     foreach ($cards as $card) {
       self::trace('WcDeck: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
-      $this->dbo_->DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
+      $this->DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
       ++$i;
     }
   }
@@ -161,7 +158,7 @@ class WcDeck
     $sql =
       'INSERT INTO card (`card_type_group`, `card_type`, `card_location`, `card_sublocation`, `card_sublocation_index`, `card_order`) VALUES ' .
       implode(',', $values);
-    $this->dbo_->DbQuery($sql);
+    $this->DbQuery($sql);
   }
 
   // Takes cards from all $card_sublocations and moves them to
@@ -184,12 +181,12 @@ class WcDeck
   //     if (!is_null($destination_sublocation_index)) {
   //         $update_subexprs[] = 'card_sublocation_index = '.$destination_sublocation_index;
   //     }
-  //     $this->dbo_->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
+  //     $this->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
   // }
 
   private function rawGetAll($card_sublocations = ['DECK'], ?int $sublocation_index)
   {
-    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations, $sublocation_index));
+    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations, $sublocation_index));
   }
 
   // XXX: Should this return things in *every* sublocation-index, rather than in the NULL sublocation-index?
@@ -210,7 +207,7 @@ class WcDeck
   {
     self::trace("WcDeck::rawGet(cardId={$cardId})");
     // XXX: this should probably return an error if the card is not within the scope of this WcDeck
-    $card = $this->dbo_->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
+    $card = $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
     if (is_null($card['id'])) {
       throw new \BgaUserException(
         "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $card=" . print_r($card, true)
@@ -222,13 +219,13 @@ class WcDeck
   // XXX: This should be `static` once `getCollectionFromDB()` is.
   private function rawGetAllOfType($card_type)
   {
-    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
+    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
   private function rawGetAllOfTypeGroup(string $card_type_group)
   {
-    return $this->dbo_->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
+    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
@@ -247,7 +244,7 @@ class WcDeck
       'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index) . ' ORDER BY card_order ASC LIMIT 1';
     echo '*** rawPeekTop() query: ' . $sql . '<br />';
     self::trace("rawPeekTop(): {$sql}");
-    return $this->dbo_->getObjectFromDB($sql);
+    return $this->getObjectFromDB($sql);
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, or
@@ -354,7 +351,7 @@ class WcDeck
     } else {
       $update_subexprs[] = 'card_sublocation_index = NULL';
     }
-    $this->dbo_->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card->id());
+    $this->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card->id());
   }
 
   // --- Internal helpers ---
@@ -362,7 +359,7 @@ class WcDeck
   // Modifies all `card_order`s in $card_sublocation by $n.
   protected function shiftCardOrder(string $sublocation, ?int $sublocation_index, int $n): void
   {
-    $this->dbo_->DbQuery(
+    $this->DbQuery(
       'UPDATE `card` SET card_order=(card_order+' . $n . ') WHERE ' . $this->buildWhereClause([$sublocation], $sublocation_index)
     );
   }
@@ -370,14 +367,14 @@ class WcDeck
   // Returns the number of cards in $card_sublocation.
   protected function cardCount(string $card_sublocation, ?int $sublocation_index): int
   {
-    return $this->dbo_->getUniqueValueFromDB(
+    return $this->getUniqueValueFromDB(
       'SELECT COUNT(*) FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index)
     );
   }
 
   protected function readMaxCardOrder(string $card_sublocation, ?int $sublocation_index):int
   {
-    return $this->dbo_->getUniqueValueFromDB(
+    return $this->getUniqueValueFromDB(
       'SELECT card_order FROM `card` WHERE ' .
         $this->buildWhereClause([$card_sublocation], $sublocation_index) .
         ' ORDER BY card_order DESC LIMIT 1'
@@ -391,7 +388,7 @@ class WcDeck
       $this->buildWhereClause([$card_sublocation], $sublocation_index) .
       ' ORDER BY card_order ASC LIMIT 1';
     self::trace("readMinCardOrder: {$sql}");
-    return $this->dbo_->getUniqueValueFromDB($sql);
+    return $this->getUniqueValueFromDB($sql);
   }
 
   // $card_sublocations is `string[]`.`
