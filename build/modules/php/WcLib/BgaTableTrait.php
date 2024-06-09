@@ -18,11 +18,16 @@ trait BgaTableTrait {
 
   abstract protected function activeNextPlayer();
 
+  // XXX: Returns int, but the PHP 8 version of BGA Studio defines this with a different signature.
+  abstract public function getPlayersNumber();
+
   // APP_DbObject
+  //
+  // Some of these are static-qualified and some aren't; which BGA itself does seems to be arbitrary.
 
-  abstract public function DbQuery(string $sql);
+  abstract public static function DbQuery(string $sql);
 
-  abstract public function getUniqueValueFromDB(string $sql);
+  abstract public static function getUniqueValueFromDB(string $sql);
 
   abstract public function getCollectionFromDB(string $query, bool $single = false);
 
@@ -32,17 +37,16 @@ trait BgaTableTrait {
 
   abstract public function getNonEmptyObjectFromDB(string $sql);
 
-  abstract public function getObjectListFromDB(string $query, bool $single = false);
+  abstract public static function getObjectListFromDB(string $query, bool $single = false);
 
   abstract public function getDoubleKeyCollectionFromDB(string $sql, bool $bSingleValue = false);
 
-  abstract public function DbGetLastId();
+  abstract public static function DbGetLastId();
 
-  abstract public function DbAffectedRow(): int;
+  // XXX: Returns int.
+  abstract public static function DbAffectedRow();
 
-  abstract public function escapeStringForDB(string $string);
-
-  abstract public function getPlayersNumber(): int;
+  abstract public static function escapeStringForDB(string $string);
 
   // -----
 }

@@ -27,7 +27,7 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
 // require_once 'modules/php/card_data.inc.php';
-// require_once 'modules/php/constants.inc.php';
+require_once 'modules/php/constants.inc.php';
 
 // require_once 'modules/php/Models/Chip.php';
 // require_once 'modules/php/Models/Destination.php';

@@ -80,7 +80,7 @@ trait Setup
         "')";
     }
 
-    $this->DbQuery(
+    self::DbQuery(
       'INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES ' .
         implode(',', $values)
     );
