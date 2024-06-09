@@ -2,8 +2,6 @@
 
 namespace EffortlessWC\States;
 
-require_once 'modules/TableBase.php';
-
 trait PreScoring
 {
   use \WcLib\BgaTableTrait;
