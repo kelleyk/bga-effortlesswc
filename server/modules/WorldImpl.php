@@ -55,7 +55,7 @@ class WorldImpl implements World
   // Map from seat ID to effort count.
   public function effortBySeat(Setting $setting)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: effortbyseat');
   }
 
   // Returns an array whose keys are the same as $effort_by_seat.  Values are in the range [1, 5], where key(s) with the
@@ -68,54 +68,54 @@ class WorldImpl implements World
   // TODO: This function will account for things like the Fighter's tie-breaking ability.
   public function rankByEffort($effort_by_seat, bool $outcome_good, bool $invert = false)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: rankbyeffort');
   }
 
   // Like `rankByEffort()` but returns a list of the seat IDs at rank 1.
   public function topByEffort($effort_by_seat, bool $outcome_good, bool $invert = false)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: topbyeffort');
   }
 
   public function allEffortPiles()
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: alleffortpiles');
   }
 
   public function locations()
   {
-    throw new \feException('no impl');
+    return Location::getAll($this);
   }
 
   public function activeSeat(): Seat
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: activeseat');
   }
 
   public function moveCardToLocation(Card $card, Location $loc)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: movecardtolocation');
   }
 
   public function moveCardToHand(Card $card, Seat $seat)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: movecardtohand');
   }
 
   // This is roughly `moveCardToHand()` from the deck.
   public function drawCardToHand(Seat $seat)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: drawcardtohand');
   }
 
   public function discardCard(Card $card)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: discardcard');
   }
 
   // Moves one effort from $src to $dst.  They may be piles or locations.
   public function moveEffort($src, $dst)
   {
-    throw new \feException('no impl');
+    throw new \feException('no impl: moveeffort');
   }
 }

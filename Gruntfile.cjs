@@ -283,6 +283,20 @@ module.exports = function (grunt) {
     },
   });
 
+  // console.log(
+  //   [
+  //     'docker run -i --rm',
+  //     '--network localarena_default',
+  //     '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
+  //     '-v $PWD/build:/src/game/effortlesswc',
+  //     '-v $PWD/server:/src/server',
+  //     '-v $PWD/wclib/php:/src/game/effortlesswc/modules/php/WcLib:ro',
+  //     '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+  //     'wardcanyon/localarena-testenv:latest',
+  //     'phpunit --configuration /src/server/modules/Test/phpunit.xml',
+  //   ].join(' '),
+  // );
+
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');

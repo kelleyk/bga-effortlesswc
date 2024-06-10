@@ -12,7 +12,7 @@ class Card
   private string $type_group_;
   private string $location_;
   private string $sublocation_;
-  private int $location_index_;
+  private int $sublocation_index_;
   private int $order_;
   private int $use_count_;
 
@@ -28,7 +28,7 @@ class Card
     $card->type_group_ = $row['card_type_group'];
     $card->location_ = $row['card_location'];
     $card->sublocation_ = $row['card_sublocation'];
-    $card->location_index_ = intval($row['card_location_index']);
+    $card->sublocation_index_ = intval($row['card_sublocation_index']);
     $card->order_ = intval($row['card_order']);
     $card->use_count_ = intval($row['use_count']);
     return $card;
@@ -59,9 +59,9 @@ class Card
     return $this->sublocation_;
   }
 
-  public function locationIndex(): int
+  public function sublocationIndex(): int
   {
-    return $this->location_index_;
+    return $this->sublocation_index_;
   }
 
   public function order(): int
@@ -242,7 +242,6 @@ class WcDeck extends \APP_DbObject
   {
     $sql =
       'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index) . ' ORDER BY card_order ASC LIMIT 1';
-    echo '*** rawPeekTop() query: ' . $sql . '<br />';
     self::trace("rawPeekTop(): {$sql}");
     return $this->getObjectFromDB($sql);
   }
