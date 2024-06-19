@@ -5,6 +5,8 @@ namespace EffortlessWC;
 require_once 'WcLib/WcDeck.php';
 
 use WcLib\Card;
+use EffortlessWC\Models\Location;
+use EffortlessWC\Models\Setting;
 
 interface World
 {

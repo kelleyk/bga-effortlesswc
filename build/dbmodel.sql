@@ -78,15 +78,5 @@ CREATE TABLE IF NOT EXISTS `card` (
   -- Values should be unique.  When they aren't, behavior is
   -- undefined, though we try to use `id` to break ties.
   `card_order` INT(10) NOT NULL,
-
-  -- The number of times the card has been used.  When this number is
-  -- >= the number of uses allowed by the card type, it "flips over":
-  -- we show the corresponding gearBack image in the client and its
-  -- ability changes to whatever the card's back specifies.  When it
-  -- used again in that state, it is discarded.
-  --
-  -- Must be NULL except for prepped gear cards (cards in the
-  -- "PREPPED" sublocation).
-  `use_count` INT(1),
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

@@ -14,7 +14,6 @@ class Card
   private string $sublocation_;
   private int $sublocation_index_;
   private int $order_;
-  private int $use_count_;
 
   public static function fromRow($row): ?Card
   {
@@ -30,7 +29,6 @@ class Card
     $card->sublocation_ = $row['card_sublocation'];
     $card->sublocation_index_ = intval($row['card_sublocation_index']);
     $card->order_ = intval($row['card_order']);
-    $card->use_count_ = intval($row['use_count']);
     return $card;
   }
 
@@ -75,6 +73,8 @@ class Card
   }
 }
 
+const SUBLOCATION_INDEX_ANY = -14242;
+
 class WcDeck extends \APP_DbObject
 {
   // N.B.: For `card_order`, lower numbers are "first" (closer to
@@ -112,7 +112,7 @@ class WcDeck extends \APP_DbObject
 
   // Randomly assign a new `card_order` value to each card in
   // $card_sublocation.
-  public function shuffle($card_sublocation = 'DECK', ?int $sublocation_index = NULL)
+  public function shuffle($card_sublocation = 'DECK', ?int $sublocation_index = SUBLOCATION_INDEX_ANY)
   {
     self::trace('WcDeck: shuffle()');
     $cards = $this->rawGetAll([$card_sublocation], $sublocation_index);
@@ -120,7 +120,9 @@ class WcDeck extends \APP_DbObject
 
     $i = 0; // XXX: Should be able to replace this with `foreach()` syntax.
     foreach ($cards as $card) {
-      self::trace('WcDeck: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
+      // XXX: When we have better control over log verbosity, we can probably un-comment this.
+      //
+      // self::trace('WcDeck: shuffle(): setting card_order=' . $i . ' for id=' . $card['id']);
       $this->DbQuery('UPDATE `card` SET card_order=' . $i . ' WHERE `id` = ' . $card['id']);
       ++$i;
     }
@@ -146,6 +148,10 @@ class WcDeck extends \APP_DbObject
     // XXX: Also, we need to `$this->shuffle()` the new cards
     // (since all of them are created with a card_order of -1).
     // We should move that into this function!
+
+    if (count($card_specs) == 0) {
+      throw new \BgaVisibleSystemException('Cannot `createCards()` with empty list of $card_specs!');
+    }
 
     $values = [];
     foreach ($card_specs as $card_spec) {
@@ -190,7 +196,7 @@ class WcDeck extends \APP_DbObject
   }
 
   // XXX: Should this return things in *every* sublocation-index, rather than in the NULL sublocation-index?
-  public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = NULL)
+  public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = SUBLOCATION_INDEX_ANY)
   {
     return array_map(function ($row) {
       return Card::fromRow($row);

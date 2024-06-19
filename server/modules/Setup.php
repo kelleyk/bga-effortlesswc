@@ -125,7 +125,9 @@ trait Setup
   private function initLocationDeck($sets): void
   {
     $card_specs = [];
-    $this->visitConcreteSubclasses('EffortlessWC\Location', function ($rc) use (&$card_specs, $sets) {
+    $this->visitConcreteSubclasses('EffortlessWC\Models\Location', function ($rc) use (&$card_specs, $sets) {
+      echo ' *** visiting concrete subclass!' . "\n";
+
       if (
         in_array($rc->getConstant('SET_ID'), $sets) &&
         !in_array($rc->getConstant('LOCATION_ID'), DISABLED_LOCATIONS)
@@ -144,7 +146,7 @@ trait Setup
   private function initSettingDeck($sets): void
   {
     $card_specs = [];
-    $this->visitConcreteSubclasses('EffortlessWC\Setting', function ($rc) use (&$card_specs, $sets) {
+    $this->visitConcreteSubclasses('EffortlessWC\Models\Setting', function ($rc) use (&$card_specs, $sets) {
       if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), DISABLED_SETTINGS)) {
         $card_specs[] = [
           'card_type_group' => 'setting',

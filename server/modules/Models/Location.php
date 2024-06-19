@@ -1,26 +1,29 @@
-x<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace EffortlessWC\Models;
 
 require_once 'Seat.php';
+
+use EffortlessWC\World;
 
 abstract class Location extends \WcLib\CardBase
 {
   public static function getById(World $world, int $id)
   {
+    throw new \feException('XXX:');
   }
 
   public static function getAll(World $world)
   {
     $result = [];
-    foreach ($world->table()->rawGetNpcs() as $row) {
+    // XXX: WcDeck::getAll(['setloc'], <all>)
+    foreach ($world->table()->locationDeck as $row) {
       $result[] = Location::fromRow($world, $row);
     }
     return $result;
   }
 
-  public static function fromRow(World $world, $row): ArcanaCard
+  public static function fromRow(World $world, $row): Location
   {
     if ($row === null) {
       throw new \BgaVisibleSystemException('Location::fromRow(): got null $row');
@@ -570,4 +573,3 @@ class CaravanLocation extends Location
 // class UnderworldLocation extends Location -- KS exclusive
 
 // class AlleyLocation extends Location -- KS exclusive
-

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace EffortlessWC\Models;
 
 // XXX: We need a way to do sorting that lets the Fighter attribute do its tiebreaking thing.
 

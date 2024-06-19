@@ -1,11 +1,38 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace EffortlessWC\Models;
 
 require_once 'Seat.php';
 
-abstract class Location
+use \EffortlessWC\World;
+
+abstract class Location extends \WcLib\CardBase
 {
+  public static function getById(World $world, int $id)
+  {
+    throw new \feException('XXX:');
+  }
+
+  public static function getAll(World $world)
+  {
+    $result = [];
+    // XXX: WcDeck::getAll(['setloc'], <all>)
+    foreach ($world->table()->locationDeck as $row) {
+      $result[] = Location::fromRow($world, $row);
+    }
+    return $result;
+  }
+
+  public static function fromRow(World $world, $row): Location
+  {
+    if ($row === null) {
+      throw new \BgaVisibleSystemException('Location::fromRow(): got null $row');
+    }
+
+    $loc = Location::newInstByType(intval($row['card_type']));
+    $loc->id = $row['id'];
+  }
+
   public function id(): int
   {
     throw new \feException('XXX: foo');
@@ -99,7 +126,7 @@ abstract class Location
 
 class CaveLocation extends Location
 {
-  const LOCATION_ID = 'location:cave';
+  const CARD_TYPE = 'location:cave';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_DOWN = 1;
@@ -113,7 +140,7 @@ class CaveLocation extends Location
 // "Move one of your effort from any other location to here."
 class CityLocation extends Location
 {
-  const LOCATION_ID = 'location:city';
+  const CARD_TYPE = 'location:city';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 1;
@@ -131,7 +158,7 @@ class CityLocation extends Location
 // "Take 1 card from here and discard the other."
 class ColiseumLocation extends Location
 {
-  const LOCATION_ID = 'location:coliseum';
+  const CARD_TYPE = 'location:coliseum';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 2;
@@ -157,7 +184,7 @@ class ColiseumLocation extends Location
 // "Take one of the top 2 cards from the discard.  (If there are less than 2 cards, add the top card from the deck.)"
 class CryptLocation extends Location
 {
-  const LOCATION_ID = 'location:crypt';
+  const CARD_TYPE = 'location:crypt';
   const SET_ID = SET_BASE;
 
   public function getValidTargets(World $world)
@@ -175,7 +202,7 @@ class CryptLocation extends Location
 // "Move one of your other effort from here to any other location."
 class DocksLocation extends Location
 {
-  const LOCATION_ID = 'location:docks';
+  const CARD_TYPE = 'location:docks';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 1;
@@ -204,7 +231,7 @@ class DocksLocation extends Location
 // "View both cards here and take 1.  (Replace the missing card face-down.)"
 class LibraryLocation extends Location
 {
-  const LOCATION_ID = 'location:library';
+  const CARD_TYPE = 'location:library';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_DOWN = 2;
@@ -218,7 +245,7 @@ class LibraryLocation extends Location
 // "Discard a card from your hand, then take both cards here."
 class MarketLocation extends Location
 {
-  const LOCATION_ID = 'location:market';
+  const CARD_TYPE = 'location:market';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 2;
@@ -236,7 +263,7 @@ class MarketLocation extends Location
 // "Move another player's effort from any other location to here."
 class PrisonLocation extends Location
 {
-  const LOCATION_ID = 'location:prison';
+  const CARD_TYPE = 'location:prison';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 1;
@@ -261,7 +288,7 @@ class PrisonLocation extends Location
 // "Discard a card at another location."
 class RiverLocation extends Location
 {
-  const LOCATION_ID = 'location:river';
+  const CARD_TYPE = 'location:river';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 1;
@@ -282,7 +309,7 @@ class RiverLocation extends Location
 // "Discard a card from your hand.  Then, take the top 2 cards from the deck."
 class TempleLocation extends Location
 {
-  const LOCATION_ID = 'location:temple';
+  const CARD_TYPE = 'location:temple';
   const SET_ID = SET_BASE;
 
   public function onVisited(World $world, Seat $seat)
@@ -298,7 +325,7 @@ class TempleLocation extends Location
 // "Move another player's effort from here to any other location."
 class TunnelsLocation extends Location
 {
-  const LOCATION_ID = 'location:tunnels';
+  const CARD_TYPE = 'location:tunnels';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 1;
@@ -334,7 +361,7 @@ class TunnelsLocation extends Location
 // (No effect.)
 class WastelandLocation extends Location
 {
-  const LOCATION_ID = 'location:wasteland';
+  const CARD_TYPE = 'location:wasteland';
   const SET_ID = SET_BASE;
 
   const CARDS_FACE_UP = 1;
@@ -348,7 +375,7 @@ class WastelandLocation extends Location
 // "Move another player's effort from here to an adjacent location OR from an adjacent location to here."
 class DungeonLocation extends Location
 {
-  const LOCATION_ID = 'location:dungeon';
+  const CARD_TYPE = 'location:dungeon';
   const SET_ID = SET_ALTERED;
 
   const CARDS_FACE_UP = 1;
@@ -373,7 +400,7 @@ class DungeonLocation extends Location
 // "Take the card and action of an adjacent location."
 class GardenLocation extends Location
 {
-  const LOCATION_ID = 'location:garden';
+  const CARD_TYPE = 'location:garden';
   const SET_ID = SET_ALTERED;
 
   public function onVisited(World $world, Seat $seat)
@@ -390,7 +417,7 @@ class GardenLocation extends Location
 // XXX: UI input -- pick card from group
 class ObservatoryLocation extends Location
 {
-  const LOCATION_ID = 'location:observatory';
+  const CARD_TYPE = 'location:observatory';
   const SET_ID = SET_ALTERED;
 
   const CARDS_FACE_UP = 1;
@@ -407,7 +434,7 @@ class ObservatoryLocation extends Location
 // XXX: UI input -- pick effort here AND pick setloc/effort
 class PortalLocation extends Location
 {
-  const LOCATION_ID = 'location:portal';
+  const CARD_TYPE = 'location:portal';
   const SET_ID = SET_ALTERED;
 
   const CARDS_FACE_UP = 1;
@@ -423,7 +450,7 @@ class PortalLocation extends Location
 // XXX: UI input -- pick setloc
 class StablesLocation extends Location
 {
-  const LOCATION_ID = 'location:stables';
+  const CARD_TYPE = 'location:stables';
   const SET_ID = SET_ALTERED;
 
   const CARDS_FACE_UP = 1;
@@ -437,7 +464,7 @@ class StablesLocation extends Location
 // "Move any other effort from here to any other location."
 class ForestLocation extends Location
 {
-  const LOCATION_ID = 'location:forest';
+  const CARD_TYPE = 'location:forest';
   const SET_ID = SET_HUNTED;
 
   const CARDS_FACE_UP = 1;
@@ -462,7 +489,7 @@ class ForestLocation extends Location
 // XXX: complication -- effort here is in a particular sublocation
 class LaboratoryLocation extends Location
 {
-  const LOCATION_ID = 'location:laboratory';
+  const CARD_TYPE = 'location:laboratory';
   const SET_ID = SET_HUNTED;
 
   const CARDS_FACE_UP = 1;
@@ -478,7 +505,7 @@ class LaboratoryLocation extends Location
 // XXX: complication -- this needs to affect all moves
 class LabyrinthLocation extends Location
 {
-  const LOCATION_ID = 'location:labyrinth';
+  const CARD_TYPE = 'location:labyrinth';
   const SET_ID = SET_HUNTED;
 
   const CARDS_FACE_UP = 1;
@@ -494,7 +521,7 @@ class LabyrinthLocation extends Location
 // XXX: UI input -- pick setloc and effort type
 class CabinLocation extends Location
 {
-  const LOCATION_ID = 'location:cabin';
+  const CARD_TYPE = 'location:cabin';
   const SET_ID = SET_HUNTED;
 
   const CARDS_FACE_UP = 1;
@@ -520,7 +547,7 @@ class CabinLocation extends Location
 // "Take both cards here and replace one with a card from your hand."
 class CaravanLocation extends Location
 {
-  const LOCATION_ID = 'location:hunted';
+  const CARD_TYPE = 'location:hunted';
   const SET_ID = SET_HUNTED;
 
   const CARDS_FACE_UP = 2;
