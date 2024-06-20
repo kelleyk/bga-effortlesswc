@@ -39,14 +39,14 @@ class APP_Object {
 }
 
 class APP_DbObject extends APP_Object {
-    public $query;
+    public static $query;
 
-    function DbQuery($str) {
-        $this->query = $str;
+    static function DbQuery($str) {
+      get_called_class()::$query = $str;
         echo "dbquery: $str\n";
     }
 
-    function getUniqueValueFromDB($sql) {
+    static function getUniqueValueFromDB($sql) {
         return 0;
     }
 
@@ -67,7 +67,7 @@ class APP_DbObject extends APP_Object {
         return array ();
     }
 
-    function getObjectListFromDB($query, $single = false) {
+    static function getObjectListFromDB($query, $single = false) {
         echo "dbquery list: $query\n";
         return array ();
     }
@@ -76,13 +76,13 @@ class APP_DbObject extends APP_Object {
         return array ();
     }
 
-    function DbGetLastId() {
+    static function DbGetLastId() {
     }
 
-    function DbAffectedRow() {
+    static function DbAffectedRow() {
     }
 
-    function escapeStringForDB($string) {
+    static function escapeStringForDB($string) {
     }
 }
 

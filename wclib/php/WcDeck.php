@@ -270,17 +270,18 @@ class WcDeck extends \APP_DbObject
   // sublocation, returns `null`.
   private function rawDrawAndDiscard($card_sublocation = 'DECK', ?int $sublocation_index, string $destination_sublocation = 'DISCARD', bool $auto_reshuffle = false): ?Card
   {
-    $card = $this->rawPeekTop($card_sublocation, $sublocation_index);
+    $row = $this->rawPeekTop($card_sublocation, $sublocation_index);
 
-    if ($card === null) {
+    if ($row === null) {
       if (!$auto_reshuffle) {
         return null;
       }
       $this->moveAll([$destination_sublocation], $card_sublocation);
       $this->shuffle($card_sublocation, $sublocation_index);
-      return $this->rawDrawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false);
+      return Card::fromRow($this->rawDrawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false));
     }
 
+    $card = Card::fromRow($row);
     $this->placeOnTop($card, $destination_sublocation);
     // XXX: should $card reflect the before position or the after position?
     return $card;

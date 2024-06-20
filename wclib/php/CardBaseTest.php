@@ -73,7 +73,7 @@ Class CardBaseTest extends \LocalArena\Test\IntegrationTestCase {
   const LOCALARENA_GAME_NAME = 'localarenanoop';
 
   function testFoo(): void {
-    $params = new TableParams();
+    $params = new \TableParams();
     $params->playerCount = 1;
     $params->schema_changes = WCCARD_SCHEMA;
     $this->initTable($params);
