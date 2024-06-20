@@ -15,7 +15,7 @@ abstract class CardBase
   //
   // XXX: Can we eventually pull all of this logic into CardBase, and use a (CARD_TYPE_GROUP, CARD_TYPE) pair, with
   // CARD_TYPE_GROUP defined on e.g. Location?
-  protected static function newInstByType(string $card_type)
+  protected static function newInstByType(string|int $card_type)
   {
     // Should be e.g. `Location`---one of the "leaf base classes" that defines CARD_TYPE_GROUP.
     $called_base_class = get_called_class();
@@ -34,7 +34,7 @@ abstract class CardBase
       }
     }
 
-    return $classById[$card_type_id]->newInstance();
+    return $classById[$card_type]->newInstance();
   }
 
   // XXX: What about the examples of `fromRow()` functions that require a `World` reference?

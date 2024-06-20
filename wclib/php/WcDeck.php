@@ -214,13 +214,13 @@ class WcDeck extends \APP_DbObject
   {
     self::trace("WcDeck::rawGet(cardId={$cardId})");
     // XXX: this should probably return an error if the card is not within the scope of this WcDeck
-    $card = $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
-    if (is_null($card['id'])) {
+    $row = $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
+    if (is_null($row['id'])) {
       throw new \BgaUserException(
-        "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $card=" . print_r($card, true)
+        "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $row=" . print_r($row, true)
       );
     }
-    return $card;
+    return $row;
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.

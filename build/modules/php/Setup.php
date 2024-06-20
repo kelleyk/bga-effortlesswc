@@ -126,7 +126,7 @@ trait Setup
   {
     $card_specs = [];
     $this->visitConcreteSubclasses('EffortlessWC\Models\Location', function ($rc) use (&$card_specs, $sets) {
-      echo ' *** visiting concrete subclass!' ."\n";
+      echo ' *** visiting concrete subclass!' . "\n";
 
       if (
         in_array($rc->getConstant('SET_ID'), $sets) &&

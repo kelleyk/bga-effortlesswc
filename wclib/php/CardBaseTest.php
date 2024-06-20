@@ -7,7 +7,8 @@ namespace WcLib;
 define('APP_GAMEMODULE_PATH', '/src/localarena/');
 define('APP_BASE_PATH', '/src/localarena/');
 
-require_once '/src/localarena/module/test/IntegrationTestCase.php';
+require_once 'localarena/src/module/tablemanager/tablemanager.php';
+require_once 'localarena/src/module/test/IntegrationTestCase.php';
 require_once 'CardBase.php';
 
 // @phan-suppress-next-line PhanUndeclaredConstant
@@ -68,14 +69,14 @@ class RedBoringCard extends FancyCard {
   const CARD_TYPE = 'RED';
 }
 
-class CardBaseTest extends \LocalArena\Test\IntegrationTestCase {
+Class CardBaseTest extends \LocalArena\Test\IntegrationTestCase {
   const LOCALARENA_GAME_NAME = 'localarenanoop';
 
   function testFoo(): void {
-      $params = new \TableParams();
-      $params->playerCount = 1;
-      $params->schema_changes = WCCARD_SCHEMA;
-      $this->initTable($params);
+    $params = new TableParams();
+    $params->playerCount = 1;
+    $params->schema_changes = WCCARD_SCHEMA;
+    $this->initTable($params);
   }
 
   // XXX: Want to test that...

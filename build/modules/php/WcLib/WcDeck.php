@@ -73,7 +73,8 @@ class Card
   }
 }
 
-const SUBLOCATION_INDEX_ANY = -14242;
+// For `WcDeck` sublocation indices, "null" means "any/all".
+const SUBLOCATION_INDEX_ANY = null;
 
 class WcDeck extends \APP_DbObject
 {
@@ -169,7 +170,7 @@ class WcDeck extends \APP_DbObject
 
   // Takes cards from all $card_sublocations and moves them to
   // $destination_sublocation.
-  public function moveAll($card_sublocations, ?int $sublocation_index, $destination_sublocation = 'DECK'): void
+  public function moveAll($card_sublocations, ?int $sublocation_index = SUBLOCATION_INDEX_ANY, $destination_sublocation = 'DECK'): void
   {
     foreach ($this->rawGetAll($card_sublocations, $sublocation_index) as $card) {
       $this->placeOnTop($card, $destination_sublocation);

@@ -5,6 +5,7 @@ namespace EffortlessWC\Models;
 require_once 'Seat.php';
 
 use EffortlessWC\World;
+use EffortlessWC\Models\Seat;
 
 abstract class Location extends \WcLib\CardBase
 {
@@ -31,6 +32,8 @@ abstract class Location extends \WcLib\CardBase
 
     $loc = Location::newInstByType(intval($row['card_type']));
     $loc->id = $row['id'];
+
+    return $loc;
   }
 
   public function id(): int

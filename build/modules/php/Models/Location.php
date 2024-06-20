@@ -5,6 +5,7 @@ namespace EffortlessWC\Models;
 require_once 'Seat.php';
 
 use \EffortlessWC\World;
+use \EffortlessWC\Seat;
 
 abstract class Location extends \WcLib\CardBase
 {

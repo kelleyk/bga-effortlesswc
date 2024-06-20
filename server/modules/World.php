@@ -7,9 +7,12 @@ require_once 'WcLib/WcDeck.php';
 use WcLib\Card;
 use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Setting;
+use EffortlessWC\Models\Seat;
 
 interface World
 {
+  public function table();
+
   // Map from seat ID to effort count.
   public function effortBySeat(Setting $setting);
 

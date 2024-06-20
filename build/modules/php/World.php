@@ -10,6 +10,8 @@ use EffortlessWC\Models\Setting;
 
 interface World
 {
+  public function table();
+
   // Map from seat ID to effort count.
   public function effortBySeat(Setting $setting);
 
