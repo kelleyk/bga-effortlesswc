@@ -7,8 +7,8 @@ namespace WcLib;
 define('APP_GAMEMODULE_PATH', '/src/localarena/');
 define('APP_BASE_PATH', '/src/localarena/');
 
-require_once 'modules/php/WcLib/Test/IntegrationTestCase.php';
 require_once 'modules/php/WcLib/CardBase.php';
+require_once 'modules/php/WcLib/Test/IntegrationTestCase.php';
 
 // @phan-suppress-next-line PhanUndeclaredConstant
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
