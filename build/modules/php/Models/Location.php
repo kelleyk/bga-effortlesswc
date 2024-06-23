@@ -16,6 +16,9 @@ abstract class Location extends \WcLib\CardBase
     throw new \feException('XXX:');
   }
 
+  /**
+    @return Location[]
+   */
   public static function getAll(World $world)
   {
     $result = [];
@@ -26,14 +29,20 @@ abstract class Location extends \WcLib\CardBase
     return $result;
   }
 
+  /**
+    @param string[]|null $row
+    @return Location
+  */
   public static function fromRow(World $world, $row): Location
   {
     if ($row === null) {
       throw new \BgaVisibleSystemException('Location::fromRow(): got null $row');
     }
 
-    $loc = Location::newInstByType(intval($row['card_type']));
-    $loc->id = $row['id'];
+    // $loc = Location::newInstByType(intval($row['card_type']));
+    // $loc->id = $row['id'];
+
+    $loc = self::fromRowBase(Location::class, $row);
 
     return $loc;
   }

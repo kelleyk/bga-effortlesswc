@@ -8,6 +8,9 @@ namespace WcLib;
 //
 trait BgaTableTrait {
 
+  // XXX: Improve typing.
+  public $gamestate;
+
   abstract public function getGameinfos();
 
   abstract public function reattributeColorsBasedOnPreferences($players, $colors);

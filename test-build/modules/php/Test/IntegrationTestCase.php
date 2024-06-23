@@ -23,7 +23,7 @@ if (!defined('LOCALARENA_GAME_PATH')) {
 require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/constants.inc.php';
 require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/WcLib/WcDeck.php';
 
-use \LocalArena\TableParams;
+use LocalArena\TableParams;
 
 // use LocalArena\Test\PlayerPeer;
 
