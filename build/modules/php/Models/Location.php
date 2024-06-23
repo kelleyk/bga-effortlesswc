@@ -9,6 +9,8 @@ use EffortlessWC\Models\Seat;
 
 abstract class Location extends \WcLib\CardBase
 {
+  const CARD_TYPE_GROUP = 'location';
+
   public static function getById(World $world, int $id)
   {
     throw new \feException('XXX:');

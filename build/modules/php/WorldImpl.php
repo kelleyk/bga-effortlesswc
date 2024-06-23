@@ -48,10 +48,12 @@ class WorldImpl implements World
     }
 
     for ($i = $cards_face_up_qty; $i < $loc->cardsFaceUp(); ++$i) {
-      $this->mainDeck->drawTo('setloc', $loc->locationArg(), /*face_down=*/ false);
+      $card = $this->table()->mainDeck->drawTo('setloc', $loc->locationArg());
+      $card->setFaceDown(false);
     }
     for ($i = $cards_face_down_qty; $i < $loc->cardsFaceDown(); ++$i) {
-      $this->mainDeck->drawTo('setloc', $loc->locationArg(), /*face_down=*/ true);
+      $card = $this->table()->mainDeck->drawTo('setloc', $loc->locationArg());
+      $card->setFaceDown(true);
     }
   }
 

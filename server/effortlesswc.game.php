@@ -29,18 +29,9 @@ require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 // require_once 'modules/php/card_data.inc.php';
 require_once 'modules/php/constants.inc.php';
 
-// require_once 'modules/php/Models/Chip.php';
-// require_once 'modules/php/Models/Destination.php';
-// require_once 'modules/php/Models/Entity.php';
-// require_once 'modules/php/Models/EventCard.php';
-// require_once 'modules/php/Models/Finale.php';
-// require_once 'modules/php/Models/MiscEntity.php';
-// require_once 'modules/php/Models/Npc.php';
-// require_once 'modules/php/Models/PlayerCharacter.php';
-// require_once 'modules/php/Models/Position.php';
-// require_once 'modules/php/Models/Tile.php';
-// require_once 'modules/php/Models/Token.php';
-// require_once 'modules/php/Models/Wall.php';
+// require_once 'modules/php/Models/Card.php';
+// require_once 'modules/php/Models/Location.php';
+// require_once 'modules/php/Models/Setting.php';
 
 // // use EffortlessWC\Managers\Board;
 
@@ -70,9 +61,9 @@ class Effortlesswc extends Table
     ]);
     // $this->dice_roller = new \Effortlesswc\Utilities\DiceRoller();
 
-    $this->mainDeck = new \WcLib\WcDeck('main');
-    $this->locationDeck = new \WcLib\WcDeck('location');
-    $this->settingDeck = new \WcLib\WcDeck('setting');
+    $this->mainDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Card::class, 'main');
+    $this->locationDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Location::class, 'location');
+    $this->settingDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Setting::class, 'setting');
   }
 
   protected function getGameName()

@@ -16,7 +16,12 @@ abstract class CardBase
   //
   // XXX: Can we eventually pull all of this logic into CardBase, and use a (CARD_TYPE_GROUP, CARD_TYPE) pair, with
   // CARD_TYPE_GROUP defined on e.g. Location?
-  protected static function newInstByType(string|int $card_type)
+  //
+  // N.B.: We are using a doc-block annotation here rather than a native PHP type annotation because those don't support
+  // union types before PHP 8.0.  Once BGA moves to PHP 8.2, we can change this.
+  //
+  /** @param string|int $card_type */
+  protected static function newInstByType($card_type)
   {
     // Should be e.g. `Location`---one of the "leaf base classes" that defines CARD_TYPE_GROUP.
     $called_base_class = get_called_class();
@@ -38,8 +43,35 @@ abstract class CardBase
     return $classById[$card_type]->newInstance();
   }
 
+  // This is meant to be overridden by subclasses.x
+  //
+  // N.B.: This is a `string[]` because MySQL returns every column as a string, regardless of the column's actual type.
+  // (XXX: Is this true for NULL values as well?)
+  //
+  // XXX: We really just want to say "this must return an instance of `get_called_class()` or null"; it should be
+  // possible to do that without the template parameter.
+  /**
+    @template CardT of CardBase
+    @param class-string<CardT> $CardT;
+    @param string[]|null $row
+    @return CardT|null
+  */
+  public static function fromRow(string $CardT, $row)
+  {
+    return self::fromRowBase($CardT, $row);
+  }
+
   // XXX: What about the examples of `fromRow()` functions that require a `World` reference?
-  public static function fromRowBase($row)
+  //
+  // XXX: We really just want to say "this must return an instance of `get_called_class()` or null"; it should be
+  // possible to do that without the template parameter.
+  /**
+    @template CardT of CardBase
+    @param class-string<CardT> $CardT;
+    @param string[]|null $row
+    @return CardT|null
+  */
+  public static function fromRowBase(string $CardT, $row)
   {
     if ($row === null) {
       return null;

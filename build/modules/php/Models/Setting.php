@@ -9,6 +9,8 @@ use EffortlessWC\World;
 
 abstract class Setting
 {
+  const CARD_TYPE_GROUP = 'setting';
+
   // Concrete subclasses must define:
   // - SETTING_ID
   // - SET_ID

@@ -2,10 +2,16 @@
 
 namespace WcLib;
 
+require_once 'CardBase.php';
+
+class Card extends CardBase {
+  // XXX: If this remains empty as we tighten up this code, we could replace `CardBase` with this `Card` class.
+}
+
 // XXX: There's a lot of overlap between this and `CardPeer`.
 //
 // XXX: Make this `CardBase` instead?
-class Card
+class XXX_Legacy_Card
 {
   private int $id_;
   private string $type_;
@@ -18,13 +24,13 @@ class Card
   // N.B.: This is a `string[]` because MySQL returns every column as a string, regardless of the column's actual type.
   // (XXX: Is this true for NULL values as well?)
   /** @param string[]|null $row */
-  public static function fromRow($row): ?Card
+  public static function fromRow($row): ?XXX_Legacy_Card
   {
     if ($row === null) {
       return null;
     }
 
-    $card = new Card();
+    $card = new XXX_Legacy_Card();
     $card->id_ = intval($row['id']);
     $card->type_ = $row['card_type'];
     $card->type_group_ = $row['card_type_group'];
@@ -74,27 +80,39 @@ class Card
 // For `WcDeck` sublocation indices, "null" means "any/all".
 const SUBLOCATION_INDEX_ANY = null;
 
+/**
+  @template CardT of CardBase
+
+  The type of card that this deck contains.  This should be the base class of the CARD_TYPE_GROUP.  `\WcLib\Card` can be
+  used in situations where no extra functionality is necessary.
+*/
 class WcDeck extends \APP_DbObject
 {
   // N.B.: For `card_order`, lower numbers are "first" (closer to
   // the top of a deck).
 
+  protected string $CardT_;
+
   // See `card` table schema for details.
   protected string $location_;
 
-
-  function __construct(string $location)
+  /**
+    @param class-string<CardT> $CardT;
+   */
+  function __construct(string $CardT, string $location)
   {
-    // // XXX: BGA throws an error: "cannot call constructor".
+    // // XXX: BGA throws an error: "cannot call constructor" (so \APP_DbObject must not have a ctor).
     // parent::__construct();
 
+    $this->CardT_ = $CardT;
     $this->location_ = $location;
   }
 
   // --- New (WcLib) API ---
 
   // XXX: Does not handle auto-reshuffling.
-  public function drawTo(string $dest_sublocation, ?int $dest_sublocation_index, string $src_sublocation = 'DECK', ?int $src_sublocation_index = NULL): Card
+  /** @return CardT */
+  public function drawTo(string $dest_sublocation, ?int $dest_sublocation_index, string $src_sublocation = 'DECK', ?int $src_sublocation_index = NULL)
   {
     $card = $this->peekTop($src_sublocation, $src_sublocation_index);
     if (is_null($card)) {
@@ -198,18 +216,19 @@ class WcDeck extends \APP_DbObject
   public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = SUBLOCATION_INDEX_ANY)
   {
     return array_map(function ($row) {
-      return Card::fromRow($row);
+      return $this->CardT_::fromRow($row);
     }, $this->rawGetAll($card_sublocations, $sublocation_index));
   }
 
-  // XXX: Or should this be on `Card`?
-  public function get(int $card_id): ?Card
+  /** @return CardT|null */
+  public function get(int $card_id)
   {
-    return Card::fromRow($this->rawGet($card_id));
+    return $this->CardT_::fromRow($this->CardT_, $this->rawGet($card_id));
   }
 
   // Same as `get()`, but throws an exception if the card is not found.
-  public function mustGet(int $card_id): Card
+  /** @return CardT */
+  public function mustGet(int $card_id)
   {
     $card = $this->get($card_id);
     if ($card === null) {
@@ -242,7 +261,7 @@ class WcDeck extends \APP_DbObject
   function getAllOfTypeGroup(string $card_type_group)
   {
     return array_map(function ($row) {
-      return Card::fromRow($row);
+      return $this->CardT_::fromRow($this->CardT_, $row);
     }, $this->rawGetAllOfTypeGroup($card_type_group));
   }
 
@@ -258,9 +277,10 @@ class WcDeck extends \APP_DbObject
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  public function peekTop($card_sublocation = 'DECK', ?int $sublocation_index = null): ?Card
+  /** @return CardT|null */
+  public function peekTop($card_sublocation = 'DECK', ?int $sublocation_index = null)
   {
-    return Card::fromRow($this->rawPeekTop($card_sublocation, $sublocation_index));
+    return $this->CardT_::fromRow($this->CardT_, $this->rawPeekTop($card_sublocation, $sublocation_index));
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, and
@@ -271,14 +291,16 @@ class WcDeck extends \APP_DbObject
   // $card_sublocation and then `shuffle()` them and try again.  If
   // $auto_reshuffle is false, or if there are no cards in either
   // sublocation, returns `null`.
+  //
+  /** @return CardT|null */
   private function drawAndDiscard(
     $card_sublocation = 'DECK',
     ?int $sublocation_index = null,
     string $destination_sublocation = 'DISCARD',
     bool $auto_reshuffle = false
-  ): ?Card
+  )
   {
-    $card = Card::fromRow($this->rawPeekTop($card_sublocation, $sublocation_index));
+    $card = $this->CardT_::fromRow($this->CardT_, $this->rawPeekTop($card_sublocation, $sublocation_index));
 
     if ($card === null) {
       if (!$auto_reshuffle) {
@@ -330,7 +352,8 @@ class WcDeck extends \APP_DbObject
     return null;
   }
 
-  public function placeOnTop(Card $card, string $sublocation, ?int $sublocation_index = NULL): void
+  /** @param CardT $card */
+  public function placeOnTop($card, string $sublocation, ?int $sublocation_index = NULL): void
   {
     $this->shiftCardOrder($sublocation, $sublocation_index, 1);
     $this->updateCard($card, $sublocation, /*card_order=*/ 0, $sublocation_index);
@@ -344,7 +367,8 @@ class WcDeck extends \APP_DbObject
   // --- This should probably become internal, but it's temporarily external until the API is fleshed out ---
 
   // XXX: This is partially duplicated by `updateCard()` in "DataLayer.php" in Burgle Bros 2.
-  public function updateCard(Card $card, string $sublocation, int $card_order, ?int $sublocation_index)
+  /** @param CardT $card */
+  public function updateCard($card, string $sublocation, int $card_order, ?int $sublocation_index)
   {
     $update_subexprs = [
       'card_location = "' . $this->location_ . '"',
