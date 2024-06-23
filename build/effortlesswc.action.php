@@ -4,11 +4,13 @@
 
 class action_effortlesswc extends APP_GameAction
 {
-  // TODO: It'd be nice to find a way to eliminate the need for the phan suppression directive here.
-  //
+  // XXX: Should these be moved to `APP_GameAction`?
+
   /** @var Effortlesswc $game */
-  // @phan-suppress-next-line PhanUndeclaredTypeProperty
   public $game; // Enforces functions exist on Table class
+
+  public $view;
+  public $viewArgs;
 
   // Constructor: please do not modify
   public function __default()

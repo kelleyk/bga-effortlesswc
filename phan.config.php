@@ -26,81 +26,78 @@ use Phan\Config;
  * '-d' flag.
  */
 return [
-    // If true, missing properties will be created when
-    // they are first seen. If false, we'll report an
-    // error message.
-    "allow_missing_properties" => true,
+  // ****************
 
-    // Allow null to be cast as any type and for any
-    // type to be cast to null.
-    "null_casts_as_any_type" => true,
+  // Here are a few settings that may be useful when starting to analyze existinng codebases.  You may also want to
+  // start with a "minimum"severity" value of around 5, instead of 0.
 
-    // Backwards Compatibility Checking
-    'backward_compatibility_checks' => false,
+  // // If true, missing properties will be created when
+  // // they are first seen. If false, we'll report an
+  // // error message.
+  // "allow_missing_properties" => true,
 
-    // Run a quick version of checks that takes less
-    // time
-    "quick_mode" => true,
+  // // Allow null to be cast as any type and for any
+  // // type to be cast to null.
+  // "null_casts_as_any_type" => true,
 
-    // Only emit critical issues to start with
-    // (0 is low severity, 5 is normal severity, 10 is critical)
-    "minimum_severity" => 5,
+  // ****************
 
-    // A list of directories that should be parsed for class and
-    // method information. After excluding the directories
-    // defined in exclude_analysis_directory_list, the remaining
-    // files will be statically analyzed for errors.
-    //
-    // Thus, both first-party and third-party code being used by
-    // your application should be included in this list.
-    'directory_list' => [
-         // Change this to include the folders you wish to analyze
-         // (and the folders of their dependencies)
+  // Only emit critical issues to start with
+  // (0 is low severity, 5 is normal severity, 10 is critical)
+  "minimum_severity" => 0,
 
-      //  '/src',
+  // Target the version(s) of PHP that BGA uses.
+  'backward_compatibility_checks' => true,
+  'minimum_target_php_version' => '7.4',
+  'target_php_version' => '8.2',
 
-      '/src/game',
-      '/src/test',
-      '/src/localarena',
+  // A list of directories that should be parsed for class and
+  // method information. After excluding the directories
+  // defined in exclude_analysis_directory_list, the remaining
+  // files will be statically analyzed for errors.
+  //
+  // Thus, both first-party and third-party code being used by
+  // your application should be included in this list.
+  'directory_list' => [
+    // Change this to include the folders you wish to analyze
+    // (and the folders of their dependencies)
 
-         // // To speed up analysis, we recommend going back later and
-         // // limiting this to only the vendor/ subdirectories your
-         // // project depends on.
-         // // `phan --init` will generate a list of folders for you
-         // 'src/vendor',
+    '/src/game',
+    '/src/test',
+    '/src/localarena',
+  ],
 
-         // // These are mounted read-only from `wclib`.
-         // '/wclib/bga-stubs',
+  // N.B.: These are include paths in the same sense that `set_include_path()`/`get_include_path()` mean; these should
+  // probably match what's in PHPUnit's "autoload.php".
+  'include_paths' => [
+    '.',
+    '/src/game/effortlesswc',
+    '/src/test/effortlesswc',
+  ],
 
-         //   '/src/localarena/module',
-         // '/src/localarena/view',
-    ],
+  'globals_type_map' => [
+    'APP_BASE_PATH' => 'string',
+  ],
 
-    // N.B.: These are include paths in the same sense that `set_include_path()`/`get_include_path()` mean; these should
-    // probably match what's in PHPUnit's "autoload.php".
-      'include_paths' => [
-        '.',
-        // '/src',
-        '/src/game/effortlesswc',
-        '/src/test/effortlesswc',
-      ],
+  // A list of directories holding code that we want
+  // to parse, but not analyze
+  "exclude_analysis_directory_list" => [
+    // XXX: These are left over from LocalArena; should weed them out.
+    'src/vendor',
+    'src/dojox/analytics/logger',
 
-      'globals_type_map' => [
-      'APP_BASE_PATH' => 'string',
-    ],
+    '/src/localarena/module',
+    '/src/localarena/view',
+  ],
 
-    // A list of directories holding code that we want
-    // to parse, but not analyze
-    "exclude_analysis_directory_list" => [
-      // XXX: These are left over from LocalArena; should weed them out.
-        'src/vendor',
-        'src/dojox/analytics/logger',
+  // N.B.: Without this, include/require statements for files that aren't found won't cause errors.  (You'll still get
+  // the consequent "undefined class" or similar errors as a result of Phan not finding the definitions in those files,
+  // though!)
+  "enable_include_path_checks" => true,
 
-        '/src/localarena/module',
-        '/src/localarena/view',
-
-    ],
-
-    // N.B.: Without this, include/require statements for files that aren't found won't cause errors.  (You'll still get the consequent "undefined class" or whatever errors, though!)
-      "enable_include_path_checks" => true,
+  // Issue types in this list will not be reported.
+  'suppress_issue_types' => [
+    // This happens with calls to e.g. `DbQuery()`
+    'PhanAbstractStaticMethodCallInTrait',
+  ],
 ];
