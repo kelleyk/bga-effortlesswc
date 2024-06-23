@@ -4,18 +4,26 @@
   XXX: In order to remove these directives, we need to make LocalArena code visible to Phan. Doing that will require
   dealing with the redefinition conflicts between LocalArena and the stubs in WcLib.
 
-  @phan-file-suppress PhanUndeclaredConstant
-  @phan-file-suppress PhanUndeclaredExtendedClass
-  @phan-file-suppress PhanUndeclaredClassMethod
-  @phan-file-suppress PhanUndeclaredClassProperty
-  @phan-file-suppress PhanUndeclaredMethod
+  @XXX-phan-file-suppress PhanUndeclaredConstant
+  @XXX-phan-file-suppress PhanUndeclaredExtendedClass
+  @XXX-phan-file-suppress PhanUndeclaredClassMethod
+  @XXX-phan-file-suppress PhanUndeclaredClassProperty
+  @XXX-phan-file-suppress PhanUndeclaredMethod
  */
 
 namespace EffortlessWC\Test;
 
 require_once '/src/localarena/module/test/IntegrationTestCase.php';
+
+// XXX: Necessary for Phan until we sort out path structure once and for all.
+if (!defined('LOCALARENA_GAME_PATH')) {
+  define('LOCALARENA_GAME_PATH', '/src/game/');
+}
+
 require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/constants.inc.php';
 require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/WcLib/WcDeck.php';
+
+use \LocalArena\TableParams;
 
 // use LocalArena\Test\PlayerPeer;
 
@@ -36,7 +44,7 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
 
   function setupCleanState(): void
   {
-    $params = new \TableParams();
+    $params = new TableParams();
     $params->playerCount = 1;
     $this->initTable($params);
 

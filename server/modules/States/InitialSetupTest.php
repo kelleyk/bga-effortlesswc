@@ -2,8 +2,8 @@
 
 require_once '/src/localarena/module/test/IntegrationTestCase.php';
 
-require_once '/src/server/modules/constants.inc.php';
-require_once '/src/server/modules/Test/IntegrationTestCase.php';
+require_once 'modules/php/constants.inc.php';
+require_once 'modules/php/Test/IntegrationTestCase.php';
 
 class InitialSetupTest extends \EffortlessWC\Test\IntegrationTestCase
 {

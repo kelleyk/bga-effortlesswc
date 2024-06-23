@@ -2,8 +2,8 @@
 
 namespace EffortlessWC\Models;
 
-use \EffortlessWC\ScoringContext;
-use \EffortlessWC\World;
+use EffortlessWC\ScoringContext;
+use EffortlessWC\World;
 
 // XXX: We need a way to do sorting that lets the Fighter attribute do its tiebreaking thing.
 

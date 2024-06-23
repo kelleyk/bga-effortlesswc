@@ -56,18 +56,33 @@ return [
     'directory_list' => [
          // Change this to include the folders you wish to analyze
          // (and the folders of their dependencies)
-         'src',
+
+      //  '/src',
+
+      '/src/game',
+      '/src/test',
+      '/src/localarena',
+
          // // To speed up analysis, we recommend going back later and
          // // limiting this to only the vendor/ subdirectories your
          // // project depends on.
          // // `phan --init` will generate a list of folders for you
          // 'src/vendor',
 
-         // These are mounted read-only from `wclib`.
-         '/wclib/bga-stubs'
+         // // These are mounted read-only from `wclib`.
+         // '/wclib/bga-stubs',
+
+         //   '/src/localarena/module',
+         // '/src/localarena/view',
     ],
 
+    // N.B.: These are include paths in the same sense that `set_include_path()`/`get_include_path()` mean; these should
+    // probably match what's in PHPUnit's "autoload.php".
       'include_paths' => [
+        '.',
+        // '/src',
+        '/src/game/effortlesswc',
+        '/src/test/effortlesswc',
       ],
 
       'globals_type_map' => [
@@ -80,5 +95,12 @@ return [
       // XXX: These are left over from LocalArena; should weed them out.
         'src/vendor',
         'src/dojox/analytics/logger',
+
+        '/src/localarena/module',
+        '/src/localarena/view',
+
     ],
+
+    // N.B.: Without this, include/require statements for files that aren't found won't cause errors.  (You'll still get the consequent "undefined class" or whatever errors, though!)
+      "enable_include_path_checks" => true,
 ];

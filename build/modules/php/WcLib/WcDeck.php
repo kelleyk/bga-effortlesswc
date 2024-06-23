@@ -214,13 +214,13 @@ class WcDeck extends \APP_DbObject
   {
     self::trace("WcDeck::rawGet(cardId={$cardId})");
     // XXX: this should probably return an error if the card is not within the scope of this WcDeck
-    $card = $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
-    if (is_null($card['id'])) {
+    $row = $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
+    if (is_null($row['id'])) {
       throw new \BgaUserException(
-        "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $card=" . print_r($card, true)
+        "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $row=" . print_r($row, true)
       );
     }
-    return $card;
+    return $row;
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
@@ -270,17 +270,18 @@ class WcDeck extends \APP_DbObject
   // sublocation, returns `null`.
   private function rawDrawAndDiscard($card_sublocation = 'DECK', ?int $sublocation_index, string $destination_sublocation = 'DISCARD', bool $auto_reshuffle = false): ?Card
   {
-    $card = $this->rawPeekTop($card_sublocation, $sublocation_index);
+    $row = $this->rawPeekTop($card_sublocation, $sublocation_index);
 
-    if ($card === null) {
+    if ($row === null) {
       if (!$auto_reshuffle) {
         return null;
       }
       $this->moveAll([$destination_sublocation], $card_sublocation);
       $this->shuffle($card_sublocation, $sublocation_index);
-      return $this->rawDrawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false);
+      return Card::fromRow($this->rawDrawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false));
     }
 
+    $card = Card::fromRow($row);
     $this->placeOnTop($card, $destination_sublocation);
     // XXX: should $card reflect the before position or the after position?
     return $card;

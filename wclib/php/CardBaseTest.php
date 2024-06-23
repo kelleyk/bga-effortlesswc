@@ -7,12 +7,14 @@ namespace WcLib;
 define('APP_GAMEMODULE_PATH', '/src/localarena/');
 define('APP_BASE_PATH', '/src/localarena/');
 
-require_once 'localarena/src/module/tablemanager/tablemanager.php';
-require_once 'localarena/src/module/test/IntegrationTestCase.php';
-require_once 'CardBase.php';
+require_once 'modules/php/WcLib/Test/IntegrationTestCase.php';
+require_once 'modules/php/WcLib/CardBase.php';
 
 // @phan-suppress-next-line PhanUndeclaredConstant
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
+
+require_once '/src/localarena/module/tablemanager/TableParams.php';
+use \LocalArena\TableParams;
 
 const WCCARD_SCHEMA = <<<END
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -69,11 +71,11 @@ class RedBoringCard extends FancyCard {
   const CARD_TYPE = 'RED';
 }
 
-Class CardBaseTest extends \LocalArena\Test\IntegrationTestCase {
+Class CardBaseTest extends \WcLib\Test\IntegrationTestCase {
   const LOCALARENA_GAME_NAME = 'localarenanoop';
 
   function testFoo(): void {
-    $params = new \TableParams();
+    $params = new TableParams();
     $params->playerCount = 1;
     $params->schema_changes = WCCARD_SCHEMA;
     $this->initTable($params);

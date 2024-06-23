@@ -9,6 +9,10 @@ require_once 'WcLib/BgaTableTrait.php';
 require_once 'Models/Setting.php';
 require_once 'Models/Location.php';
 
+//
+// @XXX-phan-file-suppress PhanAbstractStaticMethodCallInTrait
+//
+
 // This code performs the setup that's done as the table is created.
 trait Setup
 {

@@ -7,6 +7,7 @@ require_once 'WcLib/WcDeck.php';
 use WcLib\Card;
 use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Setting;
+use EffortlessWC\Models\Seat;
 
 class WorldImpl implements World
 {

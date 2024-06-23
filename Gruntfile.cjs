@@ -129,8 +129,26 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'wclib/php/',
-            src: ['*.php'], // XXX: Exclude tests?
+            src: ['**/*.php', '!**/*Test.php', '!Test/**'],
             dest: 'build/modules/php/WcLib/',
+            filter: 'isFile',
+          },
+        ],
+      },
+      server_tests: {
+        files: [
+          {
+            expand: true,
+            cwd: 'server/modules/',
+            src: ['**/Test/**', '**/*Test.php'],
+            dest: 'test-build/modules/php/',
+            filter: 'isFile',
+          },
+          {
+            expand: true,
+            cwd: 'wclib/php/',
+            src: ['**/Test/**', '**/*Test.php'],
+            dest: 'test-build/modules/php/WcLib/',
             filter: 'isFile',
           },
         ],
@@ -240,11 +258,11 @@ module.exports = function (grunt) {
           'mkdir -p tmp/phan',
           [
             'docker run -i --rm',
-            '-v $PWD/server:/src',
+            '-v $PWD/test-build:/src/test/effortlesswc',
+            '-v $PWD/build:/src/game/effortlesswc',
             '-v $PWD/phan.config.php:/config/phan.config.php:ro',
             '-v $PWD/tmp/phan:/output',
-            '-v $PWD/wclib/bga-stubs:/wclib/bga-stubs:ro',
-            '-v $PWD/wclib/php:/src/modules/php/WcLib:ro',
+
             // // XXX: This is necessary only for test code; but adding it creates "redefined class" errors.
             //
             // '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
@@ -307,7 +325,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-prettier');
   grunt.loadNpmTasks('grunt-tslint');
 
-  grunt.registerTask('phan', ['shell:phan']);
+  grunt.registerTask('phan', [
+    'copy:server_sources',
+    'copy:server_tests',
+    'shell:phan',
+  ]);
 
   grunt.registerTask('client', ['sass', 'cssmin', 'build-ts', 'uglify']);
 

@@ -18,6 +18,10 @@ these into unit tests once we have that framework set up.
         throw new \BgaUserException("bar is: ".print_r($bar, true));
 */
 
+//
+// @phan-file-suppress PhanAbstractStaticMethodCallInTrait
+//
+
 trait GameState
 {
   use \WcLib\BgaTableTrait;
