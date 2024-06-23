@@ -15,6 +15,9 @@ class Card
   private int $sublocation_index_;
   private int $order_;
 
+  // N.B.: This is a `string[]` because MySQL returns every column as a string, regardless of the column's actual type.
+  // (XXX: Is this true for NULL values as well?)
+  /** @param string[]|null $row */
   public static function fromRow($row): ?Card
   {
     if ($row === null) {
@@ -66,11 +69,6 @@ class Card
   {
     return $this->order_;
   }
-
-  public function useCount(): int
-  {
-    return $this->use_count_;
-  }
 }
 
 // For `WcDeck` sublocation indices, "null" means "any/all".
@@ -103,7 +101,7 @@ class WcDeck extends \APP_DbObject
       throw new \BgaVisibleSystemException('No cards in ' . $this->location_ . ',' . $src_sublocation . ',' . (is_null($src_sublocation_index) ? 'NULL': $src_sublocation_index));
     }
     $this->placeOnTop($card, $dest_sublocation, $dest_sublocation_index);
-    return $this->get($card->id());
+    return $this->mustGet($card->id());
   }
 
   public function location(): string
@@ -191,7 +189,7 @@ class WcDeck extends \APP_DbObject
   //     $this->DbQuery('UPDATE `card` SET ' . implode(',', $update_subexprs) . ' WHERE `id` = ' . $card_id);
   // }
 
-  private function rawGetAll($card_sublocations = ['DECK'], ?int $sublocation_index)
+  private function rawGetAll($card_sublocations = ['DECK'], ?int $sublocation_index = null)
   {
     return $this->getCollectionFromDB('SELECT * FROM `card` WHERE ' . $this->buildWhereClause($card_sublocations, $sublocation_index));
   }
@@ -205,22 +203,27 @@ class WcDeck extends \APP_DbObject
   }
 
   // XXX: Or should this be on `Card`?
-  public function get(int $card_id): Card
+  public function get(int $card_id): ?Card
   {
     return Card::fromRow($this->rawGet($card_id));
   }
 
-  private function rawGet($cardId)
+  // Same as `get()`, but throws an exception if the card is not found.
+  public function mustGet(int $card_id): Card
   {
-    self::trace("WcDeck::rawGet(cardId={$cardId})");
-    // XXX: this should probably return an error if the card is not within the scope of this WcDeck
-    $row = $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $cardId);
-    if (is_null($row['id'])) {
-      throw new \BgaUserException(
-        "WcDeck::rawGet(cardId={$cardId}) -- card ID is null; $row=" . print_r($row, true)
-      );
+    $card = $this->get($card_id);
+    if ($card === null) {
+      throw new \BgaVisibleSystemException('Unable to find card with ID ' . $card_id);
     }
-    return $row;
+    return $card;
+  }
+
+  /** @return string[]|null */
+  private function rawGet(int $card_id)
+  {
+    // self::trace("WcDeck::rawGet(card_id={$card_id})");
+    // XXX: this should probably return an error if the card is not within the scope of this WcDeck
+    return $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $card_id);
   }
 
   // XXX: This should be `static` once `getCollectionFromDB()` is.
@@ -245,7 +248,7 @@ class WcDeck extends \APP_DbObject
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  private function rawPeekTop($card_sublocation = 'DECK', ?int $sublocation_index)
+  private function rawPeekTop($card_sublocation = 'DECK', ?int $sublocation_index = null)
   {
     $sql =
       'SELECT * FROM `card` WHERE ' . $this->buildWhereClause([$card_sublocation], $sublocation_index) . ' ORDER BY card_order ASC LIMIT 1';
@@ -255,7 +258,7 @@ class WcDeck extends \APP_DbObject
 
   // Returns the top `Card` in the indicated $card_sublocation, or
   // `null` iff it is empty.
-  public function peekTop($card_sublocation = 'DECK', ?int $sublocation_index): ?Card
+  public function peekTop($card_sublocation = 'DECK', ?int $sublocation_index = null): ?Card
   {
     return Card::fromRow($this->rawPeekTop($card_sublocation, $sublocation_index));
   }
@@ -268,32 +271,27 @@ class WcDeck extends \APP_DbObject
   // $card_sublocation and then `shuffle()` them and try again.  If
   // $auto_reshuffle is false, or if there are no cards in either
   // sublocation, returns `null`.
-  private function rawDrawAndDiscard($card_sublocation = 'DECK', ?int $sublocation_index, string $destination_sublocation = 'DISCARD', bool $auto_reshuffle = false): ?Card
+  private function drawAndDiscard(
+    $card_sublocation = 'DECK',
+    ?int $sublocation_index = null,
+    string $destination_sublocation = 'DISCARD',
+    bool $auto_reshuffle = false
+  ): ?Card
   {
-    $row = $this->rawPeekTop($card_sublocation, $sublocation_index);
+    $card = Card::fromRow($this->rawPeekTop($card_sublocation, $sublocation_index));
 
-    if ($row === null) {
+    if ($card === null) {
       if (!$auto_reshuffle) {
         return null;
       }
       $this->moveAll([$destination_sublocation], $card_sublocation);
       $this->shuffle($card_sublocation, $sublocation_index);
-      return Card::fromRow($this->rawDrawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false));
+      return $this->drawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false);
     }
 
-    $card = Card::fromRow($row);
     $this->placeOnTop($card, $destination_sublocation);
     // XXX: should $card reflect the before position or the after position?
     return $card;
-  }
-
-  public function drawAndDiscard(
-    $card_sublocation = 'DECK',
-    $destination_sublocation = 'DISCARD',
-    $auto_reshuffle = false
-  ): ?Card {
-    $row = $this->rawDrawAndDiscard($card_sublocation, $destination_sublocation, $auto_reshuffle);
-    return Card::fromRow($row);
   }
 
   // Like `drawAndDiscard()`, but repeats until $predicate returns
@@ -318,7 +316,7 @@ class WcDeck extends \APP_DbObject
   // convenience.  Could be extended to support that.
   //
   // XXX: Need to wrap this with a non-raw function.
-  private function rawDrawAndDiscardFirstMatching($predicate, string $card_sublocation = 'DECK', ?int $sublocation_index, string $destination_sublocation = 'DISCARD')
+  private function rawDrawAndDiscardFirstMatching($predicate, string $card_sublocation = 'DECK', ?int $sublocation_index = null, string $destination_sublocation = 'DISCARD')
   {
     $cards = $this->rawGetAll([$card_sublocation], $sublocation_index);
 

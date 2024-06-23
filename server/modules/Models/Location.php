@@ -60,7 +60,7 @@ abstract class Location extends \WcLib\CardBase
   }
 
   // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
-  public function getParameterCardAtLocation(World $world, int $param_index)
+  public function getParameterCardAtLocation(World $world, int $param_index, Location $loc)
   {
     // XXX: This should be a thin layer over `getParameterCard()`.
     throw new \feException('XXX: foo');
@@ -168,7 +168,7 @@ class ColiseumLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $selected_card = $this->getParameterCardAtLocation($world, 0);
+    $selected_card = $this->getParameterCardAtLocation($world, 0, $this);
 
     $other_cards = array_values(
       array_filter($this->cards($world), function ($card) use ($selected_card) {

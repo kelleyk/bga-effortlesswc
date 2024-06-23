@@ -51,34 +51,14 @@ require_once 'modules/php/constants.inc.php';
 
 class Effortlesswc extends Table
 {
-  // use EffortlessWC\Bouncer;
-  // use EffortlessWC\ClientRender;
-  // use EffortlessWC\DataLayer;
-  // use EffortlessWC\GameEffects;
-  // use EffortlessWC\GameEffectUtils;
-  // use EffortlessWC\GameFlow;
-  // use EffortlessWC\GameOptions;
   use EffortlessWC\Setup;
-  // use EffortlessWC\TurnOrder;
-  // use EffortlessWC\WorldImpl;
-  // use EffortlessWC\Logging;
-
-  // use EffortlessWC\Models\EntityManager;
-  // use EffortlessWC\Models\FinaleManager;
-  // use EffortlessWC\Models\TileManager;
-  // use EffortlessWC\Models\WallManager;
-
-  // use EffortlessWC\Utilities\GameState;
+  use EffortlessWC\BaseTableTrait;
 
   use EffortlessWC\States\InitialSetup;
   use EffortlessWC\States\NextTurn;
   use EffortlessWC\States\PlaceEffort;
 
   // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
-
-  public \WcLib\WcDeck $mainDeck;
-  public \WcLib\WcDeck $locationDeck;
-  public \WcLib\WcDeck $settingDeck;
 
   function __construct()
   {

@@ -4,6 +4,7 @@ namespace WcLib;
 
 abstract class CardBase
 {
+  protected int $id_;
   protected string $type_group_;
   protected string $type_;
   protected string $location_;
@@ -57,7 +58,7 @@ abstract class CardBase
   }
 
   public function id(): int {
-    return $this->int_;
+    return $this->id_;
   }
 
   public function typeGroup(): string {
