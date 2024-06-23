@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
-    bootstrap = "/src/server/modules/Test/autoload.php"
+    bootstrap = "/src/test/effortlesswc/modules/php/Test/autoload.php"
     colors                      = "true"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings = "true"
     >
   <testsuites>
     <testsuite name="Tests">
-        <directory suffix="Test.php">/src/server</directory>
+        <directory suffix="Test.php">/src/test/effortlesswc</directory>
     </testsuite>
   </testsuites>
 </phpunit>

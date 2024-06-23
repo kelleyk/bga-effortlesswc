@@ -258,10 +258,10 @@ module.exports = function (grunt) {
           'mkdir -p tmp/phan',
           [
             'docker run -i --rm',
-            '-v $PWD/test-build:/src/test/effortlesswc',
-            '-v $PWD/build:/src/game/effortlesswc',
+            '-v $PWD/test-build:/src/test/effortlesswc:ro',
+            '-v $PWD/build:/src/game/effortlesswc:ro',
             '-v $PWD/phan.config.php:/config/phan.config.php:ro',
-            '-v $PWD/tmp/phan:/output',
+            '-v $PWD/tmp/phan:/output:rw',
 
             // // XXX: This is necessary only for test code; but adding it creates "redefined class" errors.
             //
@@ -288,32 +288,38 @@ module.exports = function (grunt) {
         // have in LocalArena and in the WcLib stubs (which are based on VictoriaLa's) need to match.
         command: [
           'docker run -i --rm',
+
           '--network localarena_default',
           '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
-          '-v $PWD/build:/src/game/effortlesswc',
-          '-v $PWD/server:/src/server',
-          '-v $PWD/wclib/php:/src/game/effortlesswc/modules/php/WcLib:ro',
           '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+
+          '-v $PWD/test-build:/src/test/effortlesswc:ro',
+          '-v $PWD/build:/src/game/effortlesswc:ro',
+
           'wardcanyon/localarena-testenv:latest',
-          'phpunit --configuration /src/server/modules/Test/phpunit.xml',
+          'phpunit --configuration /src/test/effortlesswc/modules/php/Test/phpunit.xml',
         ].join(' '),
       },
     },
   });
 
-  // console.log(
-  //   [
-  //     'docker run -i --rm',
-  //     '--network localarena_default',
-  //     '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
-  //     '-v $PWD/build:/src/game/effortlesswc',
-  //     '-v $PWD/server:/src/server',
-  //     '-v $PWD/wclib/php:/src/game/effortlesswc/modules/php/WcLib:ro',
-  //     '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
-  //     'wardcanyon/localarena-testenv:latest',
-  //     'phpunit --configuration /src/server/modules/Test/phpunit.xml',
-  //   ].join(' '),
-  // );
+  console.log(
+    [
+      'docker run -i --rm',
+
+      '--network localarena_default',
+      '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
+      '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+
+      '-v $PWD/build:/src/game/effortlesswc:ro',
+
+      // XXX: Removing this breaks at least the path below.
+      '-v $PWD/server:/src/server:ro',
+
+      'wardcanyon/localarena-testenv:latest',
+      'phpunit --configuration /src/server/modules/Test/phpunit.xml',
+    ].join(' \\ \n'),
+  );
 
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
