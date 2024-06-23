@@ -9,10 +9,6 @@ require_once 'WcLib/BgaTableTrait.php';
 require_once 'Models/Setting.php';
 require_once 'Models/Location.php';
 
-//
-// @XXX-phan-file-suppress PhanAbstractStaticMethodCallInTrait
-//
-
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
@@ -151,6 +147,8 @@ trait Setup
   {
     $card_specs = [];
     $this->visitConcreteSubclasses('EffortlessWC\Models\Setting', function ($rc) use (&$card_specs, $sets) {
+      // N.B.: For details on this suppression, see "wc_game_config.inc.php".
+      /** @phan-suppress-next-line PhanSuspiciousWeakTypeComparison */
       if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), DISABLED_SETTINGS)) {
         $card_specs[] = [
           'card_type_group' => 'setting',
