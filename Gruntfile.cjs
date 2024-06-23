@@ -292,6 +292,7 @@ module.exports = function (grunt) {
           '--network localarena_default',
           '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
           '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+          '-v ${LOCALARENA_ROOT}/src/game/localarenanoop:/src/game/localarenanoop:ro',
 
           '-v $PWD/test-build:/src/test/effortlesswc:ro',
           '-v $PWD/build:/src/game/effortlesswc:ro',
