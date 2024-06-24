@@ -14,6 +14,8 @@ class InitialSetupTest extends \EffortlessWC\Test\IntegrationTestCase
 
   function testTableSetup(): void
   {
+    $this->assertGameState(ST_PLACE_EFFORT);
+
     // XXX: Deliberately empty.
   }
 }

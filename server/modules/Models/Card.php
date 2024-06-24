@@ -28,10 +28,13 @@ abstract class Card extends \WcLib\CardBase
 
     if ($row !== null && $card !== null) {
       $card->face_down_ = $row['card_face_down'] == '1';
+      $card->init();
     }
 
     return $card;
   }
+
+  abstract protected function init(): void;
 
   public function setFaceDown(bool $face_down): void
   {
@@ -45,21 +48,115 @@ abstract class Card extends \WcLib\CardBase
   {
     return $this->face_down_;
   }
+
+  public function renderForClient(): array
+  {
+    return array_merge(parent::renderForClientBase(!$this->isFaceDown()), [
+      'faceDown' => $this->isFaceDown(),
+    ]);
+  }
 }
 
 class AttributeCard extends Card
 {
+  // The actual types stored in card rows are of the form "attr_<stat>_<points>" (e.g. "attr_str_2").
   const CARD_TYPE = 'attr';
+
+  protected string $stat_;
+  protected int $points_;
+
+  protected function init(): void
+  {
+    $parts = explode('_', $this->type());
+    if (count($parts) != 3) {
+      throw new \BgaVisibleSystemException('Unexpected card-type for attribute card.');
+    }
+
+    $this->stat_ = $parts[1];
+    $this->points_ = intval($parts[2]);
+  }
+
+  public function renderForClient(): array
+  {
+    $result = parent::renderForClient();
+
+    if (!$this->isFaceDown()) {
+      $result = array_merge($result, [
+        'cardTypeStem' => 'attr',
+        'stat' => $this->stat_,
+        'points' => $this->points_,
+      ]);
+    }
+
+    return $result;
+  }
 }
 
 class ArmorCard extends Card
 {
+  // The actual types stored in card rows are of the form "armor_<set>_<piece>" (e.g. "armor_mage_feet").
   const CARD_TYPE = 'armor';
+
+  protected string $armor_set_;
+  protected string $armor_piece_;
+
+  protected function init(): void
+  {
+    $parts = explode('_', $this->type());
+    if (count($parts) != 3) {
+      throw new \BgaVisibleSystemException('Unexpected card-type for armor card.');
+    }
+
+    $this->armor_set_ = $parts[1];
+    $this->armor_piece_ = $parts[2];
+  }
+
+  public function renderForClient(): array
+  {
+    $result = parent::renderForClient();
+
+    if (!$this->isFaceDown()) {
+      $result = array_merge($result, [
+        'cardTypeStem' => 'armor',
+        'armorSet' => $this->armor_set_,
+        'armorPiece' => $this->armor_piece_,
+      ]);
+    }
+
+    return $result;
+  }
 }
 
 class ItemCard extends Card
 {
+  // The actual types stored in card rows are of the form "item_<item_no>" (e.g. "item_7").
   const CARD_TYPE = 'item';
+
+  protected int $item_no_;
+
+  protected function init(): void
+  {
+    $parts = explode('_', $this->type());
+    if (count($parts) != 2) {
+      throw new \BgaVisibleSystemException('Unexpected card-type for item card.');
+    }
+
+    $this->item_no_ = intval($parts[1]);
+  }
+
+  public function renderForClient(): array
+  {
+    $result = parent::renderForClient();
+
+    if (!$this->isFaceDown()) {
+      $result = array_merge($result, [
+        'cardTypeStem' => 'attr',
+        'itemNo' => $this->item_no_,
+      ]);
+    }
+
+    return $result;
+  }
 }
 
 // XXX: We'll eventually need GritCard, ExperienceCard... others?

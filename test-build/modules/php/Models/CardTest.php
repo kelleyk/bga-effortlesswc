@@ -5,7 +5,7 @@ require_once '/src/localarena/module/test/IntegrationTestCase.php';
 require_once 'modules/php/constants.inc.php';
 require_once 'modules/php/Test/IntegrationTestCase.php';
 
-class InitialSetupTest extends \EffortlessWC\Test\IntegrationTestCase
+class CardTest extends \EffortlessWC\Test\IntegrationTestCase
 {
   protected function setUp(): void
   {
@@ -14,8 +14,8 @@ class InitialSetupTest extends \EffortlessWC\Test\IntegrationTestCase
 
   function testTableSetup(): void
   {
-    $this->assertGameState(ST_PLACE_EFFORT);
-
     // XXX: Deliberately empty.
   }
+
+  // XXX: test parsing from database for each card type, and both face-up and face-down renderForClient()
 }

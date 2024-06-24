@@ -89,6 +89,29 @@ abstract class CardBase
     return $card;
   }
 
+  public function renderForClient(): array {
+    return $this->renderForClientBase(true);
+  }
+
+  public function renderForClientBase(bool $visible): array {
+    $result = [
+      'id' => $this->id(),
+      'location' => $this->location(),
+      'sublocation' => $this->sublocation(),
+      'sublocationIndex' => $this->sublocationIndex(),
+      'order' => $this->order(),
+    ];
+
+    if ($visible) {
+      $result = array_merge($result, [
+        'cardTypeGroup' => $this->typeGroup(),
+        'cardType' => $this->type(),
+      ]);
+    }
+
+    return $result;
+  }
+
   public function id(): int {
     return $this->id_;
   }
