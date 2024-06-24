@@ -2,6 +2,8 @@
 
 namespace EffortlessWC\States;
 
+use EffortlessWC\Models\Seat;
+
 trait PlaceEffort
 {
   use \EffortlessWC\BaseTableTrait;
@@ -28,21 +30,10 @@ trait PlaceEffort
     $world = $this->world();
     return [
       // 'players' => $this->renderForClient(Player::getAllInPlay($world)),
-      // 'seats' => $this->renderForClient(Seat::getAllInPlay($world)),
+      'seats' => $this->renderForClient(Seat::getAll($world)),
       'cards' => $this->renderForClient($this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
       'locations' => $this->renderForClient($this->locationDeck->getAll(['SETLOC'])),
       'settings' => $this->renderForClient($this->settingDeck->getAll(['SETLOC'])),
     ];
-  }
-
-  // XXX: Move to better home
-  public function renderForClient($x)
-  {
-    if (is_array($x)) {
-      return array_map(function ($y) {
-        return $this->renderForClient($y);
-      }, $x);
-    }
-    return $x->renderForClient();
   }
 }

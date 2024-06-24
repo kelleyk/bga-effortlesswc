@@ -22,4 +22,15 @@ trait BaseTableTrait
   {
     return new WorldImpl($this);
   }
+
+  // XXX: Move to better home
+  public function renderForClient($x)
+  {
+    if (is_array($x)) {
+      return array_map(function ($y) {
+        return $this->renderForClient($y);
+      }, $x);
+    }
+    return $x->renderForClient();
+  }
 }

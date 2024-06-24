@@ -2,10 +2,44 @@
 
 namespace EffortlessWC\Models;
 
-class Seat
+use EffortlessWC\World;
+
+class Seat extends \WcLib\SeatBase
 {
-  public function id(): int
+  protected int $reserve_effort_;
+
+  /**
+    @param string[] $row
+    @return Seat
+  */
+  public static function fromRow($row)
   {
-    throw new \feException('XXX: foo');
+    $that = parent::fromRowBase(Seat::class, $row);
+
+    $that->reserve_effort_ = intval($row['reserve_effort']);
+
+    return $that;
+  }
+
+  public function reserve_effort(): int
+  {
+    return $this->reserve_effort_;
+  }
+
+  /**
+    @return Seat[]
+   */
+  public static function getAll(World $world)
+  {
+    return array_map(function ($row) {
+      return Seat::fromRow($row);
+    }, $world->table()->rawGetSeats());
+  }
+
+  public function renderForClient()
+  {
+    return array_merge(parent::renderForClient(), [
+      'reserveEffort' => $this->reserve_effort_,
+    ]);
   }
 }
