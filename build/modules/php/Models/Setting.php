@@ -35,7 +35,7 @@ abstract class Setting extends \WcLib\CardBase
 
   public function renderForClient(World $world): array
   {
-    return parent::renderForClientBase(/*visible=*/true);
+    return parent::renderForClientBase(/*visible=*/ true);
   }
 
   public function effortBySeat(World $world)

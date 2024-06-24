@@ -36,7 +36,8 @@ trait BaseTableTrait
   }
 
   // This function returns everything we need to refresh all mutable state.
-  public function renderBoardState() {
+  public function renderBoardState()
+  {
     // XXX: Things still to be done here:
     //
     // - Need to send public and/or private data about each seat (e.g. their hand), depending on the ruleset.

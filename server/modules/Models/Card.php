@@ -2,7 +2,7 @@
 
 namespace EffortlessWC\Models;
 
-use \EffortlessWC\World;
+use EffortlessWC\World;
 
 abstract class Card extends \WcLib\CardBase
 {

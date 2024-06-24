@@ -43,7 +43,7 @@ abstract class Location extends \WcLib\CardBase
 
   public function renderForClient(World $world): array
   {
-    return parent::renderForClientBase(/*visible=*/true);
+    return parent::renderForClientBase(/*visible=*/ true);
   }
 
   // /**

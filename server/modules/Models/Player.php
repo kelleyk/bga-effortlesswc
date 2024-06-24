@@ -6,8 +6,6 @@ use EffortlessWC\World;
 
 class Player extends \WcLib\PlayerBase
 {
-  protected int $reserve_effort_;
-
   /**
     @param string[] $row
     @return Player
@@ -15,8 +13,6 @@ class Player extends \WcLib\PlayerBase
   public static function fromRow($row)
   {
     $that = parent::fromRowBase(Player::class, $row);
-
-    $that->reserve_effort_ = intval($row['reserve_effort']);
 
     return $that;
   }
@@ -33,8 +29,6 @@ class Player extends \WcLib\PlayerBase
 
   public function renderForClient()
   {
-    return array_merge(parent::renderForClient(), [
-      'reserveEffort' => $this->reserve_effort_,
-    ]);
+    return array_merge(parent::renderForClient(), []);
   }
 }
