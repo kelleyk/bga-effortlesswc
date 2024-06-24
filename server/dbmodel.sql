@@ -78,5 +78,12 @@ CREATE TABLE IF NOT EXISTS `card` (
   -- Values should be unique.  When they aren't, behavior is
   -- undefined, though we try to use `id` to break ties.
   `card_order` INT(10) NOT NULL,
+
+  -- --------------
+  -- Game-specific card properties below this line
+  -- --------------
+
+  `card_face_down` BOOL DEFAULT FALSE NOT NULL,
+
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

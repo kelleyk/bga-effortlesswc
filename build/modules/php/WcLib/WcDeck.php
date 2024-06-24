@@ -5,8 +5,8 @@ namespace WcLib;
 require_once 'CardBase.php';
 
 class Card extends CardBase {
-  // XXX: I'm not sure about this value; we haven't actually used this yet.
-  const CARD_TYPE_GROUP = 'defaultcard';
+  const CARD_TYPE_GROUP = 'card';
+  const CARD_TYPE = 'default';
 
   // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
   // it's not on `CardBase`.
@@ -22,9 +22,11 @@ class Card extends CardBase {
     @param string[]|null $row
     @return CardT|null
   */
-  public static function fromRow(string $CardT, $row)
+  public static function fromRow(string $CardT, $deck, $row)
   {
-    return self::fromRowBase($CardT, $row);
+    return self::fromRowBase($CardT, $deck, $row, function ($card_type) {
+      return 'default';
+    });
   }
 }
 
@@ -167,14 +169,14 @@ class WcDeck extends \APP_DbObject
   public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = SUBLOCATION_INDEX_ANY)
   {
     return array_map(function ($row) {
-      return $this->CardT_::fromRow($this->CardT_, $row);
+      return $this->CardT_::fromRow($this->CardT_, $this, $row);
     }, $this->rawGetAll($card_sublocations, $sublocation_index));
   }
 
   /** @return CardT|null */
   public function get(int $card_id)
   {
-    return $this->CardT_::fromRow($this->CardT_, $this->rawGet($card_id));
+    return $this->CardT_::fromRow($this->CardT_, $this, $this->rawGet($card_id));
   }
 
   // Same as `get()`, but throws an exception if the card is not found.
@@ -212,7 +214,7 @@ class WcDeck extends \APP_DbObject
   function getAllOfTypeGroup(string $card_type_group)
   {
     return array_map(function ($row) {
-      return $this->CardT_::fromRow($this->CardT_, $row);
+      return $this->CardT_::fromRow($this->CardT_, $this, $row);
     }, $this->rawGetAllOfTypeGroup($card_type_group));
   }
 
@@ -231,7 +233,7 @@ class WcDeck extends \APP_DbObject
   /** @return CardT|null */
   public function peekTop($card_sublocation = 'DECK', ?int $sublocation_index = null)
   {
-    return $this->CardT_::fromRow($this->CardT_, $this->rawPeekTop($card_sublocation, $sublocation_index));
+    return $this->CardT_::fromRow($this->CardT_, $this, $this->rawPeekTop($card_sublocation, $sublocation_index));
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, and
@@ -251,7 +253,7 @@ class WcDeck extends \APP_DbObject
     bool $auto_reshuffle = false
   )
   {
-    $card = $this->CardT_::fromRow($this->CardT_, $this->rawPeekTop($card_sublocation, $sublocation_index));
+    $card = $this->CardT_::fromRow($this->CardT_, $this, $this->rawPeekTop($card_sublocation, $sublocation_index));
 
     if ($card === null) {
       if (!$auto_reshuffle) {
@@ -307,19 +309,19 @@ class WcDeck extends \APP_DbObject
   public function placeOnTop($card, string $sublocation, ?int $sublocation_index = NULL): void
   {
     $this->shiftCardOrder($sublocation, $sublocation_index, 1);
-    $this->updateCard($card, $sublocation, /*card_order=*/ 0, $sublocation_index);
+    $this->updateCard_legacy($card, $sublocation, /*card_order=*/ 0, $sublocation_index);
   }
 
   public function placeOnBottom(Card $card, string $card_sublocation, ?int $sublocation_index = NULL): void
   {
-    $this->updateCard($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation, $sublocation_index) + 1, $sublocation_index);
+    $this->updateCard_legacy($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation, $sublocation_index) + 1, $sublocation_index);
   }
 
   // --- This should probably become internal, but it's temporarily external until the API is fleshed out ---
 
-  // XXX: This is partially duplicated by `updateCard()` in "DataLayer.php" in Burgle Bros 2.
+  // XXX: This is partially duplicated by `updateCard_legacy()` in "DataLayer.php" in Burgle Bros 2.
   /** @param CardT $card */
-  public function updateCard($card, string $sublocation, int $card_order, ?int $sublocation_index)
+  public function updateCard_legacy($card, string $sublocation, int $card_order, ?int $sublocation_index)
   {
     $update_subexprs = [
       'card_location = "' . $this->location_ . '"',
@@ -389,5 +391,37 @@ class WcDeck extends \APP_DbObject
     }
 
     return $clause;
+  }
+
+  /**
+    @param mixed[] $props
+  */
+  public function updateCard(int $card_id, $props): void {
+    $values = $this->buildUpdateValues($props);
+    self::DbQuery('UPDATE `card` SET ' . implode(',', $values) . ' WHERE `id` = ' . $card_id);
+  }
+
+  // XXX: This is cribbed from Burgle Bros 2; we should move it somewhere more reusable.
+  /**
+    @param mixed[] $props
+    @return string[]
+   */
+  private function buildUpdateValues($props)
+  {
+    $values = [];
+    foreach ($props as $k => $v) {
+      if (is_null($v)) {
+        $values[] = $k . ' = NULL';
+      // } elseif ($v instanceof Position) {
+      //   $values[] = $this->buildExprUpdatePos($v);
+      } elseif (is_bool($v)) {
+        $values[] = $k . ' = ' . ($v ? 'TRUE' : 'FALSE');
+      } elseif (is_int($v)) {
+        $values[] = $k . ' = ' . $v;
+      } else {
+        $values[] = $k . ' = "' . self::escapeStringForDB($v) . '"';
+      }
+    }
+    return $values;
   }
 }

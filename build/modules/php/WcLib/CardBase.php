@@ -4,6 +4,8 @@ namespace WcLib;
 
 abstract class CardBase
 {
+  protected WcDeck $deck_;
+
   protected int $id_;
   protected string $type_group_;
   protected string $type_;
@@ -51,19 +53,31 @@ abstract class CardBase
   //
   // XXX: We really just want to say "this must return an instance of `get_called_class()` or null"; it should be
   // possible to do that without the template parameter.
+  //
+  // $card_type_fn is applied to the `card_type` property of each database row in order to determine which class will be
+  // instantiated for the row.  (The return value is matched up against the CARD_TYPE constants in subclasses of
+  // `CardT`.)  If null (which is the default), the identity function is used.
+  //
   /**
     @template CardT of CardBase
     @param class-string<CardT> $CardT;
     @param string[]|null $row
     @return CardT|null
   */
-  public static function fromRowBase(string $CardT, $row)
+  public static function fromRowBase(string $CardT, $deck, $row, $card_type_fn = null)
   {
     if ($row === null) {
       return null;
     }
 
-    $card = self::newInstByType($row['card_type']);
+    $card_type = $row['card_type'];
+    if ($card_type_fn !== null) {
+      $card_type = $card_type_fn($card_type);
+    }
+    $card = self::newInstByType($card_type);
+
+    $card->deck_ = $deck;
+
     $card->id_ = intval($row['id']);
     $card->type_group_ = $row['card_type_group'];
     $card->type_ = $row['card_type'];
@@ -101,5 +115,10 @@ abstract class CardBase
 
   public function order(): int {
     return $this->order_;
+  }
+
+  /** @param mixed[] $attrs */
+  protected function updateCard($attrs): void {
+    $this->deck_->updateCard($this->id(), $attrs);
   }
 }

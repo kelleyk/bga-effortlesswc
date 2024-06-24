@@ -36,9 +36,9 @@ abstract class Location extends \WcLib\CardBase
     @param string[]|null $row
     @return Location|null
   */
-  public static function fromRow(string $CardT, $row)
+  public static function fromRow(string $CardT, $deck, $row)
   {
-    return self::fromRowBase($CardT, $row);
+    return self::fromRowBase($CardT, $deck, $row);
   }
 
   // /**
