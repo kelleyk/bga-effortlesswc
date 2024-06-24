@@ -9,7 +9,7 @@ abstract class CardBase
   protected string $type_;
   protected string $location_;
   protected string $sublocation_;
-  protected ?int $sublocation_index_;
+  protected int $sublocation_index_;
   protected int $order_;
 
   // N.B.: This returns an unpopulated instance of the appropriate class.
@@ -95,7 +95,7 @@ abstract class CardBase
     return $this->sublocation_;
   }
 
-  public function sublocationIndex(): ?int {
+  public function sublocationIndex(): int {
     return $this->sublocation_index_;
   }
 

@@ -16,7 +16,6 @@ abstract class Setting extends \WcLib\CardBase
   // - SET_ID
   // - OUTCOME_GOOD
 
-
   // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
   // it's not on `CardBase`.
   //

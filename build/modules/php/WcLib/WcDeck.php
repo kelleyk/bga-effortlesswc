@@ -236,7 +236,7 @@ class WcDeck extends \APP_DbObject
   public function getAll($card_sublocations = ['DECK'], ?int $sublocation_index = SUBLOCATION_INDEX_ANY)
   {
     return array_map(function ($row) {
-      return $this->CardT_::fromRow($row);
+      return $this->CardT_::fromRow($this->CardT_, $row);
     }, $this->rawGetAll($card_sublocations, $sublocation_index));
   }
 

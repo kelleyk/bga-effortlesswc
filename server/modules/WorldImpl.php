@@ -40,19 +40,30 @@ class WorldImpl implements World
       }
     }
 
+    echo '*** fillCards() for loc id=' .
+      $loc->id() .
+      ' type=' .
+      get_class($loc) .
+      ": {$cards_face_up_qty} {$cards_face_down_qty} " .
+      $loc->cardsFaceUp() .
+      ' ' .
+      $loc->cardsFaceDown() .
+      "\n";
+
     if ($cards_face_up_qty > $loc->cardsFaceUp()) {
       throw new \BgaVisibleSystemException('Too many face-up cards in location.');
     }
-    if ($cards_face_down_qty > $loc->cardsFaceUp()) {
+    if ($cards_face_down_qty > $loc->cardsFaceDown()) {
       throw new \BgaVisibleSystemException('Too many face-down cards in location.');
     }
 
     for ($i = $cards_face_up_qty; $i < $loc->cardsFaceUp(); ++$i) {
-      $card = $this->table()->mainDeck->drawTo('setloc', $loc->locationArg());
+      $card = $this->table()->mainDeck->drawTo('SETLOC', $loc->locationArg());
       $card->setFaceDown(false);
+      echo '*** drawing card id=' . $card->id() . ' to loc id=' . $loc->id() . ' face-down...' . "\n";
     }
     for ($i = $cards_face_down_qty; $i < $loc->cardsFaceDown(); ++$i) {
-      $card = $this->table()->mainDeck->drawTo('setloc', $loc->locationArg());
+      $card = $this->table()->mainDeck->drawTo('SETLOC', $loc->locationArg());
       $card->setFaceDown(true);
     }
   }

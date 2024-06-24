@@ -21,12 +21,7 @@ abstract class Location extends \WcLib\CardBase
    */
   public static function getAll(World $world)
   {
-    $result = [];
-    // XXX: WcDeck::getAll(['setloc'], <all>)
-    foreach ($world->table()->locationDeck as $row) {
-      $result[] = Location::fromRow(Location::class, $row);
-    }
-    return $result;
+    return $world->table()->locationDeck->getAll(['SETLOC']);
   }
 
   // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
@@ -91,9 +86,10 @@ abstract class Location extends \WcLib\CardBase
     throw new \feException('XXX: foo');
   }
 
+  // Returns the cards that are in play at this location.
   public function cards(World $world)
   {
-    throw new \feException('XXX: foo');
+    return $world->table()->mainDeck->getAll(['SETLOC'], $this->locationArg());
   }
 
   public function effortPileForSeat(World $world, Seat $seat): EffortPile
@@ -126,21 +122,21 @@ abstract class Location extends \WcLib\CardBase
 
   public function cardsFaceUp(): int
   {
-    $rc = new \ReflectionClass(self::class);
+    $rc = new \ReflectionClass(get_called_class());
     /** @phan-suppress-next-line PhanUndeclaredConstantOfClass */
-    return $rc->hasConstant('CARDS_FACE_UP') ? self::CARDS_FACE_UP : 0;
+    return $rc->hasConstant('CARDS_FACE_UP') ? get_called_class()::CARDS_FACE_UP : 0;
   }
 
   public function cardsFaceDown(): int
   {
-    $rc = new \ReflectionClass(self::class);
+    $rc = new \ReflectionClass(get_called_class());
     /** @phan-suppress-next-line PhanUndeclaredConstantOfClass */
-    return $rc->hasConstant('CARDS_FACE_DOWN') ? self::CARDS_FACE_DOWN : 0;
+    return $rc->hasConstant('CARDS_FACE_DOWN') ? get_called_class()::CARDS_FACE_DOWN : 0;
   }
 
   public function locationArg(): int
   {
-    throw new \feException('XXX: foo');
+    return $this->sublocationIndex();
   }
 }
 

@@ -205,8 +205,8 @@ trait Setup
   private function fillSetlocs()
   {
     for ($i = 0; $i < 6; ++$i) {
-      $this->locationDeck->drawTo('setloc', $i);
-      $this->settingDeck->drawTo('setloc', $i);
+      $this->locationDeck->drawTo('SETLOC', $i);
+      $this->settingDeck->drawTo('SETLOC', $i);
     }
   }
 
@@ -214,6 +214,7 @@ trait Setup
   private function fillSetlocCards()
   {
     foreach ($this->world()->locations() as $loc) {
+      echo '*** fillSetlocCards()' . "\n";
       $this->world()->fillCards($loc);
     }
   }
