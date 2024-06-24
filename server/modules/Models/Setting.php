@@ -7,18 +7,30 @@ use EffortlessWC\World;
 
 // XXX: We need a way to do sorting that lets the Fighter attribute do its tiebreaking thing.
 
-abstract class Setting
+abstract class Setting extends \WcLib\CardBase
 {
   const CARD_TYPE_GROUP = 'setting';
 
   // Concrete subclasses must define:
-  // - SETTING_ID
+  // - CARD_TYPE
   // - SET_ID
   // - OUTCOME_GOOD
 
-  public function id(): int
+  // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
+  // it's not on `CardBase`.
+  //
+  // N.B.: This is a `string[]` because MySQL returns every column as a string, regardless of the column's actual type.
+  // (XXX: Is this true for NULL values as well?)
+  //
+  // XXX: We really just want to say "this must return an instance of `get_called_class()` or null"; it should be
+  // possible to do that without the template parameter.
+  /**
+    @param string[]|null $row
+    @return Location|null
+  */
+  public static function fromRow(string $CardT, $row)
   {
-    throw new \feException('XXX: foo');
+    return self::fromRowBase($CardT, $row);
   }
 
   public function effortBySeat(World $world)
@@ -84,7 +96,7 @@ abstract class Setting
 // >=1 effort -> 3 pt
 class ActiveSetting extends Setting
 {
-  const SETTING_ID = 'setting:active';
+  const CARD_TYPE = 'setting:active';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -104,7 +116,7 @@ class ActiveSetting extends Setting
 
 class BarrenSetting extends Setting
 {
-  const SETTING_ID = 'setting:barren';
+  const CARD_TYPE = 'setting:barren';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -123,7 +135,7 @@ class BarrenSetting extends Setting
 // most effort -> 8 pt
 class BattlingSetting extends Setting
 {
-  const SETTING_ID = 'setting:battling';
+  const CARD_TYPE = 'setting:battling';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -144,7 +156,7 @@ class BattlingSetting extends Setting
 // -1 point per effort.
 class TreacherousSetting extends Setting
 {
-  const SETTING_ID = 'setting:treacherous';
+  const CARD_TYPE = 'setting:treacherous';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = false;
@@ -165,7 +177,7 @@ class TreacherousSetting extends Setting
 // Each player with 5 or more effort gets 10 points.
 class CrowdedSetting extends Setting
 {
-  const SETTING_ID = 'setting:crowded';
+  const CARD_TYPE = 'setting:crowded';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -186,7 +198,7 @@ class CrowdedSetting extends Setting
 // Least effort => 3 points.
 class EerieSetting extends Setting
 {
-  const SETTING_ID = 'setting:eerie';
+  const CARD_TYPE = 'setting:eerie';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -207,7 +219,7 @@ class EerieSetting extends Setting
 // XXX: (?) The person with the most effort here gets -1 point for each 2 total effort here.
 class GhostlySetting extends Setting
 {
-  const SETTING_ID = 'setting:ghostly';
+  const CARD_TYPE = 'setting:ghostly';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = false;
@@ -228,7 +240,7 @@ class GhostlySetting extends Setting
 // Least effort => -5 points.
 class HiddenSetting extends Setting
 {
-  const SETTING_ID = 'setting:hidden';
+  const CARD_TYPE = 'setting:hidden';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = false;
@@ -249,7 +261,7 @@ class HiddenSetting extends Setting
 // Most effort => 1 point for every 2 total effort here.
 class HolySetting extends Setting
 {
-  const SETTING_ID = 'setting:holy';
+  const CARD_TYPE = 'setting:holy';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -270,7 +282,7 @@ class HolySetting extends Setting
 // 1 point per effort.
 class LivelySetting extends Setting
 {
-  const SETTING_ID = 'setting:lively';
+  const CARD_TYPE = 'setting:lively';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -291,7 +303,7 @@ class LivelySetting extends Setting
 // 3 points for every 2 effort.
 class PeacefulSetting extends Setting
 {
-  const SETTING_ID = 'setting:peaceful';
+  const CARD_TYPE = 'setting:peaceful';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = true;
@@ -312,7 +324,7 @@ class PeacefulSetting extends Setting
 // Most effort => -3 points.
 class QuietSetting extends Setting
 {
-  const SETTING_ID = 'setting:quiet';
+  const CARD_TYPE = 'setting:quiet';
   const SET_ID = SET_BASE;
 
   const OUTCOME_GOOD = false;
@@ -336,7 +348,7 @@ class QuietSetting extends Setting
 // phase care about number of attribute cards, anyhow.
 class TranscendentSetting extends Setting
 {
-  const SETTING_ID = 'setting:transcendent';
+  const CARD_TYPE = 'setting:transcendent';
   const SET_ID = SET_ALTERED;
 
   public function onScoringAttributes(World $world): void
@@ -348,14 +360,14 @@ class TranscendentSetting extends Setting
 // "When scoring Items, gain 1 experience for every 3 effort you have here."
 class EquippedSetting extends Setting
 {
-  const SETTING_ID = 'setting:equipped';
+  const CARD_TYPE = 'setting:equipped';
   const SET_ID = SET_ALTERED;
 }
 
 // "When scoring attributes, gain +1 to all attributes for every 4 effort you have here."
 class MagicalSetting extends Setting
 {
-  const SETTING_ID = 'setting:magical';
+  const CARD_TYPE = 'setting:magical';
   const SET_ID = SET_ALTERED;
 }
 
@@ -363,21 +375,21 @@ class MagicalSetting extends Setting
 // for one set of armor.)"
 class ShelteredSetting extends Setting
 {
-  const SETTING_ID = 'setting:sheltered';
+  const CARD_TYPE = 'setting:sheltered';
   const SET_ID = SET_ALTERED;
 }
 
 // "At the end of the game, before scoring, draw 1 card from the top of the deck for every 3 effort you have here."
 class SecretSetting extends Setting
 {
-  const SETTING_ID = 'setting:secret';
+  const CARD_TYPE = 'setting:secret';
   const SET_ID = SET_ALTERED;
 }
 
 // "Threats defeated at this Location score double Greatness."
 class StarvedSetting extends Setting
 {
-  const SETTING_ID = 'setting:starved';
+  const CARD_TYPE = 'setting:starved';
   const SET_ID = SET_HUNTED;
 }
 
@@ -386,7 +398,7 @@ class StarvedSetting extends Setting
 // XXX: complication
 class OvergrownSetting extends Setting
 {
-  const SETTING_ID = 'setting:overgrown';
+  const CARD_TYPE = 'setting:overgrown';
   const SET_ID = SET_HUNTED;
 }
 
@@ -396,7 +408,7 @@ class OvergrownSetting extends Setting
 // XXX: complication -- pre-scoring user input
 class TravelingSetting extends Setting
 {
-  const SETTING_ID = 'setting:traveling';
+  const CARD_TYPE = 'setting:traveling';
   const SET_ID = SET_HUNTED;
 
   public function onPreScoring(World $world): void
@@ -410,7 +422,7 @@ class TravelingSetting extends Setting
 // XXX: complication
 class CapableSetting extends Setting
 {
-  const SETTING_ID = 'setting:capable';
+  const CARD_TYPE = 'setting:capable';
   const SET_ID = SET_HUNTED;
 }
 
@@ -422,6 +434,6 @@ class CapableSetting extends Setting
 // DESIGNER: "Lost" was removed from the expansion in favor of "Corrupted".
 class CorruptedSetting extends Setting
 {
-  const SETTING_ID = 'setting:corrupted';
+  const CARD_TYPE = 'setting:corrupted';
   const SET_ID = SET_HUNTED;
 }

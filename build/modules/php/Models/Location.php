@@ -24,29 +24,41 @@ abstract class Location extends \WcLib\CardBase
     $result = [];
     // XXX: WcDeck::getAll(['setloc'], <all>)
     foreach ($world->table()->locationDeck as $row) {
-      $result[] = Location::fromRow($world, $row);
+      $result[] = Location::fromRow(Location::class, $row);
     }
     return $result;
   }
 
+  // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
+  // it's not on `CardBase`.
+  //
+  // N.B.: This is a `string[]` because MySQL returns every column as a string, regardless of the column's actual type.
+  // (XXX: Is this true for NULL values as well?)
+  //
+  // XXX: We really just want to say "this must return an instance of `get_called_class()` or null"; it should be
+  // possible to do that without the template parameter.
   /**
     @param string[]|null $row
-    @return Location
+    @return Location|null
   */
-  public static function fromRow(World $world, $row): Location
+  public static function fromRow(string $CardT, $row)
   {
-    if ($row === null) {
-      throw new \BgaVisibleSystemException('Location::fromRow(): got null $row');
-    }
-
-    $loc = self::fromRowBase(Location::class, $row);
-    return $loc;
+    return self::fromRowBase($CardT, $row);
   }
 
-  public function id(): int
-  {
-    throw new \feException('XXX: foo');
-  }
+  // /**
+  //   @param string[]|null $row
+  //   @return Location
+  // */
+  // public static function fromRow(World $world, $row): Location
+  // {
+  //   if ($row === null) {
+  //     throw new \BgaVisibleSystemException('Location::fromRow(): got null $row');
+  //   }
+
+  //   $loc = self::fromRowBase(Location::class, $row);
+  //   return $loc;
+  // }
 
   // XXX: The `getParameter()` stuff should be moved to their own trait; they throw a special exception if we need to
   // ask for user input still.

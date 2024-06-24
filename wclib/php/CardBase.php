@@ -23,6 +23,10 @@ abstract class CardBase
   /** @param string|int $card_type */
   protected static function newInstByType($card_type)
   {
+    if ($card_type == '') {
+      throw new \feException('Empty card type!');
+    }
+
     // Should be e.g. `Location`---one of the "leaf base classes" that defines CARD_TYPE_GROUP.
     $called_base_class = get_called_class();
 

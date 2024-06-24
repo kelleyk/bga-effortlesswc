@@ -128,16 +128,16 @@ trait Setup
     $this->visitConcreteSubclasses('EffortlessWC\Models\Location', function ($rc) use (&$card_specs, $sets) {
       echo ' *** visiting concrete subclass!' . "\n";
 
-      if (
-        in_array($rc->getConstant('SET_ID'), $sets) &&
-        !in_array($rc->getConstant('LOCATION_ID'), DISABLED_LOCATIONS)
-      ) {
+      $location_id = $rc->getConstant('CARD_TYPE');
+      if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($location_id, DISABLED_LOCATIONS)) {
         $card_specs[] = [
           'card_type_group' => 'location',
-          'card_type' => $rc->getConstant('LOCATION_ID'),
+          'card_type' => $location_id,
         ];
       }
     });
+
+    echo '*** initLocationDeck() card_specs=' . "\n" . print_r($card_specs, true) . "\n";
 
     $this->locationDeck->createCards($card_specs);
     $this->locationDeck->shuffle();
@@ -147,12 +147,14 @@ trait Setup
   {
     $card_specs = [];
     $this->visitConcreteSubclasses('EffortlessWC\Models\Setting', function ($rc) use (&$card_specs, $sets) {
+      $setting_id = $rc->getConstant('CARD_TYPE');
+
       // N.B.: For details on this suppression, see "wc_game_config.inc.php".
       /** @phan-suppress-next-line PhanSuspiciousWeakTypeComparison */
-      if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($rc->getConstant('SETTING_ID'), DISABLED_SETTINGS)) {
+      if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($setting_id, DISABLED_SETTINGS)) {
         $card_specs[] = [
           'card_type_group' => 'setting',
-          'card_type' => $rc->getConstant('SETTING_ID'),
+          'card_type' => $setting_id,
         ];
       }
     });

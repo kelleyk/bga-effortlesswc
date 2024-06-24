@@ -17,6 +17,7 @@ require_once '/src/localarena/module/tablemanager/TableParams.php';
 use \LocalArena\TableParams;
 
 const WCCARD_SCHEMA = <<<END
+CREATE TABLE IF NOT EXISTS `card` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 
   -- These two strings uniquely identify the card-type.
@@ -43,6 +44,8 @@ const WCCARD_SCHEMA = <<<END
   -- The library may arbitrarily change these values as cards are moved
   -- around (though it won't change relative order unless instructed to).
   `card_order` INT(10) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 END;
 
 abstract class FancyCard extends \WcLib\CardBase
@@ -79,6 +82,9 @@ Class CardBaseTest extends \WcLib\Test\IntegrationTestCase {
     $params->playerCount = 1;
     $params->schema_changes = WCCARD_SCHEMA;
     $this->initTable($params);
+
+    $deck = new \WcLib\WcDeck(\WcLib\Card::class, 'card');
+
   }
 
   // XXX: Want to test that...

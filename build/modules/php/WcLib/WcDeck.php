@@ -5,6 +5,9 @@ namespace WcLib;
 require_once 'CardBase.php';
 
 class Card extends CardBase {
+  // XXX: I'm not sure about this value; we haven't actually used this yet.
+  const CARD_TYPE_GROUP = 'defaultcard';
+
   // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
   // it's not on `CardBase`.
   //

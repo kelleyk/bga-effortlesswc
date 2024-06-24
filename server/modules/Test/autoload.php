@@ -1,14 +1,12 @@
 <?php declare(strict_types=1);
 
 set_include_path(
-  implode(
-    PATH_SEPARATOR, [
-      get_include_path(),
-      '/src/game/effortlesswc',
-      '/src/test/effortlesswc',
-      // XXX: removed '/src' as part of path restructuring
-    ]
-  )
+  implode(PATH_SEPARATOR, [
+    get_include_path(),
+    '/src/game/effortlesswc',
+    '/src/test/effortlesswc',
+    // XXX: removed '/src' as part of path restructuring
+  ])
 );
 
 // // define("APP_GAMEMODULE_PATH", getenv('APP_GAMEMODULE_PATH'));
