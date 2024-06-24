@@ -33,6 +33,11 @@ abstract class Setting extends \WcLib\CardBase
     return self::fromRowBase($CardT, $deck, $row);
   }
 
+  public function renderForClient(World $world): array
+  {
+    return parent::renderForClientBase(/*visible=*/true);
+  }
+
   public function effortBySeat(World $world)
   {
     throw new \feException('no impl');

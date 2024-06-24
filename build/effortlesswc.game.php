@@ -35,7 +35,8 @@ require_once 'modules/php/constants.inc.php';
 
 // // use EffortlessWC\Managers\Board;
 
-// use EffortlessWC\Models\Chip;
+use EffortlessWC\Models\Player;
+
 // use EffortlessWC\Models\Entity;
 // use EffortlessWC\Models\Position;
 // use EffortlessWC\Models\Tile;
@@ -78,27 +79,13 @@ class Effortlesswc extends Table
   // Get all datas (complete reset request from client side)
   protected function getAllDatas()
   {
-    // // XXX: things to add ...
-    // // - character hands
-    // // - character statuses
-    // // - finale, if visible, and finale active/inactive state
-    // // - discard piles & number of cards deck (plus number of
-    // //   cards moved for patrol decks?)
-    // // - patrol route(s)
-    // return [
-    //   'gamemap' => self::renderGameMapForClient(self::rawGetTiles(), self::getWalls()),
-    //   'characters' => self::renderPlayerCharactersForClient(self::getPlayerCharacters()),
-    //   'entities' => self::renderEntitiesForClient(self::rawGetEntities()),
-    //   'decks' => self::getAndRenderAllDecksForClient(),
-    //   'gameFlowSettings' => self::getGameFlowSettingsForClient(),
-    //   'finale' => self::renderFinaleForClient(),
-    //   // N.B.: This includes the patrol-path data for bouncer
-    //   // NPCs.
-    //   'npcs' => self::renderNpcsForClient(self::rawGetNpcs()),
-    //   'tableStatuses' => self::renderStatusesForClient(self::getGameStateJson(GAMESTATE_JSON_TABLE_STATUSES)),
-    // ];
+    $world = $this->world();
 
-    return [];
+    // N.B.: Only immutable things should go here; anything mutable should go in `renderBoardState()` instead.
+    return array_merge($this->renderBoardState(), [
+      // XXX: Do *we* have to send this, or is it already included?
+      'players' => $this->renderForClient($world, Player::getAll($world)),
+    ]);
   }
 
   function getGameProgression()

@@ -126,8 +126,6 @@ trait Setup
   {
     $card_specs = [];
     $this->visitConcreteSubclasses('EffortlessWC\Models\Location', function ($rc) use (&$card_specs, $sets) {
-      echo ' *** visiting concrete subclass!' . "\n";
-
       $location_id = $rc->getConstant('CARD_TYPE');
       if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($location_id, DISABLED_LOCATIONS)) {
         $card_specs[] = [
@@ -136,8 +134,6 @@ trait Setup
         ];
       }
     });
-
-    echo '*** initLocationDeck() card_specs=' . "\n" . print_r($card_specs, true) . "\n";
 
     $this->locationDeck->createCards($card_specs);
     $this->locationDeck->shuffle();

@@ -41,6 +41,11 @@ abstract class Location extends \WcLib\CardBase
     return self::fromRowBase($CardT, $deck, $row);
   }
 
+  public function renderForClient(World $world): array
+  {
+    return parent::renderForClientBase(/*visible=*/true);
+  }
+
   // /**
   //   @param string[]|null $row
   //   @return Location

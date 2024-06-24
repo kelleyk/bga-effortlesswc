@@ -89,10 +89,6 @@ abstract class CardBase
     return $card;
   }
 
-  public function renderForClient(): array {
-    return $this->renderForClientBase(true);
-  }
-
   public function renderForClientBase(bool $visible): array {
     $result = [
       'id' => $this->id(),

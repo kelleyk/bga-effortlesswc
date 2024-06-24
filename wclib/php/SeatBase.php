@@ -30,7 +30,7 @@ abstract class SeatBase
     return $that;
   }
 
-  public function renderForClient() {
+  public function renderForClientBase() {
     return [
       'id' => $this->id_,
       'playerId' => $this->player_id_,

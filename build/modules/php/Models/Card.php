@@ -2,6 +2,8 @@
 
 namespace EffortlessWC\Models;
 
+use \EffortlessWC\World;
+
 abstract class Card extends \WcLib\CardBase
 {
   const CARD_TYPE_GROUP = 'main';
@@ -49,7 +51,7 @@ abstract class Card extends \WcLib\CardBase
     return $this->face_down_;
   }
 
-  public function renderForClient(): array
+  public function renderForClient(World $world): array
   {
     return array_merge(parent::renderForClientBase(!$this->isFaceDown()), [
       'faceDown' => $this->isFaceDown(),
@@ -76,9 +78,9 @@ class AttributeCard extends Card
     $this->points_ = intval($parts[2]);
   }
 
-  public function renderForClient(): array
+  public function renderForClient(World $world): array
   {
-    $result = parent::renderForClient();
+    $result = parent::renderForClient($world);
 
     if (!$this->isFaceDown()) {
       $result = array_merge($result, [
@@ -111,9 +113,9 @@ class ArmorCard extends Card
     $this->armor_piece_ = $parts[2];
   }
 
-  public function renderForClient(): array
+  public function renderForClient(World $world): array
   {
-    $result = parent::renderForClient();
+    $result = parent::renderForClient($world);
 
     if (!$this->isFaceDown()) {
       $result = array_merge($result, [
@@ -144,9 +146,9 @@ class ItemCard extends Card
     $this->item_no_ = intval($parts[1]);
   }
 
-  public function renderForClient(): array
+  public function renderForClient(World $world): array
   {
-    $result = parent::renderForClient();
+    $result = parent::renderForClient($world);
 
     if (!$this->isFaceDown()) {
       $result = array_merge($result, [

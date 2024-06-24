@@ -36,9 +36,9 @@ class Seat extends \WcLib\SeatBase
     }, $world->table()->rawGetSeats());
   }
 
-  public function renderForClient()
+  public function renderForClient(World $world)
   {
-    return array_merge(parent::renderForClient(), [
+    return array_merge(parent::renderForClientBase(), [
       'reserveEffort' => $this->reserve_effort_,
     ]);
   }

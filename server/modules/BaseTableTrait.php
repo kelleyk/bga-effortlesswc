@@ -8,6 +8,7 @@ require_once 'WcLib/WcDeck.php';
 
 use EffortlessWC\World;
 use EffortlessWC\WorldImpl;
+use EffortlessWC\Models\Seat;
 
 trait BaseTableTrait
 {
@@ -24,13 +25,29 @@ trait BaseTableTrait
   }
 
   // XXX: Move to better home
-  public function renderForClient($x)
+  public function renderForClient(World $world, $x)
   {
     if (is_array($x)) {
-      return array_map(function ($y) {
-        return $this->renderForClient($y);
+      return array_map(function ($y) use ($world) {
+        return $this->renderForClient($world, $y);
       }, $x);
     }
-    return $x->renderForClient();
+    return $x->renderForClient($world);
+  }
+
+  // This function returns everything we need to refresh all mutable state.
+  public function renderBoardState() {
+    // XXX: Things still to be done here:
+    //
+    // - Need to send public and/or private data about each seat (e.g. their hand), depending on the ruleset.
+    //
+
+    $world = $this->world();
+    return [
+      'seats' => $this->renderForClient($world, Seat::getAll($world)),
+      'cards' => $this->renderForClient($world, $this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
+      'locations' => $this->renderForClient($world, $this->locationDeck->getAll(['SETLOC'])),
+      'settings' => $this->renderForClient($world, $this->settingDeck->getAll(['SETLOC'])),
+    ];
   }
 }
