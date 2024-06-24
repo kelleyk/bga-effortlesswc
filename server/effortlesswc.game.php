@@ -115,6 +115,11 @@ class Effortlesswc extends Table
     return self::getCollectionFromDB('SELECT * FROM `seat` WHERE TRUE');
   }
 
+  function rawGetPlayers()
+  {
+    return self::getCollectionFromDB('SELECT * FROM `player` WHERE TRUE');
+  }
+
   // -----------
   // Misc
   // -----------

@@ -3,6 +3,7 @@
 namespace EffortlessWC\States;
 
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\Player;
 
 trait PlaceEffort
 {
@@ -29,7 +30,7 @@ trait PlaceEffort
     // XXX: temporary
     $world = $this->world();
     return [
-      // 'players' => $this->renderForClient(Player::getAllInPlay($world)),
+      'players' => $this->renderForClient(Player::getAll($world)),
       'seats' => $this->renderForClient(Seat::getAll($world)),
       'cards' => $this->renderForClient($this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
       'locations' => $this->renderForClient($this->locationDeck->getAll(['SETLOC'])),
