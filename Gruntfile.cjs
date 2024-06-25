@@ -301,26 +301,16 @@ module.exports = function (grunt) {
           'phpunit --configuration /src/test/effortlesswc/modules/php/Test/phpunit.xml',
         ].join(' '),
       },
+      generate_json_schema: {
+        command: [
+          'npx ts-json-schema-generator',
+          '--path ./client/effortlesswc.d.ts',
+          '--out ./tmp/effortlesswc.json-schema',
+          '--expose all',
+        ].join(' '),
+      },
     },
   });
-
-  console.log(
-    [
-      'docker run -i --rm',
-
-      '--network localarena_default',
-      '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
-      '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
-
-      '-v $PWD/build:/src/game/effortlesswc:ro',
-
-      // XXX: Removing this breaks at least the path below.
-      '-v $PWD/server:/src/server:ro',
-
-      'wardcanyon/localarena-testenv:latest',
-      'phpunit --configuration /src/server/modules/Test/phpunit.xml',
-    ].join(' \\ \n'),
-  );
 
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -331,6 +321,19 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-prettier');
   grunt.loadNpmTasks('grunt-tslint');
+
+  grunt.registerTask('embedJsonSchema', 'Embed JSON schema into PHP file', function() {
+    let jsonSchema = grunt.file.read('tmp/effortlesswc.json-schema');
+
+    let out = '';
+    out += '<?php declare(strict_types=1);\n\n';
+    out += 'const CLIENT_INTERFACE_SCHEMA = <<<\'SCHEMA\'\n';
+    out += jsonSchema + '\n';
+    out += 'SCHEMA\n';
+    out += ';\n';
+
+    grunt.file.write('build/modules/php/client_interface_schema.inc.php', out);
+  });
 
   grunt.registerTask('phan', [
     'copy:server_sources',
@@ -357,7 +360,9 @@ module.exports = function (grunt) {
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 
-  grunt.registerTask('server', ['lint:server', 'copy:server_sources']);
+  grunt.registerTask('json-schema', ['shell:generate_json_schema', 'embedJsonSchema']);
+
+  grunt.registerTask('server', ['lint:server', 'copy:server_sources', 'json-schema']);
 
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 

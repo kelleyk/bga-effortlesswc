@@ -14,6 +14,7 @@ trait BaseTableTrait
 {
   use \WcLib\BgaTableTrait;
   use \WcLib\GameState;
+  use \EffortlessWC\RenderTrait;
 
   public \WcLib\WcDeck $mainDeck;
   public \WcLib\WcDeck $locationDeck;
@@ -22,17 +23,6 @@ trait BaseTableTrait
   public function world(): World
   {
     return new WorldImpl($this);
-  }
-
-  // XXX: Move to better home
-  public function renderForClient(World $world, $x)
-  {
-    if (is_array($x)) {
-      return array_map(function ($y) use ($world) {
-        return $this->renderForClient($world, $y);
-      }, $x);
-    }
-    return $x->renderForClient($world);
   }
 
   // This function returns everything we need to refresh all mutable state.
