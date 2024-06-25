@@ -1,20 +1,8 @@
-// // If you have any imports/exports in this file, 'declare global' is access/merge your game specific types with framework types. 'export {};' is used to avoid possible confusion with imports/exports.
-// declare global {
-/** @gameSpecific Add game specific notifications / arguments here. See {@link NotifTypes} for more information. */
-interface NotifTypes {
-  // [name: string]: any; // Uncomment to remove type safety on notification names and arguments
-}
-
-interface EffortPlacedNotif {}
-interface EffortMovedNotif {
-  // XXX: Can this be the same type as `EffortPlacedNotif`, just with effort moving from a seat's reserve to a play
-  // area?
-}
-interface CardsMovedNotif {}
-
 /** @gameSpecific Add game specific gamedatas arguments here. See {@link Gamedatas} for more information. */
 interface Gamedatas {
   // [key: string | number]: Record<keyof any, any>; // Uncomment to remove type safety on game state arguments
+
+  boardState: BoardState;
 }
 
 //
@@ -86,18 +74,3 @@ interface PrivateSeatState {
 
   hand: Card[];
 }
-
-/** @gameSpecific Add game specific player actions / arguments here. See {@link PlayerActions} for more information. */
-interface PlayerActions {
-  // [action: string]: Record<keyof any, any>; // Uncomment to remove type safety on player action names and arguments
-}
-// }
-
-interface PlaceEffortAction {}
-// Used in any situation where the player is selecting a setloc, a card, effort, etc.
-interface SelectionAction {}
-interface CancelAction {
-  // Deliberately empty.
-}
-
-// export {}; // Force this file to be a module.

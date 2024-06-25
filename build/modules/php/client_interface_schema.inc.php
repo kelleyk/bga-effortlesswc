@@ -4,6 +4,38 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
+    "CancelAction": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "PlaceEffortAction": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "PlayerActions": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "SelectionAction": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "CardsMovedNotif": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EffortMovedNotif": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EffortPlacedNotif": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "NotifTypes": {
+      "additionalProperties": false,
+      "type": "object"
+    },
     "BoardState": {
       "additionalProperties": false,
       "properties": {
@@ -44,10 +76,6 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
       ],
       "type": "object"
     },
-    "CancelAction": {
-      "additionalProperties": false,
-      "type": "object"
-    },
     "Card": {
       "additionalProperties": false,
       "properties": {
@@ -82,36 +110,20 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
       ],
       "type": "string"
     },
-    "CardsMovedNotif": {
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "EffortMovedNotif": {
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "EffortPlacedNotif": {
-      "additionalProperties": false,
-      "type": "object"
-    },
     "GameStates": {
       "additionalProperties": false,
       "type": "object"
     },
     "Gamedatas": {
       "additionalProperties": false,
-      "type": "object"
-    },
-    "NotifTypes": {
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "PlaceEffortAction": {
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "PlayerActions": {
-      "additionalProperties": false,
+      "properties": {
+        "boardState": {
+          "$ref": "#/definitions/BoardState"
+        }
+      },
+      "required": [
+        "boardState"
+      ],
       "type": "object"
     },
     "PrivateSeatState": {
@@ -162,10 +174,6 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
         "colorName",
         "reserveEffort"
       ],
-      "type": "object"
-    },
-    "SelectionAction": {
-      "additionalProperties": false,
       "type": "object"
     },
     "SetlocState": {

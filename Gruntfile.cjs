@@ -303,10 +303,16 @@ module.exports = function (grunt) {
       },
       generate_json_schema: {
         command: [
+          'for TYPE_DEF_FILEPATH in ./client/types/*.d.ts; do',
+
+          'export TYPE_DEF_FILENAME="${TYPE_DEF_FILEPATH##*/}";',
+
           'npx ts-json-schema-generator',
-          '--path ./client/effortlesswc.d.ts',
-          '--out ./tmp/effortlesswc.json-schema',
+          '--path "${TYPE_DEF_FILEPATH}"',
+          '--out ./tmp/client/"${TYPE_DEF_FILENAME%%.*}".json-schema',
           '--expose all',
+
+          '; done',
         ].join(' '),
       },
     },
@@ -322,18 +328,36 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-prettier');
   grunt.loadNpmTasks('grunt-tslint');
 
-  grunt.registerTask('embedJsonSchema', 'Embed JSON schema into PHP file', function() {
-    let jsonSchema = grunt.file.read('tmp/effortlesswc.json-schema');
+  grunt.registerTask(
+    'embedJsonSchema',
+    'Embed JSON schema into PHP file',
+    function () {
+      let schemaFiles = grunt.file.expand('tmp/client/*.json-schema');
 
-    let out = '';
-    out += '<?php declare(strict_types=1);\n\n';
-    out += 'const CLIENT_INTERFACE_SCHEMA = <<<\'SCHEMA\'\n';
-    out += jsonSchema + '\n';
-    out += 'SCHEMA\n';
-    out += ';\n';
+      let jsonSchema = {
+        $schema: 'http://json-schema.org/draft-07/schema#',
+        definitions: {},
+      };
+      for (const schemaFile of schemaFiles) {
+        let schemaFileContents = grunt.file.readJSON(schemaFile);
+        for (const [k, v] of Object.entries(schemaFileContents.definitions)) {
+          jsonSchema.definitions[k] = v;
+        }
+      }
 
-    grunt.file.write('build/modules/php/client_interface_schema.inc.php', out);
-  });
+      let out = '';
+      out += '<?php declare(strict_types=1);\n\n';
+      out += "const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'\n";
+      out += JSON.stringify(jsonSchema, null, 2) + '\n';
+      out += 'SCHEMA\n';
+      out += ';\n';
+
+      grunt.file.write(
+        'build/modules/php/client_interface_schema.inc.php',
+        out,
+      );
+    },
+  );
 
   grunt.registerTask('phan', [
     'copy:server_sources',
@@ -360,9 +384,16 @@ module.exports = function (grunt) {
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 
-  grunt.registerTask('json-schema', ['shell:generate_json_schema', 'embedJsonSchema']);
+  grunt.registerTask('json-schema', [
+    'shell:generate_json_schema',
+    'embedJsonSchema',
+  ]);
 
-  grunt.registerTask('server', ['lint:server', 'copy:server_sources', 'json-schema']);
+  grunt.registerTask('server', [
+    'lint:server',
+    'copy:server_sources',
+    'json-schema',
+  ]);
 
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 
