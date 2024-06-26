@@ -6,7 +6,8 @@ use EffortlessWC\World;
 
 require_once 'client_interface_schema.inc.php';
 
-trait RenderTrait {
+trait RenderTrait
+{
   // XXX: Move to better home
   public function renderForClient(World $world, $x)
   {
@@ -15,6 +16,9 @@ trait RenderTrait {
         return $this->renderForClient($world, $y);
       }, $x);
     }
-    return $x->renderForClient($world);
+
+    $result = $x->renderForClient($world);
+    // XXX: If enabled, validate $result against schema.
+    return $result;
   }
 }

@@ -8,6 +8,12 @@
  */
 
 $swdNamespaceAutoload = function ($class) {
+  // echo '*** # registered autoloaders = ' . count(spl_autoload_functions()) . "\n";
+  // foreach (spl_autoload_functions() as $loader) {
+  //   echo '  - ' . print_r($loader,true) . "\n";
+  // }
+  // echo '*** effortlesswc autoloader got called with $class=' . $class . "\n";
+
   $classParts = explode('\\', $class);
   if (in_array($classParts[0], ['EffortlessWC', 'WcLib'])) {
     if ($classParts[0] == 'EffortlessWC') {
@@ -17,11 +23,15 @@ $swdNamespaceAutoload = function ($class) {
     if (file_exists($file)) {
       require_once $file;
     } else {
-      var_dump('Cannot find file: ' . $file);
+      // var_dump('Cannot find file: ' . $file);
+      echo '*** effortlesswc autoloader cannot find import for $class=' . $class . "\n";
     }
   }
+  // else {
+  //   echo '  *** effortlesswc autoloader ignoring; not in matching namespace' . "\n";
+  // }
 };
-spl_autoload_register($swdNamespaceAutoload, true, true);
+spl_autoload_register($swdNamespaceAutoload, true, false);
 
 // @phan-suppress-next-line PhanUndeclaredConstant
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
