@@ -88,6 +88,10 @@ return [
 
     '/src/localarena/module',
     '/src/localarena/view',
+    '/src/localarena/vendor',
+
+    // XXX: This is hopefully something that we can eventually remove:
+    '/src/game/effortlesswc/localarena_config.inc.php',
   ],
 
   // N.B.: Without this, include/require statements for files that aren't found won't cause errors.  (You'll still get

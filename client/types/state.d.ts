@@ -2,7 +2,14 @@
 interface Gamedatas {
   // [key: string | number]: Record<keyof any, any>; // Uncomment to remove type safety on game state arguments
 
-  boardState: BoardState;
+  mutableBoardState: MutableBoardState;
+
+  immutableBoardState: ImmutableBoardState;
+}
+
+interface ImmutableBoardState {
+  players: { [playerId: string]: PlayerPublic };
+  // XXX: Do we need `playersPrivate`?
 }
 
 //
@@ -13,18 +20,23 @@ interface GameStates {
   // [id: number]: string | { name: string, argsType: object} | any; // Uncomment to remove type safety with ids, names, and arguments for game states
 }
 
-interface BoardState {
+interface MutableBoardState {
   // players/seats (incl. which are human and which are bots)
 
-  players: { [playerId: string]: PublicPlayerState };
-  // XXX: Do we need `playersPrivate`?
+  seats: { [seatId: number]: SeatPublic };
+  cards: { [cardId: number]: Card };
+  locations: { [locationId: number]: EffortlessLocation };
+  settings: { [settingId: number]: EffortlessSetting };
 
-  seats: { [seatId: number]: PublicSeatState };
-  seatsPrivate: { [seatId: number]: PrivateSeatState };
+  // cards
+  // locations
+  // settings
 
-  tableConfig: TableConfig;
+  // seatsPrivate: { [seatId: number]: PrivateSeatState };
 
-  setlocs: { [setlocId: number]: SetlocState };
+  // tableConfig: TableConfig;
+
+  // setlocs: { [setlocId: number]: SetlocState };
 }
 
 interface TableConfig {
@@ -32,45 +44,77 @@ interface TableConfig {
   // XXX: which expansions are enabled?
 }
 
-type CardState = 'FACEUP' | 'FACEDOWN';
+// type CardState = 'FACEUP' | 'FACEDOWN';
 
-interface Card {
-  cardId: number;
+// This is a `WcLib\CardBase`.
+interface CardBase {
+  id: number;
 
   location: string;
-  locationArg: number;
+  sublocation: string;
+  sublocationIndex: number;
+  order: number;
+  cardType: string | undefined;
+  cardTypeGroup: string | undefined;
+}
 
-  state: CardState;
+interface EffortlessLocation extends CardBase {}
+
+interface EffortlessSetting extends CardBase {}
+
+// This is an Effortless "main-deck card".
+interface Card extends CardBase {
+  // state: CardState;
 
   // These properties are set iff `state == "FACEUP"`.
-  cardType: string | undefined;
+  cardTypeStem: string | undefined;
+
+  faceDown: boolean;
+
+  // attribute cards
+  stat: string | undefined;
+  points: number | undefined;
+
+  // armor cards
+  armorSet: string | undefined;
+  armorPiece: string | undefined;
+
+  // item cards
+  itemNo: number | undefined;
 }
 
-interface SetlocState {
-  setlocId: number; // 0-5
+// interface SetlocState {
+//   setlocId: number; // 0-5
+//
+//   settingId: string;
+//   locationId: string;
+//   effort: { [seatId: number]: number }; // XXX: This won't support Laboratory, which has sub-locations.
+//   cards: Card[];
+// }
 
-  settingId: string;
-  locationId: string;
-  effort: { [seatId: number]: number }; // XXX: This won't support Laboratory, which has sub-locations.
-  cards: Card[];
+// XXX: Whenever possible, things should go in the `SeatPublic` type instead.
+interface PlayerPublic {
+  id: string;
+  no: number;
+  name: string;
+  color: string;
 }
 
-// XXX: Whenever possible, things should go in the `PublicSeatState` type instead.
-interface PublicPlayerState {}
+interface SeatBase {
+  id: number;
+  playerId: string | undefined; // Set iff there is a human player controlling this seat.
+  seatColor: string;
+  seatLabel: string;
+}
 
 // Sent to all players in all modes.
-interface PublicSeatState {
-  seatId: number;
-
-  name: string;
-  playerId: string | undefined; // Set iff there is a human player controlling this seat.
-  colorName: string;
+interface SeatPublic extends SeatBase {
   reserveEffort: number;
 }
 
 // Sent only to players about themselves in competitive mode; sent to all players in cooperative mode.
-interface PrivateSeatState {
-  seatId: number;
+interface SeatPrivate {
+  id: number;
 
   hand: Card[];
 }

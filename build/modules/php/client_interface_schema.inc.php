@@ -36,79 +36,163 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
       "additionalProperties": false,
       "type": "object"
     },
-    "BoardState": {
-      "additionalProperties": false,
-      "properties": {
-        "players": {
-          "additionalProperties": {
-            "$ref": "#/definitions/PublicPlayerState"
-          },
-          "type": "object"
-        },
-        "seats": {
-          "additionalProperties": {
-            "$ref": "#/definitions/PublicSeatState"
-          },
-          "type": "object"
-        },
-        "seatsPrivate": {
-          "additionalProperties": {
-            "$ref": "#/definitions/PrivateSeatState"
-          },
-          "type": "object"
-        },
-        "setlocs": {
-          "additionalProperties": {
-            "$ref": "#/definitions/SetlocState"
-          },
-          "type": "object"
-        },
-        "tableConfig": {
-          "$ref": "#/definitions/TableConfig"
-        }
-      },
-      "required": [
-        "players",
-        "seats",
-        "seatsPrivate",
-        "tableConfig",
-        "setlocs"
-      ],
-      "type": "object"
-    },
     "Card": {
       "additionalProperties": false,
       "properties": {
-        "cardId": {
-          "type": "number"
+        "armorPiece": {
+          "type": "string"
+        },
+        "armorSet": {
+          "type": "string"
         },
         "cardType": {
           "type": "string"
         },
+        "cardTypeGroup": {
+          "type": "string"
+        },
+        "cardTypeStem": {
+          "type": "string"
+        },
+        "faceDown": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "number"
+        },
+        "itemNo": {
+          "type": "number"
+        },
         "location": {
           "type": "string"
         },
-        "locationArg": {
+        "order": {
           "type": "number"
         },
-        "state": {
-          "$ref": "#/definitions/CardState"
+        "points": {
+          "type": "number"
+        },
+        "stat": {
+          "type": "string"
+        },
+        "sublocation": {
+          "type": "string"
+        },
+        "sublocationIndex": {
+          "type": "number"
         }
       },
       "required": [
-        "cardId",
+        "faceDown",
+        "id",
         "location",
-        "locationArg",
-        "state"
+        "order",
+        "sublocation",
+        "sublocationIndex"
       ],
       "type": "object"
     },
-    "CardState": {
-      "enum": [
-        "FACEUP",
-        "FACEDOWN"
+    "CardBase": {
+      "additionalProperties": false,
+      "properties": {
+        "cardType": {
+          "type": "string"
+        },
+        "cardTypeGroup": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        },
+        "sublocation": {
+          "type": "string"
+        },
+        "sublocationIndex": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "sublocation",
+        "sublocationIndex",
+        "order"
       ],
-      "type": "string"
+      "type": "object"
+    },
+    "EffortlessLocation": {
+      "additionalProperties": false,
+      "properties": {
+        "cardType": {
+          "type": "string"
+        },
+        "cardTypeGroup": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        },
+        "sublocation": {
+          "type": "string"
+        },
+        "sublocationIndex": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "order",
+        "sublocation",
+        "sublocationIndex"
+      ],
+      "type": "object"
+    },
+    "EffortlessSetting": {
+      "additionalProperties": false,
+      "properties": {
+        "cardType": {
+          "type": "string"
+        },
+        "cardTypeGroup": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        },
+        "sublocation": {
+          "type": "string"
+        },
+        "sublocationIndex": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "order",
+        "sublocation",
+        "sublocationIndex"
+      ],
+      "type": "object"
     },
     "GameStates": {
       "additionalProperties": false,
@@ -117,16 +201,118 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
     "Gamedatas": {
       "additionalProperties": false,
       "properties": {
-        "boardState": {
-          "$ref": "#/definitions/BoardState"
+        "immutableBoardState": {
+          "$ref": "#/definitions/ImmutableBoardState"
+        },
+        "mutableBoardState": {
+          "$ref": "#/definitions/MutableBoardState"
         }
       },
       "required": [
-        "boardState"
+        "mutableBoardState",
+        "immutableBoardState"
       ],
       "type": "object"
     },
-    "PrivateSeatState": {
+    "ImmutableBoardState": {
+      "additionalProperties": false,
+      "properties": {
+        "players": {
+          "additionalProperties": {
+            "$ref": "#/definitions/PlayerPublic"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "players"
+      ],
+      "type": "object"
+    },
+    "MutableBoardState": {
+      "additionalProperties": false,
+      "properties": {
+        "cards": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Card"
+          },
+          "type": "object"
+        },
+        "locations": {
+          "additionalProperties": {
+            "$ref": "#/definitions/EffortlessLocation"
+          },
+          "type": "object"
+        },
+        "seats": {
+          "additionalProperties": {
+            "$ref": "#/definitions/SeatPublic"
+          },
+          "type": "object"
+        },
+        "settings": {
+          "additionalProperties": {
+            "$ref": "#/definitions/EffortlessSetting"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "seats",
+        "cards",
+        "locations",
+        "settings"
+      ],
+      "type": "object"
+    },
+    "PlayerPublic": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "no": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "no",
+        "name",
+        "color"
+      ],
+      "type": "object"
+    },
+    "SeatBase": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "seatColor": {
+          "type": "string"
+        },
+        "seatLabel": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "seatColor",
+        "seatLabel"
+      ],
+      "type": "object"
+    },
+    "SeatPrivate": {
       "additionalProperties": false,
       "properties": {
         "hand": {
@@ -135,28 +321,21 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
           },
           "type": "array"
         },
-        "seatId": {
+        "id": {
           "type": "number"
         }
       },
       "required": [
-        "seatId",
+        "id",
         "hand"
       ],
       "type": "object"
     },
-    "PublicPlayerState": {
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "PublicSeatState": {
+    "SeatPublic": {
       "additionalProperties": false,
       "properties": {
-        "colorName": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
+        "id": {
+          "type": "number"
         },
         "playerId": {
           "type": "string"
@@ -164,49 +343,18 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
         "reserveEffort": {
           "type": "number"
         },
-        "seatId": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "seatId",
-        "name",
-        "colorName",
-        "reserveEffort"
-      ],
-      "type": "object"
-    },
-    "SetlocState": {
-      "additionalProperties": false,
-      "properties": {
-        "cards": {
-          "items": {
-            "$ref": "#/definitions/Card"
-          },
-          "type": "array"
-        },
-        "effort": {
-          "additionalProperties": {
-            "type": "number"
-          },
-          "type": "object"
-        },
-        "locationId": {
+        "seatColor": {
           "type": "string"
         },
-        "setlocId": {
-          "type": "number"
-        },
-        "settingId": {
+        "seatLabel": {
           "type": "string"
         }
       },
       "required": [
-        "setlocId",
-        "settingId",
-        "locationId",
-        "effort",
-        "cards"
+        "id",
+        "reserveEffort",
+        "seatColor",
+        "seatLabel"
       ],
       "type": "object"
     },

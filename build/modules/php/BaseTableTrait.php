@@ -35,10 +35,12 @@ trait BaseTableTrait
 
     $world = $this->world();
     return [
-      'seats' => $this->renderForClient($world, Seat::getAll($world)),
-      'cards' => $this->renderForClient($world, $this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
-      'locations' => $this->renderForClient($world, $this->locationDeck->getAll(['SETLOC'])),
-      'settings' => $this->renderForClient($world, $this->settingDeck->getAll(['SETLOC'])),
+      'mutableBoardState' => [
+        'seats' => $this->renderForClient($world, Seat::getAll($world)),
+        'cards' => $this->renderForClient($world, $this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
+        'locations' => $this->renderForClient($world, $this->locationDeck->getAll(['SETLOC'])),
+        'settings' => $this->renderForClient($world, $this->settingDeck->getAll(['SETLOC'])),
+      ],
     ];
   }
 }

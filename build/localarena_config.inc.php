@@ -19,13 +19,25 @@ $validator = new Validator();
 $combined_schema = json_decode(CLIENT_INTERFACE_SCHEMA, /*associative=*/ false);
 $validator->resolver()->registerRaw((object) $combined_schema, 'http://localarena.example.com/schema.json');
 
+function objectize($x)
+{
+  switch (gettype($x)) {
+    case 'array':
+      return (object) array_map(function ($y) {
+        return objectize($y);
+      }, $x);
+    default:
+      return $x;
+  }
+}
+
 function validateJsonSchema($schema_name, $data, $msg)
 {
   global $validator;
 
   // N.B.: Unlike some of the other validation methods, `uriValidation()` returns a single ValidationError or null.
   $err = $validator->uriValidation(
-    (object) $data,
+    objectize($data),
     'http://localarena.example.com/schema.json' . '#/definitions/' . $schema_name
   );
   if ($err !== null) {
