@@ -16,6 +16,10 @@ class InitialSetupTest extends \EffortlessWC\Test\IntegrationTestCase
   {
     $this->assertGameState(ST_PLACE_EFFORT);
 
+    echo '*** getting fulldatas now...' . "\n";
+    $full_datas = $this->table()->getFullDatas();
+    echo '*** done getting fulldatas' . "\n";
+
     // XXX: Deliberately empty.
   }
 }
