@@ -414,7 +414,13 @@ module.exports = function (grunt) {
 
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 
-  grunt.registerTask('default', ['fix', 'server', 'client', 'copy:assets']);
+  grunt.registerTask('build', [
+    'server',
+    'client',
+    'copy:assets',
+  ]);
+
+  grunt.registerTask('default', ['fix', 'build']);
 
   grunt.registerTask('test:server', [
     'copy:server_sources',

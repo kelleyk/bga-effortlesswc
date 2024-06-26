@@ -17,7 +17,7 @@ trait Setup
   // XXX: What should happen here and what should happen in ST_INITIAL_SETUP?
   protected function setupNewGame($players, $options = [])
   {
-    echo '*** EffortlessWC setupNewGame()' . "\n";
+    $this->wc_trace('*** EffortlessWC setupNewGame()');
 
     $gameinfos = $this->getGameinfos();
 
@@ -210,7 +210,6 @@ trait Setup
   private function fillSetlocCards()
   {
     foreach ($this->world()->locations() as $loc) {
-      echo '*** fillSetlocCards()' . "\n";
       $this->world()->fillCards($loc);
     }
   }
