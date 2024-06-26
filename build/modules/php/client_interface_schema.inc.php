@@ -92,40 +92,6 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
       ],
       "type": "object"
     },
-    "CardBase": {
-      "additionalProperties": false,
-      "properties": {
-        "cardType": {
-          "type": "string"
-        },
-        "cardTypeGroup": {
-          "type": "string"
-        },
-        "id": {
-          "type": "number"
-        },
-        "location": {
-          "type": "string"
-        },
-        "order": {
-          "type": "number"
-        },
-        "sublocation": {
-          "type": "string"
-        },
-        "sublocationIndex": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "id",
-        "location",
-        "sublocation",
-        "sublocationIndex",
-        "order"
-      ],
-      "type": "object"
-    },
     "EffortlessLocation": {
       "additionalProperties": false,
       "properties": {
@@ -194,41 +160,6 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
       ],
       "type": "object"
     },
-    "GameStates": {
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "Gamedatas": {
-      "additionalProperties": false,
-      "properties": {
-        "immutableBoardState": {
-          "$ref": "#/definitions/ImmutableBoardState"
-        },
-        "mutableBoardState": {
-          "$ref": "#/definitions/MutableBoardState"
-        }
-      },
-      "required": [
-        "mutableBoardState",
-        "immutableBoardState"
-      ],
-      "type": "object"
-    },
-    "ImmutableBoardState": {
-      "additionalProperties": false,
-      "properties": {
-        "players": {
-          "additionalProperties": {
-            "$ref": "#/definitions/PlayerPublic"
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "players"
-      ],
-      "type": "object"
-    },
     "MutableBoardState": {
       "additionalProperties": false,
       "properties": {
@@ -262,6 +193,114 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
         "cards",
         "locations",
         "settings"
+      ],
+      "type": "object"
+    },
+    "SeatPublic": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "reserveEffort": {
+          "type": "number"
+        },
+        "seatColor": {
+          "type": "string"
+        },
+        "seatLabel": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "reserveEffort",
+        "seatColor",
+        "seatLabel"
+      ],
+      "type": "object"
+    },
+    "StPlaceEffortArgs": {
+      "additionalProperties": false,
+      "properties": {
+        "mutableBoardState": {
+          "$ref": "#/definitions/MutableBoardState"
+        }
+      },
+      "required": [
+        "mutableBoardState"
+      ],
+      "type": "object"
+    },
+    "CardBase": {
+      "additionalProperties": false,
+      "properties": {
+        "cardType": {
+          "type": "string"
+        },
+        "cardTypeGroup": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        },
+        "sublocation": {
+          "type": "string"
+        },
+        "sublocationIndex": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "sublocation",
+        "sublocationIndex",
+        "order"
+      ],
+      "type": "object"
+    },
+    "GameStates": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Gamedatas": {
+      "additionalProperties": false,
+      "properties": {
+        "immutableBoardState": {
+          "$ref": "#/definitions/ImmutableBoardState"
+        },
+        "mutableBoardState": {
+          "$ref": "#/definitions/MutableBoardState"
+        }
+      },
+      "required": [
+        "mutableBoardState",
+        "immutableBoardState"
+      ],
+      "type": "object"
+    },
+    "ImmutableBoardState": {
+      "additionalProperties": false,
+      "properties": {
+        "players": {
+          "additionalProperties": {
+            "$ref": "#/definitions/PlayerPublic"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "players"
       ],
       "type": "object"
     },
@@ -328,33 +367,6 @@ const CLIENT_INTERFACE_SCHEMA = <<<'SCHEMA'
       "required": [
         "id",
         "hand"
-      ],
-      "type": "object"
-    },
-    "SeatPublic": {
-      "additionalProperties": false,
-      "properties": {
-        "id": {
-          "type": "number"
-        },
-        "playerId": {
-          "type": "string"
-        },
-        "reserveEffort": {
-          "type": "number"
-        },
-        "seatColor": {
-          "type": "string"
-        },
-        "seatLabel": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "reserveEffort",
-        "seatColor",
-        "seatLabel"
       ],
       "type": "object"
     },

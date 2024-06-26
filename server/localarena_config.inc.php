@@ -61,13 +61,16 @@ function localarenaConfigureGame($localarenaGameConfig)
   });
 
   // Called to validate the return value of each state args function.
-  $localarenaGameConfig->registerArgsValidator(function ($state_name, $data) {
-    validateJsonSchema(ucfirst($state_name) . 'Args', $data, 'args for state "' . $state_name . '"');
+  $localarenaGameConfig->registerArgsValidator(function ($state, $data, ?string $player_id) {
+    if (array_key_exists('args', $state)) {
+      $state_name = $state['name'];
+      validateJsonSchema(ucfirst($state_name) . 'Args', $data['args'], 'args for state "' . $state_name . '"');
+    }
   });
 
   // Called to validate the contents of each notif.
-  $localarenaGameConfig->registerNotifValidator(function ($notif_name, $data) {
-    validateJsonSchema(ucfirst($state_name) . 'Notif', $data, 'data for notif "' . $notif_name . '"');
+  $localarenaGameConfig->registerNotifValidator(function ($notif_name, $data, ?string $player_id) {
+    validateJsonSchema(ucfirst($notif_name) . 'Notif', $data, 'data for notif "' . $notif_name . '"');
   });
 
   echo '*** XXX: done with `localarenaConfigureGame()...' . "\n";
