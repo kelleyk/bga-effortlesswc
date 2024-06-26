@@ -14,6 +14,8 @@ trait BaseTableTrait
 {
   use \WcLib\BgaTableTrait;
   use \WcLib\GameState;
+  use \WcLib\Logging;
+  use \EffortlessWC\RenderTrait;
 
   public \WcLib\WcDeck $mainDeck;
   public \WcLib\WcDeck $locationDeck;

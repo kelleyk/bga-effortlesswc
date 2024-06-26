@@ -24,7 +24,8 @@ trait BgaTableTrait {
   // XXX: Returns int, but the PHP 8 version of BGA Studio defines this with a different signature.
   abstract public function getPlayersNumber();
 
-  abstract public function getBgaEnvironment(): string;
+  /** @return string */
+  abstract public static function getBgaEnvironment();
 
   // APP_DbObject
   //
