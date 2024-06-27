@@ -86,6 +86,13 @@ module.exports = function (grunt) {
             dest: 'tmp/client/',
             filter: 'isFile',
           },
+          {
+            expand: true,
+            cwd: 'assets/',
+            src: ['**/*.ts'],
+            dest: 'tmp/client/',
+            filter: 'isFile',
+          },
         ],
       },
       server_sources: {
@@ -303,24 +310,6 @@ module.exports = function (grunt) {
       },
     },
   });
-
-  console.log(
-    [
-      'docker run -i --rm',
-
-      '--network localarena_default',
-      '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
-      '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
-
-      '-v $PWD/build:/src/game/effortlesswc:ro',
-
-      // XXX: Removing this breaks at least the path below.
-      '-v $PWD/server:/src/server:ro',
-
-      'wardcanyon/localarena-testenv:latest',
-      'phpunit --configuration /src/server/modules/Test/phpunit.xml',
-    ].join(' \\ \n'),
-  );
 
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
