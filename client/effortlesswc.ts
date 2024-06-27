@@ -25,7 +25,7 @@ class EffortlessWC extends Gamegui {
 
   /** @gameSpecific See {@link Gamegui.setup} for more information. */
   public setup(gamedatas: Gamedatas): void {
-    console.log('Starting game setup');
+    console.log('Starting game setup', gamedatas);
 
     // Setting up player boards
     for (const playerId in gamedatas.players) {
@@ -36,9 +36,7 @@ class EffortlessWC extends Gamegui {
       }
     }
 
-    // TODO: Set up your game interface here, according to "gamedatas"
-
-    this.setupPlayArea();
+    this.setupPlayArea(gamedatas.mutableBoardState);
 
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
@@ -46,7 +44,9 @@ class EffortlessWC extends Gamegui {
     console.log('Ending game setup');
   }
 
-  public setupPlayArea() {
+  public setupPlayArea(mutableBoardState: MutableBoardState) {
+    console.log('_', mutableBoardState);
+
     for (let i = 0; i < 6; ++i) {
       dojo.place(
         this.format_block('jstpl_setloc_panel', {
