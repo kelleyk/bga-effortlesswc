@@ -218,10 +218,7 @@ class EffortlessWC extends Gamegui {
   //// Game & client states
 
   /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
-  public onEnteringState(
-    stateName: GameStateName,
-    args: CurrentStateArgs,
-  ): void {
+  public onEnteringState(stateName: string, args: CurrentStateArgs): void {
     console.log('Entering state', stateName, args);
 
     switch (stateName) {
@@ -231,7 +228,7 @@ class EffortlessWC extends Gamegui {
   }
 
   /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-  public onLeavingState(stateName: GameStateName): void {
+  public onLeavingState(stateName: string): void {
     console.log('Leaving state: ' + stateName);
 
     switch (stateName) {
@@ -242,7 +239,7 @@ class EffortlessWC extends Gamegui {
 
   /** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
   public onUpdateActionButtons(
-    stateName: GameStateName,
+    stateName: string,
     args: AnyGameStateArgs | null,
   ): void {
     console.log('onUpdateActionButtons: ' + stateName, args);

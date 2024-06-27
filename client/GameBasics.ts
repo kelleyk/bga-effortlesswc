@@ -27,7 +27,7 @@ class GameBasics extends GameGui {
     this.gamedatas = gamedatas;
   }
 
-  public onEnteringState(stateName: GameStateName, args: CurrentStateArgs) {
+  public onEnteringState(stateName: string, args: CurrentStateArgs) {
     // console.log("(BASICS) onEnteringState: " + stateName, args, this.debugStateInfo());
 
     this.curstate = stateName;
@@ -43,7 +43,7 @@ class GameBasics extends GameGui {
   }
 
   /* tslint:disable:no-unused-variable */
-  public onLeavingState(stateName: GameStateName) {
+  public onLeavingState(stateName: string) {
     // console.log("(BASICS) onLeavingState: " + stateName, this.debugStateInfo());
     this.currentPlayerWasActive = false;
   }
@@ -51,7 +51,7 @@ class GameBasics extends GameGui {
   // XXX: from looking at
   // https://github.com/elaskavaia/bga-dojoless, it seems like this
   // function is meant to handle all dispatch of these events, not to be called via `super()`
-  public onUpdateActionButtons(stateName: GameStateName, args) {
+  public onUpdateActionButtons(stateName: string, args) {
     console.log('(BASICS) onUpdateActionButtons()');
     if (this.curstate !== stateName) {
       // delay firing this until onEnteringState is called so they always called in same order
@@ -129,24 +129,24 @@ class GameBasics extends GameGui {
   //   return div;
   // }
 
-  protected createDiv(
-    id?: string | undefined,
-    classes?: string,
-    location?: string,
-  ) {
-    const div = document.createElement('div');
-    if (id) {
-      div.id = id;
-    }
-    if (classes) {
-      div.classList.add(...classes.split(' '));
-    }
-    const parentNode = document.getElementById(location);
-    if (parentNode) {
-      parentNode.appendChild(div);
-    }
-    return div;
-  }
+  // protected createDiv(
+  //   id?: string | undefined,
+  //   classes?: string,
+  //   location?: string,
+  // ) {
+  //   const div = document.createElement('div');
+  //   if (id) {
+  //     div.id = id;
+  //   }
+  //   if (classes) {
+  //     div.classList.add(...classes.split(' '));
+  //   }
+  //   const parentNode = document.getElementById(location);
+  //   if (parentNode) {
+  //     parentNode.appendChild(div);
+  //   }
+  //   return div;
+  // }
 
   // XXX: @kelleyk addition
   protected triggerUpdateActionButtons() {
