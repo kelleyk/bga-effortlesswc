@@ -9,11 +9,18 @@
  */
 /// <amd-module name="bgagame/effortlesswc"/>
 
-import Gamegui = require('ebg/core/gamegui');
-import 'ebg/counter';
+// import Gamegui = require('ebg/core/gamegui');
+// import 'ebg/counter';
+
+// @ts-ignore
+GameGui = /** @class */ (() => {
+  return () => {
+    /* XXX: Deliberately empty. */
+  };
+})();
 
 /** The root for all of your game code. */
-class EffortlessWC extends Gamegui {
+class GameBody extends GameGui {
   // myGlobalValue: number = 0;
   // myGlobalArray: string[] = [];
 
@@ -218,10 +225,7 @@ class EffortlessWC extends Gamegui {
   //// Game & client states
 
   /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
-  public onEnteringState(
-    stateName: GameStateName,
-    args: CurrentStateArgs,
-  ): void {
+  public onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
 
     switch (stateName) {
@@ -231,7 +235,7 @@ class EffortlessWC extends Gamegui {
   }
 
   /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-  public onLeavingState(stateName: GameStateName): void {
+  public onLeavingState(stateName: string): void {
     console.log('Leaving state: ' + stateName);
 
     switch (stateName) {
@@ -241,10 +245,7 @@ class EffortlessWC extends Gamegui {
   }
 
   /** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
-  public onUpdateActionButtons(
-    stateName: GameStateName,
-    args: AnyGameStateArgs | null,
-  ): void {
+  public onUpdateActionButtons(stateName: string, args: any | null): void {
     console.log('onUpdateActionButtons: ' + stateName, args);
 
     if (!this.isCurrentPlayerActive()) {
@@ -343,7 +344,18 @@ class EffortlessWC extends Gamegui {
 	*/
 }
 
-// The global 'bgagame.effortlesswc' class is instantiated when the page is loaded. The following code sets this
-// variable to your game class.
-dojo.setObject('bgagame.effortlesswc', EffortlessWC);
+// // The global 'bgagame.effortlesswc' class is instantiated when the page is loaded. The following code sets this
+// // variable to your game class.
+// dojo.setObject('bgagame.effortlesswc', EffortlessWC);
 // Same as: (window.bgagame ??= {}).effortlesswc = EffortlessWC;
+
+define([
+  'dojo',
+  'dojo/_base/declare',
+  'ebg/core/gamegui',
+  'ebg/counter',
+  'ebg/stock',
+  'ebg/zone',
+], (_dojo: any, declare: any) => {
+  declare('bgagame.effortlesswc', ebg.core.gamegui, new GameBody());
+});

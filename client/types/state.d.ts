@@ -1,8 +1,5 @@
 // import type { BgaGamedatas } from './bga-gamedatas';
 
-// XXX: temporary
-interface BgaGamedatas {}
-
 /** @gameSpecific Add game specific gamedatas arguments here. See {@link Gamedatas} for more information. */
 interface Gamedatas extends BgaGamedatas {
   // [key: string | number]: Record<keyof any, any>; // Uncomment to remove type safety on game state arguments

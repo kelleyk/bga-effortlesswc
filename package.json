@@ -21,7 +21,6 @@
   "homepage": "https://github.com/kelleyk/bga-effortlesswc#readme",
   "devDependencies": {
     "@prettier/plugin-php": "^0.22.2",
-    "bga-ts-template": "^1.1.8",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "grunt": "^1.6.1",
