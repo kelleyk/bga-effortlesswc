@@ -17,8 +17,6 @@
 /*
   TODO ideas:
 
-  - `ts-json-schema-generator` is quite slow when invoked serially on a bunch of files.
-
   - `ts-json-schema-generator` can generate Markdown docs, apparently.
 
   - Generate docs from our PHP code as well.
@@ -313,16 +311,16 @@ module.exports = function (grunt) {
       },
       generate_json_schema: {
         command: [
-          'for TYPE_DEF_FILEPATH in ./client/types/*.d.ts; do',
-
-          'export TYPE_DEF_FILENAME="${TYPE_DEF_FILEPATH##*/}";',
-
-          'npx ts-json-schema-generator',
-          '--path "${TYPE_DEF_FILEPATH}"',
-          '--out ./tmp/client/"${TYPE_DEF_FILENAME%%.*}".json-schema',
-          '--expose all',
-
-          '; done',
+          'true',
+          // 'npx ts-json-schema-generator',
+          // '--tsconfig ./tmp/tsconfig.json',
+          // '--path "./client/types/**/*.d.ts"',
+          // '--out ./tmp/client/client_interface_schema.json-schema',
+          // // N.B.: See https://github.com/vega/ts-json-schema-generator/issues/2002; this causes a "cannot read
+          // // properties of undefined" error in combination with generic TypeScript types.  Instead, we need to mark
+          // // types with the `export` keyword.
+          // //
+          // // '--expose all',
         ].join(' '),
       },
     },
@@ -359,18 +357,10 @@ module.exports = function (grunt) {
     'embedJsonSchema',
     'Embed JSON schema into PHP file',
     function () {
-      let schemaFiles = grunt.file.expand('tmp/client/*.json-schema');
-
-      let jsonSchema = {
-        $schema: 'http://json-schema.org/draft-07/schema#',
-        definitions: {},
-      };
-      for (const schemaFile of schemaFiles) {
-        let schemaFileContents = grunt.file.readJSON(schemaFile);
-        for (const [k, v] of Object.entries(schemaFileContents.definitions)) {
-          jsonSchema.definitions[k] = v;
-        }
-      }
+      // let jsonSchema = grunt.file.readJSON(
+      //   'tmp/client/client_interface_schema.json-schema',
+      // );
+      let jsonSchema = {};
 
       let out = '';
       out += '<?php declare(strict_types=1);\n\n';
@@ -412,6 +402,7 @@ module.exports = function (grunt) {
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 
   grunt.registerTask('json-schema', [
+    'tsconfig',
     'shell:generate_json_schema',
     'embedJsonSchema',
   ]);

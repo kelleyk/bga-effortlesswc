@@ -1,3 +1,5 @@
+import { GameBody } from './GameBody';
+
 define([
   'dojo',
   'dojo/_base/declare',

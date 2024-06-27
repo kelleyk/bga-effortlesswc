@@ -1,5 +1,5 @@
 /* TODO repace Function by (..params) => void */
-interface Dojo {
+export interface Dojo {
   place: Function;
   style: Function;
   hitch: Function;

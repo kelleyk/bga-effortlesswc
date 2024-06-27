@@ -1,6 +1,6 @@
-// import type Player from './bga-common';
+import type { Player } from './bga-common';
 
-interface BgaGamedatas {
+export interface BgaGamedatas {
   // ------
   // These are standard members added by the BGA framework.
   // ------

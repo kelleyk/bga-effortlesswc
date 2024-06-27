@@ -1,3 +1,5 @@
+import type { PlayerIdString, Gamestate } from './bga-common';
+
 /*
   The BGA framework sends events of these types for certain lifecycle
   events.  They can be subscribed to like any other notif.
@@ -21,7 +23,7 @@
   */
 
 // "playerstatus"
-type BgaPlayerStatusNotif = {
+export type BgaPlayerStatusNotif = {
   player_id: PlayerIdString;
   player_name: string; // HTML around the actual player name.
   player_playing: boolean;
@@ -29,14 +31,14 @@ type BgaPlayerStatusNotif = {
 };
 
 // "gameStateChange"
-type BgaGameStateChangeNotif<T> = Gamestate<T>;
+export type BgaGameStateChangeNotif<T> = Gamestate<T>;
 
 // "gameStateMultipleActiveUpdate"
 //
 // An array containing the IDs of the active players.
-type BgaGameStateMultipleActiveUpdate = PlayerIdString[];
+export type BgaGameStateMultipleActiveUpdate = PlayerIdString[];
 
 // "yourturnack"
-type BgaYourTurnAckNotif = {
+export type BgaYourTurnAckNotif = {
   player: PlayerIdString;
 };

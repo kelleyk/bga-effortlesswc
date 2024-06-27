@@ -1,7 +1,7 @@
 // A string containing a decimal number.
-type PlayerIdString = string;
+export type PlayerIdString = string;
 
-interface Player {
+export interface Player {
   beginner: boolean;
   color: string;
   color_back: any | null;
@@ -13,7 +13,7 @@ interface Player {
   zombie: number;
 }
 
-interface Game {
+export interface Game {
   setup: (gamedatas: any) => void;
   onEnteringState: (stateName: string, args: any) => void;
   onLeavingState: (stateName: string) => void;
@@ -21,10 +21,10 @@ interface Game {
   setupNotifications: () => void;
   //format_string_recursive: (log: string, args: any) => void;
 
-  player_id: number;  // XXX: PlayerIdString instead?
+  player_id: number; // XXX: PlayerIdString instead?
 }
 
-interface Notif<T> {
+export interface Notif<T> {
   args: T;
   log: string;
   move_id: number;
@@ -34,7 +34,7 @@ interface Notif<T> {
   uid: string;
 }
 
-interface Gamestate<T> {
+export interface Gamestate<T> {
   // The name of the state, as defined in your BGA state-machine.
   name: string;
   // Decimal number, but sent as a string.  (Edit: When sent as part

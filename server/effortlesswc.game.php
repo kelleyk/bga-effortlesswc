@@ -1,5 +1,10 @@
 <?php
 
+if (defined('LOCALARENA_GAME_NAME')) {
+  // XXX: This is necessary only when \Opis\JsonSchema is enabled.  We probably need a way to turn it off.
+  ini_set('memory_limit', '1024M');
+}
+
 /**
  * effortlesswc.game.php
  *

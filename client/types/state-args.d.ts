@@ -1,5 +1,5 @@
-import './state.d.ts';
+import type { MutableBoardState } from './state';
 
-interface StPlaceEffortArgs {
+export interface StPlaceEffortArgs {
   mutableBoardState: MutableBoardState;
 }

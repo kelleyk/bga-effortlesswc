@@ -1,4 +1,6 @@
-class GameBody extends GameBasics {
+import type { Gamedatas, MutableBoardState } from './types/state';
+
+export class GameBody extends GameBasics {
   // playerHand: Stock;
   // playerCharacter: { [pcId: number]: PlayerCharacterView };
   // characterPanel: { [pcId: number]: CharacterPanelView };

@@ -1,13 +1,13 @@
 /** @gameSpecific Add game specific player actions / arguments here. See {@link PlayerActions} for more information. */
-interface PlayerActions {
+export interface PlayerActions {
   // [action: string]: Record<keyof any, any>; // Uncomment to remove type safety on player action names and arguments
 }
 // }
 
-interface PlaceEffortAction {}
+export interface PlaceEffortAction {}
 // Used in any situation where the player is selecting a setloc, a card, effort, etc.
-interface SelectionAction {}
-interface CancelAction {
+export interface SelectionAction {}
+export interface CancelAction {
   // Deliberately empty.
 }
 
