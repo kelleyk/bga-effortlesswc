@@ -14,13 +14,8 @@ trait BaseTableTrait
 {
   use \WcLib\BgaTableTrait;
   use \WcLib\GameState;
-<<<<<<< HEAD
-||||||| parent of 65f9cf9 (Get game running again on BGA Studio)
-  use \EffortlessWC\RenderTrait;
-=======
   use \WcLib\Logging;
   use \EffortlessWC\RenderTrait;
->>>>>>> 65f9cf9 (Get game running again on BGA Studio)
 
   public \WcLib\WcDeck $mainDeck;
   public \WcLib\WcDeck $locationDeck;
