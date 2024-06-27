@@ -65,7 +65,7 @@ class GameBody extends GameBasics {
     // and locations.
 
     for (const location of Object.values(mutableBoardState.locations)) {
-      console.log('*** location', location);
+      // console.log('*** location', location);
 
       // XXX: We need the bang ("!") here because, if the card is not visible, we won't know its type.  These particular
       // cards are always visible, however.  Should we consider improving our types so that we have visible and
@@ -80,7 +80,7 @@ class GameBody extends GameBasics {
     }
 
     for (const setting of Object.values(mutableBoardState.settings)) {
-      console.log('*** setting', setting);
+      // console.log('*** setting', setting);
 
       // XXX: See above comment about "!".
       document
@@ -92,61 +92,43 @@ class GameBody extends GameBasics {
         .classList.add(setting.cardType!.replace(':', '_'));
     }
 
+    for (const card of Object.values(mutableBoardState.cards)) {
+      console.log('*** card', card);
+
+      if (card.faceDown) {
+        // XXX:
+      } else {
+        const parentEl = document.querySelector(
+          '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
+        )!;
+        console.log('*** parentEl', parentEl);
+
+        dojo.place(
+          this.format_block('jstpl_playarea_card', {
+            cardType: card.cardType,
+            id: card.id,
+          }),
+          parentEl,
+        );
+      }
+    }
+
     // This function assumes that the matched element has a parent wrapper element.
     console.log('*** qsa ***');
-    document.querySelectorAll('.tmp_scalable').forEach((rawEl: Element) => {
-      const el = rawEl as HTMLElement;
+    document
+      .querySelectorAll('.tmp_scalable_card')
+      .forEach((rawEl: Element) => {
+        const el = rawEl as HTMLElement;
 
-      // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
-      if (el.classList.contains('tmp_scaled')) {
-        return;
-      }
-      el.classList.add('tmp_scaled');
+        // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
+        if (el.classList.contains('tmp_scaled_card')) {
+          return;
+        }
+        el.classList.add('tmp_scaled_card');
 
-      console.log('*** qsa foreach', rawEl);
-
-      // const height = parseInt(el.style.height, 10);
-      // const width = parseInt(el.style.width, 10);
-      // console.log(el.style.height, el.style.width);
-      // console.log(el.offsetHeight, el.offsetWidth);
-
-      // const height = 123;
-      // const width = 234;
-
-      const scaleFactor = 0.5;
-
-      this.rescaleSprite(el, scaleFactor);
-
-      // // el.css(
-      // //   '-webkit-transform',
-      // //   'scale(' + scaleFactor + ', ' + scaleFactor + ')',
-      // // );
-
-      // // // In CSS, we'd call this e.g. "-webkit-transform".
-      // // //
-      // // // For details on these attributes, see https://stackoverflow.com/questions/708895/.
-      // // //
-      // // el.style.webkitTransform =
-      // //   'scale(' + scaleFactor + ', ' + scaleFactor + ')';
-      // // el.style.MozTransform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
-
-      // el.style.transform = 'scale(' + scaleFactor + ', ' + scaleFactor + ')';
-      // el.style.transformOrigin = 'top left';
-
-      // console.log(
-      //   '  *** new dims ',
-      //   el.offsetWidth * scaleFactor,
-      //   el.offsetHeight * scaleFactor,
-      // );
-
-      // const parentEl = el.parentNode! as HTMLElement;
-      // parentEl.style.width = el.offsetWidth * scaleFactor + 'px';
-      // parentEl.style.height = el.offsetHeight * scaleFactor + 'px';
-
-      // // XXX: is this also necessary, or...?
-      // el.style.width = el.offsetWidth * scaleFactor + 'px';
-      // el.style.height = el.offsetHeight * scaleFactor + 'px';
-    });
+        const scaleFactor = 0.5;
+        this.rescaleSprite(el, scaleFactor);
+      });
 
     document
       .querySelectorAll('.tmp_scalable_cube')
@@ -181,6 +163,8 @@ class GameBody extends GameBasics {
   }
 
   public rescaleSprite(el: HTMLElement, scale: number) {
+    // XXX: We should pull these numbers from static card data.
+
     el.style.height = 363.6 * scale + 'px';
     el.style.width = 233.4 * scale + 'px';
 
@@ -188,8 +172,11 @@ class GameBody extends GameBasics {
     console.log('*** bgSize = ', bgSize);
     el.style.backgroundSize = bgSize;
 
+    console.log('*** >> bgPos = ', el.style.backgroundPosition);
+
     el.style.backgroundPosition =
       -700.2 * scale + 'px ' + -1090.8 * scale + 'px';
+    console.log('*** >> bgPos = ', el.style.backgroundPosition);
   }
 
   public rescaleSpriteCube(el: HTMLElement, scale: number) {

@@ -58,14 +58,17 @@ let jstpl_setloc_panel =
   '<div class="ewc_setloc_cards_wrap">' +
     '<div class="ewc_setloc_cards">' +
   /* '<div class="ewc_card_wrap">' + */
-    '<div id="XXX_card_123" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
-    '<div id="XXX_card_124" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
-    '<div id="XXX_card_125" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
+  /* '<div id="XXX_card_123" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
+   * '<div id="XXX_card_124" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
+   * '<div id="XXX_card_125" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' + */
   /* '</div>' + */
     '</div>' +
   '</div>' +  // .ewc_setloc_cards_wrap
   //'<div class="ewc_setloc_threat"></div>' +
   '</div>';  // .ewc_setloc_panel
+
+let jstpl_playarea_card =
+  '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_playarea tmp_scalable_card"></div>';
 
 </script>
 
