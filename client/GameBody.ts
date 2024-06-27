@@ -338,7 +338,7 @@ class GameBody extends GameBasics {
   // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
   //                        action status bar (ie: the HTML links in the status bar).
   //
-  public onUpdateActionButtons(stateName: string, args) {
+  public onUpdateActionButtons(stateName: string, args: any) {
     // // super.onUpdateActionButtons(stateName, args);
     // // console.log('onUpdateActionButtons(): '+stateName);
     // // console.log('onUpdateActionButtons(): curstate='+this.curstate);
@@ -434,7 +434,7 @@ class GameBody extends GameBasics {
   // onEnteringState: this method is called each time we are entering into a new game state.
   //                  You can use this method to perform some user interface changes at this moment.
   //
-  public onEnteringState(stateName: string, args) {
+  public onEnteringState(stateName: string, args: any) {
     super.onEnteringState(stateName, args);
 
     // const this_ = this;

@@ -22,7 +22,9 @@ class GameBasics extends GameGui {
   }
 
   // state hooks
-  public setup(gamedatas) {
+  //
+  // XXX: Improve typing
+  public setup(gamedatas: any) {
     console.log('(BASICS) Starting game setup', gameui);
     this.gamedatas = gamedatas;
   }
@@ -51,7 +53,7 @@ class GameBasics extends GameGui {
   // XXX: from looking at
   // https://github.com/elaskavaia/bga-dojoless, it seems like this
   // function is meant to handle all dispatch of these events, not to be called via `super()`
-  public onUpdateActionButtons(stateName: string, args) {
+  public onUpdateActionButtons(stateName: string, args: any) {
     console.log('(BASICS) onUpdateActionButtons()');
     if (this.curstate !== stateName) {
       // delay firing this until onEnteringState is called so they always called in same order
@@ -93,7 +95,7 @@ class GameBasics extends GameGui {
     return res;
   }
 
-  protected ajaxcallwrapper(action: string, args?: any, handler?) {
+  protected ajaxcallwrapper(action: string, args?: any, handler?: any) {
     if (!args) {
       args = {};
     }
@@ -159,7 +161,7 @@ class GameBasics extends GameGui {
    * @param {object} args
    * @returns
    */
-  protected callfn(methodName: string, args) {
+  protected callfn(methodName: string, args: any) {
     if (this[methodName] !== undefined) {
       console.log('Calling ' + methodName, args);
       return this[methodName](args);
