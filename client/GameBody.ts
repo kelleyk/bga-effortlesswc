@@ -12,15 +12,8 @@
 // import Gamegui = require('ebg/core/gamegui');
 // import 'ebg/counter';
 
-// @ts-ignore
-GameGui = /** @class */ (() => {
-  return () => {
-    /* XXX: Deliberately empty. */
-  };
-})();
-
 /** The root for all of your game code. */
-class GameBody extends GameGui {
+class GameBody extends GameBasics {
   // myGlobalValue: number = 0;
   // myGlobalArray: string[] = [];
 
@@ -348,14 +341,3 @@ class GameBody extends GameGui {
 // // variable to your game class.
 // dojo.setObject('bgagame.effortlesswc', EffortlessWC);
 // Same as: (window.bgagame ??= {}).effortlesswc = EffortlessWC;
-
-define([
-  'dojo',
-  'dojo/_base/declare',
-  'ebg/core/gamegui',
-  'ebg/counter',
-  'ebg/stock',
-  'ebg/zone',
-], (_dojo: any, declare: any) => {
-  declare('bgagame.effortlesswc', ebg.core.gamegui, new GameBody());
-});
