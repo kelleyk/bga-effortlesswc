@@ -1,3 +1,5 @@
+// import type BgaGamedatas from './framework/bga-gamedatas.d.ts';
+
 /** @gameSpecific Add game specific gamedatas arguments here. See {@link Gamedatas} for more information. */
 interface Gamedatas extends BgaGamedatas {
   // [key: string | number]: Record<keyof any, any>; // Uncomment to remove type safety on game state arguments

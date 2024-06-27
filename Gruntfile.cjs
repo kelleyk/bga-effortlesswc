@@ -14,6 +14,16 @@
   - gem install sass
   */
 
+/*
+  TODO ideas:
+
+  - `ts-json-schema-generator` is quite slow when invoked serially on a bunch of files.
+
+  - `ts-json-schema-generator` can generate Markdown docs, apparently.
+
+  - Generate docs from our PHP code as well.
+  */
+
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -407,16 +417,14 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('server', [
+    'json-schema',
     'lint:server',
     'copy:server_sources',
-    'json-schema',
   ]);
 
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 
   grunt.registerTask('build', ['server', 'client', 'copy:assets']);
-
-  grunt.registerTask('default', ['fix', 'build']);
 
   grunt.registerTask('test:server', [
     'copy:server_sources',
@@ -424,4 +432,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test', ['server', 'test:server']);
+
+  grunt.registerTask('default', ['fix', 'build', 'test']);
 };
