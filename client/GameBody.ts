@@ -39,7 +39,7 @@ class GameBody extends GameBasics {
     console.log('Ending game setup');
   }
 
-  public setupPlayArea(mutableBoardState: MutableBoardState) {
+  public setupPlayArea(_mutableBoardState: MutableBoardState) {
     for (let i = 0; i < 6; ++i) {
       dojo.place(
         this.format_block('jstpl_setloc_panel', {
@@ -338,7 +338,7 @@ class GameBody extends GameBasics {
   // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
   //                        action status bar (ie: the HTML links in the status bar).
   //
-  public onUpdateActionButtons(stateName: string, args: any) {
+  public onUpdateActionButtons(_stateName: string, _args: any) {
     // // super.onUpdateActionButtons(stateName, args);
     // // console.log('onUpdateActionButtons(): '+stateName);
     // // console.log('onUpdateActionButtons(): curstate='+this.curstate);

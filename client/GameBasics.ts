@@ -29,7 +29,7 @@ class GameBasics extends GameGui {
     this.gamedatas = gamedatas;
   }
 
-  public onEnteringState(stateName: string, args: CurrentStateArgs) {
+  public onEnteringState(stateName: string, args: any) {
     // console.log("(BASICS) onEnteringState: " + stateName, args, this.debugStateInfo());
 
     this.curstate = stateName;
@@ -45,7 +45,7 @@ class GameBasics extends GameGui {
   }
 
   /* tslint:disable:no-unused-variable */
-  public onLeavingState(stateName: string) {
+  public onLeavingState(_stateName: string) {
     // console.log("(BASICS) onLeavingState: " + stateName, this.debugStateInfo());
     this.currentPlayerWasActive = false;
   }
@@ -112,7 +112,7 @@ class GameBasics extends GameGui {
           '.html',
         args, //
         gameui,
-        (result) => {
+        (_result) => {
           return;
         },
         handler,
@@ -162,15 +162,15 @@ class GameBasics extends GameGui {
    * @returns
    */
   protected callfn(methodName: string, args: any) {
-    if (this[methodName] !== undefined) {
+    if (this[methodName as keyof GameBasics] !== undefined) {
       console.log('Calling ' + methodName, args);
-      return this[methodName](args);
+      return this[methodName as keyof GameBasics](args);
     }
     return undefined;
   }
 
   /** @Override onScriptError from gameui */
-  protected onScriptError(msg: string, url: string, linenumber: number) {
+  protected onScriptError(msg: string, _url: string, _linenumber: number) {
     if (gameui.page_is_unloading) {
       // Don't report errors during page unloading
       return;
