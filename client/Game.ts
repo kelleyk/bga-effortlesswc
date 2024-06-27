@@ -5,6 +5,6 @@ define([
   'ebg/counter',
   'ebg/stock',
   'ebg/zone',
-], (dojo: any, declare: any) => {
+], (_dojo: any, declare: any) => {
   declare('bgagame.effortlesswc', ebg.core.gamegui, new GameBody());
 });

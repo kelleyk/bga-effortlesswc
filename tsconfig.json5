@@ -1,7 +1,7 @@
 // N.B.: Paths are relative to the "tmp" subdirectory.
 {
   "include": [
-    // "tmp/client/**/GameBasics.ts",
+    "client/**/GameBasics.ts",
     "client/**/*.ts"
   ],
   "exclude": [

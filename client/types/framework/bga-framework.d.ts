@@ -7,10 +7,14 @@ declare function _(str: string): string;
 declare function __(site: string, str: string): string;
 declare function $(text: string | Element): HTMLElement;
 
-// declare const define;
-// declare const ebg;
-// declare const dojo;
-// declare const dijit;
+// @ts-expect-error: TS7005: Variable implicitly has an 'any' type.
+declare const define;
+// @ts-expect-error: TS7005: Variable implicitly has an 'any' type.
+declare const ebg;
+// @ts-expect-error: TS7005: Variable implicitly has an 'any' type.
+declare const dojo;
+// @ts-expect-error: TS7005: Variable implicitly has an 'any' type.
+declare const dijit;
 declare type eventhandler = (event?: any) => void;
 
 type ElementOrId = Element | string;
