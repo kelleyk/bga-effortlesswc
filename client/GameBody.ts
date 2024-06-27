@@ -38,7 +38,7 @@ class GameBody extends GameBasics {
 
     // TODO: Set up your game interface here, according to "gamedatas"
 
-    this.setupPlayArea();
+    this.setupPlayArea(gamedatas.mutableBoardState);
 
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
@@ -46,7 +46,7 @@ class GameBody extends GameBasics {
     console.log('Ending game setup');
   }
 
-  public setupPlayArea() {
+  public setupPlayArea(mutableBoardState: MutableBoardState) {
     for (let i = 0; i < 6; ++i) {
       dojo.place(
         this.format_block('jstpl_setloc_panel', {
@@ -57,43 +57,40 @@ class GameBody extends GameBasics {
       );
     }
 
-    document
-      .querySelector('#ewc_setloc_panel_0 .ewc_setloc_location')!
-      .classList.add('location_cabin');
-    document
-      .querySelector('#ewc_setloc_panel_1 .ewc_setloc_location')!
-      .classList.add('location_forest');
-    document
-      .querySelector('#ewc_setloc_panel_2 .ewc_setloc_location')!
-      .classList.add('location_garden');
-    document
-      .querySelector('#ewc_setloc_panel_3 .ewc_setloc_location')!
-      .classList.add('location_river');
-    document
-      .querySelector('#ewc_setloc_panel_4 .ewc_setloc_location')!
-      .classList.add('location_stables');
-    document
-      .querySelector('#ewc_setloc_panel_5 .ewc_setloc_location')!
-      .classList.add('location_city');
+    this.applyMutableBoardState(mutableBoardState);
+  }
 
-    document
-      .querySelector('#ewc_setloc_panel_0 .ewc_setloc_setting')!
-      .classList.add('setting_battling');
-    document
-      .querySelector('#ewc_setloc_panel_1 .ewc_setloc_setting')!
-      .classList.add('setting_secret');
-    document
-      .querySelector('#ewc_setloc_panel_2 .ewc_setloc_setting')!
-      .classList.add('setting_traveling');
-    document
-      .querySelector('#ewc_setloc_panel_3 .ewc_setloc_setting')!
-      .classList.add('setting_active');
-    document
-      .querySelector('#ewc_setloc_panel_4 .ewc_setloc_setting')!
-      .classList.add('setting_eerie');
-    document
-      .querySelector('#ewc_setloc_panel_5 .ewc_setloc_setting')!
-      .classList.add('setting_starved');
+  public applyMutableBoardState(mutableBoardState: MutableBoardState) {
+    // XXX: This will probably need a little bit of work when we start supporting changes to and discarding of settings
+    // and locations.
+
+    for (const location of Object.values(mutableBoardState.locations)) {
+      console.log('*** location', location);
+
+      // XXX: We need the bang ("!") here because, if the card is not visible, we won't know its type.  These particular
+      // cards are always visible, however.  Should we consider improving our types so that we have visible and
+      // not-visible subtypes?
+      document
+        .querySelector(
+          '#ewc_setloc_panel_' +
+            location.sublocationIndex +
+            ' .ewc_setloc_location',
+        )!
+        .classList.add(location.cardType!.replace(':', '_'));
+    }
+
+    for (const setting of Object.values(mutableBoardState.settings)) {
+      console.log('*** setting', setting);
+
+      // XXX: See above comment about "!".
+      document
+        .querySelector(
+          '#ewc_setloc_panel_' +
+            setting.sublocationIndex +
+            ' .ewc_setloc_setting',
+        )!
+        .classList.add(setting.cardType!.replace(':', '_'));
+    }
 
     // This function assumes that the matched element has a parent wrapper element.
     console.log('*** qsa ***');
