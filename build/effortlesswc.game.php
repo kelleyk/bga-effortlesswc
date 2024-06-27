@@ -35,11 +35,7 @@ require_once 'modules/php/constants.inc.php';
 
 // // use EffortlessWC\Managers\Board;
 
-use EffortlessWC\Models\Player;
-
-// use EffortlessWC\Models\Entity;
-// use EffortlessWC\Models\Position;
-// use EffortlessWC\Models\Tile;
+// use EffortlessWC\Models\Player;
 
 class Effortlesswc extends Table
 {
@@ -83,8 +79,8 @@ class Effortlesswc extends Table
 
     // N.B.: Only immutable things should go here; anything mutable should go in `renderBoardState()` instead.
     return array_merge($this->renderBoardState(), [
-      // XXX: Do *we* have to send this, or is it already included?
-      'players' => $this->renderForClient($world, Player::getAll($world)),
+      // // XXX: Do *we* have to send this, or is it already included?
+      // 'players' => $this->renderForClient($world, Player::getAll($world)),
     ]);
   }
 
