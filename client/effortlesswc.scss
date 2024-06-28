@@ -101,6 +101,25 @@
   margin-right: -80px;
 }
 
+// XXX: This style almost certainly needs to be adjusted.
+//
+// XXX: This should also be moved to a "selectable" class, so that it only applies to selectable options.
+//
+.ewc_card_playarea:hover {
+  box-shadow: 0 0 3px 3px #fff;
+  transition: box-shadow 0.2s;
+}
+
+.ewc_effort_counter:hover {
+  box-shadow: 0 0 3px 3px #0ff;
+  transition: box-shadow 0.2s;
+}
+
+.ewc_setloc_setloc_wrap:hover {
+  box-shadow: 0 0 3px 3px #ff0;
+  transition: box-shadow 0.2s;
+}
+
 .ewc_card_wrap {
 }
 
