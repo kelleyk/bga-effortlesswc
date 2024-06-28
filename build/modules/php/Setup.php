@@ -57,10 +57,10 @@ trait Setup
     }
   }
 
-  // XXX: find better home
   public function seatCount(): int
   {
-    return max(3, $this->getPlayersNumber());
+    // XXX: The `world()->table()` thing gets us around type-checking.  Should replace this hack.
+    return count($this->world()->table()->rawGetSeats());
   }
 
   private function initPlayers($gameinfos, $players): void
@@ -109,7 +109,7 @@ trait Setup
     }
 
     // Set up bot seats when necessary; give 20 effort.
-    for ($i = $this->seatCount(); $i < 3; ++$i) {
+    for ($i = count($this->loadPlayersBasicInfos()); $i < 3; ++$i) {
       $seat_color = array_values(
         array_filter($player_colors, function ($color) use ($used_colors) {
           return !in_array($color, $used_colors);

@@ -5,7 +5,7 @@ namespace WcLib;
 abstract class SeatBase
 {
   protected int $id_;
-  protected string $player_id_;
+  protected ?string $player_id_;
   protected string $seat_color_;
   protected string $seat_label_;
 
@@ -44,7 +44,7 @@ abstract class SeatBase
     return $this->id_;
   }
 
-  public function player_id(): string {
+  public function player_id(): ?string {
     return $this->player_id_;
   }
 
