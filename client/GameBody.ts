@@ -49,6 +49,7 @@ class GameBody extends GameBasics {
   }
 
   public setupPlayArea(mutableBoardState: MutableBoardState) {
+    // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
       dojo.place(
         this.format_block('jstpl_setloc_panel', {
@@ -57,6 +58,24 @@ class GameBody extends GameBasics {
         }),
         $('ewc_setlocarea_column_' + (i % 2))!,
       );
+    }
+
+    // Create a counter for the amount of effort that each seat has on each location.
+    for (const seat of Object.values(mutableBoardState.seats)) {
+      for (let i = 0; i < 6; ++i) {
+        const parentEl = document.querySelector(
+          '#ewc_setloc_panel_' + i + ' .ewc_effort_counter_wrap',
+        );
+
+        dojo.place(
+          this.format_block('jstpl_effort_counter', {
+            colorName: seat.colorName,
+            locationIndex: i,
+            seatId: seat.id,
+          }),
+          parentEl,
+        );
+      }
     }
 
     this.applyMutableBoardState(mutableBoardState);
@@ -81,6 +100,16 @@ class GameBody extends GameBasics {
             ' .ewc_setloc_location',
         )!
         .classList.add(location.cardType!.replace(':', '_'));
+
+      for (const [seatId, effortQty] of Object.entries(location.effort)) {
+        document.querySelector<HTMLElement>(
+          '#ewc_effort_counter_' +
+            location.sublocationIndex +
+            '_' +
+            seatId +
+            ' .ewc_effort_counter_value',
+        )!.innerText = '' + effortQty;
+      }
     }
 
     for (const setting of Object.values(mutableBoardState.settings)) {
@@ -155,11 +184,22 @@ class GameBody extends GameBasics {
       }
       el.classList.add('tmp_tinted');
 
+      // XXX: We have several versions of this color translation code between the client and server sides of the game.
+      // We should find a better way to consolidate.
       if (el.classList.contains('ewc_playercolor_teal')) {
         this.tintSprite(el, '#00b796');
       }
       if (el.classList.contains('ewc_playercolor_pink')) {
         this.tintSprite(el, '#ff5fa2');
+      }
+      if (el.classList.contains('ewc_playercolor_blue')) {
+        this.tintSprite(el, '#001489');
+      }
+      if (el.classList.contains('ewc_playercolor_yellow')) {
+        this.tintSprite(el, '#ffe900');
+      }
+      if (el.classList.contains('ewc_playercolor_white')) {
+        this.tintSprite(el, '#ffffff');
       }
     });
   }

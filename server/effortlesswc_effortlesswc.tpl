@@ -35,18 +35,7 @@ let jstpl_setloc_panel =
   '<div class="ewc_setloc_setting_wrap">' +
 
   '<div class="ewc_setloc_setting">' +
-  /* '<span style="position:absolute; bottom:0px; right:10px; margin-right:30px;">XXX</span>' +
-   */
-  '<div class="ewc_effort_counter_wrap">' +
-  /* '<div class="ewc_effort_counter">X &#x2715; 4</div>' +
-   * '<div class="ewc_effort_counter">X &#x2715; 5</div>' + */
-  '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_teal"></div> 4</div>' +
-  '<div class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_pink"></div> 5</div>' +
-  '</div>' +
-
-  /* '<div class="icon_effort tmp_tintable tmp_offset_cube"></div>' + */
-        //  <div class="ewc_setloc_effort"></div>' +
-  /* '</div>' +  // .ewc_setloc_player_effort */
+  '<div class="ewc_effort_counter_wrap"></div>' +
   '</div>' +  // .ewc_setloc_setting
 
   '</div>' + // .ewc_setloc_setting_wrap
@@ -57,11 +46,6 @@ let jstpl_setloc_panel =
   '</div>' +    // .ewc_setloc_setloc_wrap
   '<div class="ewc_setloc_cards_wrap">' +
     '<div class="ewc_setloc_cards">' +
-  /* '<div class="ewc_card_wrap">' + */
-  /* '<div id="XXX_card_123" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
-   * '<div id="XXX_card_124" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' +
-   * '<div id="XXX_card_125" class="ewc_card card_attr_cha_1 ewc_card_playarea tmp_scalable"></div>' + */
-  /* '</div>' + */
     '</div>' +
   '</div>' +  // .ewc_setloc_cards_wrap
   //'<div class="ewc_setloc_threat"></div>' +
@@ -69,6 +53,9 @@ let jstpl_setloc_panel =
 
 let jstpl_playarea_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_playarea tmp_scalable_card"></div>';
+
+let jstpl_effort_counter =
+  '<div id="ewc_effort_counter_${locationIndex}_${seatId}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
 
 </script>
 

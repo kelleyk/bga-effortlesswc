@@ -40,6 +40,25 @@ class Seat extends \WcLib\SeatBase
   {
     return array_merge(parent::renderForClientBase(), [
       'reserveEffort' => $this->reserve_effort_,
+      'colorName' => $this->color_name(),
     ]);
+  }
+
+  function color_name(): string
+  {
+    switch ($this->seat_color()) {
+      case '001489':
+        return 'blue';
+      case 'ff5fa2':
+        return 'pink';
+      case '00b796':
+        return 'teal';
+      case 'ffe900':
+        return 'yellow';
+      case 'ffffff':
+        return 'white';
+      default:
+        throw new \BgaVisibleSystemException('Failed to translate player color from hex value to name.');
+    }
   }
 }

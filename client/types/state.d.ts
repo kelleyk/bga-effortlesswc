@@ -60,7 +60,9 @@ interface CardBase {
   cardTypeGroup: string | undefined;
 }
 
-interface EffortlessLocation extends CardBase {}
+interface EffortlessLocation extends CardBase {
+  effort: { [seatId: number]: number };
+}
 
 interface EffortlessSetting extends CardBase {}
 
@@ -112,6 +114,7 @@ interface SeatBase {
 // Sent to all players in all modes.
 interface SeatPublic extends SeatBase {
   reserveEffort: number;
+  colorName: string;
 }
 
 // Sent only to players about themselves in competitive mode; sent to all players in cooperative mode.
