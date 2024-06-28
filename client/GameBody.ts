@@ -95,22 +95,20 @@ class GameBody extends GameBasics {
     for (const card of Object.values(mutableBoardState.cards)) {
       console.log('*** card', card);
 
-      if (card.faceDown) {
-        // XXX:
-      } else {
-        const parentEl = document.querySelector(
-          '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
-        )!;
-        console.log('*** parentEl', parentEl);
+      const cardType = card.faceDown ? 'back' : card.cardType;
 
-        dojo.place(
-          this.format_block('jstpl_playarea_card', {
-            cardType: card.cardType,
-            id: card.id,
-          }),
-          parentEl,
-        );
-      }
+      const parentEl = document.querySelector(
+        '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
+      )!;
+      console.log('*** parentEl', parentEl);
+
+      dojo.place(
+        this.format_block('jstpl_playarea_card', {
+          cardType,
+          id: card.id,
+        }),
+        parentEl,
+      );
     }
 
     // This function assumes that the matched element has a parent wrapper element.
@@ -162,21 +160,43 @@ class GameBody extends GameBasics {
     });
   }
 
+  // XXX: The need for this is a bit unfortunate; we could eliminate it.
+  public getSpriteName(el: HTMLElement): string {
+    console.log('*** getSpriteName()', el.classList);
+
+    for (const className of Object.values(el.classList)) {
+      console.log(className);
+      if (className.match(/^card_/g)) {
+        return className;
+      }
+    }
+    throw new Error('XXX: Unable to find sprite name.');
+  }
+
   public rescaleSprite(el: HTMLElement, scale: number) {
+    const spriteName = this.getSpriteName(el);
+    const spriteMetadata = StaticDataSprites.spriteMetadata[spriteName];
+
+    console.log('rescaleSprite for spriteName=', spriteName);
+
     // XXX: We should pull these numbers from static card data.
 
-    el.style.height = 363.6 * scale + 'px';
-    el.style.width = 233.4 * scale + 'px';
+    el.style.height = spriteMetadata.height * scale + 'px';
+    el.style.width = spriteMetadata.width * scale + 'px';
 
-    const bgSize = 3334.2 * scale + 'px ' + 3328.2 * scale + 'px';
+    const bgSize =
+      StaticDataSprites.totalWidth * scale +
+      'px ' +
+      StaticDataSprites.totalHeight * scale +
+      'px';
     console.log('*** bgSize = ', bgSize);
     el.style.backgroundSize = bgSize;
 
-    console.log('*** >> bgPos = ', el.style.backgroundPosition);
-
     el.style.backgroundPosition =
-      -700.2 * scale + 'px ' + -1090.8 * scale + 'px';
-    console.log('*** >> bgPos = ', el.style.backgroundPosition);
+      spriteMetadata.offsetX * scale +
+      'px ' +
+      spriteMetadata.offsetY * scale +
+      'px';
   }
 
   public rescaleSpriteCube(el: HTMLElement, scale: number) {

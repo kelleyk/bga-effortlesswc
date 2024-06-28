@@ -9,7 +9,12 @@ trait InitialSetup
 
   public function stInitialSetup()
   {
-    $sets = [SET_BASE, SET_ALTERED, SET_HUNTED];
+    // XXX: Eventually, this should be driven by a game option.
+    $sets = [
+      SET_BASE,
+      // SET_ALTERED,
+      // SET_HUNTED,
+    ];
 
     $this->initMainDeck();
     $this->initLocationDeck($sets);

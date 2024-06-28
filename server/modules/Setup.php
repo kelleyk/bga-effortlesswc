@@ -172,7 +172,7 @@ trait Setup
         $card_specs[] = ['card_type' => 'attr_' . $stat . '_2'];
       }
     }
-    for ($i = 0; $i < 21; ++$i) {
+    for ($i = 1; $i <= 21; ++$i) {
       $card_specs[] = ['card_type' => 'item_' . $i];
     }
     foreach (['mage', 'plate', 'leather', 'obsidian'] as $armor_set) {

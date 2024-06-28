@@ -570,7 +570,7 @@ class CabinLocation extends Location
 // "Take both cards here and replace one with a card from your hand."
 class CaravanLocation extends Location
 {
-  const CARD_TYPE = 'location:hunted';
+  const CARD_TYPE = 'location:caravan';
   const SET_ID = SET_HUNTED;
 
   const CARDS_FACE_UP = 2;

@@ -315,7 +315,7 @@
 }
 .card_dwarf {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2567.4px -1090.8px;
+  background-position: -2567.4px -1454.4px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -324,7 +324,7 @@
 }
 .card_elf {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2567.4px -1453.8px;
+  background-position: -2567.4px -1817.4px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -342,7 +342,7 @@
 }
 .card_fairy {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2567.4px -1816.8px;
+  background-position: -2567.4px -2180.4px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -351,7 +351,7 @@
 }
 .card_gnome {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2567.4px -2179.8px;
+  background-position: -2800.8px 0px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -360,7 +360,7 @@
 }
 .card_goblin {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px 0px;
+  background-position: -2800.8px -363px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -378,7 +378,7 @@
 }
 .card_human {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -363px;
+  background-position: -2800.8px -726px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -576,7 +576,7 @@
 }
 .card_orc {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -726px;
+  background-position: -2800.8px -1089px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -585,7 +585,7 @@
 }
 .class_alchemist {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -1089px;
+  background-position: -2800.8px -1452px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -593,7 +593,7 @@
 }
 .class_artificer {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -1452px;
+  background-position: -2800.8px -1815px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -601,7 +601,7 @@
 }
 .class_barbarian {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -1815px;
+  background-position: -2800.8px -2178px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -609,7 +609,7 @@
 }
 .class_bard {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2800.8px -2178px;
+  background-position: 0px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -617,7 +617,7 @@
 }
 .class_cleric {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -2545.2px;
+  background-position: -233.4px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -625,7 +625,7 @@
 }
 .class_druid {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -233.4px -2545.2px;
+  background-position: -466.8px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -633,7 +633,7 @@
 }
 .class_fighter {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -466.8px -2545.2px;
+  background-position: -700.2px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -641,7 +641,7 @@
 }
 .class_merchant {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -700.2px -2545.2px;
+  background-position: -933.6px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -649,7 +649,7 @@
 }
 .class_monk {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -933.6px -2545.2px;
+  background-position: -1167px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -657,7 +657,7 @@
 }
 .class_necromancer {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1167px -2545.2px;
+  background-position: -1400.4px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -665,7 +665,7 @@
 }
 .class_paladin {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1400.4px -2545.2px;
+  background-position: -1633.8px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -673,7 +673,7 @@
 }
 .class_ranger {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1633.8px -2545.2px;
+  background-position: -1867.2px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -681,7 +681,7 @@
 }
 .class_rogue {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1867.2px -2545.2px;
+  background-position: -2100.6px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -689,7 +689,7 @@
 }
 .class_wizard {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2100.6px -2545.2px;
+  background-position: -2334px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 233.4px;
   height: 363px;
@@ -863,7 +863,7 @@
   height: 363.6px;
   transition: background-image 1s;
 }
-.threat_threat_vacant {
+.threat_threat_back {
   background-image: url(../build/img/sprites.jpg);
   background-position: -2567.4px -727.2px;
   background-size: 3334.2px 3328.2px;
@@ -871,9 +871,17 @@
   height: 363.6px;
   transition: background-image 1s;
 }
+.threat_threat_vacant {
+  background-image: url(../build/img/sprites.jpg);
+  background-position: -2567.4px -1090.8px;
+  background-size: 3334.2px 3328.2px;
+  width: 233.4px;
+  height: 363.6px;
+  transition: background-image 1s;
+}
 .location_cabin {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2334px -2545.2px;
+  background-position: -2567.4px -2545.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -881,7 +889,7 @@
 }
 .location_caravan {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2634px -2545.2px;
+  background-position: -3034.2px 0px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -889,7 +897,7 @@
 }
 .location_cave {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px 0px;
+  background-position: -3034.2px -210px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -897,7 +905,7 @@
 }
 .location_city {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -210px;
+  background-position: -3034.2px -420px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -905,7 +913,7 @@
 }
 .location_coliseum {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -420px;
+  background-position: -3034.2px -630px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -913,7 +921,7 @@
 }
 .location_crypt {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -630px;
+  background-position: -3034.2px -840px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -921,7 +929,7 @@
 }
 .location_docks {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -840px;
+  background-position: -3034.2px -1050px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -929,7 +937,7 @@
 }
 .location_dungeon {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -1050px;
+  background-position: -3034.2px -1260px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -937,7 +945,7 @@
 }
 .location_forest {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -1260px;
+  background-position: -3034.2px -1470px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -945,7 +953,7 @@
 }
 .location_garden {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -1470px;
+  background-position: -3034.2px -1680px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -953,7 +961,7 @@
 }
 .location_laboratory {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -1680px;
+  background-position: -3034.2px -1890px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -961,7 +969,7 @@
 }
 .location_labyrinth {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -1890px;
+  background-position: -3034.2px -2100px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -969,7 +977,7 @@
 }
 .location_library {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -2100px;
+  background-position: -3034.2px -2310px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -977,7 +985,7 @@
 }
 .location_market {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -2310px;
+  background-position: -3034.2px -2520px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -985,7 +993,7 @@
 }
 .location_observatory {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3034.2px -2520px;
+  background-position: 0px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -993,7 +1001,7 @@
 }
 .location_portal {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -2908.2px;
+  background-position: -300px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -1001,7 +1009,7 @@
 }
 .location_prison {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -300px -2908.2px;
+  background-position: -600px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -1009,7 +1017,7 @@
 }
 .location_river {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -600px -2908.2px;
+  background-position: -900px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -1017,7 +1025,7 @@
 }
 .location_stables {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -900px -2908.2px;
+  background-position: -1200px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -1025,7 +1033,7 @@
 }
 .location_temple {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1200px -2908.2px;
+  background-position: -1500px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -1033,7 +1041,15 @@
 }
 .location_tunnels {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1500px -2908.2px;
+  background-position: -1800px -2908.2px;
+  background-size: 3334.2px 3328.2px;
+  width: 300px;
+  height: 210px;
+  transition: background-image 1s;
+}
+.location_wasteland {
+  background-image: url(../build/img/sprites.jpg);
+  background-position: -2100px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 300px;
   height: 210px;
@@ -1041,7 +1057,7 @@
 }
 .setting_active {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1800px -2908.2px;
+  background-position: -2400px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1049,7 +1065,7 @@
 }
 .setting_barren {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1983px -2908.2px;
+  background-position: -2583px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1057,7 +1073,7 @@
 }
 .setting_battling {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2166px -2908.2px;
+  background-position: -2766px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1065,7 +1081,7 @@
 }
 .setting_capable {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2349px -2908.2px;
+  background-position: -2949px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1073,7 +1089,7 @@
 }
 .setting_corrupted {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2532px -2908.2px;
+  background-position: -3132px -2908.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1081,7 +1097,7 @@
 }
 .setting_crowded {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2715px -2908.2px;
+  background-position: 0px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1089,7 +1105,7 @@
 }
 .setting_eerie {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2898px -2908.2px;
+  background-position: -183px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1097,7 +1113,7 @@
 }
 .setting_equipped {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -3081px -2908.2px;
+  background-position: -366px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1105,7 +1121,7 @@
 }
 .setting_ghostly {
   background-image: url(../build/img/sprites.jpg);
-  background-position: 0px -3118.2px;
+  background-position: -549px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1113,7 +1129,7 @@
 }
 .setting_hidden {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -183px -3118.2px;
+  background-position: -732px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1121,7 +1137,7 @@
 }
 .setting_holy {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -366px -3118.2px;
+  background-position: -915px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1129,7 +1145,7 @@
 }
 .setting_lively {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -549px -3118.2px;
+  background-position: -1098px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1137,7 +1153,7 @@
 }
 .setting_magical {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -732px -3118.2px;
+  background-position: -1281px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1145,7 +1161,7 @@
 }
 .setting_nonexistent {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -915px -3118.2px;
+  background-position: -1464px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1153,7 +1169,7 @@
 }
 .setting_overgrown {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1098px -3118.2px;
+  background-position: -1647px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1161,7 +1177,7 @@
 }
 .setting_peaceful {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1281px -3118.2px;
+  background-position: -1830px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1169,7 +1185,7 @@
 }
 .setting_quiet {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1464px -3118.2px;
+  background-position: -2013px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1177,7 +1193,7 @@
 }
 .setting_secret {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1647px -3118.2px;
+  background-position: -2196px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1185,7 +1201,7 @@
 }
 .setting_sheltered {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -1830px -3118.2px;
+  background-position: -2379px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1193,7 +1209,7 @@
 }
 .setting_starved {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2013px -3118.2px;
+  background-position: -2562px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1201,7 +1217,7 @@
 }
 .setting_transcendent {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2196px -3118.2px;
+  background-position: -2745px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1209,7 +1225,7 @@
 }
 .setting_traveling {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2379px -3118.2px;
+  background-position: -2928px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
@@ -1217,7 +1233,7 @@
 }
 .setting_treacherous {
   background-image: url(../build/img/sprites.jpg);
-  background-position: -2562px -3118.2px;
+  background-position: -3111px -3118.2px;
   background-size: 3334.2px 3328.2px;
   width: 183px;
   height: 210px;
