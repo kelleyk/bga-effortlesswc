@@ -9,6 +9,8 @@ require_once 'WcLib/BgaTableTrait.php';
 require_once 'Models/Setting.php';
 require_once 'Models/Location.php';
 
+use EffortlessWC\Models\Seat;
+
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
@@ -23,6 +25,7 @@ trait Setup
 
     $this->initPlayers($gameinfos, $players);
     $this->initSeats($gameinfos);
+    $this->initEffortPiles();
 
     // Init global game state.  (XXX: Make sure values are correct.)
     $this->setGameStateInt(GAMESTATE_INT_ACTIVE_SEAT, -1);
@@ -120,6 +123,18 @@ trait Setup
     self::DbQuery(
       'INSERT INTO `seat` (`player_id`, `seat_color`, `seat_label`, `reserve_effort`) VALUES ' . implode(',', $values)
     );
+  }
+
+  private function initEffortPiles(): void
+  {
+    $values = [];
+    foreach (Seat::getAll($this->world()) as $seat) {
+      for ($i = 0; $i < 6; ++$i) {
+        $values[] = '(' . $seat->id() . ',' . $i . ')';
+      }
+    }
+
+    self::DbQuery('INSERT INTO `effort` (`seat_id`, `location_index`) VALUES ' . implode(',', $values));
   }
 
   private function initLocationDeck($sets): void
