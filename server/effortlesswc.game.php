@@ -103,6 +103,17 @@ class Effortlesswc extends Table
     return self::getCollectionFromDB('SELECT * FROM `player` WHERE TRUE');
   }
 
+  function getEffortBySeat(int $location_index)
+  {
+    $rows = self::getCollectionFromDB('SELECT * FROM `effort` WHERE `location_index` = ' . $location_index);
+
+    $effort = [];
+    foreach ($rows as $row) {
+      $effort[intval($row['seat_id'])] = intval($row['effort']);
+    }
+    return $effort;
+  }
+
   // -----------
   // Misc
   // -----------

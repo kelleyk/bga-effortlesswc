@@ -17,6 +17,8 @@ class GameBody extends GameBasics {
   // myGlobalValue: number = 0;
   // myGlobalArray: string[] = [];
 
+  protected mutableBoardState: MutableBoardState | undefined = undefined;
+
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
@@ -61,11 +63,13 @@ class GameBody extends GameBasics {
   }
 
   public applyMutableBoardState(mutableBoardState: MutableBoardState) {
+    this.mutableBoardState = mutableBoardState;
+
     // XXX: This will probably need a little bit of work when we start supporting changes to and discarding of settings
     // and locations.
 
     for (const location of Object.values(mutableBoardState.locations)) {
-      // console.log('*** location', location);
+      console.log('*** location', location);
 
       // XXX: We need the bang ("!") here because, if the card is not visible, we won't know its type.  These particular
       // cards are always visible, however.  Should we consider improving our types so that we have visible and

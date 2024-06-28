@@ -43,7 +43,9 @@ abstract class Location extends \WcLib\CardBase
 
   public function renderForClient(World $world): array
   {
-    return parent::renderForClientBase(/*visible=*/ true);
+    return array_merge(parent::renderForClientBase(/*visible=*/ true), [
+      'effort' => $world->table()->getEffortBySeat($this->locationArg()),
+    ]);
   }
 
   // /**
