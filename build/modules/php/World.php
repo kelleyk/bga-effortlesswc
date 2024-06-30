@@ -5,9 +5,11 @@ namespace EffortlessWC;
 require_once 'WcLib/WcDeck.php';
 
 use WcLib\Card;
+
+use EffortlessWC\Models\EffortPile;
 use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Setting;
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\Setting;
 
 interface World
 {
@@ -45,8 +47,8 @@ interface World
 
   public function discardCard(Card $card);
 
-  // Moves one effort from $src to $dst.  They may be piles or locations.
-  public function moveEffort($src, $dst);
+  // Moves one effort from $src too $dst.  They may be piles or locations.
+  public function moveEffort(EffortPile $src, EffortPile $dst);
 
   public function fillCards(Location $loc): void;
 

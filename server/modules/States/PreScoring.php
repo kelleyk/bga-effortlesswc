@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait PreScoring
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stPreScoring()
   {

@@ -12,13 +12,20 @@ const SET_HUNTED = 'set:hunted';
 // Global game-state types
 // ------------------------
 
+// The seat whose turn it currently is.  This is changed in ST_NEXT_TURN.
 const GAMESTATE_INT_ACTIVE_SEAT = 'activeSeat';
+
+// When a bot player would need to make a decision, the human players get to decide for them.  This is the ID of the
+// player who will be asked to make the decision.  This rotates among the human players at the table in ST_NEXT_TURN.
+const GAMESTATE_INT_DECIDING_PLAYER = 'decidingPlayer';
 
 // XXX: For this game, which has a much simpler effect system, I think that we really only need to know which T_RET_*
 // transition to take when we're done.
 const GAMESTATE_JSON_RESOLVE_STACK = 'resolveStack';
 
 const GAMESTATE_JSON_RESOLVE_VALUE_STACK = 'resolveValueStack';
+
+const GAMESTATE_INT_ACTIVE_SEAT = 'activeSeat';
 
 // ------------------------
 // Transitions

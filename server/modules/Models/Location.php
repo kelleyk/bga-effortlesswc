@@ -9,6 +9,8 @@ use EffortlessWC\Models\Seat;
 
 abstract class Location extends \WcLib\CardBase
 {
+  use \EffortlessWC\Util\Parameters;
+
   const CARD_TYPE_GROUP = 'location';
 
   public static function getById(World $world, int $id)
@@ -61,37 +63,6 @@ abstract class Location extends \WcLib\CardBase
   //   $loc = self::fromRowBase(Location::class, $row);
   //   return $loc;
   // }
-
-  // XXX: The `getParameter()` stuff should be moved to their own trait; they throw a special exception if we need to
-  // ask for user input still.
-  public function getParameterEffortPile(World $world, int $param_index, $valid_targets)
-  {
-    throw new \feException('XXX: foo');
-  }
-
-  public function getParameterLocation(World $world, int $param_index, $valid_targets)
-  {
-    throw new \feException('XXX: foo');
-  }
-
-  public function getParameterCardInHand(World $world, int $param_index, Seat $seat)
-  {
-    // XXX: This should be a thin layer over `getParameterCard()`.
-    throw new \feException('XXX: foo');
-  }
-
-  // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
-  public function getParameterCardAtLocation(World $world, int $param_index, Location $loc)
-  {
-    // XXX: This should be a thin layer over `getParameterCard()`.
-    throw new \feException('XXX: foo');
-  }
-
-  // Each element of $valid_targets is a `Card`.
-  public function getParameterCard(World $world, int $param_index, $valid_targets)
-  {
-    throw new \feException('XXX: foo');
-  }
 
   // Returns the cards that are in play at this location.
   public function cards(World $world)
@@ -172,7 +143,7 @@ class CityLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToLocation($this->getParameterCardInHand($world, 0, $seat), $this);
+    $world->moveCardToLocation($this->getParameterCardInHand($world, $seat), $this);
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $world->activeSeat());
@@ -190,7 +161,7 @@ class ColiseumLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $selected_card = $this->getParameterCardAtLocation($world, 0, $this);
+    $selected_card = $this->getParameterCardAtLocation($world, $this);
 
     $other_cards = array_values(
       array_filter($this->cards($world), function ($card) use ($selected_card) {
@@ -220,7 +191,7 @@ class CryptLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToHand($this->getParameterCard($world, 0, $this->getValidTargets($world)), $seat);
+    $world->moveCardToHand($this->getParameterCard($world, $this->getValidTargets($world)), $seat);
   }
 }
 
@@ -241,7 +212,6 @@ class DocksLocation extends Location
 
     $loc = $this->getParameterLocation(
       $world,
-      0,
       array_values(
         array_filter($world->locations(), function ($loc) {
           return $loc->id() != $this->id();
@@ -249,7 +219,7 @@ class DocksLocation extends Location
       )
     );
 
-    $world->moveEffort($loc->effortPileForSeat($seat), $this);
+    $world->moveEffort($loc->effortPileForSeat($world, $seat), $this->effortPileForSeat($world, $seat));
   }
 }
 
@@ -263,7 +233,7 @@ class LibraryLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToHand($this->getParameterCardAtLocation($world, 0, $this), $seat);
+    $world->moveCardToHand($this->getParameterCardAtLocation($world, $this), $seat);
   }
 }
 
@@ -277,7 +247,7 @@ class MarketLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->discardCard($this->getParameterCardInHand($world, 0, $seat));
+    $world->discardCard($this->getParameterCardInHand($world, $seat));
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $seat);
@@ -306,7 +276,8 @@ class PrisonLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveEffort($this->getParameterEffortPile($world, 0, $this->getValidTargets($world)), $this);
+    $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat()));
   }
 }
 
@@ -327,7 +298,7 @@ class RiverLocation extends Location
       }
     }
 
-    $world->discardCard($this->getParameterCard($world, 0, $cards));
+    $world->discardCard($this->getParameterCard($world, $cards));
   }
 }
 
@@ -339,7 +310,7 @@ class TempleLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->discardCard($this->getParameterCardInHand($world, 0, $seat));
+    $world->discardCard($this->getParameterCardInHand($world, $seat));
 
     for ($i = 0; $i < 2; ++$i) {
       $world->drawCardToHand($seat);
@@ -377,8 +348,8 @@ class TunnelsLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $src_pile = $this->getParameterEffortPile($world, 0, $this->getValidSourcePiles($world));
-    $dst_loc = $this->getParameterLocation($world, 1, $this->getValidDestinationLocations($world));
+    $src_pile = $this->getParameterEffortPile($world, $this->getValidSourcePiles($world));
+    $dst_loc = $this->getParameterLocation($world, $this->getValidDestinationLocations($world));
     $world->moveEffort($src_pile, $dst_loc);
   }
 }
@@ -418,7 +389,7 @@ class DungeonLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     // XXX: borked
-    $world->moveEffort($this->getParameterEffortPile($world, 0, $this->getValidTargets($world)), $this);
+    $world->moveEffort($this->getParameterEffortPile($world, $this->getValidTargets($world)), $this);
   }
 }
 
@@ -430,7 +401,7 @@ class GardenLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $other_loc = $this->getParameterLocation($world, 0, $this->adjacentLocations($world));
+    $other_loc = $this->getParameterLocation($world, $this->adjacentLocations($world));
     $other_loc->onVisited($world, $seat);
   }
 }
@@ -504,7 +475,9 @@ class ForestLocation extends Location
       })
     );
 
-    $world->moveEffort($this->getParameterEffortPile($world, 0, $valid_targets), $this);
+    $pile = $this->getParameterEffortPile($world, $valid_targets);
+    $dst = $this->getParameterLocation($world, $other_locations);
+    $world->moveEffort($pile, $dst->effortPileForSeat($world, $pile->seat()));
   }
 }
 
@@ -565,7 +538,8 @@ class CabinLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveEffort($this->getParameterEffortPile($world, 0, $this->getValidTargets($world)), $this);
+    $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat()));
   }
 }
 
@@ -579,7 +553,7 @@ class CaravanLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToLocation($this->getParameterCardInHand($world, 0, $seat), $this);
+    $world->moveCardToLocation($this->getParameterCardInHand($world, $seat), $this);
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $world->activeSeat());

@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait RoundUpkeep
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stRoundUpkeep()
   {

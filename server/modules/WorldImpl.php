@@ -5,9 +5,11 @@ namespace EffortlessWC;
 require_once 'WcLib/WcDeck.php';
 
 use WcLib\Card;
+
+use EffortlessWC\Models\EffortPile;
 use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Setting;
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\Setting;
 
 class WorldImpl implements World
 {
@@ -130,9 +132,10 @@ class WorldImpl implements World
     throw new \feException('no impl: discardcard');
   }
 
-  // Moves one effort from $src to $dst.  They may be piles or locations.
-  public function moveEffort($src, $dst)
+  // Moves one effort from $src to $dst.  The piles must have the same `seat()` and different `location()`.
+  public function moveEffort(EffortPile $src, EffortPile $dst)
   {
+    // XXX: Send notif so that client can animate.
     throw new \feException('no impl: moveeffort');
   }
 }

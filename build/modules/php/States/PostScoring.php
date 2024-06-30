@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait PostScoring
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stPostScoring()
   {

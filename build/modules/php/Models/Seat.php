@@ -3,6 +3,7 @@
 namespace EffortlessWC\Models;
 
 use EffortlessWC\World;
+use EffortlessWC\Models\EffortPile;
 
 class Seat extends \WcLib\SeatBase
 {
@@ -21,9 +22,9 @@ class Seat extends \WcLib\SeatBase
     return $that;
   }
 
-  public function reserve_effort(): int
+  public function reserveEffort(): EffortPile
   {
-    return $this->reserve_effort_;
+    throw new \feException('XXX:');
   }
 
   /**

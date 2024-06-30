@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait Input
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stInput()
   {
@@ -12,5 +12,6 @@ trait Input
 
   public function argInput()
   {
+    return $this->renderBoardState();
   }
 }

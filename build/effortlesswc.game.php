@@ -42,9 +42,16 @@ class Effortlesswc extends Table
   use EffortlessWC\Setup;
   use EffortlessWC\BaseTableTrait;
 
+  use EffortlessWC\States\BotTurn;
   use EffortlessWC\States\InitialSetup;
+  use EffortlessWC\States\Input;
   use EffortlessWC\States\NextTurn;
   use EffortlessWC\States\PlaceEffort;
+  use EffortlessWC\States\PostScoring;
+  use EffortlessWC\States\PreScoring;
+  use EffortlessWC\States\ResolveLocation;
+  use EffortlessWC\States\RoundUpkeep;
+  use EffortlessWC\States\TurnUpkeep;
 
   // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
 

@@ -128,6 +128,7 @@ $machinestates = [
     'action' => 'stInput',
     'args' => 'argInput',
     'type' => 'multipleactiveplayer',
+    // XXX: Improve these descriptions.
     'description' => clienttranslate('Input required from another player.'),
     'descriptionmyturn' => clienttranslate('Your input required.'),
     'possibleactions' => [

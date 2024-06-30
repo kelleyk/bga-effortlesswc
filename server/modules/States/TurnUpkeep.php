@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait TurnUpkeep
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stTurnUpkeep()
   {

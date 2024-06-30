@@ -8,6 +8,8 @@ trait NextTurn
 
   public function stNextTurn()
   {
+    $this->activeNextPlayer();
+
     // XXX: ...
     $this->world()->nextState(T_BEGIN_HUMAN_TURN);
   }

@@ -21,6 +21,16 @@ trait BgaTableTrait {
 
   abstract protected function activeNextPlayer();
 
+  /*
+    $this->activeNextPlayer()
+    $this->activePrevPlayer()
+    $this->gamestate->changeActivePlayer( $player_id )
+    $this->gamestate->setAllPlayersMultiactive()
+    $this->gamestate->setAllPlayersNonMultiactive( $next_state )
+    $this->gamestate->setPlayersMultiactive( $players, $next_state, $bExclusive = false )
+    $this->gamestate->setPlayerNonMultiactive( $player_id, $next_state )
+   */
+
   // XXX: Returns int, but the PHP 8 version of BGA Studio defines this with a different signature.
   abstract public function getPlayersNumber();
 

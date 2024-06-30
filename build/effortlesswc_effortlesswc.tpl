@@ -54,6 +54,9 @@ let jstpl_setloc_panel =
 let jstpl_playarea_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_playarea tmp_scalable_card"></div>';
 
+let jstpl_hand_card =
+  '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_hand tmp_scalable_card"></div>';
+
 let jstpl_effort_counter =
   '<div id="ewc_effort_counter_${locationIndex}_${seatId}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
 

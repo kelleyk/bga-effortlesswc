@@ -4,7 +4,7 @@ namespace EffortlessWC\States;
 
 trait ResolveLocation
 {
-  use \WcLib\BgaTableTrait;
+  use \EffortlessWC\BaseTableTrait;
 
   public function stResolveLocation()
   {

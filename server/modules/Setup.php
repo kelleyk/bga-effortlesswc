@@ -29,6 +29,7 @@ trait Setup
 
     // Init global game state.  (XXX: Make sure values are correct.)
     $this->setGameStateInt(GAMESTATE_INT_ACTIVE_SEAT, -1);
+    $this->setGameStateInt(GAMESTATE_INT_DECIDING_PLAYER, -1);
     $this->setGameStateJson(GAMESTATE_JSON_RESOLVE_STACK, []);
     $this->setGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK, []);
 
