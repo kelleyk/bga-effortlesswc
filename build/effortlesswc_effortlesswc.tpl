@@ -57,6 +57,53 @@ let jstpl_playarea_card =
 let jstpl_effort_counter =
   '<div id="ewc_effort_counter_${locationIndex}_${seatId}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
 
+// N.B.: We use ".player-board" just for the appearance.
+var jstpl_tablewide_panel =
+  '<div class="tablewide_panel player-board" id="tablewide_panel">' +
+  '</div>';
+
+  /* var jstpl_character_panel =
+   *   '<div class="character_panel" id="character_panel_${id}">' +
+   *   '<div id="character_panel_${id}_heat" class="player-zone"></div>' +
+   *   '<hr />' +
+   *   '<div id="character_panel_${id}_tokens" class="player-zone"></div>' +
+   *   '</div>'; */
+
+  var jstpl_seat_board =
+    '<div id="overall_seat_board_${seatId}" class="player-board current-player-board" style="width: 234px; height: auto;">'+
+    '<div class="player_board_inner">'+
+    '<div class="emblemwrap is_premium" id="avatarwrap_${seatId}">'+
+    '<img src="https://studio.boardgamearena.com:8084/data/avatar/default_32.jpg" alt="" class="avatar emblem" id="avatar_${seatId}">'+
+    '<div class="emblempremium" id="db459fe1-ae5c-40b2-8652-7e5f635747be"></div>'+
+    '</div>'+
+
+    '<div class="emblemwrap" id="avatar_active_wrap_${seatId}" style="display:none">'+
+    '<img src="https://studio.boardgamearena.com:8084/data/themereleases/240626-1003/img/layout/active_player.gif" alt="" class="avatar avatar_active" id="avatar_active_${seatId}">'+
+    '<div class="icon20 icon20_night this_is_night"></div>'+
+    '</div>'+
+
+    '<div class="player-name" id="player_name_${seatId}">'+
+    '	<span style="color: #${seatColor}">${seatLabel}</span>'+
+    '	<i id="seat_${seatId}_status" class="fa fa-circle status_online player_status"></i>'+
+    '	<div class="bga-flag" data-country="US"></div>'+
+    '</div>'+
+    '<div id="player_board_${seatId}" class="player_board_content">'+
+    '<div class="player_score">'+
+    '<span id="seat_score_${seatId}" class="player_score_value">-</span> <i class="fa fa-star" id="icon_point_${seatId}"></i>'+
+    '<span class="player_elo_wrap">• <div class="gamerank gamerank_beginner "><span class="icon20 icon20_rankw "></span> <span class="gamerank_value" id="player_elo_${seatId}">0</span></div></span>'+
+    '<span class="timeToThink">&mdash;</span>'+
+    '</div>'+
+    '<div class="player_showcursor" id="seat_showcursor_${seatId}"><input type="checkbox" checked="checked" class="player_hidecursor" id="player_hidecursor_${seatId}"> Show cursor <i class="fa fa-hand-pointer-o" style="color:#001489"></i></div>'+
+    '<div class="player_table_status" id="seat_table_status_${seatId}" style="display: none;"></div>'+
+    '</div>'+
+    '<div id="current_player_board">'+
+
+    '</div>'+
+    '<div id="seat_panel_conent_${seatId}" class="player_panel_content">'+
+    '</div>'+
+    '</div>'+
+    '</div>';
+
 </script>
 
 {OVERALL_GAME_FOOTER}

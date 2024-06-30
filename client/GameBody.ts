@@ -19,6 +19,8 @@ class GameBody extends GameBasics {
 
   protected mutableBoardState: MutableBoardState | undefined = undefined;
 
+  protected tablewidePanelEl: HTMLElement | undefined = undefined;
+
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
@@ -40,12 +42,60 @@ class GameBody extends GameBasics {
 
     // TODO: Set up your game interface here, according to "gamedatas"
 
+    this.setupSeatBoards(gamedatas.mutableBoardState);
+
     this.setupPlayArea(gamedatas.mutableBoardState);
 
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
 
     console.log('Ending game setup');
+  }
+
+  // This overrides a default implementation that BGA provides.
+  public updatePlayerOrdering(): void {
+    console.log('*** updatePlayerOrdering()');
+
+    // N.B.: We start at 1 instead of at 0, like the default implementation does, so that our table-wide panel stays at
+    // the top.  We should eventually improve this so that it handles seat boards as well.
+    let place = 1;
+
+    for (const i of Object.keys(this.gamedatas.playerorder)) {
+      const playerId = this.gamedatas.playerorder[i];
+      dojo.place('overall_player_board_' + playerId, 'player_boards', place);
+      place++;
+    }
+  }
+
+  public setupSeatBoards(mutableBoardState: MutableBoardState): void {
+    console.log(
+      'setupSeatBoards(): #player_boards =',
+      $('player_boards').children.length,
+    );
+
+    this.tablewidePanelEl = dojo.place(
+      this.format_block('jstpl_tablewide_panel', {}),
+      $('player_boards'),
+      'first',
+    );
+
+    console.log(
+      'setupSeatBoards(): after tablewide panel creation, player_boards =',
+      $('player_boards').children,
+    );
+
+    for (const seat of Object.values(mutableBoardState.seats)) {
+      if (seat.playerId === null) {
+        dojo.place(
+          this.format_block('jstpl_seat_board', {
+            seatColor: seat.seatColor,
+            seatId: seat.id,
+            seatLabel: 'Bot A', // seat.seatLabel, XXX:
+          }),
+          $('player_boards'),
+        );
+      }
+    }
   }
 
   public setupPlayArea(mutableBoardState: MutableBoardState) {
@@ -206,7 +256,7 @@ class GameBody extends GameBasics {
 
   // XXX: The need for this is a bit unfortunate; we could eliminate it.
   public getSpriteName(el: HTMLElement): string {
-    console.log('*** getSpriteName()', el.classList);
+    // console.log('*** getSpriteName()', el.classList);
 
     for (const className of Object.values(el.classList)) {
       console.log(className);
@@ -221,7 +271,7 @@ class GameBody extends GameBasics {
     const spriteName = this.getSpriteName(el);
     const spriteMetadata = StaticDataSprites.spriteMetadata[spriteName];
 
-    console.log('rescaleSprite for spriteName=', spriteName);
+    // console.log('rescaleSprite for spriteName=', spriteName);
 
     // XXX: We should pull these numbers from static card data.
 
@@ -233,7 +283,7 @@ class GameBody extends GameBasics {
       'px ' +
       StaticDataSprites.totalHeight * scale +
       'px';
-    console.log('*** bgSize = ', bgSize);
+    // console.log('*** bgSize = ', bgSize);
     el.style.backgroundSize = bgSize;
 
     el.style.backgroundPosition =
@@ -244,12 +294,12 @@ class GameBody extends GameBasics {
   }
 
   public rescaleSpriteCube(el: HTMLElement, scale: number) {
-    console.log('** rescaleSpriteCube()', el, scale);
+    // console.log('** rescaleSpriteCube()', el, scale);
 
     el.style.height = 30.0 * scale + 'px';
     el.style.width = 30.0 * scale + 'px';
     const spritesheetSize = 312.0 * scale + 'px ' + 302.4 * scale + 'px';
-    console.log('*** bgSize = ', spritesheetSize);
+    // console.log('*** bgSize = ', spritesheetSize);
     el.style.backgroundSize = spritesheetSize;
     el.style.maskSize = spritesheetSize;
     const spritesheetPos = -276.0 * scale + 'px ' + -121.2 * scale + 'px';
