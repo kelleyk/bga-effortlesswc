@@ -60,6 +60,7 @@ let jstpl_effort_counter =
 // N.B.: We use ".player-board" just for the appearance.
 var jstpl_tablewide_panel =
   '<div class="tablewide_panel player-board" id="tablewide_panel">' +
+  '(table-wide)' +
   '</div>';
 
   /* var jstpl_character_panel =
@@ -84,14 +85,14 @@ var jstpl_tablewide_panel =
 
     '<div class="player-name" id="player_name_${seatId}">'+
     '	<span style="color: #${seatColor}">${seatLabel}</span>'+
-    '	<i id="seat_${seatId}_status" class="fa fa-circle status_online player_status"></i>'+
-    '	<div class="bga-flag" data-country="US"></div>'+
+    // '<i id="seat_${seatId}_status" class="fa fa-circle status_online player_status"></i>'+
+    // '<div class="bga-flag" data-country="US"></div>'+
     '</div>'+
     '<div id="player_board_${seatId}" class="player_board_content">'+
     '<div class="player_score">'+
     '<span id="seat_score_${seatId}" class="player_score_value">-</span> <i class="fa fa-star" id="icon_point_${seatId}"></i>'+
-    '<span class="player_elo_wrap">• <div class="gamerank gamerank_beginner "><span class="icon20 icon20_rankw "></span> <span class="gamerank_value" id="player_elo_${seatId}">0</span></div></span>'+
-    '<span class="timeToThink">&mdash;</span>'+
+    // '<span class="player_elo_wrap">• <div class="gamerank gamerank_beginner "><span class="icon20 icon20_rankw "></span> <span class="gamerank_value" id="player_elo_${seatId}">0</span></div></span>'+
+    // '<span class="timeToThink">&mdash;</span>'+
     '</div>'+
     '<div class="player_showcursor" id="seat_showcursor_${seatId}"><input type="checkbox" checked="checked" class="player_hidecursor" id="player_hidecursor_${seatId}"> Show cursor <i class="fa fa-hand-pointer-o" style="color:#001489"></i></div>'+
     '<div class="player_table_status" id="seat_table_status_${seatId}" style="display: none;"></div>'+
