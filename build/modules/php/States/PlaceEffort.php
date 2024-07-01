@@ -2,17 +2,20 @@
 
 namespace EffortlessWC\States;
 
-use EffortlessWC\Util\UserInputRequiredException;
+use EffortlessWC\Util\InputRequiredException;
 
 trait PlaceEffort
 {
   use \EffortlessWC\BaseTableTrait;
-  use \EffortlessWC\Util\Parameters;
+  use \EffortlessWC\Util\ParameterInput;
 
   public function stPlaceEffort()
   {
     try {
-      $location = $this->getParameterLocation($this->world(), $this->world()->locations());
+      $location = $this->getParameterLocation($this->world(), $this->world()->locations(), [
+        'description' => '${actplayer} must decide where to place one of their Effort.',
+        'descriptionmyturn' => '${you} must decide where to place one of your Effort.',
+      ]);
 
       // Move one effort from the active seat's reserve reserve to their effort-pile at that location.
       $this->world()->moveEffort(
@@ -21,8 +24,8 @@ trait PlaceEffort
       );
 
       $this->world()->nextState(T_DONE);
-    } catch (UserInputRequiredException $e) {
-      $this->world()->nextState(T_GET_INPUT);
+    } catch (InputRequiredException $e) {
+      return;
     }
   }
 

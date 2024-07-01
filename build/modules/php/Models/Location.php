@@ -9,13 +9,22 @@ use EffortlessWC\Models\Seat;
 
 abstract class Location extends \WcLib\CardBase
 {
-  use \EffortlessWC\Util\Parameters;
+  use \EffortlessWC\Util\ParameterInput;
 
   const CARD_TYPE_GROUP = 'location';
 
-  public static function getById(World $world, int $id)
+  public static function getById(World $world, int $id): ?Location
   {
-    throw new \feException('XXX:');
+    return $world->table()->locationDeck->get($id);
+  }
+
+  public static function mustGetById(World $world, int $id): Location
+  {
+    $location = self::getById($world, $id);
+    if ($location === null) {
+      throw new \BgaVisibleSystemException('Could not find location with id=' . $id);
+    }
+    return $location;
   }
 
   /**
@@ -350,7 +359,7 @@ class TunnelsLocation extends Location
   {
     $src_pile = $this->getParameterEffortPile($world, $this->getValidSourcePiles($world));
     $dst_loc = $this->getParameterLocation($world, $this->getValidDestinationLocations($world));
-    $world->moveEffort($src_pile, $dst_loc);
+    $world->moveEffort($src_pile, $dst_loc->effortPileForSeat($world, $src_pile->seat()));
   }
 }
 
@@ -378,7 +387,6 @@ class DungeonLocation extends Location
 
   public function getValidTargets(World $world)
   {
-    // XXX: borked
     return array_values(
       array_filter($world->allEffortPiles(), function ($pile) use ($world) {
         return $pile->qty() > 0 && $pile->seat()->id() != $world->activeSeat()->id();
@@ -388,8 +396,8 @@ class DungeonLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    // XXX: borked
-    $world->moveEffort($this->getParameterEffortPile($world, $this->getValidTargets($world)), $this);
+    $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat()));
   }
 }
 
@@ -467,7 +475,7 @@ class ForestLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $valid_targets = array_values(
+    $valid_target_piles = array_values(
       array_filter($this->effortPiles($world), function ($pile) use ($seat, $world) {
         // If there is only of the active seat's effort here, it's the one we just placed, and we can never move that one.
         // For other seats, any effort is fine.
@@ -475,8 +483,14 @@ class ForestLocation extends Location
       })
     );
 
-    $pile = $this->getParameterEffortPile($world, $valid_targets);
-    $dst = $this->getParameterLocation($world, $other_locations);
+    $valid_target_locations = array_values(
+      array_filter($world->locations(), function ($loc) {
+        return $loc->id() != $this->id();
+      })
+    );
+
+    $pile = $this->getParameterEffortPile($world, $valid_target_piles);
+    $dst = $this->getParameterLocation($world, $valid_target_locations);
     $world->moveEffort($pile, $dst->effortPileForSeat($world, $pile->seat()));
   }
 }

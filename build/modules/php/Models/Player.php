@@ -6,6 +6,11 @@ use EffortlessWC\World;
 
 class Player extends \WcLib\PlayerBase
 {
+  public static function getById(World $world, string $id): Player
+  {
+    return self::fromRow($world->table()->rawGetPlayerById($id));
+  }
+
   /**
     @param string[] $row
     @return Player

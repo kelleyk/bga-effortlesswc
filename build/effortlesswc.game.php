@@ -41,6 +41,7 @@ class Effortlesswc extends Table
 {
   use EffortlessWC\Setup;
   use EffortlessWC\BaseTableTrait;
+  use EffortlessWC\DatabaseTrait;
 
   use EffortlessWC\States\BotTurn;
   use EffortlessWC\States\InitialSetup;
@@ -94,31 +95,6 @@ class Effortlesswc extends Table
   function getGameProgression()
   {
     return 42;
-  }
-
-  // -----------
-  // Database interface
-  // -----------
-
-  function rawGetSeats()
-  {
-    return self::getCollectionFromDB('SELECT * FROM `seat` WHERE TRUE');
-  }
-
-  function rawGetPlayers()
-  {
-    return self::getCollectionFromDB('SELECT * FROM `player` WHERE TRUE');
-  }
-
-  function getEffortBySeat(int $location_index)
-  {
-    $rows = self::getCollectionFromDB('SELECT * FROM `effort` WHERE `location_index` = ' . $location_index);
-
-    $effort = [];
-    foreach ($rows as $row) {
-      $effort[intval($row['seat_id'])] = intval($row['effort']);
-    }
-    return $effort;
   }
 
   // -----------

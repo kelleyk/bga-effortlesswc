@@ -17,15 +17,22 @@ const GAMESTATE_INT_ACTIVE_SEAT = 'activeSeat';
 
 // When a bot player would need to make a decision, the human players get to decide for them.  This is the ID of the
 // player who will be asked to make the decision.  This rotates among the human players at the table in ST_NEXT_TURN.
+//
+// TODO: This should really be a string, since we use strings to represent player IDs; we'd just need to extend the
+// gamestate library to support them.
 const GAMESTATE_INT_DECIDING_PLAYER = 'decidingPlayer';
 
 // XXX: For this game, which has a much simpler effect system, I think that we really only need to know which T_RET_*
 // transition to take when we're done.
+//
+// XXX: Do we need this, or has its use in this game been replaced by PARAMINPUT_CONFIG?
 const GAMESTATE_JSON_RESOLVE_STACK = 'resolveStack';
 
+// XXX: Do we need this, or can we replace it with a simpler `paramInputValues`-type value?
 const GAMESTATE_JSON_RESOLVE_VALUE_STACK = 'resolveValueStack';
 
-const GAMESTATE_INT_ACTIVE_SEAT = 'activeSeat';
+// Stores serialized configuration related to the `ParameterInput` library.
+const GAMESTATE_JSON_PARAMINPUT_CONFIG = 'paramInputConfig';
 
 // ------------------------
 // Transitions

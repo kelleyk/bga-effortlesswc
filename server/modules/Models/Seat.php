@@ -9,6 +9,11 @@ class Seat extends \WcLib\SeatBase
 {
   protected int $reserve_effort_;
 
+  public static function getById(World $world, int $id): Seat
+  {
+    return self::fromRow($world->table()->rawGetSeatById($id));
+  }
+
   /**
     @param string[] $row
     @return Seat
@@ -43,6 +48,15 @@ class Seat extends \WcLib\SeatBase
       'reserveEffort' => $this->reserve_effort_,
       'colorName' => $this->color_name(),
     ]);
+  }
+
+  function inputPlayer(World $world): Player
+  {
+    $player_id = $this->player_id();
+    if ($player_id === null) {
+      $player_id = '' . GAMESTATE_INT_DECIDING_PLAYER;
+    }
+    return Player::getById($world, $player_id);
   }
 
   function color_name(): string
