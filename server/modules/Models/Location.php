@@ -81,30 +81,30 @@ abstract class Location extends \WcLib\CardBase
 
   public function effortPileForSeat(World $world, Seat $seat): EffortPile
   {
-    throw new \feException('XXX: foo');
+    throw new \feException('XXX: no impl: effortPileForSeat');
   }
 
   // XXX: returns {seatId: EffortPile}  ... or should it return SeatPile[]?
   public function effortPiles(World $world)
   {
-    throw new \feException('XXX: foo');
+    throw new \feException('XXX: no impl: effortPiles');
   }
 
   // Returns `Location[]`.
   public function adjacentLocations(World $world)
   {
-    throw new \feException('XXX: foo');
+    throw new \feException('XXX: no impl: adjacentLocations');
   }
 
   public function isAdjacentTo(World $world, Location $other)
   {
-    throw new \feException('XXX: foo');
+    throw new \feException('XXX: no impl: isAdjacentTo');
   }
 
   // XXX: Should we remove $seat and just use $this->activeSeat() instead?
   public function onVisited(World $world, Seat $seat)
   {
-    throw new \feException('XXX: foo');
+    throw new \feException('XXX: no impl: onVisited');
   }
 
   public function cardsFaceUp(): int

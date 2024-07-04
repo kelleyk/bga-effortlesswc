@@ -47,10 +47,10 @@ const T_RESOLVE_LOCATION = 'tResolveLocation';
 const T_ROUND_UPKEEP = 'tRoundUpkeep';
 const T_TURN_UPKEEP = 'tEndUpkeep';
 
-const T_RET_BOT_TURN = 'tRetBotTurn';
-const T_RET_PLACE_EFFORT = 'tRetPlaceEffort';
-const T_RET_PRE_SCORING = 'tRetPreScoring';
-const T_RET_RESOLVE_LOCATION = 'tRetResolveLocation';
+const T_RET_BOT_TURN = 'ret:stBotTurn';
+const T_RET_PLACE_EFFORT = 'ret:stPlaceEffort';
+const T_RET_PRE_SCORING = 'ret:stPreScoring';
+const T_RET_RESOLVE_LOCATION = 'ret:stResolveLocation';
 
 // ------------------------
 // Game options
