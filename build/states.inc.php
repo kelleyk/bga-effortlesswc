@@ -128,9 +128,8 @@ $machinestates = [
     'action' => 'stInput',
     'args' => 'argInput',
     'type' => 'multipleactiveplayer',
-    // XXX: Improve these descriptions.
-    'description' => clienttranslate('Input required from another player.'),
-    'descriptionmyturn' => clienttranslate('Your input required.'),
+    'description' => '${input_description}',
+    'descriptionmyturn' => '${input_descriptionmyturn}',
     'possibleactions' => [
       'actMakeSelection',
       // 'actCancel',  // XXX: Can any actions in Effortless be canceled?

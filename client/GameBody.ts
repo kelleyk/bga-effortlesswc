@@ -320,6 +320,10 @@ class GameBody extends GameBasics {
     console.log('Entering state', stateName, args);
 
     switch (stateName) {
+      case 'stInput': {
+        console.log('*** stInput: ', args);
+        break;
+      }
       case 'dummmy':
         break;
     }
