@@ -99,11 +99,16 @@ class GameBody extends GameBasics {
   }
 
   public setupPlayArea(mutableBoardState: MutableBoardState) {
+    const locationByPos: { [pos: number]: EffortlessLocation } = {};
+    for (const location of Object.values(mutableBoardState.locations)) {
+      locationByPos[location.sublocationIndex] = location;
+    }
+
     // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
       dojo.place(
         this.format_block('jstpl_setloc_panel', {
-          classes: '',
+          classes: 'ewc_setloc_location_' + locationByPos[i].id,
           id: 'ewc_setloc_panel_' + i,
         }),
         $('ewc_setlocarea_column_' + (i % 2))!,
@@ -313,6 +318,47 @@ class GameBody extends GameBasics {
   }
 
   ///////////////////////////////////////////////////
+  //// User input
+
+  public updateSelectables(inputArgs: InputArgs) {
+    console.log('*** updateSelectables()');
+    document.querySelectorAll('.ewc_selectable').forEach((el) => {
+      el.classList.remove('ewc_selectable');
+    });
+    document.querySelectorAll('.ewc_unselectable').forEach((el) => {
+      el.classList.remove('ewc_unselectable');
+    });
+    document.querySelectorAll('.ewc_selected').forEach((el) => {
+      el.classList.remove('ewc_selected');
+    });
+
+    switch (inputArgs.inputType) {
+      case 'inputtype:location': {
+        console.log('  *** inputtype:location');
+        for (const id of inputArgs.choices) {
+          // if (id % 2 === 0) {
+          //   console.log('  ** skipping id=' + id);
+          //   continue;
+          // }
+          document
+            .querySelector(
+              '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
+            )!
+            .classList.add('ewc_selectable');
+        }
+        document
+          .querySelectorAll('.ewc_setloc_setloc_wrap:not(.ewc_selectable)')
+          .forEach((el) => {
+            el.classList.add('ewc_unselectable');
+          });
+        break;
+      }
+      default:
+        throw new Error('Unexpected input type: ' + inputArgs.inputType);
+    }
+  }
+
+  ///////////////////////////////////////////////////
   //// Game & client states
 
   /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
@@ -322,6 +368,7 @@ class GameBody extends GameBasics {
     switch (stateName) {
       case 'stInput': {
         console.log('*** stInput: ', args);
+        this.updateSelectables(args.args.input);
         break;
       }
       case 'dummmy':

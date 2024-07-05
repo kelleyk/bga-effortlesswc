@@ -123,3 +123,11 @@ interface SeatPrivate {
 
   hand: Card[];
 }
+
+interface InputArgs {
+  description: string;
+  descriptionmyturn: string;
+  cancellable: boolean;
+  choices: any; // XXX: but always an array of int IDs so far?
+  inputType: string;
+}

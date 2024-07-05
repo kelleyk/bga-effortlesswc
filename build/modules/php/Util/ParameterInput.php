@@ -73,6 +73,17 @@ class ParameterInputConfig implements \JsonSerializable
       'choices' => $this->choices,
     ];
   }
+
+  public function renderForClient(World $world)
+  {
+    return [
+      'description' => $this->description,
+      'descriptionmyturn' => $this->descriptionmyturn,
+      'cancellable' => $this->cancellable,
+      'choices' => $this->choices,
+      'inputType' => $this->expected_type,
+    ];
+  }
 }
 
 trait ParameterInput

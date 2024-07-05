@@ -128,8 +128,8 @@ $machinestates = [
     'action' => 'stInput',
     'args' => 'argInput',
     'type' => 'multipleactiveplayer',
-    'description' => '${input_description}',
-    'descriptionmyturn' => '${input_descriptionmyturn}',
+    'description' => '${input.description}',
+    'descriptionmyturn' => '${input.descriptionmyturn}',
     'possibleactions' => [
       'actMakeSelection',
       // 'actCancel',  // XXX: Can any actions in Effortless be canceled?
