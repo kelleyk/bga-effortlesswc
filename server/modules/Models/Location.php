@@ -195,7 +195,7 @@ class CryptLocation extends Location
   public function getValidTargets(World $world)
   {
     // XXX: top 2 of discard; if <2 cards, add top card of deck
-    throw new \feException('XXX: no impl');
+    throw new \feException('XXX: no impl: getValidTargets');
   }
 
   public function onVisited(World $world, Seat $seat)

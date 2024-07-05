@@ -6,14 +6,23 @@ use EffortlessWC\World;
 
 class Player extends \WcLib\PlayerBase
 {
-  public static function getById(World $world, string $id): Player
+  public static function getById(World $world, string $id): ?Player
   {
     return self::fromRow($world->table()->rawGetPlayerById($id));
   }
 
+  public static function mustGetById(World $world, string $id): Player
+  {
+    $player = self::getById($world, $id);
+    if ($player === null) {
+      throw new \BgaVisibleSystemException('Could not find player with id=' . $id);
+    }
+    return $player;
+  }
+
   /**
     @param string[] $row
-    @return Player
+    @return ?Player
   */
   public static function fromRow($row)
   {

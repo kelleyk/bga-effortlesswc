@@ -19,17 +19,62 @@ trait BgaTableTrait {
 
   abstract public function reloadPlayersBasicInfos();
 
+  /**
+    @return void
+  */
   abstract protected function activeNextPlayer();
 
-  /*
-    $this->activeNextPlayer()
-    $this->activePrevPlayer()
-    $this->gamestate->changeActivePlayer( $player_id )
-    $this->gamestate->setAllPlayersMultiactive()
-    $this->gamestate->setAllPlayersNonMultiactive( $next_state )
-    $this->gamestate->setPlayersMultiactive( $players, $next_state, $bExclusive = false )
-    $this->gamestate->setPlayerNonMultiactive( $player_id, $next_state )
-   */
+  // XXX: These are actually on $table->gamestate
+
+  // /**
+  //   @return void
+  // */
+  // abstract protected function activePrevPlayer();
+
+  // /**
+  //   @return void
+  // */
+  // abstract protected function changeActivePlayer(string $player_id);
+
+  // /**
+  //   @return void
+  // */
+  // abstract protected function setAllPlayersMultiactive();
+
+  // /**
+  //   N.B.: $next_state is actually a transition name.
+
+  //   @return void
+  // */
+  // abstract protected function setAllPlayersNonMultiactive(string $next_state);
+
+  // /**
+  //   N.B.: $next_state is actually a transition name.
+
+  //   @param string[] $players
+  //   @return void
+  // */
+  // abstract protected function setPlayersMultiactive($players, string $next_state, boolean $bExclusive = false);
+
+  // /**
+  //   N.B.: $next_state is actually a transition name.
+
+  //   @param string[] $players
+  //   @return void
+  // */
+  // abstract protected function setPlayersMultiactive($players, string $next_state);
+
+  // /*
+  //   // XXX: Add all of these to interface.
+
+  //   $this->activeNextPlayer()
+  //   $this->activePrevPlayer()
+  //   $this->gamestate->changeActivePlayer( $player_id )
+  //   $this->gamestate->setAllPlayersMultiactive()
+  //   $this->gamestate->setAllPlayersNonMultiactive( $next_state )
+  //   $this->gamestate->setPlayersMultiactive( $players, $next_state, $bExclusive = false )
+  //   $this->gamestate->setPlayerNonMultiactive( $player_id, $next_state )
+  //  */
 
   // XXX: Returns int, but the PHP 8 version of BGA Studio defines this with a different signature.
   abstract public function getPlayersNumber();

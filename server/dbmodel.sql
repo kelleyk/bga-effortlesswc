@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `seat` (
 
 -- Game-specific values start here.
 `reserve_effort` INT(10) UNSIGNED NOT NULL,
+`turn_order` INT(1) UNSIGNED NOT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

@@ -9,20 +9,31 @@ class Seat extends \WcLib\SeatBase
 {
   protected int $reserve_effort_;
 
-  public static function getById(World $world, int $id): Seat
+  public static function getById(World $world, int $id): ?Seat
   {
     return self::fromRow($world->table()->rawGetSeatById($id));
   }
 
+  public static function mustGetById(World $world, int $id): Seat
+  {
+    $seat = self::getById($world, $id);
+    if ($seat === null) {
+      throw new \BgaVisibleSystemException('Could not find seat with id=' . $id);
+    }
+    return $seat;
+  }
+
   /**
     @param string[] $row
-    @return Seat
+    @return ?Seat
   */
   public static function fromRow($row)
   {
     $that = parent::fromRowBase(Seat::class, $row);
 
-    $that->reserve_effort_ = intval($row['reserve_effort']);
+    if ($that !== null) {
+      $that->reserve_effort_ = intval($row['reserve_effort']);
+    }
 
     return $that;
   }
@@ -54,9 +65,9 @@ class Seat extends \WcLib\SeatBase
   {
     $player_id = $this->player_id();
     if ($player_id === null) {
-      $player_id = '' . GAMESTATE_INT_DECIDING_PLAYER;
+      $player_id = '' . $world->table()->getGameStateInt(GAMESTATE_INT_DECIDING_PLAYER);
     }
-    return Player::getById($world, $player_id);
+    return Player::mustGetById($world, $player_id);
   }
 
   function color_name(): string
@@ -75,5 +86,13 @@ class Seat extends \WcLib\SeatBase
       default:
         throw new \BgaVisibleSystemException('Failed to translate player color from hex value to name.');
     }
+  }
+
+  /**
+    @param mixed[] $props
+  */
+  function update(World $world, $props): void
+  {
+    $world->table()->updateSeat($this->id(), $props);
   }
 }

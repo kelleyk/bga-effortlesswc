@@ -12,14 +12,18 @@ abstract class PlayerBase
   /**
     @template PlayerT of PlayerBase
     @param class-string<PlayerT> $PlayerT
-    @param string[] $row
-    @return PlayerT
+    @param ?string[] $row
+    @return ?PlayerT
 
     // XXX:
     @phan-suppress PhanTypeExpectedObjectPropAccess
   */
   public static function fromRowBase(string $PlayerT, $row)
   {
+    if ($row === null) {
+      return null;
+    }
+
     $that = new $PlayerT();
 
     $that->id_ = $row['player_id'];

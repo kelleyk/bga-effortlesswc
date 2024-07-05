@@ -107,7 +107,7 @@ class WorldImpl implements World
 
   public function activeSeat(): Seat
   {
-    throw new \feException('no impl: activeseat');
+    return Seat::mustGetById($this, $this->table()->getGameStateInt(GAMESTATE_INT_ACTIVE_SEAT));
   }
 
   public function moveCardToLocation(Card $card, Location $loc)

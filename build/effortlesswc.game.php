@@ -42,6 +42,7 @@ class Effortlesswc extends Table
   use EffortlessWC\Setup;
   use EffortlessWC\BaseTableTrait;
   use EffortlessWC\DatabaseTrait;
+  use \EffortlessWC\TurnOrderTrait;
 
   use EffortlessWC\States\BotTurn;
   use EffortlessWC\States\InitialSetup;

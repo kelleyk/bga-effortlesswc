@@ -42,4 +42,37 @@ trait DatabaseTrait
     }
     return $effort;
   }
+
+  /**
+    @param mixed[] $props
+   */
+  function updateSeat(int $seat_id, $props): void
+  {
+    $values = $this->buildUpdateValues($props);
+    self::DbQuery('UPDATE `seat` SET ' . implode(',', $values) . ' WHERE `id` = ' . $seat_id);
+  }
+
+  // XXX: This is cribbed from Burgle Bros 2; we should move it somewhere more reusable.
+  /**
+    @param mixed[] $props
+    @return string[]
+  */
+  private function buildUpdateValues($props)
+  {
+    $values = [];
+    foreach ($props as $k => $v) {
+      if (is_null($v)) {
+        $values[] = $k . ' = NULL';
+        // } elseif ($v instanceof Position) {
+        //   $values[] = $this->buildExprUpdatePos($v);
+      } elseif (is_bool($v)) {
+        $values[] = $k . ' = ' . ($v ? 'TRUE' : 'FALSE');
+      } elseif (is_int($v)) {
+        $values[] = $k . ' = ' . $v;
+      } else {
+        $values[] = $k . ' = "' . self::escapeStringForDB($v) . '"';
+      }
+    }
+    return $values;
+  }
 }

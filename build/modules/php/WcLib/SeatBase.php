@@ -12,14 +12,18 @@ abstract class SeatBase
   /**
     @template SeatT of SeatBase
     @param class-string<SeatT> $SeatT
-    @param string[] $row
-    @return SeatT
+    @param ?string[] $row
+    @return ?SeatT
 
     // XXX:
     @phan-suppress PhanTypeExpectedObjectPropAccess
   */
   public static function fromRowBase(string $SeatT, $row)
   {
+    if ($row === null) {
+      return null;
+    }
+
     $that = new $SeatT();
 
     $that->id_ = intval($row['id']);

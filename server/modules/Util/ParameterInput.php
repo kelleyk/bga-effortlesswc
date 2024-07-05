@@ -209,6 +209,12 @@ trait ParameterInput
     //
     // XXX: Remember that ST_GET_INPUT is now a multiactive state.  We probably do need to extend these APIs to allow
     // input from player(s) other than "active" one.
+
+    $input_player = $world->activeSeat()->inputPlayer($world);
+    $world
+      ->table()
+      ->gamestate->setPlayersMultiactive([$input_player->id()], $paraminput_config->return_transition, true);
+
     $world->nextState(T_GET_INPUT);
     throw new InputRequiredException();
   }
