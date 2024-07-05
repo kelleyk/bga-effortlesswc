@@ -21,6 +21,8 @@ class GameBody extends GameBasics {
 
   protected tablewidePanelEl: HTMLElement | undefined = undefined;
 
+  protected selectedLocation: number | null = null;
+
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
@@ -106,12 +108,21 @@ class GameBody extends GameBasics {
 
     // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
-      dojo.place(
+      const el = dojo.place(
         this.format_block('jstpl_setloc_panel', {
           classes: 'ewc_setloc_location_' + locationByPos[i].id,
           id: 'ewc_setloc_panel_' + i,
         }),
         $('ewc_setlocarea_column_' + (i % 2))!,
+      );
+
+      dojo.connect(
+        el.querySelector('.ewc_setloc_setloc_wrap')!,
+        'onclick',
+        this,
+        (evt: any) => {
+          this.onClickLocation(evt, locationByPos[i].id);
+        },
       );
     }
 
@@ -318,6 +329,25 @@ class GameBody extends GameBasics {
   }
 
   ///////////////////////////////////////////////////
+  //// Log-message formatting
+
+  // /** @override */
+  // //
+  // public format_string_recursive(log: string, args: any) {
+  //   console.log('XXX:', args);
+
+  //   let lastLog: string;
+  //   do {
+  //     lastLog = log;
+
+  //     log = this.inherited({ callee: this.format_string_recursive }, arguments);
+  //     // log = super.format_string_recursive(log, args);
+  //   } while (log !== lastLog);
+
+  //   return log;
+  // }
+
+  ///////////////////////////////////////////////////
   //// User input
 
   public updateSelectables(inputArgs: InputArgs) {
@@ -357,6 +387,26 @@ class GameBody extends GameBasics {
         throw new Error('Unexpected input type: ' + inputArgs.inputType);
     }
   }
+
+  // XXX: Pick better type than `any`
+  public onClickLocation(evt: any, locationId: number): void {
+    console.log('onClickLocation', evt);
+
+    document.querySelectorAll('.ewc_selected').forEach((el) => {
+      el.classList.remove('ewc_selected');
+    });
+    evt.currentTarget.classList.add('ewc_selected');
+    this.selectedLocation = locationId;
+    this.triggerUpdateActionButtons();
+  }
+
+  ///////////////////////////////////////////////////
+  //// Utils
+
+  // public locationIdFromElId(elId: string): number {
+  //   const m = elId.match(/(\d+)$/)!;
+  //   return parseInt(m[1], 10);
+  // }
 
   ///////////////////////////////////////////////////
   //// Game & client states

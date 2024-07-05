@@ -118,7 +118,7 @@
   // height: 33%;
 }
 
-.ewc_selectable:hover {
+.ewc_selectable:not(.ewc_selected):hover {
   box-shadow: 0 0 3px 3px #fff;
   transition: box-shadow 0.2s;
 }
@@ -127,6 +127,11 @@
   cursor: not-allowed;
 
   opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.ewc_selected {
+  box-shadow: 0 0 3px 3px #00f;
   transition: opacity 0.2s;
 }
 
