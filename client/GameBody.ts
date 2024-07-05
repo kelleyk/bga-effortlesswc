@@ -436,7 +436,6 @@ class GameBody extends GameBasics {
     }
   }
 
-  /** @gameSpecific See {@link Gamegui.onUpdateActionButtons} for more information. */
   public onUpdateActionButtons(stateName: string, args: any | null): void {
     console.log('onUpdateActionButtons: ' + stateName, args);
 
@@ -445,9 +444,25 @@ class GameBody extends GameBasics {
     }
 
     switch (stateName) {
-      case 'dummmy':
-        // Add buttons if needed
+      case 'stInput': {
+        this.addActionButton(
+          'btn_input_confirm',
+          _('Confirm'),
+          () => {
+            console.log('confirmed!');
+            // this.ajaxCallWrapper('actEffectCycleConfirm', {
+            //   activeCard: this.selectedActiveCard,
+            // });
+          },
+          undefined,
+          undefined,
+          'blue',
+        );
+        if (this.selectedLocation === null) {
+          dojo.addClass('btn_input_confirm', 'disabled');
+        }
         break;
+      }
     }
   }
 
