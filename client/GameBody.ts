@@ -450,9 +450,9 @@ class GameBody extends GameBasics {
           _('Confirm'),
           () => {
             console.log('confirmed!');
-            // this.ajaxCallWrapper('actEffectCycleConfirm', {
-            //   activeCard: this.selectedActiveCard,
-            // });
+            this.ajaxCallWrapper('actMakeSelection', {
+              location: this.selectedLocation,
+            });
           },
           undefined,
           undefined,

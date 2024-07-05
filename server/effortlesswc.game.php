@@ -39,10 +39,11 @@ require_once 'modules/php/constants.inc.php';
 
 class Effortlesswc extends Table
 {
-  use EffortlessWC\Setup;
+  use EffortlessWC\ActionDispatchTrait;
   use EffortlessWC\BaseTableTrait;
   use EffortlessWC\DatabaseTrait;
-  use \EffortlessWC\TurnOrderTrait;
+  use EffortlessWC\Setup;
+  use EffortlessWC\TurnOrderTrait;
 
   use EffortlessWC\States\BotTurn;
   use EffortlessWC\States\InitialSetup;

@@ -131,7 +131,7 @@ $machinestates = [
     'description' => '${input.description}',
     'descriptionmyturn' => '${input.descriptionmyturn}',
     'possibleactions' => [
-      'actMakeSelection',
+      'actSelectInput',
       // 'actCancel',  // XXX: Can any actions in Effortless be canceled?
     ],
     'transitions' => [

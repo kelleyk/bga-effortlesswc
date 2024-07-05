@@ -91,13 +91,18 @@ class GameBasics extends GameGui {
     return res;
   }
 
-  public ajaxcallwrapper(action: string, args?: any, handler?: any) {
+  public ajaxCallWrapper(
+    action: string,
+    args?: any,
+    skipCheckAction: boolean = false,
+    handler?: any,
+  ) {
     if (!args) {
       args = {};
     }
     args.lock = true;
 
-    if (gameui.checkAction(action)) {
+    if (skipCheckAction || gameui.checkAction(action)) {
       gameui.ajaxcall(
         '/' +
           gameui.game_name +

@@ -2,6 +2,13 @@
 
 // WARNING: THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
 
+/**
+  @phan-file-suppress PhanUndeclaredMethod
+
+  XXX: TODO: This is a temporary way to deal with Phan errors related to the `onAct*()` members of Effortlesswc not
+  being picked up.
+*/
+
 class action_effortlesswc extends APP_GameAction
 {
   // XXX: Should these be moved to `APP_GameAction`?
@@ -22,6 +29,16 @@ class action_effortlesswc extends APP_GameAction
       $this->view = 'effortlesswc_effortlesswc';
       self::trace('Complete reinitialization of board game');
     }
+  }
+
+  public function actMakeSelection(): void
+  {
+    self::setAjaxMode();
+
+    $selection = self::getArg('selection', AT_json, /*mandatory=*/ true);
+    $this->game->onActMakeSelection($selection);
+
+    self::ajaxResponse();
   }
 
   // public function playCard()

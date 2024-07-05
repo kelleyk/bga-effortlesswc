@@ -110,4 +110,13 @@ trait BgaTableTrait {
   abstract public static function escapeStringForDB(string $string);
 
   // -----
+
+  /**
+    @param string $action
+    @param bool $nomessage
+    @return void
+   */
+  abstract public function checkAction($action, $nomessage = false);
+
+  // -----
 }

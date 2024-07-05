@@ -9,9 +9,15 @@ use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Seat;
 use EffortlessWC\World;
 
-const INPUTTYPE_LOCATION = 'inputtype:location';
-const INPUTTYPE_CARD = 'inputtype:card';
-const INPUTTYPE_EFFORT_PILE = 'inputtype:effort-pile';
+// const INPUTTYPE_LOCATION = 'inputtype:location';
+// const INPUTTYPE_CARD = 'inputtype:card';
+// const INPUTTYPE_EFFORT_PILE = 'inputtype:effort-pile';
+//
+// XXX: Deal with namespacing.
+
+define('INPUTTYPE_LOCATION', 'inputtype:location');
+define('INPUTTYPE_CARD', 'inputtype:card');
+define('INPUTTYPE_EFFORT_PILE', 'inputtype:effort-pile');
 
 abstract class ParameterInputException extends \Exception
 {
@@ -43,7 +49,7 @@ class ParameterInputConfig implements \JsonSerializable
   public int $param_index;
 
   // These parameters are set based on non-$args params.
-  public string $expected_type;
+  public string $input_type;
   public $choices;
 
   public function __construct($json = null)
@@ -55,7 +61,7 @@ class ParameterInputConfig implements \JsonSerializable
       $this->state_args = $json['stateArgs'];
       $this->return_transition = $json['returnTransition'];
       $this->param_index = $json['paramIndex'];
-      $this->expected_type = $json['expectedType'];
+      $this->input_type = $json['inputType'];
       $this->choices = $json['choices'];
     }
   }
@@ -69,7 +75,7 @@ class ParameterInputConfig implements \JsonSerializable
       'stateArgs' => $this->state_args,
       'returnTransition' => $this->return_transition,
       'paramIndex' => $this->param_index,
-      'expectedType' => $this->expected_type,
+      'inputType' => $this->input_type,
       'choices' => $this->choices,
     ];
   }
@@ -81,7 +87,7 @@ class ParameterInputConfig implements \JsonSerializable
       'descriptionmyturn' => $this->descriptionmyturn,
       'cancellable' => $this->cancellable,
       'choices' => $this->choices,
-      'inputType' => $this->expected_type,
+      'inputType' => $this->input_type,
     ];
   }
 }
@@ -160,7 +166,7 @@ trait ParameterInput
   // XXX: we want the config to be passed in from the call site
   //
   // - except $
-  private function getParameterInner(World $world, string $expected_type, $json_choices, $args)
+  private function getParameterInner(World $world, string $input_type, $json_choices, $args)
   {
     $default_return_transition = 'ret:' . $world->table()->gamestate->state()['name'];
 
@@ -193,7 +199,7 @@ trait ParameterInput
       // defense-in-depth if we wanted.
       $resolve_value = $resolve_values[array_key_first($resolve_values)];
 
-      if ($resolve_value['valueType'] != $expected_type) {
+      if ($resolve_value['valueType'] != $input_type) {
         throw new \BgaVisibleSystemException('Internal error: unexpected type for resolve-value.');
       }
       return $resolve_value;
@@ -206,7 +212,7 @@ trait ParameterInput
 
     $paraminput_config = new ParameterInputConfig(
       array_merge($args, [
-        'expectedType' => $expected_type,
+        'inputType' => $input_type,
         'choices' => $json_choices,
         'paramIndex' => $param_index,
       ])
