@@ -6,6 +6,8 @@ require_once 'Seat.php';
 
 use EffortlessWC\World;
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\EffortPile;
+use EffortlessWC\Models\LocationEffortPile;
 
 abstract class Location extends \WcLib\CardBase
 {
@@ -81,7 +83,8 @@ abstract class Location extends \WcLib\CardBase
 
   public function effortPileForSeat(World $world, Seat $seat): EffortPile
   {
-    throw new \feException('XXX: no impl: effortPileForSeat');
+    $qty = $world->table()->getEffortBySeat($this->sublocationIndex())[$seat->id()];
+    return new LocationEffortPile($qty, $seat, $this);
   }
 
   // XXX: returns {seatId: EffortPile}  ... or should it return SeatPile[]?

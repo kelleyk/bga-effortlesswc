@@ -72,7 +72,7 @@ $machinestates = [
     'description' => clienttranslate('...'),
     'transitions' => [
       T_GET_INPUT => ST_INPUT,
-      T_RESOLVE_LOCATION => ST_RESOLVE_LOCATION,
+      T_DONE => ST_RESOLVE_LOCATION,
     ],
   ],
 

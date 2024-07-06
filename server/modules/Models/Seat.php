@@ -2,8 +2,11 @@
 
 namespace EffortlessWC\Models;
 
+require_once 'EffortPile.php';
+
 use EffortlessWC\World;
 use EffortlessWC\Models\EffortPile;
+use EffortlessWC\Models\ReserveEffortPile;
 
 class Seat extends \WcLib\SeatBase
 {
@@ -40,7 +43,7 @@ class Seat extends \WcLib\SeatBase
 
   public function reserveEffort(): EffortPile
   {
-    throw new \WcLib\Exception('XXX: no impl: Seat::reserveEffort()');
+    return new ReserveEffortPile($this->reserve_effort_, $this);
   }
 
   /**

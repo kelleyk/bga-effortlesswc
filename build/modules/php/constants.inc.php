@@ -43,7 +43,7 @@ const T_END_GAME = 'tEndGame';
 const T_BEGIN_HUMAN_TURN = 'tBeginHumanTurn';
 const T_BEGIN_BOT_TURN = 'tBeginBotTurn';
 const T_GET_INPUT = 'tGetInput';
-const T_RESOLVE_LOCATION = 'tResolveLocation';
+// const T_RESOLVE_LOCATION = 'tResolveLocation';
 const T_ROUND_UPKEEP = 'tRoundUpkeep';
 const T_TURN_UPKEEP = 'tEndUpkeep';
 

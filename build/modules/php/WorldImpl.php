@@ -135,6 +135,8 @@ class WorldImpl implements World
   public function moveEffort(EffortPile $src, EffortPile $dst)
   {
     // XXX: Send notif so that client can animate.
-    throw new \feException('no impl: moveeffort');
+
+    $src->addEffort($this, -1);
+    $dst->addEffort($this, 1);
   }
 }

@@ -43,6 +43,18 @@ trait DatabaseTrait
     return $effort;
   }
 
+  function updateEffort(int $location_index, int $seat_id, int $qty)
+  {
+    return self::DbQuery(
+      'UPDATE `effort` SET `effort` = ' .
+        $qty .
+        ' WHERE `location_index` = ' .
+        $location_index .
+        ' AND `seat_id` = ' .
+        $seat_id
+    );
+  }
+
   /**
     @param mixed[] $props
    */
