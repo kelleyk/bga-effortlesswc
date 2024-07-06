@@ -132,8 +132,9 @@ const ST_DRAW_THREAT = 8;
 // player sees the results of the fight and has to acknowledge it next time they see the table.
 const ST_FIGHT_THREAT = 9;
 
-// Game state.  Transitions to ST_PRE_SCORING.
-const ST_TRIGGER_END_GAME = 10;
+// XXX: Do we still need this?
+// // Game state.  Transitions to ST_PRE_SCORING.
+// const ST_TRIGGER_END_GAME = 10;
 
 // Game state.  Acts for a seat that is not occupied by a human player.  Note that this state may still transition into
 // ST_INPUT if human player(s) need to make decisions for the NPC seat.

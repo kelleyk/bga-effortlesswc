@@ -45,4 +45,9 @@ class Player extends \WcLib\PlayerBase
   {
     return array_merge(parent::renderForClient(), []);
   }
+
+  public function renderForNotif(World $world): string
+  {
+    return 'Player[' . $this->id() . ']';
+  }
 }

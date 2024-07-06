@@ -8,9 +8,13 @@ trait PostScoring
 
   public function stPostScoring()
   {
+    $world = $this->world();
+
+    $world->nextState(T_DONE);
   }
 
   public function argPostScoring()
   {
+    // XXX: Return all scoring info so that the client can draw the end-game screen.
   }
 }

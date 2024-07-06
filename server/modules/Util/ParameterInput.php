@@ -183,22 +183,25 @@ trait ParameterInput
     $param_index = $this->consumeNextParameterIndex();
 
     // First, let's check and see if we already have a value waiting.
-    $resolve_values = $world->table()->getGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK);
-    $resolve_values = array_filter($resolve_values, function ($resolve_value) use ($param_index) {
+    $resolve_value = $world->table()->valueStack->consumeFirstMatching(function ($resolve_value) use ($param_index) {
       return $resolve_value['sourceType'] == 'USER_INPUT' && $resolve_value['paramIndex'] == $param_index;
     });
-    if (count($resolve_values) > 1) {
-      throw new \BgaVisibleSystemException('Internal error: more than one resolve-value matched filter criteria.');
-    }
+
+    // // // XXX: Add a "require to be unique" flag?
+    // if (count($resolve_values) > 1) {
+    //   throw new \BgaVisibleSystemException('Internal error: more than one resolve-value matched filter criteria.');
+    // }
+
+    // XXX: We need to remove the consumed value from the resolve-value stack, or else it'll get seen the next time
+    // someone asks, too.
 
     // echo '*** resolve_values for $param_index=' . $param_index . ': ' . print_r($resolve_values, true) . "\n----\n";
 
-    if (count($resolve_values) == 1) {
+    if ($resolve_value !== null) {
       // Okay, we have a value; let's return it!  User-input
       // validation has already happened (when ST_TARGET_SELECTION
       // accepted that input); we could repeat it here for
       // defense-in-depth if we wanted.
-      $resolve_value = $resolve_values[array_key_first($resolve_values)];
 
       if ($resolve_value['valueType'] != $input_type) {
         throw new \BgaVisibleSystemException('Internal error: unexpected type for resolve-value.');

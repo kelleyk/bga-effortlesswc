@@ -60,7 +60,7 @@ $machinestates = [
     'transitions' => [
       T_BEGIN_HUMAN_TURN => ST_PLACE_EFFORT,
       T_BEGIN_BOT_TURN => ST_BOT_TURN,
-      T_END_GAME => ST_TRIGGER_END_GAME,
+      T_END_GAME => ST_PRE_SCORING,
     ],
   ],
 

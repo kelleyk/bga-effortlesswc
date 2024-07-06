@@ -24,7 +24,7 @@ abstract class Location extends \WcLib\CardBase
   {
     $location = self::getById($world, $id);
     if ($location === null) {
-      throw new \BgaVisibleSystemException('Could not find location with id=' . $id);
+      throw new \WcLib\Exception('Could not find location with id=' . $id);
     }
     return $location;
   }

@@ -20,6 +20,7 @@ trait BaseTableTrait
   public \WcLib\WcDeck $mainDeck;
   public \WcLib\WcDeck $locationDeck;
   public \WcLib\WcDeck $settingDeck;
+  public \WcLib\ValueStack $valueStack;
 
   public function world(): World
   {

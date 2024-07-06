@@ -3,7 +3,7 @@
 namespace WcLib;
 
 /*
-XXX: Add note about required database schema.
+bXXX: Add note about required database schema.
 
 XXX: Here's how I manually tested this after first writing it; turn
 these into unit tests once we have that framework set up.

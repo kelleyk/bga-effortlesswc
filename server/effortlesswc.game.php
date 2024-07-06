@@ -71,6 +71,7 @@ class Effortlesswc extends Table
     $this->mainDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Card::class, 'main');
     $this->locationDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Location::class, 'location');
     $this->settingDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Setting::class, 'setting');
+    $this->valueStack = new \WcLib\ValueStack($this, GAMESTATE_JSON_RESOLVE_VALUE_STACK);
   }
 
   protected function getGameName()

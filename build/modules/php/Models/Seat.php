@@ -11,6 +11,7 @@ use EffortlessWC\Models\ReserveEffortPile;
 class Seat extends \WcLib\SeatBase
 {
   protected int $reserve_effort_;
+  protected int $turn_order_;
 
   public static function getById(World $world, int $id): ?Seat
   {
@@ -21,7 +22,7 @@ class Seat extends \WcLib\SeatBase
   {
     $seat = self::getById($world, $id);
     if ($seat === null) {
-      throw new \BgaVisibleSystemException('Could not find seat with id=' . $id);
+      throw new \WcLib\Exception('Could not find seat with id=' . $id);
     }
     return $seat;
   }
@@ -36,6 +37,7 @@ class Seat extends \WcLib\SeatBase
 
     if ($that !== null) {
       $that->reserve_effort_ = intval($row['reserve_effort']);
+      $that->turn_order_ = intval($row['turn_order']);
     }
 
     return $that;
@@ -44,6 +46,11 @@ class Seat extends \WcLib\SeatBase
   public function reserveEffort(): EffortPile
   {
     return new ReserveEffortPile($this->reserve_effort_, $this);
+  }
+
+  function turn_order(): int
+  {
+    return $this->turn_order_;
   }
 
   /**
@@ -62,6 +69,11 @@ class Seat extends \WcLib\SeatBase
       'reserveEffort' => $this->reserve_effort_,
       'colorName' => $this->color_name(),
     ]);
+  }
+
+  public function renderForNotif(World $world): string
+  {
+    return 'Seat[' . $this->id() . ']';
   }
 
   function inputPlayer(World $world): Player

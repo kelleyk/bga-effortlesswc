@@ -2,6 +2,8 @@
 
 namespace EffortlessWC\States;
 
+use EffortlessWC\Models\Player;
+
 trait NextTurn
 {
   use \EffortlessWC\BaseTableTrait;
@@ -9,13 +11,56 @@ trait NextTurn
 
   public function stNextTurn()
   {
-    // XXX: TODO: This
-
-    $this->notifyAllPlayers('XXX_message', 'ST_NEXT_TURN', []);
+    $world = $this->world();
 
     $this->activateNextSeat();
+    $this->activateNextDecidingPlayer();
 
-    // XXX: Sometimes we'll need to take transition T_BEGIN_BOT_TURN instead!
-    $this->world()->nextState(T_BEGIN_HUMAN_TURN);
+    // XXX: TODO: This is temporary
+    $deciding_player = Player::mustGetById(
+      $world,
+      '' . $world->table()->getGameStateInt(GAMESTATE_INT_DECIDING_PLAYER)
+    );
+    $this->notifyAllPlayers('XXX_message', 'ST_NEXT_TURN: activeSeat=${activeSeat} decidingPlayer=${decidingPlayer}', [
+      'activeSeat' => $world->activeSeat()->renderForNotif($world),
+      'decidingPlayer' => $deciding_player->renderForNotif($world),
+    ]);
+
+    if ($world->activeSeat()->reserveEffort()->qty() <= 0) {
+      // XXX: TODO: Assert that *nobody* has any effort left.  (Or, alternatively, we could skip seats that are out of
+      // effort until everybody is; but can the seats ever have different amounts?)
+      $world->nextState(T_END_GAME);
+    } elseif ($world->activeSeat()->player_id() === null) {
+      $world->nextState(T_BEGIN_BOT_TURN);
+    } else {
+      $world->nextState(T_BEGIN_HUMAN_TURN);
+    }
+  }
+
+  public function activateNextDecidingPlayer(): void
+  {
+    $this->setGameStateInt(
+      GAMESTATE_INT_DECIDING_PLAYER,
+      $this->getNextDecidingPlayerInTurnOrder($this->getGameStateInt(GAMESTATE_INT_DECIDING_PLAYER))
+    );
+  }
+
+  // Returns the ID of the player that is next in the rotation of human players who will take turns being the "deciding
+  // player" when a bot seat has a choice to make.
+  //
+  // XXX: This uses ints only because the gamestate library doesn't support strings (yet).  BGA player-IDs are better
+  // treated as opaque strings.
+  function getNextDecidingPlayerInTurnOrder(int $lastPlayerId): int
+  {
+    $row = self::getObjectFromDB(
+      'SELECT * FROM `player` WHERE `player_id` > ' . $lastPlayerId . ' ORDER BY `player_id` ASC LIMIT 1'
+    );
+    if (is_null($row)) {
+      // There's nobody after that point in the turn order;
+      // start over with the character that has the lowest
+      // turn-order value.
+      $row = self::getObjectFromDB('SELECT * FROM `player` ORDER BY `player_id` ASC LIMIT 1');
+    }
+    return intval($row['player_id']);
   }
 }

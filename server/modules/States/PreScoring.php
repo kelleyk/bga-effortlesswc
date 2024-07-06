@@ -8,5 +8,8 @@ trait PreScoring
 
   public function stPreScoring()
   {
+    $world = $this->world();
+
+    $world->nextState(T_DONE);
   }
 }

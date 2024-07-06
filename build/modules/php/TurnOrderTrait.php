@@ -34,10 +34,16 @@ trait TurnOrderTrait
 
   public function activateNextSeat(): void
   {
-    $this->setGameStateInt(
-      GAMESTATE_INT_ACTIVE_SEAT,
-      $this->getNextSeatInTurnOrder($this->getGameStateInt(GAMESTATE_INT_ACTIVE_SEAT))
-    );
+    // N.B.: This may look slightly strange; we do it this way so that it will work the very first time that
+    // `activateNextSeat()` is called, when GAMESTATE_INT_ACTIVE_SEAT == -1.
+    $seat_id = $this->getGameStateInt(GAMESTATE_INT_ACTIVE_SEAT);
+    if ($seat_id < 0) {
+      $turn_order = -1;
+    } else {
+      $turn_order = Seat::mustGetById($this->world(), $seat_id)->turn_order();
+    }
+
+    $this->setGameStateInt(GAMESTATE_INT_ACTIVE_SEAT, $this->getNextSeatInTurnOrder($turn_order));
   }
 
   // Returns the ID of the seat that goes next in the turn order after `$turnOrder`.
