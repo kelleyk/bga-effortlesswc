@@ -9,10 +9,13 @@ trait NextTurn
 
   public function stNextTurn()
   {
-    // $this->activeNextPlayer();
-    $this->activateNExtSeat();
+    // XXX: TODO: This
 
-    // XXX: ...
+    $this->notifyAllPlayers('XXX_message', 'ST_NEXT_TURN', []);
+
+    $this->activateNextSeat();
+
+    // XXX: Sometimes we'll need to take transition T_BEGIN_BOT_TURN instead!
     $this->world()->nextState(T_BEGIN_HUMAN_TURN);
   }
 }

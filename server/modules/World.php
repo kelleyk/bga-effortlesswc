@@ -37,6 +37,8 @@ interface World
 
   public function activeSeat(): Seat;
 
+  public function visitedLocation(): Location;
+
   public function moveCardToLocation(Card $card, Location $loc);
 
   public function moveCardToHand(Card $card, Seat $seat);

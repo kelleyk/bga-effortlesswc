@@ -11,22 +11,29 @@ trait PlaceEffort
 
   public function stPlaceEffort()
   {
+    $world = $this->world();
+
     try {
-      $location = $this->getParameterLocation($this->world(), $this->world()->locations(), [
+      $location = $this->getParameterLocation($world, $world->locations(), [
         'description' => '${actplayer} must decide where to place one of their Effort.',
         'descriptionmyturn' => '${you} must decide where to place one of your Effort.',
       ]);
-
-      // Move one effort from the active seat's reserve reserve to their effort-pile at that location.
-      $this->world()->moveEffort(
-        $this->world()->activeSeat()->reserveEffort(),
-        $location->effortPileForSeat($this->world(), $this->world()->activeSeat())
-      );
-
-      $this->world()->nextState(T_DONE);
     } catch (InputRequiredException $e) {
       return;
     }
+
+    // Move one effort from the active seat's reserve reserve to their effort-pile at that location.
+    $world->moveEffort(
+      $world->activeSeat()->reserveEffort(),
+      $location->effortPileForSeat($world, $world->activeSeat())
+    );
+
+    $this->notifyAllPlayers('XXX_message', 'An effort is placed!', [
+      // XXX: give seat, location details
+    ]);
+    $this->setGameStateInt(GAMESTATE_INT_VISITED_LOCATION, $location->id());
+
+    $world->nextState(T_DONE);
   }
 
   public function argPlaceEffort()

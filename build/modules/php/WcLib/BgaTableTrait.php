@@ -110,6 +110,7 @@ trait BgaTableTrait {
   abstract public static function escapeStringForDB(string $string);
 
   // -----
+  // State-machine
 
   /**
     @param string $action
@@ -117,6 +118,18 @@ trait BgaTableTrait {
     @return void
    */
   abstract public function checkAction($action, $nomessage = false);
+
+  // -----
+  // Notifs
+
+  /**
+    @param string $notif_type
+    @param string $message
+    @param mixed[] $args
+    @return void
+  */
+  abstract public function notifyAllPlayers($notif_type, $message, $args);
+
 
   // -----
 }

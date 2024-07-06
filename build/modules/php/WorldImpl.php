@@ -110,6 +110,11 @@ class WorldImpl implements World
     return Seat::mustGetById($this, $this->table()->getGameStateInt(GAMESTATE_INT_ACTIVE_SEAT));
   }
 
+  public function visitedLocation(): Location
+  {
+    return Location::mustGetById($this, $this->table()->getGameStateInt(GAMESTATE_INT_VISITED_LOCATION));
+  }
+
   public function moveCardToLocation(Card $card, Location $loc)
   {
     throw new \feException('no impl: movecardtolocation');

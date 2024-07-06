@@ -22,6 +22,9 @@ const GAMESTATE_INT_ACTIVE_SEAT = 'activeSeat';
 // gamestate library to support them.
 const GAMESTATE_INT_DECIDING_PLAYER = 'decidingPlayer';
 
+// The ID of the location where effort was last placed.
+const GAMESTATE_INT_VISITED_LOCATION = 'visitedLocation';
+
 // XXX: For this game, which has a much simpler effect system, I think that we really only need to know which T_RET_*
 // transition to take when we're done.
 //
