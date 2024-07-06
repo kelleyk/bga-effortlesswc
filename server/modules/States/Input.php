@@ -28,13 +28,51 @@ trait Input
     ]);
   }
 
-  // XXX: ----
   /**
-    @param mixed[] $values
-   */
-  public function pushOnResolveValueStack($values): void
+    @param mixed[] $value
+  */
+  function pushOnResolveValueStack($value): void
   {
-    throw new \feException('XXX: no impl: pushOnResolveValueStack');
+    if (!is_array($value)) {
+      throw new \BgaVisibleSystemException(
+        'Internal error: each element pushed onto the resolve-value stack must be an array describing a resolve-value.'
+      );
+    }
+
+    // echo '*** pushOnResolveValueStack(): ' . print_r($value, true) . "\n---\n";
+    // ob_flush();
+
+    // XXX: Validate 'valueType', 'productionDepth', etc.
+
+    $resolve_value_stack = $this->getGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK);
+    $resolve_value_stack[] = $value;
+    $this->setGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK, $resolve_value_stack);
+  }
+
+  /**
+    @return mixed[]
+  */
+  function peekFromResolveValueStack()
+  {
+    $resolve_value_stack = $this->getGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK);
+    if (count($resolve_value_stack) > 0) {
+      return $resolve_value_stack[0];
+    }
+    return null;
+  }
+
+  /**
+    @return mixed[]
+  */
+  function popFromResolveValueStack()
+  {
+    $resolve_value_stack = $this->getGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK);
+    if (count($resolve_value_stack) > 0) {
+      $entry = array_shift($resolve_value_stack);
+      $this->setGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK, $resolve_value_stack);
+      return $entry;
+    }
+    return null;
   }
 
   // XXX: This structure will make it harder for us to do multiple-value inputs, which we have needed to do in e.g. The
@@ -78,6 +116,7 @@ trait Input
           'paramIndex' => $paraminput_config->param_index,
           'valueType' => INPUTTYPE_LOCATION,
           'value' => $location->id(),
+          'sourceType' => 'USER_INPUT',
           //
           // XXX: I don't think we need this without a resolve-stack.
           // 'productionDepth' => $stack_depth,

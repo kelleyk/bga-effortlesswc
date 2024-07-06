@@ -40,7 +40,7 @@ class Seat extends \WcLib\SeatBase
 
   public function reserveEffort(): EffortPile
   {
-    throw new \feException('XXX:');
+    throw new \WcLib\Exception('XXX: no impl: Seat::reserveEffort()');
   }
 
   /**

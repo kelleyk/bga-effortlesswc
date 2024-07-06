@@ -87,7 +87,7 @@ abstract class Setting extends \WcLib\CardBase
   // Returns the total amount of effort at this location.
   public function totalEffort(World $world): int
   {
-    throw new \feException('XXX:');
+    throw new \feException('XXX: no impl: Setting::totalEffort()');
   }
 
   // Returns a list of seat IDs that have at least $n effort here.

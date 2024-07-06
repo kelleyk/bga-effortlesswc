@@ -123,10 +123,11 @@ trait ParameterInput
       }, $valid_targets)
     );
 
-    $raw_value = $this->getParameterInner($world, INPUTTYPE_LOCATION, $json_choices, $args);
-    // if ($raw_value === null) {
+    $value_stack_entry = $this->getParameterInner($world, INPUTTYPE_LOCATION, $json_choices, $args);
+    // if ($value_stack_entry === null) {
     //   return null;
     // }
+    $raw_value = $value_stack_entry['value'];
     return Location::mustGetById($world, $raw_value);
   }
 
@@ -184,7 +185,7 @@ trait ParameterInput
     // First, let's check and see if we already have a value waiting.
     $resolve_values = $world->table()->getGameStateJson(GAMESTATE_JSON_RESOLVE_VALUE_STACK);
     $resolve_values = array_filter($resolve_values, function ($resolve_value) use ($param_index) {
-      return $resolve_value['sourceType'] == 'TARGET_SELECTION' && $resolve_value['targetIdx'] == $param_index;
+      return $resolve_value['sourceType'] == 'USER_INPUT' && $resolve_value['paramIndex'] == $param_index;
     });
     if (count($resolve_values) > 1) {
       throw new \BgaVisibleSystemException('Internal error: more than one resolve-value matched filter criteria.');
