@@ -31,12 +31,12 @@ class action_effortlesswc extends APP_GameAction
     }
   }
 
-  public function actMakeSelection(): void
+  public function actSelectInput(): void
   {
     self::setAjaxMode();
 
     $selection = self::getArg('selection', AT_json, /*mandatory=*/ true);
-    $this->game->onActMakeSelection($selection);
+    $this->game->onActSelectInput($selection);
 
     self::ajaxResponse();
   }

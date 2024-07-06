@@ -15,7 +15,7 @@ class Player extends \WcLib\PlayerBase
   {
     $player = self::getById($world, $id);
     if ($player === null) {
-      throw new \BgaVisibleSystemException('Could not find player with id=' . $id);
+      throw new \WcLib\Exception('Could not find player with id=' . $id);
     }
     return $player;
   }

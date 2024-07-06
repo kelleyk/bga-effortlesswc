@@ -40,27 +40,25 @@ trait Input
   // XXX: This structure will make it harder for us to do multiple-value inputs, which we have needed to do in e.g. The
   // Shipwreck Arcana.  We should come back and generalize this (to e.g. accept an array of selections).
   /**
-    @var $paraminput_config ParameterInputConfig
-   */
+    @param mixed[] $selection
+  */
   public function onActSelectInput_stInput($selection): void
   {
     $paraminput_config = $this->getParamInputConfig();
-
-    // XXX: Ref. https://github.com/phan/phan/issues/313 et al.
-    //
-    // XXX: Still unclear why we need this given the return type of this function.
-    //
-    if (!($paraminput_config instanceof ParameterInputConfig)) {
-      throw new \feException('XXX: typecheck failed');
-    }
 
     // XXX: Validate $selection.  It is an object and contains {
     //   - "inputType"
     //   - "value"
     // }
-    // XXX: YYY: This here we go -- this line was $paraminput_config
-    if ($paraminput_config->inputType !== ($selection['inputType'] ?? '')) {
-      throw new \BgaVisibleSystemException('Selection does not match expected input type.');
+    $selection_input_type = $selection['inputType'] ?? '';
+    if ($paraminput_config->input_type !== $selection_input_type) {
+      throw new \BgaVisibleSystemException(
+        'Selection (type "' .
+          $selection_input_type .
+          '") does not match expected input type ("' .
+          $paraminput_config->input_type .
+          '").'
+      );
     }
     $raw_value = $selection['value'] ?? null;
     if ($raw_value === null) {

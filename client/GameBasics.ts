@@ -101,7 +101,6 @@ class GameBasics extends GameGui {
       args = {};
     }
     args.lock = true;
-
     if (skipCheckAction || gameui.checkAction(action)) {
       gameui.ajaxcall(
         '/' +
@@ -111,10 +110,10 @@ class GameBasics extends GameGui {
           '/' +
           action +
           '.html',
-        args, //
+        args,
         gameui,
         (_result) => {
-          /* deliberately empty */
+          /*deliberately empty */
         },
         handler,
       );

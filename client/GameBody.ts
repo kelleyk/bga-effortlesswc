@@ -437,7 +437,7 @@ class GameBody extends GameBasics {
   }
 
   public onUpdateActionButtons(stateName: string, args: any | null): void {
-    console.log('onUpdateActionButtons: ' + stateName, args);
+    console.log('onUpdateActionButtons()', stateName, args);
 
     if (!this.isCurrentPlayerActive()) {
       return;
@@ -449,10 +449,15 @@ class GameBody extends GameBasics {
           'btn_input_confirm',
           _('Confirm'),
           () => {
-            console.log('confirmed!');
-            this.ajaxCallWrapper('actMakeSelection', {
-              location: this.selectedLocation,
-            });
+            const rpcParam = {
+              numX: 42,
+              selection: JSON.stringify({
+                inputType: 'inputtype:location',
+                value: this.selectedLocation,
+              }),
+            };
+            console.log('confirmed!', rpcParam);
+            this.ajaxCallWrapper('actSelectInput', rpcParam);
           },
           undefined,
           undefined,
