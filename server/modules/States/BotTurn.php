@@ -2,6 +2,8 @@
 
 namespace EffortlessWC\States;
 
+use EffortlessWC\Util\InputRequiredException;
+
 trait BotTurn
 {
   use \EffortlessWC\BaseTableTrait;
@@ -10,9 +12,11 @@ trait BotTurn
   {
     $world = $this->world();
 
-    $this->notifyAllPlayers('XXX_message', 'XXX: Skipping bot turn', []);
-
-    // XXX: Double-check the rulebook; but the bot basically randomly picks a location, right?
+    try {
+      $world->ruleset()->onBotTurn($world);
+    } catch (InputRequiredException $e) {
+      return;
+    }
 
     $world->nextState(T_DONE);
   }

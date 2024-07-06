@@ -111,6 +111,9 @@ trait Setup
       $values[] = '("' . $player_id . '", "' . $seat_color . '", "", 20)';
     }
 
+    // XXX:
+    // $this->world()->ruleset()->onSetup($this->world());
+
     // Set up bot seats when necessary; give 20 effort.
     for ($i = count($this->loadPlayersBasicInfos()); $i < 3; ++$i) {
       $seat_color = array_values(

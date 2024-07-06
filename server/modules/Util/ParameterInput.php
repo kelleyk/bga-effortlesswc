@@ -16,7 +16,8 @@ use EffortlessWC\World;
 // XXX: Deal with namespacing.
 
 define('INPUTTYPE_LOCATION', 'inputtype:location');
-define('INPUTTYPE_CARD', 'inputtype:card');
+define('INPUTTYPE_CARD_IN_PLAY', 'inputtype:card:in-play');
+define('INPUTTYPE_CARD_FROM_DIALOG', 'inputtype:card:from-dialog');
 define('INPUTTYPE_EFFORT_PILE', 'inputtype:effort-pile');
 
 abstract class ParameterInputException extends \Exception
@@ -133,12 +134,28 @@ trait ParameterInput
 
   public function getParameterCardInHand(World $world, Seat $seat, $args = null): Card
   {
-    // XXX: This should be a thin layer over `getParameterCard()`.
+    // XXX: This should be a thin layer over `getParameterCardFromDialog()`.
     throw new \feException('XXX: no impl: getParameterCardInHand');
   }
 
   // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
   public function getParameterCardAtLocation(World $world, Location $loc, $args = null)
+  {
+    // XXX: This should be a thin layer over `getParameterCardInPlay()`.
+    throw new \feException('XXX: no impl: getParameterCardAtLocation');
+  }
+
+  // N.B.: This is one of the "foundational" card input mechanisms.  It shows the player all of the given cards in a
+  // dialog and lets them choose one.  The cards may *also* be in play, but they are not required to be.
+  public function getParameterCardFromDialog(World $world, $cards, $args = null)
+  {
+    // XXX: This should be a thin layer over `getParameterCard()`.
+    throw new \feException('XXX: no impl: getParameterCardAtLocation');
+  }
+
+  // N.B.: This is one of the "foundational" card input mechanisms.  It allows the player to select one of the given
+  // cards, which must be "in play" (at a location).
+  public function getParameterCardInPlay(World $world, $cards, $args = null)
   {
     // XXX: This should be a thin layer over `getParameterCard()`.
     throw new \feException('XXX: no impl: getParameterCardAtLocation');

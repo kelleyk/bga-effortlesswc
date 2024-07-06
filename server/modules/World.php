@@ -4,6 +4,7 @@ namespace EffortlessWC;
 
 require_once 'WcLib/WcDeck.php';
 
+use EffortlessWC\Ruleset;
 use EffortlessWC\Models\Card;
 use EffortlessWC\Models\EffortPile;
 use EffortlessWC\Models\Location;
@@ -38,6 +39,8 @@ interface World
   public function activeSeat(): Seat;
 
   public function visitedLocation(): Location;
+
+  public function ruleset(): Ruleset;
 
   public function moveCardToLocation(Card $card, Location $loc);
 

@@ -9,6 +9,7 @@ use EffortlessWC\Models\EffortPile;
 use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Seat;
 use EffortlessWC\Models\Setting;
+use EffortlessWC\Ruleset;
 
 class WorldImpl implements World
 {
@@ -108,6 +109,29 @@ class WorldImpl implements World
   public function activeSeat(): Seat
   {
     return Seat::mustGetById($this, $this->table()->getGameStateInt(GAMESTATE_INT_ACTIVE_SEAT));
+  }
+
+  public function ruleset(): Ruleset
+  {
+    switch ($this->table()->getGameStateValue('optionRuleset')) {
+      case GAMEOPTION_RULESET_COMPETITIVE:
+        switch ($this->table()->getPlayersNumber()) {
+          case 1:
+            return new \EffortlessWC\RulesetCompetitive1P();
+          case 2:
+            return new \EffortlessWC\RulesetCompetitive2P();
+          default:
+            return new \EffortlessWC\RulesetCompetitive();
+        }
+      case GAMEOPTION_RULESET_COOPERATIVE:
+        switch ($this->table()->getPlayersNumber()) {
+          case 1:
+            return new \EffortlessWC\RulesetCooperative1P();
+          default:
+            return new \EffortlessWC\RulesetCooperative();
+        }
+    }
+    throw new \BgaVisibleSystemException('Unexpected value for GAMEOPTION_RULESET.');
   }
 
   public function visitedLocation(): Location

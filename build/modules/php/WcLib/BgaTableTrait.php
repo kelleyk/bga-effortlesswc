@@ -110,6 +110,64 @@ trait BgaTableTrait {
   abstract public static function escapeStringForDB(string $string);
 
   // -----
+  // BGA game-state
+
+  //  Initialize global value. This is not required if you ok with default value if 0. This should be called from
+  //  setupNewGame function.
+  /**
+    @param string $label
+    @param int $value
+    @return void
+   */
+  abstract public function setGameStateInitialValue($label, $value );
+
+  // Retrieve the value of a global. Returns $default if global is not been initialized (by setGameStateInitialValue).
+  //
+  // NOTE: this method use globals "cache" if you directly manipulated globals table OR call this function after undoRestorePoint() - it won't work as expected.
+  //
+  //   $value = $this->getGameStateValue('my_first_global_variable');
+  //
+  // For debugging purposes, you can have labels and value pairs send to client side by inserting that code in your "getAllDatas":
+  //
+  // $labels = array_keys($this->mygamestatelabels);
+  // $result['myglobals'] = array_combine($labels, array_map([$this,'getGameStateValue'],$labels));
+  //
+  // That assumes you stored your label mapping in $this->mygamestatelabels in constructor
+  //
+  //   $this->mygamestatelabels=["my_first_global_variable" => 10, ...];
+  //   $this->initGameStateLabels($this->mygamestatelabels);
+  /**
+    @param string $label
+    @param int $default
+    @return int
+   */
+  abstract public function getGameStateValue($label, $default = 0);
+
+  // Set the current value of a global.
+  //
+  //  $this->setGameStateValue('my_first_global_variable', 42);
+  /**
+    @param string $label
+    @param int $value
+    @return void
+   */
+  abstract public function setGameStateValue($label, $value);
+
+  // Increment the current value of a global. If increment is negative, decrement the value of the global.
+  //
+  // Return the final value of the global. If global was not initialized it will initialize it as 0.
+  //
+  // NOTE: this method use globals "cache" if you directly manipulated globals table OR call this function after undoRestorePoint() - it won't work as expected.
+  //
+  //   $value = $this->incGameStateValue('my_first_global_variable', 1);
+  /**
+    @param string $label
+    @param int $increment
+    @return void
+   */
+  abstract public function incGameStateValue($label, $increment);
+
+  // -----
   // State-machine
 
   /**
