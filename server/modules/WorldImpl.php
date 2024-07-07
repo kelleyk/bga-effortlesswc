@@ -113,7 +113,8 @@ class WorldImpl implements World
 
   public function ruleset(): Ruleset
   {
-    switch ($this->table()->getGameStateValue('optionRuleset')) {
+    $option_ruleset = $this->table()->getGameStateValue('optionRuleset');
+    switch ($option_ruleset) {
       case GAMEOPTION_RULESET_COMPETITIVE:
         switch ($this->table()->getPlayersNumber()) {
           case 1:
@@ -131,7 +132,7 @@ class WorldImpl implements World
             return new \EffortlessWC\RulesetCooperative();
         }
     }
-    throw new \BgaVisibleSystemException('Unexpected value for GAMEOPTION_RULESET.');
+    throw new \BgaVisibleSystemException('Unexpected value for GAMEOPTION_RULESET: ' . $option_ruleset);
   }
 
   public function visitedLocation(): Location

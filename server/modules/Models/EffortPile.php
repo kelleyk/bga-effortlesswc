@@ -30,6 +30,8 @@ abstract class EffortPile
 
   // N.B.: $n may be null, but the result may not make the effort pile contain fewer than zero.
   abstract public function addEffort(World $world, int $n): void;
+
+  abstract public function renderForClient(World $world): array;
 }
 
 class ReserveEffortPile extends EffortPile
@@ -53,6 +55,15 @@ class ReserveEffortPile extends EffortPile
     $this->seat()->update($world, [
       'reserve_effort' => $this->qty(),
     ]);
+  }
+
+  public function renderForClient(World $world): array
+  {
+    return [
+      'pileType' => 'reserve',
+      'seatId' => $this->seat()->id(),
+      'qty' => $this->qty(),
+    ];
   }
 }
 
@@ -79,5 +90,15 @@ class LocationEffortPile extends EffortPile
 
     $this->qty_ += $n;
     $world->table()->updateEffort($this->location()->locationArg(), $this->seat()->id(), $this->qty());
+  }
+
+  public function renderForClient(World $world): array
+  {
+    return [
+      'pileType' => 'location',
+      'seatId' => $this->seat()->id(),
+      'locationId' => $this->location()->id(),
+      'qty' => $this->qty(),
+    ];
   }
 }

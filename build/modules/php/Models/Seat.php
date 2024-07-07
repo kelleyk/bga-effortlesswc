@@ -110,4 +110,12 @@ class Seat extends \WcLib\SeatBase
   {
     $world->table()->updateSeat($this->id(), $props);
   }
+
+  /**
+    @return Card[]
+  */
+  function hand(World $world)
+  {
+    return $world->table()->mainDeck->getAll(['HAND'], $this->id());
+  }
 }

@@ -8,6 +8,7 @@ use EffortlessWC\Models\Card;
 use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Seat;
 use EffortlessWC\World;
+use EffortlessWC\Models\EffortPile;
 
 // const INPUTTYPE_LOCATION = 'inputtype:location';
 // const INPUTTYPE_CARD = 'inputtype:card';
@@ -16,8 +17,7 @@ use EffortlessWC\World;
 // XXX: Deal with namespacing.
 
 define('INPUTTYPE_LOCATION', 'inputtype:location');
-define('INPUTTYPE_CARD_IN_PLAY', 'inputtype:card:in-play');
-define('INPUTTYPE_CARD_FROM_DIALOG', 'inputtype:card:from-dialog');
+define('INPUTTYPE_CARD', 'inputtype:card');
 define('INPUTTYPE_EFFORT_PILE', 'inputtype:effort-pile');
 
 abstract class ParameterInputException extends \Exception
@@ -104,9 +104,40 @@ trait ParameterInput
 
   // XXX: The `getParameter()` stuff should be moved to their own trait; they throw a special exception if we need to
   // ask for user input still.
-  public function getParameterEffortPile(World $world, $valid_targets = null)
+  public function getParameterEffortPile(World $world, $valid_targets, $args = null): EffortPile
   {
-    throw new \feException('XXX: no impl: getParameterEffortPile');
+    if ($args === null) {
+      $args = [];
+    }
+
+    // XXX: I'm not sure how I feel about having these defaults.
+    if (!array_key_exists('description', $args)) {
+      $args['description'] = '${actplayer} must pick an effort pile.';
+    }
+    if (!array_key_exists('descriptionmyturn', $args)) {
+      $args['descriptionmyturn'] = '${you} must pick an effort pile.';
+    }
+
+    $json_choices = array_values(
+      array_map(function ($pile) use ($world) {
+        return $pile->renderForClient($world);
+      }, $valid_targets)
+    );
+
+    $value_stack_entry = $this->getParameterInner($world, INPUTTYPE_EFFORT_PILE, $json_choices, $args);
+    $raw_value = $value_stack_entry['value'];
+
+    switch ($raw_value['pileType']) {
+      case 'reserve':
+        $seat = Seat::mustGetById($world, intval($raw_value['seatId']));
+        return $seat->reserveEffort();
+      case 'location':
+        $seat = Seat::mustGetById($world, intval($raw_value['seatId']));
+        $location = Location::mustGetById($world, intval($raw_value['locationId']));
+        return $location->effortPileForSeat($world, $seat);
+      default:
+        throw new \BgaVisibleSystemException('Unexpected pile type!');
+    }
   }
 
   /**
@@ -116,6 +147,14 @@ trait ParameterInput
   {
     if ($args === null) {
       $args = [];
+    }
+
+    // XXX: I'm not sure how I feel about having these defaults.
+    if (!array_key_exists('description', $args)) {
+      $args['description'] = '${actplayer} must pick a location.';
+    }
+    if (!array_key_exists('descriptionmyturn', $args)) {
+      $args['descriptionmyturn'] = '${you} must pick a location.';
     }
 
     $json_choices = array_values(
@@ -134,38 +173,67 @@ trait ParameterInput
 
   public function getParameterCardInHand(World $world, Seat $seat, $args = null): Card
   {
-    // XXX: This should be a thin layer over `getParameterCardFromDialog()`.
-    throw new \feException('XXX: no impl: getParameterCardInHand');
+    $args = $args ?? [];
+    $args['selectionType'] = 'fromDialog';
+
+    return $this->getParameterCard($world, $seat->hand($world), $args);
   }
 
   // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
-  public function getParameterCardAtLocation(World $world, Location $loc, $args = null)
+  public function getParameterCardAtLocation(World $world, Location $location, $args = null): Card
   {
-    // XXX: This should be a thin layer over `getParameterCardInPlay()`.
-    throw new \feException('XXX: no impl: getParameterCardAtLocation');
+    // XXX: for now, at least, using 'fromDialog' rather than 'inPlay' is just a way to avoid the "reveal face-down
+    // cards" problem
+    $args = $args ?? [];
+    $args['selectionType'] = 'fromDialog';
+
+    return $this->getParameterCard($world, $location->cards($world), $args);
   }
 
-  // N.B.: This is one of the "foundational" card input mechanisms.  It shows the player all of the given cards in a
-  // dialog and lets them choose one.  The cards may *also* be in play, but they are not required to be.
-  public function getParameterCardFromDialog(World $world, $cards, $args = null)
+  // There are two allowed values for $args['selectionType']:
+  //
+  // - "inPlay": This is one of the "foundational" card input mechanisms.  It allows the player to select one of the
+  //   given cards, which must be "in play" (at a location).
+  //
+  // - "fromDialog": This is one of the "foundational" card input mechanisms.  It shows the player all of the given
+  //   cards in a dialog and lets them choose one.  The cards may *also* be in play, but they are not required to be.
+  //
+  // XXX: We need to send full data about the $cards to the client even if they are face-down.
+  //
+  public function getParameterCard(World $world, $cards, $args = null): Card
   {
-    // XXX: This should be a thin layer over `getParameterCard()`.
-    throw new \feException('XXX: no impl: getParameterCardAtLocation');
+    if ($args === null) {
+      $args = [];
+    }
+
+    // XXX: I'm not sure how I feel about having these defaults.
+    if (!array_key_exists('description', $args)) {
+      $args['description'] = '${actplayer} must pick a card.';
+    }
+    if (!array_key_exists('descriptionmyturn', $args)) {
+      $args['descriptionmyturn'] = '${you} must pick a card.';
+    }
+
+    $json_choices = array_values(
+      array_map(function ($card) {
+        return $card->id();
+      }, $cards)
+    );
+
+    $value_stack_entry = $this->getParameterInner($world, INPUTTYPE_CARD, $json_choices, $args);
+    // if ($value_stack_entry === null) {
+    //   return null;
+    // }
+    $raw_value = $value_stack_entry['value'];
+    throw new \feException('XXX: raw_value=' . $raw_value);
+    return $world->table()->mainDeck->mustGet($raw_value);
   }
 
-  // N.B.: This is one of the "foundational" card input mechanisms.  It allows the player to select one of the given
-  // cards, which must be "in play" (at a location).
-  public function getParameterCardInPlay(World $world, $cards, $args = null)
-  {
-    // XXX: This should be a thin layer over `getParameterCard()`.
-    throw new \feException('XXX: no impl: getParameterCardAtLocation');
-  }
-
-  // Each element of $valid_targets is a `Card`.
-  public function getParameterCard(World $world, $valid_targets, $args = null)
-  {
-    throw new \feException('XXX: no impl: getParameterCard');
-  }
+  // // Each element of $valid_targets is a `Card`.
+  // public function getParameterCard(World $world, $valid_targets, $args = null)
+  // {
+  //   throw new \feException('XXX: no impl: getParameterCard');
+  // }
 
   private function consumeNextParameterIndex(): int
   {

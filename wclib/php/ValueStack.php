@@ -86,7 +86,8 @@ class ValueStack {
     for ($i = count($resolve_value_stack) - 1; $i >= 0; --$i) {
       $entry = $resolve_value_stack[$i];
       if ($predicate($entry)) {
-        $this->setValueStack( array_splice($resolve_value_stack, $i, 1));
+        array_splice($resolve_value_stack, $i, 1);
+        $this->setValueStack($resolve_value_stack);
         return $entry;
       }
     }
@@ -97,7 +98,7 @@ class ValueStack {
   /**
     @return mixed[][]
   */
-  protected function getValueStack() {
+  public /*protected*/ function getValueStack() {
     return $this->gamestate_impl_->getGameStateJson($this->gamestate_key_);
   }
 
