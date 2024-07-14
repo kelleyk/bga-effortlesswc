@@ -104,6 +104,10 @@
 .ewc_card_prompt {
   // XXX: Is this still necessary once we use a stock to arrange cards in the prompt area?
   display: inline-block;
+
+  // XXX: We're going to need something for dynamic arrangement here, sort of like the BGA stock component but more
+  // flexible.
+  margin: 5px;
 }
 
 .ewc_card_wrap {
@@ -255,6 +259,10 @@
   border-bottom: 1px solid #333;
 
   mask-image: linear-gradient(to right, transparent, white 1%, white 99%, transparent);
+}
+
+.ewc_promptarea_choices {
+  text-align: center;
 }
 
 /* -- end -- */

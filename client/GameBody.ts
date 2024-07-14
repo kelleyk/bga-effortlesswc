@@ -21,7 +21,9 @@ class GameBody extends GameBasics {
 
   protected tablewidePanelEl: HTMLElement | undefined = undefined;
 
+  protected inputArgs: InputArgs | null = null;
   protected selectedLocation: number | null = null;
+  protected selectedCard: number | null = null;
 
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
@@ -353,6 +355,7 @@ class GameBody extends GameBasics {
   ///////////////////////////////////////////////////
   //// User input
 
+  // XXX: Now that we have `this.inputArgs`, should we always use that?
   public updateSelectables(inputArgs: InputArgs) {
     console.log('*** updateSelectables()');
     document.querySelectorAll('.ewc_selectable').forEach((el) => {
@@ -409,7 +412,7 @@ class GameBody extends GameBasics {
           // console.log('*** parentEl', parentEl);
 
           // XXX: We also need to make these .ewc_selectable; and we're going to wind up needing to do other stuff such
-          // as attaching tooltips.  We should move this into a reusable function.
+          // as attaching tooltips and on-click handlers.  We should move this into a reusable function.
           const el = dojo.place(
             this.format_block('jstpl_prompt_card', {
               cardType,
@@ -418,6 +421,10 @@ class GameBody extends GameBasics {
             parentEl,
           );
           this.rescaleSprite(el, 0.35);
+          el.classList.add('ewc_selectable');
+          dojo.connect(el, 'onclick', this, (evt: any) => {
+            this.onClickCard(evt, card.id);
+          });
         }
 
         // for (const id of inputArgs.choices) {
@@ -453,6 +460,8 @@ class GameBody extends GameBasics {
   }
 
   // XXX: Pick better type than `any`
+  //
+  // XXX: Does this also need to check that the target is .ewc_selectable?
   public onClickLocation(evt: any, locationId: number): void {
     console.log('onClickLocation', evt);
 
@@ -461,6 +470,20 @@ class GameBody extends GameBasics {
     });
     evt.currentTarget.classList.add('ewc_selected');
     this.selectedLocation = locationId;
+    this.triggerUpdateActionButtons();
+  }
+
+  // XXX: Pick better type than `any`
+  //
+  // XXX: Does this also need to check that the target is .ewc_selectable?
+  public onClickCard(evt: any, cardId: number): void {
+    console.log('onClickCard', evt);
+
+    document.querySelectorAll('.ewc_selected').forEach((el) => {
+      el.classList.remove('ewc_selected');
+    });
+    evt.currentTarget.classList.add('ewc_selected');
+    this.selectedCard = cardId;
     this.triggerUpdateActionButtons();
   }
 
@@ -479,9 +502,12 @@ class GameBody extends GameBasics {
   public onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
 
+    this.inputArgs = null;
+
     switch (stateName) {
       case 'stInput': {
         console.log('*** stInput: ', args);
+        this.inputArgs = args.args.input;
         this.updateSelectables(args.args.input);
         break;
       }
@@ -514,12 +540,30 @@ class GameBody extends GameBasics {
           _('Confirm'),
           () => {
             // XXX: This will only work for inputtype:location; we'll need to generalize it for other input types.
-            const rpcParam = {
-              selection: JSON.stringify({
-                inputType: 'inputtype:location',
-                value: this.selectedLocation,
-              }),
-            };
+            let rpcParam = null;
+            switch (this.inputArgs!.inputType) {
+              case 'inputtype:location': {
+                rpcParam = {
+                  selection: JSON.stringify({
+                    inputType: 'inputtype:location',
+                    value: this.selectedLocation,
+                  }),
+                };
+                break;
+              }
+              case 'inputtype:card': {
+                rpcParam = {
+                  selection: JSON.stringify({
+                    inputType: 'inputtype:card',
+                    value: this.selectedCard,
+                  }),
+                };
+                break;
+              }
+              default: {
+                throw new Error('Unexpected input type.');
+              }
+            }
             console.log('confirmed!', rpcParam);
             this.ajaxCallWrapper('actSelectInput', rpcParam);
           },
@@ -527,9 +571,32 @@ class GameBody extends GameBasics {
           undefined,
           'blue',
         );
-        if (this.selectedLocation === null) {
+
+        let confirmReady = false;
+        if (this.inputArgs !== null) {
+          switch (this.inputArgs.inputType) {
+            case 'inputtype:location': {
+              confirmReady = this.selectedLocation !== null;
+              break;
+            }
+            case 'inputtype:card': {
+              confirmReady = this.selectedCard !== null;
+              break;
+            }
+            // case 'inputtype:effort-pile': {
+            // confirmReady = (this.selectedEffortPile !== null);
+            //   break;
+            // }
+            default: {
+              throw new Error('Unexpected input type.');
+            }
+          }
+        }
+
+        if (!confirmReady) {
           dojo.addClass('btn_input_confirm', 'disabled');
         }
+
         break;
       }
     }
