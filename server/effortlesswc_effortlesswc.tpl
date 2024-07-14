@@ -5,6 +5,10 @@
   <div id="ewc_handarea" class="ewc_handarea">
   </div>
 
+  <div id="ewc_promptarea" class="ewc_promptarea">
+    <div class="ewc_promptarea_choices"></div>
+  </div>
+
   <div id="ewc_setlocarea" class="ewc_setlocarea">
     <div id="ewc_setlocarea_column_0" class="ewc_setlocarea_column">
     </div>
@@ -56,6 +60,10 @@ let jstpl_playarea_card =
 
 let jstpl_hand_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_hand tmp_scalable_card"></div>';
+
+// XXX: Does this create a problem?  A card may be shown in a prompt and *also* in either the hand or the play-area, which means that these div IDs are not unique.
+let jstpl_prompt_card =
+  '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_prompt tmp_scalable_card"></div>';
 
 let jstpl_effort_counter =
   '<div id="ewc_effort_counter_${locationIndex}_${seatId}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';

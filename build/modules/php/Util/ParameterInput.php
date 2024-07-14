@@ -174,7 +174,7 @@ trait ParameterInput
   public function getParameterCardInHand(World $world, Seat $seat, $args = null): Card
   {
     $args = $args ?? [];
-    $args['selectionType'] = 'fromDialog';
+    $args['selectionType'] = 'fromPrompt';
 
     return $this->getParameterCard($world, $seat->hand($world), $args);
   }
@@ -182,10 +182,10 @@ trait ParameterInput
   // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
   public function getParameterCardAtLocation(World $world, Location $location, $args = null): Card
   {
-    // XXX: for now, at least, using 'fromDialog' rather than 'inPlay' is just a way to avoid the "reveal face-down
+    // XXX: for now, at least, using 'fromPrompt' rather than 'inPlay' is just a way to avoid the "reveal face-down
     // cards" problem
     $args = $args ?? [];
-    $args['selectionType'] = 'fromDialog';
+    $args['selectionType'] = 'fromPrompt';
 
     return $this->getParameterCard($world, $location->cards($world), $args);
   }
@@ -195,8 +195,8 @@ trait ParameterInput
   // - "inPlay": This is one of the "foundational" card input mechanisms.  It allows the player to select one of the
   //   given cards, which must be "in play" (at a location).
   //
-  // - "fromDialog": This is one of the "foundational" card input mechanisms.  It shows the player all of the given
-  //   cards in a dialog and lets them choose one.  The cards may *also* be in play, but they are not required to be.
+  // - "fromPrompt": This is one of the "foundational" card input mechanisms.  It shows the player all of the given
+  //   cards in a prompt and lets them choose one.  The cards may *also* be in play, but they are not required to be.
   //
   // XXX: We need to send full data about the $cards to the client even if they are face-down.
   //
@@ -215,8 +215,10 @@ trait ParameterInput
     }
 
     $json_choices = array_values(
-      array_map(function ($card) {
-        return $card->id();
+      array_map(function ($card) use ($world) {
+        // N.B.: We have to send all of the metadata about the card, instead of only its ID, because it might not
+        // necessarily be face-up on the board.
+        return $card->renderForClient($world);
       }, $cards)
     );
 

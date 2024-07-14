@@ -101,6 +101,11 @@
   margin-right: -80px;
 }
 
+.ewc_card_prompt {
+  // XXX: Is this still necessary once we use a stock to arrange cards in the prompt area?
+  display: inline-block;
+}
+
 .ewc_card_wrap {
 }
 
@@ -231,6 +236,18 @@
 /* Hand area */
 
 .ewc_handarea {
+  height: 90px;
+  background: white;
+
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+
+  mask-image: linear-gradient(to right, transparent, white 1%, white 99%, transparent);
+}
+
+/* Prompt area */
+
+.ewc_promptarea {
   height: 90px;
   background: white;
 

@@ -48,6 +48,9 @@ class GameBody extends GameBasics {
 
     this.setupPlayArea(gamedatas.mutableBoardState);
 
+    (document.querySelector('.ewc_promptarea')! as HTMLElement).style.display =
+      'none';
+
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
 
@@ -372,12 +375,50 @@ class GameBody extends GameBasics {
             )!
             .classList.add('ewc_selectable');
         }
+
+        document
+          .querySelectorAll('.ewc_setloc_setloc_wrap:not(.ewc_selectable)')
+          .forEach((el) => {
+            el.classList.add('ewc_unselectable');
+          });
+
         break;
       }
       case 'inputtype:card': {
-        console.log('  *** inputtype:card');
+        console.log('  *** inputtype:card', inputArgs);
 
-        // XXX: We need to create a modal dialog and populate it with the appropriate cards.
+        // XXX: We need to populate a prompt area with the appropriate cards.
+
+        (
+          document.querySelector('.ewc_promptarea')! as HTMLElement
+        ).style.display = 'block';
+
+        // XXX: Remove previous contents.
+
+        for (const _card of Object.values(inputArgs.choices)) {
+          // XXX: Hacky; we should instead fix our type definitions.
+          const card = _card as Card;
+
+          // console.log('*** card', card);
+
+          const cardType = card.faceDown ? 'back' : card.cardType;
+
+          const parentEl = document.querySelector(
+            '.ewc_promptarea .ewc_promptarea_choices',
+          )!;
+          // console.log('*** parentEl', parentEl);
+
+          // XXX: We also need to make these .ewc_selectable; and we're going to wind up needing to do other stuff such
+          // as attaching tooltips.  We should move this into a reusable function.
+          const el = dojo.place(
+            this.format_block('jstpl_prompt_card', {
+              cardType,
+              id: card.id,
+            }),
+            parentEl,
+          );
+          this.rescaleSprite(el, 0.35);
+        }
 
         // for (const id of inputArgs.choices) {
         //   document
@@ -394,6 +435,9 @@ class GameBody extends GameBasics {
 
         // XXX: Not implemented!
 
+        // N.B.: The `EffortPile` type on the server can represent either a reserve effort pile or an effort pile on a
+        // location.  When asked for input, we'll only be picking the latter type.
+
         // for (const id of inputArgs.choices) {
         //   document
         //     .querySelector(
@@ -406,12 +450,6 @@ class GameBody extends GameBasics {
       default:
         throw new Error('Unexpected input type: ' + inputArgs.inputType);
     }
-
-    document
-      .querySelectorAll('.ewc_setloc_setloc_wrap:not(.ewc_selectable)')
-      .forEach((el) => {
-        el.classList.add('ewc_unselectable');
-      });
   }
 
   // XXX: Pick better type than `any`
