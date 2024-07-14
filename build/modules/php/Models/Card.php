@@ -10,6 +10,20 @@ abstract class Card extends \WcLib\CardBase
 
   protected bool $face_down_;
 
+  public static function getById(World $world, int $id): ?Card
+  {
+    return $world->table()->mainDeck->get($id);
+  }
+
+  public static function mustGetById(World $world, int $id): Card
+  {
+    $card = self::getById($world, $id);
+    if ($card === null) {
+      throw new \WcLib\Exception('Could not find card with id=' . $id);
+    }
+    return $card;
+  }
+
   // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
   // it's not on `CardBase`.
   //

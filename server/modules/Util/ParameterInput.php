@@ -227,7 +227,7 @@ trait ParameterInput
     //   return null;
     // }
     $raw_value = $value_stack_entry['value'];
-    throw new \feException('XXX: raw_value=' . $raw_value);
+    // throw new \feException('XXX: raw_value=' . $raw_value);
     return $world->table()->mainDeck->mustGet($raw_value);
   }
 

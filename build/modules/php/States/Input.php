@@ -5,6 +5,7 @@ namespace EffortlessWC\States;
 use EffortlessWC\Util\ParameterInputConfig;
 
 use EffortlessWC\Models\Location;
+use EffortlessWC\Models\Card;
 
 trait Input
 {
@@ -80,6 +81,42 @@ trait Input
         ]);
         $this->world()->nextState($paraminput_config->return_transition);
         break;
+
+      case INPUTTYPE_CARD:
+        $value = intval($raw_value);
+
+        // N.B.: This is necessary because we store the rendered-for-client card, and not only its ID, in the config.
+        // We could revert that change (again storing the ID) and instead make the arg-rendering code smart enough to
+        // render the cards as they're given to the client, if we wanted.
+        $valid_choices = array_values(
+          array_map(function ($rendered_card) {
+            return $rendered_card['id'];
+          }, $paraminput_config->choices)
+        );
+
+        if (!in_array($value, $valid_choices)) {
+          throw new \BgaUserException(
+            'Invalid target (card with ID=' . $value . ').  Valid choices: ' . print_r($valid_choices, true)
+          );
+        }
+        $card = Card::mustGetById($this->world(), $value);
+
+        $this->valueStack->push([
+          'paramIndex' => $paraminput_config->param_index,
+          'valueType' => INPUTTYPE_CARD,
+          'value' => $card->id(),
+          'sourceType' => 'USER_INPUT',
+          //
+          // XXX: I don't think we need this without a resolve-stack.
+          // 'productionDepth' => $stack_depth,
+          //
+          // XXX: Do we still need this?
+          // 'sourceType' => 'TARGET_SELECTION',
+          //
+        ]);
+        $this->world()->nextState($paraminput_config->return_transition);
+        break;
+
       default:
         throw new \BgaVisibleSystemException(
           'Internal error: unexpected `inputType` in ST_INPUT: ' . $paraminput_config->input_type
