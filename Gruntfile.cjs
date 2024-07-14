@@ -15,6 +15,11 @@
   */
 
 module.exports = function (grunt) {
+  let phpunit_args = [];
+  if (grunt.option('phpunit-filter') !== undefined) {
+    phpunit_args = ['--filter="' + grunt.option('phpunit-filter') + '"'];
+  }
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     tslint: {

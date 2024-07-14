@@ -366,26 +366,52 @@ class GameBody extends GameBasics {
       case 'inputtype:location': {
         console.log('  *** inputtype:location');
         for (const id of inputArgs.choices) {
-          // if (id % 2 === 0) {
-          //   console.log('  ** skipping id=' + id);
-          //   continue;
-          // }
           document
             .querySelector(
               '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
             )!
             .classList.add('ewc_selectable');
         }
-        document
-          .querySelectorAll('.ewc_setloc_setloc_wrap:not(.ewc_selectable)')
-          .forEach((el) => {
-            el.classList.add('ewc_unselectable');
-          });
+        break;
+      }
+      case 'inputtype:card': {
+        console.log('  *** inputtype:card');
+
+        // XXX: We need to create a modal dialog and populate it with the appropriate cards.
+
+        // for (const id of inputArgs.choices) {
+        //   document
+        //     .querySelector(
+        //       '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
+        //     )!
+        //     .classList.add('ewc_selectable');
+        // }
+
+        break;
+      }
+      case 'inputtype:effort-pile': {
+        console.log('  *** inputtype:effort-pile');
+
+        // XXX: Not implemented!
+
+        // for (const id of inputArgs.choices) {
+        //   document
+        //     .querySelector(
+        //       '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
+        //     )!
+        //     .classList.add('ewc_selectable');
+        // }
         break;
       }
       default:
         throw new Error('Unexpected input type: ' + inputArgs.inputType);
     }
+
+    document
+      .querySelectorAll('.ewc_setloc_setloc_wrap:not(.ewc_selectable)')
+      .forEach((el) => {
+        el.classList.add('ewc_unselectable');
+      });
   }
 
   // XXX: Pick better type than `any`
@@ -449,8 +475,8 @@ class GameBody extends GameBasics {
           'btn_input_confirm',
           _('Confirm'),
           () => {
+            // XXX: This will only work for inputtype:location; we'll need to generalize it for other input types.
             const rpcParam = {
-              numX: 42,
               selection: JSON.stringify({
                 inputType: 'inputtype:location',
                 value: this.selectedLocation,
