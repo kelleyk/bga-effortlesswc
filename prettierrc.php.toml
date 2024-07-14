@@ -1,5 +1,3 @@
-editorconfig = true
-
 plugins = [
   "@prettier/plugin-php",
 ]
