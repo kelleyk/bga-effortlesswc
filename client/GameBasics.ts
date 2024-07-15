@@ -151,6 +151,47 @@ class GameBasics extends GameGui {
     return this.inherited(arguments);
   }
 
+  // XXX: I've only been trying to get this building; fix the typing.
+  // XXX: Support easing?
+  public wipeOutAndDestroy(node: any, args: any) {
+    if (typeof args === 'undefined') {
+      args = {};
+    }
+    if (typeof args.duration === 'undefined') {
+      args.duration = 500;
+    }
+    if (this.instantaneousMode) {
+      args.duration = Math.min(1, args.duration);
+    }
+    args.node = node;
+
+    const anim = dojo.fx.wipeOut(args);
+    dojo.connect(anim, 'onEnd', (_node: any) => {
+      dojo.destroy(_node);
+    });
+    anim.play();
+  }
+
+  // XXX: I've only been trying to get this building; fix the typing.
+  public placeAndWipeIn(node: any, parentId: any, args: any) {
+    const el = dojo.place(node, parentId);
+    dojo.setStyle(el, 'display', 'none');
+
+    if (typeof args === 'undefined') {
+      args = {};
+    }
+    if (typeof args.duration === 'undefined') {
+      args.duration = 500;
+    }
+    if (this.instantaneousMode) {
+      args.duration = Math.min(1, args.duration);
+    }
+    args.node = el;
+
+    const anim = dojo.fx.wipeIn(args);
+    anim.play();
+  }
+
   /**
    *
    * @param {string} methodName

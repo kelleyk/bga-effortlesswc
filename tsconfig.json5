@@ -2,11 +2,12 @@
 {
   "include": [
     "client/**/GameBasics.ts",
-    "client/**/*.ts"
+    "client/**/*.ts",
+    "wclib/js/**/*.ts",
   ],
   "exclude": [
     "../node_modules",
-    "../**/*.spec.ts"
+    "../**/*.spec.ts",
   ],
 	"compilerOptions": {
 		/* NEVER CHANGE THESE */

@@ -244,7 +244,7 @@ module.exports = function (grunt) {
         options: {
           configFile: './prettierrc.ts.toml',
         },
-        src: ['client/**/*.ts'],
+        src: ['client/**/*.ts', 'wclib/js/**/*.ts'],
       },
       client_css: {
         options: {
