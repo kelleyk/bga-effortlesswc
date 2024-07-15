@@ -226,12 +226,4 @@ trait Setup
       $this->settingDeck->drawTo('SETLOC', $i);
     }
   }
-
-  // XXX: This shouldn't live here; it will also be called at the end of each turn.
-  private function fillSetlocCards()
-  {
-    foreach ($this->world()->locations() as $loc) {
-      $this->world()->fillCards($loc);
-    }
-  }
 }

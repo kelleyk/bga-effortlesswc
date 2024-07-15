@@ -217,8 +217,8 @@ trait ParameterInput
     $json_choices = array_values(
       array_map(function ($card) use ($world) {
         // N.B.: We have to send all of the metadata about the card, instead of only its ID, because it might not
-        // necessarily be face-up on the board.
-        return $card->renderForClient($world);
+        // necessarily be face-up on the board.  That's what the $force_visible parameter here does.
+        return $card->renderForClient($world, /*force_visible=*/ true);
       }, $cards)
     );
 

@@ -56,4 +56,11 @@ trait BaseTableTrait
       ],
     ];
   }
+
+  public function fillSetlocCards()
+  {
+    foreach ($this->world()->locations() as $loc) {
+      $this->world()->fillCards($loc);
+    }
+  }
 }

@@ -4,6 +4,12 @@ namespace EffortlessWC;
 
 use EffortlessWC\Ruleset;
 
+function array_rand_value($array)
+{
+  $key = array_rand($array);
+  return $array[$key];
+}
+
 // "Setup stays mostly the same for a 2 player game with the exception of adding a die and an additional set of 20
 // Effort.
 //
@@ -19,11 +25,34 @@ use EffortlessWC\Ruleset;
 class RulesetCompetitive2P extends Ruleset
 {
   // onSetup
-// - add one bot seat
-// onBotTurn
-// - randomly choose a location
-// - place an effort there
-// - discard all cards and replace them from the deck
-// scoring
-// - the bot player's effort piles count for scoring, but the bot itself does not score
+  // - add one bot seat
+  // scoring
+  // - the bot player's effort piles count for scoring, but the bot itself does not score
+
+  public function onBotTurn(World $world)
+  {
+    // Randomly choose a location.
+    $location = array_rand_value($world->locations());
+
+    // Move one effort from the active seat's reserve to their effort-pile at that location.
+    $world->moveEffort(
+      $world->activeSeat()->reserveEffort(),
+      $location->effortPileForSeat($world, $world->activeSeat())
+    );
+
+    // Discard all cards; they will be replaced from the deck during ST_TURN_UPKEEP.
+    foreach ($location->cards($world) as $card) {
+      $world->discardCard($card);
+    }
+
+    $world
+      ->table()
+      ->notifyAllPlayers(
+        'XXX_message',
+        'Bot turn (2P competitive): random location visited; location ability not activated; cards there discarded and replaced. Location=${location}',
+        [
+          'location' => $location->renderForNotif($world),
+        ]
+      );
+  }
 }

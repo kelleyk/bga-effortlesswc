@@ -199,7 +199,7 @@ class GameBody extends GameBasics {
     for (const card of Object.values(mutableBoardState.cards)) {
       console.log('*** card', card);
 
-      const cardType = card.faceDown ? 'back' : card.cardType;
+      const cardType = !card.visible ? 'back' : card.cardType;
 
       const parentEl = document.querySelector(
         '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
@@ -404,7 +404,7 @@ class GameBody extends GameBasics {
 
           // console.log('*** card', card);
 
-          const cardType = card.faceDown ? 'back' : card.cardType;
+          const cardType = !card.visible ? 'back' : card.cardType;
 
           const parentEl = document.querySelector(
             '.ewc_promptarea .ewc_promptarea_choices',

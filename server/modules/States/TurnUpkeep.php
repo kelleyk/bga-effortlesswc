@@ -12,6 +12,9 @@ trait TurnUpkeep
 
     $this->notifyAllPlayers('XXX_message', 'ST_TURN_UPKEEP', []);
 
+    // Turn step C: refill locations, top to bottom.
+    $this->fillSetlocCards();
+
     $this->world()->nextState(T_DONE);
   }
 }

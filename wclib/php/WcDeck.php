@@ -319,7 +319,7 @@ class WcDeck extends \APP_DbObject
 
   // --- This should probably become internal, but it's temporarily external until the API is fleshed out ---
 
-  // XXX: This is partially duplicated by `updateCard_legacy()` in "DataLayer.php" in Burgle Bros 2.
+  // XXX: This is partially duplicated by `updateCard()` in "DataLayer.php" in Burgle Bros 2.
   /** @param CardT $card */
   public function updateCard_legacy($card, string $sublocation, int $card_order, ?int $sublocation_index)
   {

@@ -9,6 +9,8 @@ use EffortlessWC\Models\Seat;
 use EffortlessWC\Models\EffortPile;
 use EffortlessWC\Models\LocationEffortPile;
 
+use EffortlessWC\Util\NoChoicesAvailableException;
+
 abstract class Location extends \WcLib\CardBase
 {
   use \EffortlessWC\Util\ParameterInput;
@@ -59,6 +61,11 @@ abstract class Location extends \WcLib\CardBase
     return array_merge(parent::renderForClientBase(/*visible=*/ true), [
       'effort' => $world->table()->getEffortBySeat($this->locationArg()),
     ]);
+  }
+
+  public function renderForNotif(World $world): string
+  {
+    return 'Location[' . $this->id() . ']';
   }
 
   // /**
@@ -259,7 +266,12 @@ class MarketLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->discardCard($this->getParameterCardInHand($world, $seat));
+    try {
+      $world->discardCard($this->getParameterCardInHand($world, $seat));
+    } catch (NoChoicesAvailableException $e) {
+      // XXX: We should consider greying this location out as unselectable on the client side.
+      throw new \BgaUserException('You cannot visit this location because you do not have a card to discard.');
+    }
 
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $seat);

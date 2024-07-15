@@ -142,23 +142,52 @@ class WorldImpl implements World
 
   public function moveCardToLocation(Card $card, Location $loc)
   {
-    throw new \feException('no impl: movecardtolocation');
+    $this->table()->mainDeck->placeOnTop($card, 'SETLOC', $loc->locationArg());
+
+    // XXX: Send more appropriate notifs.
+    $this->table()->notifyAllPlayers('debug', 'moveCardToLocation(): card=${card} loc=${loc}', [
+      'card' => $card->renderForNotif($this),
+      'loc' => $loc->renderForNotif($this),
+    ]);
   }
 
   public function moveCardToHand(Card $card, Seat $seat)
   {
-    throw new \feException('no impl: movecardtohand');
+    $this->table()->mainDeck->placeOnTop($card, 'HAND', $seat->id());
+
+    // XXX: Send more appropriate notifs.
+    $this->table()->notifyAllPlayers('debug', 'moveCardToHand(): card=${card} seat=${seat}', [
+      'card' => $card->renderForNotif($this),
+      'seat' => $seat->renderForNotif($this),
+    ]);
   }
 
   // This is roughly `moveCardToHand()` from the deck.
   public function drawCardToHand(Seat $seat)
   {
-    throw new \feException('no impl: drawcardtohand');
+    $card = $this->table()->mainDeck->peekTop();
+    if ($card === null) {
+      // XXX: look up appropriate behavior in rules.  autoshuffle?
+      throw new \BgaVisibleSystemException('XXX: deck is empty');
+    }
+
+    $this->table()->mainDeck->placeOnTop($card, 'HAND', $seat->id());
+
+    // XXX: Send more appropriate notifs.
+    $this->table()->notifyAllPlayers('debug', 'drawCardToHand(): card=${card} seat=${seat}', [
+      'card' => $card->renderForNotif($this),
+      'seat' => $seat->renderForNotif($this),
+    ]);
   }
 
   public function discardCard(Card $card)
   {
-    throw new \feException('no impl: discardcard');
+    $this->table()->mainDeck->placeOnTop($card, 'DISCARD');
+
+    // XXX: Send more appropriate notifs.
+    $this->table()->notifyAllPlayers('debug', 'discardCard(): card=${card}', [
+      'card' => $card->renderForNotif($this),
+    ]);
   }
 
   // Moves one effort from $src to $dst.  The piles must have the same `seat()` and different `location()`.

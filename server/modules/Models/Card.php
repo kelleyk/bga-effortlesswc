@@ -65,11 +65,21 @@ abstract class Card extends \WcLib\CardBase
     return $this->face_down_;
   }
 
-  public function renderForClient(World $world): array
+  // If $force_visible, the card's details will be rendered even if it is face-down.  Otherwise, they will be rendered
+  // only if it's face-up.  This is useful when, for example, a seat must choose between two face-down cards (that they
+  // are allowed to look at while making the choice).
+  public function renderForClient(World $world, bool $force_visible = false): array
   {
-    return array_merge(parent::renderForClientBase(!$this->isFaceDown()), [
+    $visible = $force_visible || !$this->isFaceDown();
+    return array_merge(parent::renderForClientBase($visible), [
       'faceDown' => $this->isFaceDown(),
+      'visible' => $visible,
     ]);
+  }
+
+  public function renderForNotif(World $world): string
+  {
+    return 'Card[' . $this->id() . ']';
   }
 }
 
@@ -92,11 +102,11 @@ class AttributeCard extends Card
     $this->points_ = intval($parts[2]);
   }
 
-  public function renderForClient(World $world): array
+  public function renderForClient(World $world, bool $force_visible = false): array
   {
-    $result = parent::renderForClient($world);
+    $result = parent::renderForClient($world, $force_visible);
 
-    if (!$this->isFaceDown()) {
+    if ($force_visible || !$this->isFaceDown()) {
       $result = array_merge($result, [
         'cardTypeStem' => 'attr',
         'stat' => $this->stat_,
@@ -127,11 +137,11 @@ class ArmorCard extends Card
     $this->armor_piece_ = $parts[2];
   }
 
-  public function renderForClient(World $world): array
+  public function renderForClient(World $world, bool $force_visible = false): array
   {
-    $result = parent::renderForClient($world);
+    $result = parent::renderForClient($world, $force_visible);
 
-    if (!$this->isFaceDown()) {
+    if ($force_visible || !$this->isFaceDown()) {
       $result = array_merge($result, [
         'cardTypeStem' => 'armor',
         'armorSet' => $this->armor_set_,
@@ -160,11 +170,11 @@ class ItemCard extends Card
     $this->item_no_ = intval($parts[1]);
   }
 
-  public function renderForClient(World $world): array
+  public function renderForClient(World $world, bool $force_visible = false): array
   {
-    $result = parent::renderForClient($world);
+    $result = parent::renderForClient($world, $force_visible);
 
-    if (!$this->isFaceDown()) {
+    if ($force_visible || !$this->isFaceDown()) {
       $result = array_merge($result, [
         'cardTypeStem' => 'attr',
         'itemNo' => $this->item_no_,

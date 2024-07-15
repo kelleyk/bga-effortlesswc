@@ -73,7 +73,10 @@ interface Card extends CardBase {
   // These properties are set iff `state == "FACEUP"`.
   cardTypeStem: string | undefined;
 
+  // N.B.: These are not the same thing; for example, a card can be "face down", but still visible to a player who is
+  // being allowed to select among multiple face-down cards.
   faceDown: boolean;
+  visible: boolean;
 
   // attribute cards
   stat: string | undefined;
