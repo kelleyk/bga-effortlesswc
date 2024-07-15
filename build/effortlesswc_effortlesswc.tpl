@@ -5,9 +5,8 @@
   <div id="ewc_handarea" class="ewc_handarea">
   </div>
 
-  <div id="ewc_promptarea" class="ewc_promptarea">
-    <div class="ewc_promptarea_choices"></div>
-  </div>
+  <!-- This wrapper is used so that we know where to create prompts. -->
+  <div id="ewc_promptarea_wrap"></div>
 
   <div id="ewc_setlocarea" class="ewc_setlocarea">
     <div id="ewc_setlocarea_column_0" class="ewc_setlocarea_column">
@@ -115,6 +114,11 @@ var jstpl_tablewide_panel =
     '</div>'+
     '</div>'+
     '</div>';
+
+let jstpl_promptarea =
+  '<div id="ewc_promptarea" class="ewc_promptarea">' +
+  '<div class="ewc_promptarea_choices"></div>' +
+  '</div>';
 
 </script>
 

@@ -153,10 +153,7 @@ class GameBasics extends GameGui {
 
   // XXX: I've only been trying to get this building; fix the typing.
   // XXX: Support easing?
-  public wipeOutAndDestroy(node: any, args: any) {
-    if (typeof args === 'undefined') {
-      args = {};
-    }
+  public wipeOutAndDestroy(node: any, args: any = {}) {
     if (typeof args.duration === 'undefined') {
       args.duration = 500;
     }
@@ -173,13 +170,10 @@ class GameBasics extends GameGui {
   }
 
   // XXX: I've only been trying to get this building; fix the typing.
-  public placeAndWipeIn(node: any, parentId: any, args: any) {
+  public placeAndWipeIn(node: any, parentId: any, args: any = {}) {
     const el = dojo.place(node, parentId);
     dojo.setStyle(el, 'display', 'none');
 
-    if (typeof args === 'undefined') {
-      args = {};
-    }
     if (typeof args.duration === 'undefined') {
       args.duration = 500;
     }

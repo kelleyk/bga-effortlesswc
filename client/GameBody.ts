@@ -50,9 +50,6 @@ class GameBody extends GameBasics {
 
     this.setupPlayArea(gamedatas.mutableBoardState);
 
-    (document.querySelector('.ewc_promptarea')! as HTMLElement).style.display =
-      'none';
-
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
 
@@ -199,20 +196,22 @@ class GameBody extends GameBasics {
     for (const card of Object.values(mutableBoardState.cards)) {
       console.log('*** card', card);
 
-      const cardType = !card.visible ? 'back' : card.cardType;
+      if (card.sublocation === 'SETLOC') {
+        const cardType = !card.visible ? 'back' : card.cardType;
 
-      const parentEl = document.querySelector(
-        '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
-      )!;
-      console.log('*** parentEl', parentEl);
+        const parentEl = document.querySelector(
+          '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
+        )!;
+        console.log('*** parentEl', parentEl);
 
-      dojo.place(
-        this.format_block('jstpl_playarea_card', {
-          cardType,
-          id: card.id,
-        }),
-        parentEl,
-      );
+        dojo.place(
+          this.format_block('jstpl_playarea_card', {
+            cardType,
+            id: card.id,
+          }),
+          parentEl,
+        );
+      }
     }
 
     // This function assumes that the matched element has a parent wrapper element.
@@ -392,9 +391,10 @@ class GameBody extends GameBasics {
 
         // XXX: We need to populate a prompt area with the appropriate cards.
 
-        (
-          document.querySelector('.ewc_promptarea')! as HTMLElement
-        ).style.display = 'block';
+        this.placeAndWipeIn(
+          this.format_block('jstpl_promptarea', {}),
+          'ewc_promptarea_wrap',
+        );
 
         // XXX: Remove previous contents.
 
@@ -502,8 +502,6 @@ class GameBody extends GameBasics {
   public onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
 
-    this.inputArgs = null;
-
     switch (stateName) {
       case 'stInput': {
         console.log('*** stInput: ', args);
@@ -520,7 +518,16 @@ class GameBody extends GameBasics {
   public onLeavingState(stateName: string): void {
     console.log('Leaving state: ' + stateName);
 
+    this.inputArgs = null;
+
+    document.querySelectorAll('.ewc_promptarea').forEach((el) => {
+      this.wipeOutAndDestroy(el as HTMLElement);
+    });
+
     switch (stateName) {
+      case 'stInput': {
+        break;
+      }
       case 'dummmy':
         break;
     }
