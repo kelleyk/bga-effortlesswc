@@ -501,22 +501,24 @@ class GameBody extends GameBasics {
   /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
   public onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
+    super.onEnteringState(stateName, args);
 
     switch (stateName) {
       case 'stInput': {
-        console.log('*** stInput: ', args);
-        this.inputArgs = args.args.input;
-        this.updateSelectables(args.args.input);
+        if (this.isCurrentPlayerActive()) {
+          console.log('*** stInput: ', args);
+          this.inputArgs = args.args.input;
+          this.updateSelectables(args.args.input);
+        }
         break;
       }
-      case 'dummmy':
-        break;
     }
   }
 
   /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
   public onLeavingState(stateName: string): void {
     console.log('Leaving state: ' + stateName);
+    super.onLeavingState(stateName);
 
     this.inputArgs = null;
 
@@ -528,8 +530,6 @@ class GameBody extends GameBasics {
       case 'stInput': {
         break;
       }
-      case 'dummmy':
-        break;
     }
   }
 
