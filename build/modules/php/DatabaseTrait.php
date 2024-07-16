@@ -32,6 +32,11 @@ trait DatabaseTrait
     return self::getCollectionFromDB('SELECT * FROM `player` WHERE TRUE');
   }
 
+  function rawGetEffortPiles()
+  {
+    return self::getCollectionFromDB('SELECT * FROM `effort_pile`');
+  }
+
   function rawGetEffortPileById(int $pile_id)
   {
     return self::getObjectFromDB('SELECT * FROM `effort_pile` WHERE `id` = ' . $pile_id);

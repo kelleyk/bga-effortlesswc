@@ -129,17 +129,22 @@ class GameBody extends GameBasics {
     }
 
     // Create a counter for the amount of effort that each seat has on each location.
-    for (const seat of Object.values(mutableBoardState.seats)) {
-      for (let i = 0; i < 6; ++i) {
+    for (const pile of Object.values(mutableBoardState.effortPiles)) {
+      // Ignore reserve piles.
+      if (pile.locationId !== null) {
+        const seat = mutableBoardState.seats[pile.seatId];
+        const location = mutableBoardState.locations[pile.locationId];
+
         const parentEl = document.querySelector(
-          '#ewc_setloc_panel_' + i + ' .ewc_effort_counter_wrap',
+          '#ewc_setloc_panel_' +
+            location.sublocationIndex +
+            ' .ewc_effort_counter_wrap',
         );
 
         dojo.place(
           this.format_block('jstpl_effort_counter', {
             colorName: seat.colorName,
-            locationIndex: i,
-            seatId: seat.id,
+            id: pile.id,
           }),
           parentEl,
         );
@@ -168,17 +173,17 @@ class GameBody extends GameBasics {
             ' .ewc_setloc_location',
         )!
         .classList.add(location.cardType!.replace(':', '_'));
+    }
 
-      for (const [seatId, effortQty] of Object.entries(location.effort)) {
+    for (const pile of Object.values(mutableBoardState.effortPiles)) {
+      // Ignore reserve piles.
+      if (pile.locationId !== null) {
         document.querySelector<HTMLElement>(
-          '#ewc_effort_counter_' +
-            location.sublocationIndex +
-            '_' +
-            seatId +
-            ' .ewc_effort_counter_value',
-        )!.innerText = '' + effortQty;
+          '#ewc_effort_counter_' + pile.id + ' .ewc_effort_counter_value',
+        )!.innerText = '' + pile.qty;
       }
     }
+    // XXX: We'll also need to update reserve piles once we draw them in player boards, of course.
 
     for (const setting of Object.values(mutableBoardState.settings)) {
       // console.log('*** setting', setting);

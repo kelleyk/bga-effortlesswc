@@ -29,6 +29,16 @@ class EffortPile
   }
 
   /**
+    @return EffortPile[]
+  */
+  public static function getAll(World $world)
+  {
+    return array_map(function ($row) {
+      return EffortPile::fromRow($row);
+    }, $world->table()->rawGetEffortPiles());
+  }
+
+  /**
     @param string[] $row
     @return ?EffortPile
   */
@@ -46,6 +56,11 @@ class EffortPile
     $pile->qty_ = intval($row['qty']);
 
     return $pile;
+  }
+
+  public function id(): int
+  {
+    return $this->id_;
   }
 
   // Returns the number of effort cubes in this pile.
@@ -83,6 +98,7 @@ class EffortPile
   public function renderForClient(World $world): array
   {
     return [
+      'id' => $this->id(),
       'seatId' => $this->seat_id_,
       'locationId' => $this->location_id_,
       'qty' => $this->qty(),

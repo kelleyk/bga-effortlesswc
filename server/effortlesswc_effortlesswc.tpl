@@ -65,7 +65,7 @@ let jstpl_prompt_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_prompt tmp_scalable_card"></div>';
 
 let jstpl_effort_counter =
-  '<div id="ewc_effort_counter_${locationIndex}_${seatId}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
+  '<div id="ewc_effort_counter_${id}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
 
 // N.B.: We use ".player-board" just for the appearance.
 var jstpl_tablewide_panel =

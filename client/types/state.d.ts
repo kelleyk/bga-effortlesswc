@@ -29,6 +29,7 @@ interface MutableBoardState {
   cards: { [cardId: number]: Card };
   locations: { [locationId: number]: EffortlessLocation };
   settings: { [settingId: number]: EffortlessSetting };
+  effortPiles: { [pileId: number]: EffortPile };
 
   // cards
   // locations
@@ -90,6 +91,13 @@ interface Card extends CardBase {
   itemNo: number | undefined;
 }
 
+interface EffortPile {
+  id: number;
+  seatId: number;
+  locationId: number | null;
+  qty: number;
+}
+
 // interface SetlocState {
 //   setlocId: number; // 0-5
 //
@@ -116,7 +124,6 @@ interface SeatBase {
 
 // Sent to all players in all modes.
 interface SeatPublic extends SeatBase {
-  reserveEffort: number;
   colorName: string;
 }
 

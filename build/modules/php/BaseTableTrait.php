@@ -9,6 +9,7 @@ require_once 'WcLib/WcDeck.php';
 use EffortlessWC\World;
 use EffortlessWC\WorldImpl;
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\EffortPile;
 
 trait BaseTableTrait
 {
@@ -53,6 +54,7 @@ trait BaseTableTrait
         'cards' => $this->renderForClient($world, $this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
         'locations' => $this->renderForClient($world, $this->locationDeck->getAll(['SETLOC'])),
         'settings' => $this->renderForClient($world, $this->settingDeck->getAll(['SETLOC'])),
+        'effortPiles' => $this->renderForClient($world, EffortPile::getAll($world)),
       ],
     ];
   }
