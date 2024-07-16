@@ -478,6 +478,14 @@ class GameBody extends GameBasics {
   public onClickLocation(evt: any, locationId: number): void {
     console.log('onClickLocation', evt);
 
+    if (
+      this.inputArgs === null ||
+      this.inputArgs.inputType !== 'inputtype:location' ||
+      !this.inputArgs.choices.includes(locationId)
+    ) {
+      return;
+    }
+
     document.querySelectorAll('.ewc_selected').forEach((el) => {
       el.classList.remove('ewc_selected');
     });
@@ -492,6 +500,19 @@ class GameBody extends GameBasics {
   public onClickEffortPile(evt: any, pileId: number): void {
     console.log('onClickEffortPile', evt);
 
+    console.log(
+      '  clicked pile = ' + pileId + '; choices = ',
+      this.inputArgs!.choices,
+    );
+
+    if (
+      this.inputArgs === null ||
+      this.inputArgs.inputType !== 'inputtype:effort-pile' ||
+      !this.inputArgs.choices.includes(pileId)
+    ) {
+      return;
+    }
+
     document.querySelectorAll('.ewc_selected').forEach((el) => {
       el.classList.remove('ewc_selected');
     });
@@ -505,6 +526,24 @@ class GameBody extends GameBasics {
   // XXX: Does this also need to check that the target is .ewc_selectable?
   public onClickCard(evt: any, cardId: number): void {
     console.log('onClickCard', evt);
+
+    // XXX: We could get rid of the weirdly-different-ness of the card input type if we made `choices` an array of ints
+    // and then had a separate place to put the full metadata about the cards.
+
+    if (
+      this.inputArgs === null ||
+      this.inputArgs.inputType !== 'inputtype:card'
+    ) {
+      return;
+    }
+
+    const choiceIds = this.inputArgs.choices.map((card: any) => {
+      return card.id;
+    });
+
+    if (!choiceIds.includes(cardId)) {
+      return;
+    }
 
     document.querySelectorAll('.ewc_selected').forEach((el) => {
       el.classList.remove('ewc_selected');
