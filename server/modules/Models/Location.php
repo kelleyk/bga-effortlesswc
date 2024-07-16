@@ -7,7 +7,6 @@ require_once 'Seat.php';
 use EffortlessWC\World;
 use EffortlessWC\Models\Seat;
 use EffortlessWC\Models\EffortPile;
-use EffortlessWC\Models\LocationEffortPile;
 
 use EffortlessWC\Util\NoChoicesAvailableException;
 
@@ -59,7 +58,7 @@ abstract class Location extends \WcLib\CardBase
   public function renderForClient(World $world): array
   {
     return array_merge(parent::renderForClientBase(/*visible=*/ true), [
-      'effort' => $world->table()->getEffortBySeat($this->locationArg()),
+      'effort' => $world->table()->rawGetEffortPilesBySeat($this->locationArg()),
     ]);
   }
 
@@ -90,8 +89,11 @@ abstract class Location extends \WcLib\CardBase
 
   public function effortPileForSeat(World $world, Seat $seat): EffortPile
   {
-    $qty = $world->table()->getEffortBySeat($this->sublocationIndex())[$seat->id()];
-    return new LocationEffortPile($qty, $seat, $this);
+    $pile = EffortPile::fromRow($world->table()->rawGetEffortPilesBySeat($this->sublocationIndex())[$seat->id()]);
+    if ($pile === null) {
+      throw new \BgaVisibleSystemException('Effort pile not found.');
+    }
+    return $pile;
   }
 
   // XXX: returns {seatId: EffortPile}  ... or should it return SeatPile[]?
@@ -301,7 +303,7 @@ class PrisonLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
-    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat()));
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
   }
 }
 
@@ -374,7 +376,7 @@ class TunnelsLocation extends Location
   {
     $src_pile = $this->getParameterEffortPile($world, $this->getValidSourcePiles($world));
     $dst_loc = $this->getParameterLocation($world, $this->getValidDestinationLocations($world));
-    $world->moveEffort($src_pile, $dst_loc->effortPileForSeat($world, $src_pile->seat()));
+    $world->moveEffort($src_pile, $dst_loc->effortPileForSeat($world, $src_pile->seat($world)));
   }
 }
 
@@ -412,7 +414,7 @@ class DungeonLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
-    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat()));
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
   }
 }
 
@@ -506,7 +508,7 @@ class ForestLocation extends Location
 
     $pile = $this->getParameterEffortPile($world, $valid_target_piles);
     $dst = $this->getParameterLocation($world, $valid_target_locations);
-    $world->moveEffort($pile, $dst->effortPileForSeat($world, $pile->seat()));
+    $world->moveEffort($pile, $dst->effortPileForSeat($world, $pile->seat($world)));
   }
 }
 
@@ -568,7 +570,7 @@ class CabinLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
-    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat()));
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
   }
 }
 

@@ -125,19 +125,9 @@ trait ParameterInput
     );
 
     $value_stack_entry = $this->getParameterInner($world, INPUTTYPE_EFFORT_PILE, $json_choices, $args);
-    $raw_value = $value_stack_entry['value'];
 
-    switch ($raw_value['pileType']) {
-      case 'reserve':
-        $seat = Seat::mustGetById($world, intval($raw_value['seatId']));
-        return $seat->reserveEffort();
-      case 'location':
-        $seat = Seat::mustGetById($world, intval($raw_value['seatId']));
-        $location = Location::mustGetById($world, intval($raw_value['locationId']));
-        return $location->effortPileForSeat($world, $seat);
-      default:
-        throw new \BgaVisibleSystemException('Unexpected pile type!');
-    }
+    $raw_value = $value_stack_entry['value'];
+    return EffortPile::mustGetById($world, $raw_value);
   }
 
   /**

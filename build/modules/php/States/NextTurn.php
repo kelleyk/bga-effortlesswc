@@ -11,6 +11,7 @@ trait NextTurn
 
   public function stNextTurn()
   {
+    // throw new \feException('XXX: stNextTurn - 000');
     $world = $this->world();
 
     $this->activateNextSeat();
@@ -26,7 +27,7 @@ trait NextTurn
       'decidingPlayer' => $deciding_player->renderForNotif($world),
     ]);
 
-    if ($world->activeSeat()->reserveEffort()->qty() <= 0) {
+    if ($world->activeSeat()->reserveEffort($world)->qty() <= 0) {
       // XXX: TODO: Assert that *nobody* has any effort left.  (Or, alternatively, we could skip seats that are out of
       // effort until everybody is; but can the seats ever have different amounts?)
       $world->nextState(T_END_GAME);

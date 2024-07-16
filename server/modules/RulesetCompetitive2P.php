@@ -36,7 +36,7 @@ class RulesetCompetitive2P extends Ruleset
 
     // Move one effort from the active seat's reserve to their effort-pile at that location.
     $world->moveEffort(
-      $world->activeSeat()->reserveEffort(),
+      $world->activeSeat()->reserveEffort($world),
       $location->effortPileForSeat($world, $world->activeSeat())
     );
 

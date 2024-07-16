@@ -6,11 +6,9 @@ require_once 'EffortPile.php';
 
 use EffortlessWC\World;
 use EffortlessWC\Models\EffortPile;
-use EffortlessWC\Models\ReserveEffortPile;
 
 class Seat extends \WcLib\SeatBase
 {
-  protected int $reserve_effort_;
   protected int $turn_order_;
 
   public static function getById(World $world, int $id): ?Seat
@@ -36,16 +34,19 @@ class Seat extends \WcLib\SeatBase
     $that = parent::fromRowBase(Seat::class, $row);
 
     if ($that !== null) {
-      $that->reserve_effort_ = intval($row['reserve_effort']);
       $that->turn_order_ = intval($row['turn_order']);
     }
 
     return $that;
   }
 
-  public function reserveEffort(): EffortPile
+  public function reserveEffort(World $world): EffortPile
   {
-    return new ReserveEffortPile($this->reserve_effort_, $this);
+    $pile = EffortPile::fromRow($world->table()->rawGetReserveEffortPile($this->id()));
+    if ($pile === null) {
+      throw new \BgaVisibleSystemException('Effort pile not found.');
+    }
+    return $pile;
   }
 
   function turn_order(): int
@@ -66,7 +67,8 @@ class Seat extends \WcLib\SeatBase
   public function renderForClient(World $world)
   {
     return array_merge(parent::renderForClientBase(), [
-      'reserveEffort' => $this->reserve_effort_,
+      // XXX: I'm not sure that we want to render `reserveEffort` this way.
+      'reserveEffort' => $this->reserveEffort($world)->qty(),
       'colorName' => $this->color_name(),
     ]);
   }
@@ -99,7 +101,9 @@ class Seat extends \WcLib\SeatBase
       case 'ffffff':
         return 'white';
       default:
-        throw new \BgaVisibleSystemException('Failed to translate player color from hex value to name.');
+        throw new \BgaVisibleSystemException(
+          'Failed to translate player color from hex value to name: ' . $this->seat_color()
+        );
     }
   }
 

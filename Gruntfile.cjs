@@ -311,7 +311,9 @@ module.exports = function (grunt) {
 
           'wardcanyon/localarena-testenv:latest',
           'phpunit --configuration /src/test/effortlesswc/modules/php/Test/phpunit.xml',
-        ].join(' '),
+        ]
+          .concat(phpunit_args)
+          .join(' '),
       },
     },
   });

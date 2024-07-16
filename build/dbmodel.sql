@@ -35,15 +35,14 @@ PRIMARY KEY (`gamestate_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `seat` (
-`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
--- NOT NULL iff this is a player-controlled seat.
-`player_id` int(10) UNSIGNED,
-`seat_color` varchar(6) NOT NULL,
-`seat_label` varchar(1) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  -- NOT NULL iff this is a player-controlled seat.
+  `player_id` int(10) UNSIGNED,
+  `seat_color` varchar(6) NOT NULL,
+  `seat_label` varchar(1) NOT NULL,
 
--- Game-specific values start here.
-`reserve_effort` INT(10) UNSIGNED NOT NULL,
-`turn_order` INT(1) UNSIGNED NOT NULL,
+  -- Game-specific values start here.
+  `turn_order` INT(1) UNSIGNED DEFAULT 0 NOT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -89,10 +88,11 @@ CREATE TABLE IF NOT EXISTS `card` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `effort` (
-  `row_id`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `location_index` INT(1) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `effort_pile` (
+  `id`         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  -- If null, this is the reserve effort pile for `seat_id`.
+  `location_id`    INT(10) UNSIGNED,
   `seat_id`        INT(10) UNSIGNED NOT NULL,
-  `effort`         INT(3) UNSIGNED DEFAULT 0 NOT NULL,
-  PRIMARY KEY (`row_id`)
+  `qty`            INT(3) UNSIGNED DEFAULT 0 NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

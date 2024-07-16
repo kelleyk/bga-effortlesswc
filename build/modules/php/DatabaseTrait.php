@@ -32,27 +32,35 @@ trait DatabaseTrait
     return self::getCollectionFromDB('SELECT * FROM `player` WHERE TRUE');
   }
 
-  function getEffortBySeat(int $location_index)
+  function rawGetEffortPileById(int $pile_id)
   {
-    $rows = self::getCollectionFromDB('SELECT * FROM `effort` WHERE `location_index` = ' . $location_index);
+    return self::getObjectFromDB('SELECT * FROM `effort_pile` WHERE `id` = ' . $pile_id);
+  }
+
+  function rawGetReserveEffortPile(int $seat_id)
+  {
+    $sql = 'SELECT * FROM `effort_pile` WHERE `seat_id` = ' . $seat_id . ' AND `location_id` IS NULL';
+    $row = self::getObjectFromDB($sql);
+    if ($row === null) {
+      throw new \feException('No results for query: ' . $sql);
+    }
+    return $row;
+  }
+
+  function rawGetEffortPilesBySeat(int $location_index)
+  {
+    $rows = self::getCollectionFromDB('SELECT * FROM `effort_pile` WHERE `location_id` = ' . $location_index);
 
     $effort = [];
     foreach ($rows as $row) {
-      $effort[intval($row['seat_id'])] = intval($row['effort']);
+      $effort[intval($row['seat_id'])] = $row;
     }
     return $effort;
   }
 
-  function updateEffort(int $location_index, int $seat_id, int $qty)
+  function updateEffort(int $id, int $qty)
   {
-    return self::DbQuery(
-      'UPDATE `effort` SET `effort` = ' .
-        $qty .
-        ' WHERE `location_index` = ' .
-        $location_index .
-        ' AND `seat_id` = ' .
-        $seat_id
-    );
+    return self::DbQuery('UPDATE `effort_pile` SET `qty` = ' . $qty . ' WHERE `id` = ' . $id);
   }
 
   /**

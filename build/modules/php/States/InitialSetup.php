@@ -21,9 +21,15 @@ trait InitialSetup
     $this->initSettingDeck($sets);
 
     $this->fillSetlocs();
+    //throw new \feException('XXX: 02 - stinitialsetup');
     $this->fillSetlocCards();
+    //throw new \feException('XXX: 03 - stinitialsetup');
+
+    // N.B.: This needs to happen after `fillSetlocs()` and after `initSeats()`.
+    $this->initEffortPiles();
 
     // We're all set!  Transition to ST_NEXT_TURN.
     $this->world()->nextState(T_DONE);
+    //throw new \feException('XXX: 04 - stinitialsetup');
   }
 }

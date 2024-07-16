@@ -438,20 +438,24 @@ class GameBody extends GameBasics {
         break;
       }
       case 'inputtype:effort-pile': {
-        console.log('  *** inputtype:effort-pile');
-
-        // XXX: Not implemented!
-
         // N.B.: The `EffortPile` type on the server can represent either a reserve effort pile or an effort pile on a
-        // location.  When asked for input, we'll only be picking the latter type.
+        // location.  When asked for input, though, we'll only be picking the latter type.
 
-        // for (const id of inputArgs.choices) {
-        //   document
-        //     .querySelector(
-        //       '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
-        //     )!
-        //     .classList.add('ewc_selectable');
-        // }
+        console.log('  *** inputtype:effort-pile');
+        for (const id of inputArgs.choices) {
+          document
+            .querySelector(
+              '.ewc_effort_counter_' + id + ' .ewc_setloc_setloc_wrap',
+            )!
+            .classList.add('ewc_selectable');
+        }
+
+        document
+          .querySelectorAll('.ewc_effort_counter:not(.ewc_selectable)')
+          .forEach((el) => {
+            el.classList.add('ewc_unselectable');
+          });
+
         break;
       }
       default:

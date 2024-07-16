@@ -10,6 +10,7 @@ require_once 'Models/Setting.php';
 require_once 'Models/Location.php';
 
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\Location;
 
 // This code performs the setup that's done as the table is created.
 trait Setup
@@ -26,7 +27,6 @@ trait Setup
 
     $this->initPlayers($gameinfos, $players);
     $this->initSeats($gameinfos);
-    $this->initEffortPiles();
 
     $this->finishSetupTurnOrder();
 
@@ -108,7 +108,7 @@ trait Setup
       $seat_color = $player_info['player_color'];
 
       $used_colors[] = $seat_color;
-      $values[] = '("' . $player_id . '", "' . $seat_color . '", "", 20)';
+      $values[] = '("' . $player_id . '", "' . $seat_color . '", "")';
     }
 
     // XXX:
@@ -123,24 +123,23 @@ trait Setup
       )[0];
 
       $used_colors[] = $seat_color;
-      $values[] = '(NULL, "' . $seat_color . '", "", 20)';
+      $values[] = '(NULL, "' . $seat_color . '", "")';
     }
 
-    self::DbQuery(
-      'INSERT INTO `seat` (`player_id`, `seat_color`, `seat_label`, `reserve_effort`) VALUES ' . implode(',', $values)
-    );
+    self::DbQuery('INSERT INTO `seat` (`player_id`, `seat_color`, `seat_label`) VALUES ' . implode(',', $values));
   }
 
   private function initEffortPiles(): void
   {
     $values = [];
     foreach (Seat::getAll($this->world()) as $seat) {
-      for ($i = 0; $i < 6; ++$i) {
-        $values[] = '(' . $seat->id() . ',' . $i . ')';
+      $values[] = '(' . $seat->id() . ', NULL, 20)';
+      foreach (Location::getAll($this->world()) as $location) {
+        $values[] = '(' . $seat->id() . ', ' . $location->id() . ', 0)';
       }
     }
 
-    self::DbQuery('INSERT INTO `effort` (`seat_id`, `location_index`) VALUES ' . implode(',', $values));
+    self::DbQuery('INSERT INTO `effort_pile` (`seat_id`, `location_id`, `qty`) VALUES ' . implode(',', $values));
   }
 
   private function initLocationDeck($sets): void
