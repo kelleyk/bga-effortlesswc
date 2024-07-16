@@ -92,7 +92,7 @@ class EffortPile
     }
 
     $this->qty_ += $n;
-    $world->table()->updateEffort($this->location($world)->locationArg(), $this->seat($world)->id(), $this->qty());
+    $world->table()->updateEffort($this->id(), $this->qty());
   }
 
   public function renderForClient(World $world): array

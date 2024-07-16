@@ -52,9 +52,9 @@ trait DatabaseTrait
     return $row;
   }
 
-  function rawGetEffortPilesBySeat(int $location_index)
+  function rawGetEffortPilesBySeat(int $location_id)
   {
-    $rows = self::getCollectionFromDB('SELECT * FROM `effort_pile` WHERE `location_id` = ' . $location_index);
+    $rows = self::getCollectionFromDB('SELECT * FROM `effort_pile` WHERE `location_id` = ' . $location_id);
 
     $effort = [];
     foreach ($rows as $row) {
