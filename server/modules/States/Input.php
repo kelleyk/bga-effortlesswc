@@ -4,6 +4,7 @@ namespace EffortlessWC\States;
 
 use EffortlessWC\Util\ParameterInputConfig;
 
+use EffortlessWC\Models\EffortPile;
 use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Card;
 
@@ -70,6 +71,29 @@ trait Input
           'paramIndex' => $paraminput_config->param_index,
           'valueType' => INPUTTYPE_LOCATION,
           'value' => $location->id(),
+          'sourceType' => 'USER_INPUT',
+          //
+          // XXX: I don't think we need this without a resolve-stack.
+          // 'productionDepth' => $stack_depth,
+          //
+          // XXX: Do we still need this?
+          // 'sourceType' => 'TARGET_SELECTION',
+          //
+        ]);
+        $this->world()->nextState($paraminput_config->return_transition);
+        break;
+      case INPUTTYPE_EFFORT_PILE:
+        $value = intval($raw_value);
+
+        if (!in_array($value, $paraminput_config->choices)) {
+          throw new \BgaUserException('Invalid target (effort pile with ID=' . $value . ').');
+        }
+        $pile = EffortPile::mustGetById($this->world(), $value);
+
+        $this->valueStack->push([
+          'paramIndex' => $paraminput_config->param_index,
+          'valueType' => INPUTTYPE_EFFORT_PILE,
+          'value' => $pile->id(),
           'sourceType' => 'USER_INPUT',
           //
           // XXX: I don't think we need this without a resolve-stack.

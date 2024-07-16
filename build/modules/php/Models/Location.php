@@ -99,19 +99,23 @@ abstract class Location extends \WcLib\CardBase
     return $pile;
   }
 
-  // XXX: returns {seatId: EffortPile}  ... or should it return SeatPile[]?
+  /** @return EffortPile[] */
   public function effortPiles(World $world)
   {
-    throw new \feException('XXX: no impl: effortPiles');
+    $rows_by_id = $world->table()->rawGetEffortPilesBySeat($this->id());
+
+    return array_map(function ($row) {
+      return EffortPile::fromRow($row);
+    }, array_values($rows_by_id));
   }
 
-  // Returns `Location[]`.
+  /** @return Location[] */
   public function adjacentLocations(World $world)
   {
     throw new \feException('XXX: no impl: adjacentLocations');
   }
 
-  public function isAdjacentTo(World $world, Location $other)
+  public function isAdjacentTo(World $world, Location $other): bool
   {
     throw new \feException('XXX: no impl: isAdjacentTo');
   }
@@ -357,9 +361,11 @@ class TunnelsLocation extends Location
 
   public function getValidSourcePiles(World $world)
   {
+    // XXX: This could be `array_values(array_filter())` instead.
     $piles = [];
-    foreach ($this->effortPiles($world) as $seatId => $pile) {
-      if ($pile->seat()->id() != $world->activeSeat()->id() && $pile->qty() > 0) {
+    foreach ($this->effortPiles($world) as $pile) {
+      // throw new \feException(print_r($pile, true));
+      if ($pile->seat($world)->id() != $world->activeSeat()->id() && $pile->qty() > 0) {
         $piles[] = $pile;
       }
     }
@@ -377,7 +383,15 @@ class TunnelsLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $src_pile = $this->getParameterEffortPile($world, $this->getValidSourcePiles($world));
+    try {
+      $src_pile = $this->getParameterEffortPile($world, $this->getValidSourcePiles($world));
+    } catch (NoChoicesAvailableException $e) {
+      $world
+        ->table()
+        ->notifyAllPlayers('XXX_rough', 'XXX: no effort that can be moved; skipping location effect...', []);
+      return;
+    }
+
     $dst_loc = $this->getParameterLocation($world, $this->getValidDestinationLocations($world));
     $world->moveEffort($src_pile, $dst_loc->effortPileForSeat($world, $src_pile->seat($world)));
   }

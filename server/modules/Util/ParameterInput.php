@@ -120,7 +120,7 @@ trait ParameterInput
 
     $json_choices = array_values(
       array_map(function ($pile) use ($world) {
-        return $pile->renderForClient($world);
+        return $pile->id();
       }, $valid_targets)
     );
 

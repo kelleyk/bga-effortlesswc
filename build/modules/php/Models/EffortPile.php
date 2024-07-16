@@ -40,7 +40,7 @@ class EffortPile
 
   /**
     @param string[] $row
-    @return ?EffortPile
+    @return EffortPile
   */
   public static function fromRow($row)
   {

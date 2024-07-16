@@ -24,6 +24,7 @@ class GameBody extends GameBasics {
   protected inputArgs: InputArgs | null = null;
   protected selectedLocation: number | null = null;
   protected selectedCard: number | null = null;
+  protected selectedEffortPile: number | null = null;
 
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
@@ -141,13 +142,16 @@ class GameBody extends GameBasics {
             ' .ewc_effort_counter_wrap',
         );
 
-        dojo.place(
+        const el = dojo.place(
           this.format_block('jstpl_effort_counter', {
             colorName: seat.colorName,
             id: pile.id,
           }),
           parentEl,
         );
+        dojo.connect(el, 'onclick', this, (evt: any) => {
+          this.onClickEffortPile(evt, pile.id);
+        });
       }
     }
 
@@ -448,10 +452,9 @@ class GameBody extends GameBasics {
 
         console.log('  *** inputtype:effort-pile');
         for (const id of inputArgs.choices) {
+          // XXX: Should we use classes rather than IDs here for consistency with other things?
           document
-            .querySelector(
-              '.ewc_effort_counter_' + id + ' .ewc_setloc_setloc_wrap',
-            )!
+            .querySelector('#ewc_effort_counter_' + id)!
             .classList.add('ewc_selectable');
         }
 
@@ -463,8 +466,9 @@ class GameBody extends GameBasics {
 
         break;
       }
-      default:
+      default: {
         throw new Error('Unexpected input type: ' + inputArgs.inputType);
+      }
     }
   }
 
@@ -479,6 +483,20 @@ class GameBody extends GameBasics {
     });
     evt.currentTarget.classList.add('ewc_selected');
     this.selectedLocation = locationId;
+    this.triggerUpdateActionButtons();
+  }
+
+  // XXX: Pick better type than `any`
+  //
+  // XXX: Does this also need to check that the target is .ewc_selectable?
+  public onClickEffortPile(evt: any, pileId: number): void {
+    console.log('onClickEffortPile', evt);
+
+    document.querySelectorAll('.ewc_selected').forEach((el) => {
+      el.classList.remove('ewc_selected');
+    });
+    evt.currentTarget.classList.add('ewc_selected');
+    this.selectedEffortPile = pileId;
     this.triggerUpdateActionButtons();
   }
 
@@ -576,6 +594,15 @@ class GameBody extends GameBasics {
                 };
                 break;
               }
+              case 'inputtype:effort-pile': {
+                rpcParam = {
+                  selection: JSON.stringify({
+                    inputType: 'inputtype:effort-pile',
+                    value: this.selectedEffortPile,
+                  }),
+                };
+                break;
+              }
               default: {
                 throw new Error('Unexpected input type.');
               }
@@ -599,10 +626,10 @@ class GameBody extends GameBasics {
               confirmReady = this.selectedCard !== null;
               break;
             }
-            // case 'inputtype:effort-pile': {
-            // confirmReady = (this.selectedEffortPile !== null);
-            //   break;
-            // }
+            case 'inputtype:effort-pile': {
+              confirmReady = this.selectedEffortPile !== null;
+              break;
+            }
             default: {
               throw new Error('Unexpected input type.');
             }
