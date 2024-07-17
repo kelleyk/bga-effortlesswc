@@ -102,6 +102,11 @@ trait ParameterInput
   // happened because the $next_move_id_ (BGA's global #6) will have changed.  This stores the last value we saw.
   private int $next_move_id_ = -1;
 
+  // We consume value-stack entries as we go, but imagine that we consume a first input and then run into the need for a
+  // second.  When that happens, we need to put the value stack back the way it was so that the first input is still
+  // there when we get back from accepting the second.
+  private $initial_value_stack_;
+
   // XXX: The `getParameter()` stuff should be moved to their own trait; they throw a special exception if we need to
   // ask for user input still.
   public function getParameterEffortPile(World $world, $valid_targets, $args = null): EffortPile
@@ -227,18 +232,30 @@ trait ParameterInput
   //   throw new \feException('XXX: no impl: getParameterCard');
   // }
 
-  private function consumeNextParameterIndex(): int
+  private function consumeNextParameterIndex(World $world): int
   {
-    // $next_move_id = $this->getGameStateValue('next_move_id');
-    // XXX:
-    $next_move_id = -1;
+    $next_move_id = intval($world->table()->getGameStateValue('next_move_id'));
+    // // XXX:
+    // $next_move_id = -1;
 
     if ($this->next_move_id_ != $next_move_id) {
       $this->next_move_id_ = $next_move_id;
       $this->next_param_index_ = 0;
+      $this->initial_value_stack_ = $world->table()->valueStack->getValueStack();
     }
 
-    return $this->next_param_index_++;
+    $retval = $this->next_param_index_++;
+    // if ($retval > 0) {
+    //   throw new \WcLib\Exception('param index: ' . $retval);
+    // }
+    return $retval;
+  }
+
+  private function revertValueStack(World $world): void
+  {
+    // throw new \feException('Reverting value stack: ' . print_r($this->initial_value_stack_, true));
+
+    $world->table()->valueStack->setValueStack($this->initial_value_stack_);
   }
 
   // XXX: we want the config to be passed in from the call site
@@ -257,7 +274,7 @@ trait ParameterInput
       throw new NoChoicesAvailableException('There are no valid targets for this effect!');
     }
 
-    $param_index = $this->consumeNextParameterIndex();
+    $param_index = $this->consumeNextParameterIndex($world);
 
     // First, let's check and see if we already have a value waiting.
     $resolve_value = $world->table()->valueStack->consumeFirstMatching(function ($resolve_value) use ($param_index) {
@@ -275,6 +292,14 @@ trait ParameterInput
     // echo '*** resolve_values for $param_index=' . $param_index . ': ' . print_r($resolve_values, true) . "\n----\n";
 
     if ($resolve_value !== null) {
+      $world
+        ->table()
+        ->notifyAllPlayers(
+          'XXX_debug',
+          'we have a resolve-value for param ' . $param_index . ': ' . print_r($resolve_value, true),
+          []
+        );
+
       // Okay, we have a value; let's return it!  User-input
       // validation has already happened (when ST_TARGET_SELECTION
       // accepted that input); we could repeat it here for
@@ -314,6 +339,7 @@ trait ParameterInput
       ->gamestate->setPlayersMultiactive([$input_player->id()], $paraminput_config->return_transition, true);
 
     $world->nextState(T_GET_INPUT);
+    $this->revertValueStack($world);
     throw new InputRequiredException();
   }
 }

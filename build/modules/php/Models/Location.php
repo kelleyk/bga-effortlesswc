@@ -169,13 +169,29 @@ class CityLocation extends Location
 
   const CARDS_FACE_UP = 1;
 
+  public function getValidTargets(World $world)
+  {
+    return array_values(
+      array_filter($world->allEffortPiles(), function ($pile) use ($world) {
+        return $pile->qty() > 0 &&
+          $pile->seat($world)->id() == $world->activeSeat()->id() &&
+          $pile->location($world)->id() != $this->id();
+      })
+    );
+  }
+
   public function onVisited(World $world, Seat $seat)
   {
-    $world->moveCardToLocation($this->getParameterCardInHand($world, $seat), $this);
-
-    foreach ($this->cards($world) as $card) {
-      $world->moveCardToHand($card, $world->activeSeat());
+    try {
+      $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    } catch (NoChoicesAvailableException $e) {
+      $world
+        ->table()
+        ->notifyAllPlayers('XXX_rough', 'XXX: no effort that can be moved; skipping location effect for City...', []);
+      return;
     }
+
+    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
   }
 }
 
@@ -237,6 +253,8 @@ class DocksLocation extends Location
       // If there is only one effort here, it's the one we just placed, and we can never move that one.
       return;
     }
+
+    throw new \feException('visiting docks: you have effort you can move');
 
     $loc = $this->getParameterLocation(
       $world,
@@ -388,7 +406,11 @@ class TunnelsLocation extends Location
     } catch (NoChoicesAvailableException $e) {
       $world
         ->table()
-        ->notifyAllPlayers('XXX_rough', 'XXX: no effort that can be moved; skipping location effect...', []);
+        ->notifyAllPlayers(
+          'XXX_rough',
+          'XXX: no effort that can be moved; skipping location effect for Tunnels...',
+          []
+        );
       return;
     }
 

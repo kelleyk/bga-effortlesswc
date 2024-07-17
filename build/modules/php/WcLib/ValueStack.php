@@ -105,7 +105,7 @@ class ValueStack {
   /**
     @param mixed[][] $value_stack
   */
-  protected function setValueStack($value_stack) {
+  public /*protected*/ function setValueStack($value_stack) {
     return $this->gamestate_impl_->setGameStateJson($this->gamestate_key_, $value_stack);
   }
 

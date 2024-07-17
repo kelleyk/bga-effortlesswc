@@ -9,8 +9,17 @@ class Exception extends \BgaVisibleSystemException {
     //
     // - https://stackoverflow.com/questions/19644447/debug-print-backtrace-to-string-for-log-file
     //
+    $msg =       '[WCLIB-EXC] ' . $message . '<br /><br />' . "\n\n" . implode('<br />'."\n", array_map(
+      function ($frame) {
+        $frame_class = $frame['class'] ?? '';
+        $frame_type = $frame['type'] ?? '';
+        return "{$frame['file']}:{$frame['line']} {$frame_class}{$frame_type}{$frame['function']}()";
+      },
+      debug_backtrace()
+    ));
+
     parent::__construct(
-      '[WCLIB-EXC] ' . $message . "\n\n" . print_r(debug_backtrace(), true),
+      $msg,
       $code,
       $previous,
     );

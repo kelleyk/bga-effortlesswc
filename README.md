@@ -1,6 +1,19 @@
+- Remaining work/questions -- Notes
+
+  - With "River" (pick a card from any other location to discard) it can be hard to tell which card option is at which
+    location.
+
+- Remaining work/questions -- Highest priority
+
+  - Client: hand is not being rendered.
+
+  - The UI does not support updating the board with a new mutableBoardState yet, updating seat hands, etc.
+
+  - The parameter-input system is broken.
+
 - Remaining work/questions -- up next
 
-  - The UI does not support cleaning up and reusing the prompt div yet.
+  - Render reserve effort piles in the player boards.
 
   - Do we always take the single card on a location?
 
@@ -8,11 +21,11 @@
 
     - e.g. it'd be nice if `renderForNotif()` would include names rather than only IDs!
 
-  - Client: hand is not being rendered.
+    - This blocks adding tooltips.
 
-  - The UI does not support updating the board with a new mutableBoardState yet, updating seat hands, etc.
+    - This blocks enriching log messages (e.g. with attr-stat and attr-card icons).
 
-  - We can't select effort-pile input parameters yet.
+  - Need to add "general" icons (esp. "fame") to the spritesheet.
 
 - Remaining work/questions -- backlog
 

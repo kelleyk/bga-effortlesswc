@@ -95,9 +95,17 @@ class WorldImpl implements World
     throw new \feException('no impl: topbyeffort');
   }
 
-  public function allEffortPiles()
+  public function allEffortPiles(bool $include_reserve_piles = false)
   {
-    throw new \feException('no impl: alleffortpiles');
+    $piles = EffortPile::getAll($this);
+    if (!$include_reserve_piles) {
+      $piles = array_values(
+        array_filter($piles, function ($pile) {
+          return $pile->hasLocation();
+        })
+      );
+    }
+    return $piles;
   }
 
   public function locations()
