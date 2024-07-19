@@ -9,14 +9,16 @@ interface Gamedatas extends BgaGamedatas {
   immutableBoardState: ImmutableBoardState;
 }
 
+// N.B.: Remember that the "_private" key is supported only in state args, and not in gamedatas.
+interface PrivateState {
+  // Cards that are visible to this player but that are not publicly visible.
+  cards: { [cardId: number]: Card };
+}
+
 interface ImmutableBoardState {
   players: { [playerId: string]: PlayerPublic };
   // XXX: Do we need `playersPrivate`?
 }
-
-//
-// When gamestates.jsonc is enabled in the config, the following types are automatically generated. And you should not add to anything to 'GameStates' or 'PlayerActions'. If gamestates.jsonc is enabled, 'GameStates' and 'PlayerActions' can be removed from this file.
-//
 
 interface GameStates {
   // [id: number]: string | { name: string, argsType: object} | any; // Uncomment to remove type safety with ids, names, and arguments for game states
@@ -127,6 +129,8 @@ interface SeatPublic extends SeatBase {
   colorName: string;
 }
 
+// XXX: Need to decide if we are going to use this, and then revise this comment accordingly.
+//
 // Sent only to players about themselves in competitive mode; sent to all players in cooperative mode.
 interface SeatPrivate {
   id: number;

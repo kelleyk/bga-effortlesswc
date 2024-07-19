@@ -144,6 +144,19 @@ abstract class Location extends \WcLib\CardBase
   {
     return $this->sublocationIndex();
   }
+
+  // Take the lone card on the location.  This is the behavior that locations that don't specifically mention something
+  // about how to draw a card have.
+  public function takeOnlyCard(World $world): void
+  {
+    $cards = $this->cards($world);
+    if (count($cards) != 1) {
+      throw new \BgaVisibleSystemException('Location does not have exactly one card.');
+    }
+
+    $card = $cards[array_key_first($cards)];
+    $world->moveCardToHand($card, $world->activeSeat());
+  }
 }
 
 // XXX: An "effort pile" is a (setloc, seat) pair.
@@ -157,7 +170,8 @@ class CaveLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    // No effects.
+    // No effects (but we always take the card that's available).
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -192,6 +206,8 @@ class CityLocation extends Location
     }
 
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -251,10 +267,9 @@ class DocksLocation extends Location
   {
     if ($this->effortPileForSeat($world, $seat)->qty() <= 1) {
       // If there is only one effort here, it's the one we just placed, and we can never move that one.
+      $this->takeOnlyCard($world);
       return;
     }
-
-    throw new \feException('visiting docks: you have effort you can move');
 
     $loc = $this->getParameterLocation(
       $world,
@@ -266,6 +281,8 @@ class DocksLocation extends Location
     );
 
     $world->moveEffort($loc->effortPileForSeat($world, $seat), $this->effortPileForSeat($world, $seat));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -316,6 +333,8 @@ class PrisonLocation extends Location
 
   public function getValidTargets(World $world)
   {
+    $this->takeOnlyCard($world);
+
     return array_values(
       array_filter($world->allEffortPiles(), function ($pile) use ($world) {
         return $pile->qty() > 0 &&
@@ -350,6 +369,8 @@ class RiverLocation extends Location
     }
 
     $world->discardCard($this->getParameterCard($world, $cards));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -416,6 +437,8 @@ class TunnelsLocation extends Location
 
     $dst_loc = $this->getParameterLocation($world, $this->getValidDestinationLocations($world));
     $world->moveEffort($src_pile, $dst_loc->effortPileForSeat($world, $src_pile->seat($world)));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -430,6 +453,7 @@ class WastelandLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     // No effect.
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -454,6 +478,8 @@ class DungeonLocation extends Location
   {
     $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -548,6 +574,8 @@ class ForestLocation extends Location
     $pile = $this->getParameterEffortPile($world, $valid_target_piles);
     $dst = $this->getParameterLocation($world, $valid_target_locations);
     $world->moveEffort($pile, $dst->effortPileForSeat($world, $pile->seat($world)));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -625,6 +653,7 @@ class CaravanLocation extends Location
   {
     $world->moveCardToLocation($this->getParameterCardInHand($world, $seat), $this);
 
+    // XXX: Won't this, in effect, pick back up the card we've just put down?
     foreach ($this->cards($world) as $card) {
       $world->moveCardToHand($card, $world->activeSeat());
     }

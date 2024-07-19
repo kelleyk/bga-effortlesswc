@@ -26,6 +26,9 @@ class GameBody extends GameBasics {
   protected selectedCard: number | null = null;
   protected selectedEffortPile: number | null = null;
 
+  // XXX: Do we not have a good type for this?
+  protected handZone: any | null = null;
+
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
@@ -34,7 +37,17 @@ class GameBody extends GameBasics {
 
   /** @gameSpecific See {@link Gamegui.setup} for more information. */
   public setup(gamedatas: Gamedatas): void {
-    console.log('Starting game setup');
+    console.log('*** Entering `setup()`; gamedatas=', gamedatas);
+
+    // XXX: Where should this go?
+    //
+    // XXX: Also, Zone is not responsive.
+    const handZoneEl = document.querySelector(
+      '#ewc_handarea #ewc_handarea_zone',
+    )!;
+    this.handZone = new ebg.zone();
+    this.handZone.create(this, handZoneEl, 50, 100); // XXX: These sizes are stand-ins.
+    this.handZone.setPattern('grid'); // XXX: This should be custom eventually
 
     // Setting up player boards
     for (const playerId in gamedatas.players) {
@@ -158,6 +171,12 @@ class GameBody extends GameBasics {
     this.applyMutableBoardState(mutableBoardState);
   }
 
+  public applyPrivateState(privateState: PrivateState) {
+    for (const card of Object.values(privateState.cards)) {
+      console.log('*** card (private)', card);
+    }
+  }
+
   public applyMutableBoardState(mutableBoardState: MutableBoardState) {
     this.mutableBoardState = mutableBoardState;
 
@@ -205,9 +224,9 @@ class GameBody extends GameBasics {
     for (const card of Object.values(mutableBoardState.cards)) {
       console.log('*** card', card);
 
-      if (card.sublocation === 'SETLOC') {
-        const cardType = !card.visible ? 'back' : card.cardType;
+      const cardType = !card.visible ? 'back' : card.cardType;
 
+      if (card.sublocation === 'SETLOC') {
         const parentEl = document.querySelector(
           '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
         )!;
@@ -220,6 +239,10 @@ class GameBody extends GameBasics {
           }),
           parentEl,
         );
+      }
+
+      if (card.sublocation === 'HAND') {
+        console.log('*** card in hand!', card);
       }
     }
 
@@ -568,6 +591,8 @@ class GameBody extends GameBasics {
   public onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
     super.onEnteringState(stateName, args);
+
+    this.applyPrivateState(args.args._private);
 
     switch (stateName) {
       case 'stInput': {

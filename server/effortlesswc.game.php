@@ -89,7 +89,7 @@ class Effortlesswc extends Table
     $world = $this->world();
 
     // N.B.: Only immutable things should go here; anything mutable should go in `renderBoardState()` instead.
-    return array_merge($this->renderBoardState(), [
+    return array_merge($this->renderBoardState(/*include_private=*/ false), [
       // // XXX: Do *we* have to send this, or is it already included?
       // 'players' => $this->renderForClient($world, Player::getAll($world)),
     ]);

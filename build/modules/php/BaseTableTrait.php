@@ -11,6 +11,16 @@ use EffortlessWC\WorldImpl;
 use EffortlessWC\Models\Seat;
 use EffortlessWC\Models\EffortPile;
 
+// XXX: This doesn't belong here.
+function setDefault(array &$array, $key, mixed $default)
+{
+  if (!array_key_exists($key, $array)) {
+    $array[$key] = $default;
+  }
+
+  return $array[$key];
+}
+
 trait BaseTableTrait
 {
   use \WcLib\BgaTableTrait;
@@ -40,7 +50,9 @@ trait BaseTableTrait
   }
 
   // This function returns everything we need to refresh all mutable state.
-  public function renderBoardState()
+  //
+  // N.B.: Remember that the "_private" key is supported only in state args, and not in gamedatas.
+  public function renderBoardState(bool $include_private = true)
   {
     // XXX: Things still to be done here:
     //
@@ -48,7 +60,8 @@ trait BaseTableTrait
     //
 
     $world = $this->world();
-    return [
+
+    $board_state = [
       'mutableBoardState' => [
         'seats' => $this->renderForClient($world, Seat::getAll($world)),
         'cards' => $this->renderForClient($world, $this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
@@ -57,6 +70,35 @@ trait BaseTableTrait
         'effortPiles' => $this->renderForClient($world, EffortPile::getAll($world)),
       ],
     ];
+
+    if ($include_private) {
+      $board_state = array_merge($board_state, [
+        '_private' => $this->renderPrivateState(),
+      ]);
+    }
+
+    return $board_state;
+  }
+
+  public function renderPrivateState()
+  {
+    $world = $this->world();
+
+    $private_args = [];
+
+    foreach (Seat::getAll($world) as $seat) {
+      $player_id = $seat->player_id();
+      if ($player_id !== null) {
+        setDefault($private_args, $player_id, []);
+
+        $private_args[$player_id]['cards'] = array_merge(
+          $private_args[$player_id]['cards'] ?? [],
+          $this->renderForClient($world, $this->mainDeck->getAll(['HAND'], $seat->id()))
+        );
+      }
+    }
+
+    return $private_args;
   }
 
   public function fillSetlocCards()

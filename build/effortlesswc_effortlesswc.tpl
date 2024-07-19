@@ -3,6 +3,7 @@
 <div id="ewc_playarea" class="ewc_playarea">
 
   <div id="ewc_handarea" class="ewc_handarea">
+    <div id="ewc_handarea_zone"></div>
   </div>
 
   <!-- This wrapper is used so that we know where to create prompts. -->
