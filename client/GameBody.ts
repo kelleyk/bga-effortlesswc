@@ -198,20 +198,53 @@ class GameBody extends GameBasics {
       console.log('applyState(): using novel privateState');
     }
 
+    // XXX: We should finish eliminating this legacy update routine.
     if (mutableBoardState !== null) {
       console.log('applyState(): updating mutableBoardState');
       this.applyMutableBoardState(mutableBoardState);
     }
+
+    // Cards
+    const seenCardIds: { [cardId: number]: boolean } = {};
     if (privateState !== null) {
-      console.log('applyState(): updating privateState');
-      this.applyPrivateState(privateState);
+      for (const card of Object.values(privateState.cards)) {
+        if (card.sublocation === 'SETLOC') {
+          // XXX: or 'HAND'?
+          seenCardIds[card.id] = true;
+        }
+        this.placeCard(card);
+      }
     }
+    if (mutableBoardState !== null) {
+      for (const card of Object.values(mutableBoardState.cards)) {
+        if (card.sublocation === 'SETLOC') {
+          // XXX: or 'HAND'?
+          seenCardIds[card.id] = true;
+        }
+        this.placeCard(card);
+      }
+    }
+    console.log('*** seenCardIds:', seenCardIds);
+    // XXX: We'll need to expand this to deal with cards leaving the hand, as well.
+    document.querySelectorAll('.ewc_card_playarea').forEach((rawEl) => {
+      const el = rawEl as HTMLElement;
+      const cardId = this.cardIdFromElId(el.id);
+      console.log('  - existent card ID:', el.id, cardId);
+
+      if (!seenCardIds.hasOwnProperty(cardId)) {
+        console.log('     not seen!');
+        this.fadeOutAndDestroy(el);
+      } else {
+        console.log('     seen!');
+      }
+    });
   }
 
-  public applyPrivateState(privateState: PrivateState) {
-    for (const card of Object.values(privateState.cards)) {
-      this.placeCard(card);
-    }
+  // XXX: It'd be nice if we could eliminate the need for this.
+  public cardIdFromElId(elId: string): number {
+    const rxp = /^cardid_(\d+)$/;
+    const m = rxp.exec(elId)!;
+    return parseInt(m[1], 10);
   }
 
   public applyMutableBoardState(mutableBoardState: MutableBoardState) {
@@ -256,10 +289,6 @@ class GameBody extends GameBasics {
             ' .ewc_setloc_setting',
         )!
         .classList.add(setting.cardType!.replace(':', '_'));
-    }
-
-    for (const card of Object.values(mutableBoardState.cards)) {
-      this.placeCard(card);
     }
 
     // This function assumes that the matched element has a parent wrapper element.
