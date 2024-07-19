@@ -183,28 +183,34 @@ class GameBody extends GameBasics {
     mutableBoardState: MutableBoardState | null,
     privateState: PrivateState | null,
   ) {
-    if (mutableBoardState !== null) {
-      this.mutableBoardState = mutableBoardState;
-    } else {
+    if (mutableBoardState === null) {
       mutableBoardState = this.mutableBoardState;
-    }
-    if (privateState !== null) {
-      this.privateState = privateState;
+      console.log('applyState(): using cached mutableBoardState');
     } else {
+      this.mutableBoardState = mutableBoardState;
+      console.log('applyState(): using novel mutableBoardState');
+    }
+    if (privateState === null) {
       privateState = this.privateState;
+      console.log('applyState(): using cached privateState');
+    } else {
+      this.privateState = privateState;
+      console.log('applyState(): using novel privateState');
     }
 
     if (mutableBoardState !== null) {
+      console.log('applyState(): updating mutableBoardState');
       this.applyMutableBoardState(mutableBoardState);
     }
     if (privateState !== null) {
+      console.log('applyState(): updating privateState');
       this.applyPrivateState(privateState);
     }
   }
 
   public applyPrivateState(privateState: PrivateState) {
     for (const card of Object.values(privateState.cards)) {
-      console.log('*** card (private)', card);
+      this.placeCard(card);
     }
   }
 
@@ -253,28 +259,7 @@ class GameBody extends GameBasics {
     }
 
     for (const card of Object.values(mutableBoardState.cards)) {
-      console.log('*** card', card);
-
-      const cardType = !card.visible ? 'back' : card.cardType;
-
-      if (card.sublocation === 'SETLOC') {
-        const parentEl = document.querySelector(
-          '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
-        )!;
-        console.log('*** parentEl', parentEl);
-
-        dojo.place(
-          this.format_block('jstpl_playarea_card', {
-            cardType,
-            id: card.id,
-          }),
-          parentEl,
-        );
-      }
-
-      if (card.sublocation === 'HAND') {
-        console.log('*** card in hand!', card);
-      }
+      this.placeCard(card);
     }
 
     // This function assumes that the matched element has a parent wrapper element.
@@ -335,6 +320,37 @@ class GameBody extends GameBasics {
         this.tintSprite(el, '#ffffff');
       }
     });
+  }
+
+  public placeCard(card: Card): void {
+    console.log('*** card', card);
+
+    // XXX: We're going to need to deal with the fact that we have (unique) instances of cards in the play area, but
+    // also (potentially not unique) copies of those cards in the prompt area and in tooltips.
+    const el = document.getElementById('cardid_' + card.id);
+
+    if (el === null) {
+      const cardType = !card.visible ? 'back' : card.cardType;
+
+      if (card.sublocation === 'SETLOC') {
+        const parentEl = document.querySelector(
+          '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
+        )!;
+        console.log('*** parentEl', parentEl);
+
+        dojo.place(
+          this.format_block('jstpl_playarea_card', {
+            cardType,
+            id: card.id,
+          }),
+          parentEl,
+        );
+      }
+
+      if (card.sublocation === 'HAND') {
+        console.log('*** card in hand!', card);
+      }
+    }
   }
 
   // XXX: The need for this is a bit unfortunate; we could eliminate it.
@@ -618,12 +634,13 @@ class GameBody extends GameBasics {
   ///////////////////////////////////////////////////
   //// Game & client states
 
-  /** @gameSpecific See {@link Gamegui.onEnteringState} for more information. */
   public onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
     super.onEnteringState(stateName, args);
 
-    this.applyState(null, args.args._private);
+    if (args !== null && args.args !== null) {
+      this.applyState(args.args.mutableBoardState, args.args._private);
+    }
 
     switch (stateName) {
       case 'stInput': {
