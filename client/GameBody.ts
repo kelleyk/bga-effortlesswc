@@ -17,7 +17,9 @@ class GameBody extends GameBasics {
   // myGlobalValue: number = 0;
   // myGlobalArray: string[] = [];
 
-  protected mutableBoardState: MutableBoardState | undefined = undefined;
+  // These are cached copies of the last instance of each of these update messages the client has seen.
+  protected mutableBoardState: MutableBoardState | null = null;
+  protected privateState: PrivateState | null = null;
 
   protected tablewidePanelEl: HTMLElement | undefined = undefined;
 
@@ -168,7 +170,36 @@ class GameBody extends GameBasics {
       }
     }
 
-    this.applyMutableBoardState(mutableBoardState);
+    this.applyState(mutableBoardState, /*privateState=*/ null);
+  }
+
+  // This is the top-level state update function.  It's called each time we get an update from the server that includes
+  // one or more of the state update messages (public and private) that the server generates.
+  //
+  // The parameters are optional because not every update includes all of these messages.  If a parameter isn't given,
+  // we use the last copy of that message we've seen.
+  //
+  public applyState(
+    mutableBoardState: MutableBoardState | null,
+    privateState: PrivateState | null,
+  ) {
+    if (mutableBoardState !== null) {
+      this.mutableBoardState = mutableBoardState;
+    } else {
+      mutableBoardState = this.mutableBoardState;
+    }
+    if (privateState !== null) {
+      this.privateState = privateState;
+    } else {
+      privateState = this.privateState;
+    }
+
+    if (mutableBoardState !== null) {
+      this.applyMutableBoardState(mutableBoardState);
+    }
+    if (privateState !== null) {
+      this.applyPrivateState(privateState);
+    }
   }
 
   public applyPrivateState(privateState: PrivateState) {
@@ -592,7 +623,7 @@ class GameBody extends GameBasics {
     console.log('Entering state', stateName, args);
     super.onEnteringState(stateName, args);
 
-    this.applyPrivateState(args.args._private);
+    this.applyState(null, args.args._private);
 
     switch (stateName) {
       case 'stInput': {
