@@ -55,6 +55,8 @@ class GameBody extends GameBasics {
     this.handZone.create(this, handZoneEl, 50, 100); // XXX: These sizes are stand-ins.
     this.handZone.setPattern('custom');
     this.handZone.itemIdToCoords = (i: number, controlWidth: number) => {
+      // XXX: This spacing should probably be a percentage so that it's scaling-independent; what we care about is how
+      // much of the card image we must show.
       const spacing = 50;
       const zone = this.handZone;
 
@@ -170,7 +172,8 @@ class GameBody extends GameBasics {
       )!;
 
       const zone = new ebg.zone();
-      zone.create(this, parentEl, 50, 100);
+      // XXX: This is hardwired for now, but it should be the scaled size of these sprites.
+      zone.create(this, parentEl, 50, 185);
       zone.setPattern('diagonal'); // XXX: This should be custom eventually
 
       this.locationZones[location.id] = zone;
@@ -289,6 +292,25 @@ class GameBody extends GameBasics {
         console.log('     present in update; retaining el!');
       }
     });
+
+    // -------
+    // Rescaling (and tinting eventually?)
+    // -------
+
+    this.rescaleCardSprites();
+
+    // -------
+    // Update UI elements
+    // -------
+    this.refreshUiElements();
+  }
+
+  // This is called to let UI elements react to changing data and contents.
+  public refreshUiElements(): void {
+    this.handZone.updateDisplay();
+    for (const zone of Object.values(this.locationZones)) {
+      zone.updateDisplay();
+    }
   }
 
   // XXX: It'd be nice if we could eliminate the need for this.
@@ -296,6 +318,26 @@ class GameBody extends GameBasics {
     const rxp = /^cardid_(\d+)$/;
     const m = rxp.exec(elId)!;
     return parseInt(m[1], 10);
+  }
+
+  // XXX: We should find a way to make this more generic.
+  public rescaleCardSprites(): void {
+    // This function assumes that the matched element has a parent wrapper element.
+    console.log('*** qsa ***');
+    document
+      .querySelectorAll('.tmp_scalable_card')
+      .forEach((rawEl: Element) => {
+        const el = rawEl as HTMLElement;
+
+        // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
+        if (el.classList.contains('tmp_scaled_card')) {
+          return;
+        }
+        el.classList.add('tmp_scaled_card');
+
+        const scaleFactor = 0.5;
+        this.rescaleSprite(el, scaleFactor);
+      });
   }
 
   public applyMutableBoardState(mutableBoardState: MutableBoardState) {
@@ -342,23 +384,6 @@ class GameBody extends GameBasics {
         .classList.add(setting.cardType!.replace(':', '_'));
     }
 
-    // This function assumes that the matched element has a parent wrapper element.
-    console.log('*** qsa ***');
-    document
-      .querySelectorAll('.tmp_scalable_card')
-      .forEach((rawEl: Element) => {
-        const el = rawEl as HTMLElement;
-
-        // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
-        if (el.classList.contains('tmp_scaled_card')) {
-          return;
-        }
-        el.classList.add('tmp_scaled_card');
-
-        const scaleFactor = 0.5;
-        this.rescaleSprite(el, scaleFactor);
-      });
-
     document
       .querySelectorAll('.tmp_scalable_cube')
       .forEach((rawEl: Element) => {
@@ -402,6 +427,26 @@ class GameBody extends GameBasics {
     });
   }
 
+  // Returns all zones that can contain play-area cards.
+  public allCardZones() {
+    let zones = [this.handZone];
+    zones = zones.concat(Object.values(this.locationZones));
+    return zones;
+  }
+
+  // Does not re-place `elId` if it is already in `zone`; handles removing it from another zone if it belongs to one.
+  //
+  // (If we place an element in a second zone without removing it from the first one, the two zones will "argue" over
+  // the element.)
+  public placeCardInZone(zone: any, elId: string) {
+    if (!zone.isInZone(elId)) {
+      for (const z of this.allCardZones()) {
+        z.removeFromZone(elId, /*bDestroy=*/ false);
+      }
+      zone.placeInZone(elId);
+    }
+  }
+
   public placeCard(card: Card): void {
     console.log('*** card', card);
 
@@ -429,12 +474,12 @@ class GameBody extends GameBasics {
       case 'SETLOC': {
         console.log('  - in setloc');
         const location = this.locationByPos[card.sublocationIndex];
-        this.locationZones[location.id].placeInZone(el!.id);
+        this.placeCardInZone(this.locationZones[location.id], el!.id);
         break;
       }
       case 'HAND': {
         console.log('  - in hand');
-        this.handZone.placeInZone(el!.id);
+        this.placeCardInZone(this.handZone, el!.id);
         break;
       }
       default: {
