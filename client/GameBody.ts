@@ -52,25 +52,7 @@ class GameBody extends GameBasics {
       '#ewc_handarea #ewc_handarea_zone',
     )!;
     this.handZone = new ebg.zone();
-    this.handZone.create(this, handZoneEl, 50, 100); // XXX: These sizes are stand-ins.
-    this.handZone.setPattern('custom');
-    this.handZone.itemIdToCoords = (i: number, controlWidth: number) => {
-      // XXX: This spacing should probably be a percentage so that it's scaling-independent; what we care about is how
-      // much of the card image we must show.
-      const spacing = 50;
-      const zone = this.handZone;
-
-      const offset =
-        (controlWidth - (zone.item_width + spacing * (zone.items.length - 1))) /
-        2;
-
-      return {
-        h: zone.item_height,
-        w: zone.item_width,
-        x: offset + spacing * i,
-        y: 0,
-      };
-    };
+    this.setUpCardZone(this.handZone, handZoneEl);
 
     // Setting up player boards
     for (const playerId in gamedatas.players) {
@@ -172,9 +154,7 @@ class GameBody extends GameBasics {
       )!;
 
       const zone = new ebg.zone();
-      // XXX: This is hardwired for now, but it should be the scaled size of these sprites.
-      zone.create(this, parentEl, 50, 185);
-      zone.setPattern('diagonal'); // XXX: This should be custom eventually
+      this.setUpCardZone(zone, parentEl);
 
       this.locationZones[location.id] = zone;
     }
@@ -206,6 +186,28 @@ class GameBody extends GameBasics {
     }
 
     this.applyState(mutableBoardState, /*privateState=*/ null);
+  }
+
+  public setUpCardZone(zone: any, el: any): void {
+    // XXX: This is hardwired for now, but it should be the scaled size of these sprites.
+    zone.create(this, el, 50, 185);
+    zone.setPattern('custom');
+    zone.itemIdToCoords = (i: number, controlWidth: number) => {
+      // XXX: This spacing should probably be a percentage so that it's scaling-independent; what we care about is how
+      // much of the card image we must show.
+      const spacing = 35;
+
+      const offset =
+        (controlWidth - (zone.item_width + spacing * (zone.items.length - 1))) /
+        2;
+
+      return {
+        h: zone.item_height,
+        w: zone.item_width,
+        x: offset + spacing * i,
+        y: 0,
+      };
+    };
   }
 
   // This is the top-level state update function.  It's called each time we get an update from the server that includes

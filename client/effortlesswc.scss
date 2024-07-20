@@ -116,10 +116,13 @@
 }
 
 .ewc_setloc_cards_wrap {
-  .margin-left: 10px;
+  margin-left: 10px;
 }
 
 .ewc_setloc_cards {
+  // This is a hardwired value that depends on how the cards are scaled and how many we need to be able to show.
+  width: 100px;
+
   position: relative;
   padding: 5px;
   padding-left: 15px;  // Creates the space between the cards and the setloc.
