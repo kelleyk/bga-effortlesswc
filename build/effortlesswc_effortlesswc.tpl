@@ -61,9 +61,11 @@ let jstpl_playarea_card =
 let jstpl_hand_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_hand tmp_scalable_card"></div>';
 
-// XXX: Does this create a problem?  A card may be shown in a prompt and *also* in either the hand or the play-area, which means that these div IDs are not unique.
+  // XXX: Does this create a problem?  A card may be shown in a prompt and *also* in either the hand or the play-area, which means that these div IDs are not unique.
+  //
+  // XXX: The prefix here was changed to "#cardidprompt_" in an attempt to address this.
 let jstpl_prompt_card =
-  '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_prompt tmp_scalable_card"></div>';
+  '<div id="cardidprompt_${id}" class="ewc_card card_${cardType} ewc_card_prompt tmp_scalable_card"></div>';
 
 let jstpl_effort_counter =
   '<div id="ewc_effort_counter_${id}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';

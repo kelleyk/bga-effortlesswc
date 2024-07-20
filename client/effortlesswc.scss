@@ -97,8 +97,10 @@
 
 // XXX: Maybe this gets replaced with a "within playarea" selector for .ewc_card?
 .ewc_card_playarea {
-  // XXX: Can we make this scaling-agnostic?
-  margin-right: -80px;
+  position: absolute;  // Required because this is an `ebg.zone` item.
+
+  // // XXX: Can we make this scaling-agnostic?
+  // margin-right: -80px;
 }
 
 .ewc_card_prompt {

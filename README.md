@@ -1,15 +1,18 @@
-- Remaining work/questions -- Notes
+- UI concerns
 
   - With "River" (pick a card from any other location to discard) it can be hard to tell which card option is at which
     location.
 
 - Remaining work/questions -- Highest priority
 
+  - ISSUE: The cards in the prompt should not have `cardid_*` IDs; these are supposed to be unique and only for cards in
+    the play-area.
+
   - Client: hand is not being rendered.
 
-  - The UI does not support updating the board with a new mutableBoardState yet, updating seat hands, etc.
+  - Need to improve `applyState()` to take care of TODOs (more types of updates).
 
-  - The parameter-input system is broken.
+  - Need to implement zone layout function for setlocs, hand.
 
 - Remaining work/questions -- up next
 

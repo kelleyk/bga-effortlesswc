@@ -28,8 +28,12 @@ class GameBody extends GameBasics {
   protected selectedCard: number | null = null;
   protected selectedEffortPile: number | null = null;
 
-  // XXX: Do we not have a good type for this?
+  // XXX: Do we not have a good type for `ebg.zone`?
   protected handZone: any | null = null;
+  protected locationZones: { [locationId: number]: any } = {};
+
+  // Maps position (sublocationIndex) to location ID.
+  protected locationByPos: { [pos: number]: EffortlessLocation } = {};
 
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
@@ -49,7 +53,7 @@ class GameBody extends GameBasics {
     )!;
     this.handZone = new ebg.zone();
     this.handZone.create(this, handZoneEl, 50, 100); // XXX: These sizes are stand-ins.
-    this.handZone.setPattern('grid'); // XXX: This should be custom eventually
+    this.handZone.setPattern('diagonal'); // XXX: This should be custom eventually
 
     // Setting up player boards
     for (const playerId in gamedatas.players) {
@@ -119,16 +123,15 @@ class GameBody extends GameBasics {
   }
 
   public setupPlayArea(mutableBoardState: MutableBoardState) {
-    const locationByPos: { [pos: number]: EffortlessLocation } = {};
     for (const location of Object.values(mutableBoardState.locations)) {
-      locationByPos[location.sublocationIndex] = location;
+      this.locationByPos[location.sublocationIndex] = location;
     }
 
     // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
       const el = dojo.place(
         this.format_block('jstpl_setloc_panel', {
-          classes: 'ewc_setloc_location_' + locationByPos[i].id,
+          classes: 'ewc_setloc_location_' + this.locationByPos[i].id,
           id: 'ewc_setloc_panel_' + i,
         }),
         $('ewc_setlocarea_column_' + (i % 2))!,
@@ -139,9 +142,23 @@ class GameBody extends GameBasics {
         'onclick',
         this,
         (evt: any) => {
-          this.onClickLocation(evt, locationByPos[i].id);
+          this.onClickLocation(evt, this.locationByPos[i].id);
         },
       );
+    }
+
+    for (const location of Object.values(mutableBoardState.locations)) {
+      console.log('*** location', location);
+
+      const parentEl = document.querySelector(
+        '#ewc_setloc_panel_' + location.sublocationIndex + ' .ewc_setloc_cards',
+      )!;
+
+      const zone = new ebg.zone();
+      zone.create(this, parentEl, 50, 100);
+      zone.setPattern('diagonal'); // XXX: This should be custom eventually
+
+      this.locationZones[location.id] = zone;
     }
 
     // Create a counter for the amount of effort that each seat has on each location.
@@ -179,6 +196,17 @@ class GameBody extends GameBasics {
   // The parameters are optional because not every update includes all of these messages.  If a parameter isn't given,
   // we use the last copy of that message we've seen.
   //
+  // Types of mutable state updates supported:
+  // - cards entering and leaving the play area - TODO: needs to be animated as cards moving to/from discard & deck
+  //
+  // TODO: Types of state updates not yet supported, but that we'll need:
+  // - update effort-pile counters
+  // - cards moving from setloc to hand
+  // - discarding and replacing a setloc
+  // - flipping a card at a setloc in place
+  // - cards moving from hand to setloc (?)
+  // - cards moving from hand to discard
+  //
   public applyState(
     mutableBoardState: MutableBoardState | null,
     privateState: PrivateState | null,
@@ -204,26 +232,34 @@ class GameBody extends GameBasics {
       this.applyMutableBoardState(mutableBoardState);
     }
 
+    // -----------
     // Cards
+    // -----------
+
     const seenCardIds: { [cardId: number]: boolean } = {};
+    let cards: Card[] = [];
+    // XXX: should we init these things with empty messages so that we don't need all of these null checks?
     if (privateState !== null) {
-      for (const card of Object.values(privateState.cards)) {
-        if (card.sublocation === 'SETLOC') {
-          // XXX: or 'HAND'?
-          seenCardIds[card.id] = true;
-        }
-        this.placeCard(card);
-      }
+      cards = cards.concat(Object.values(privateState.cards));
     }
     if (mutableBoardState !== null) {
-      for (const card of Object.values(mutableBoardState.cards)) {
-        if (card.sublocation === 'SETLOC') {
-          // XXX: or 'HAND'?
-          seenCardIds[card.id] = true;
-        }
-        this.placeCard(card);
-      }
+      cards = cards.concat(Object.values(mutableBoardState.cards));
     }
+
+    for (const card of cards) {
+      switch (card.sublocation) {
+        case 'SETLOC': {
+          seenCardIds[card.id] = true;
+          break;
+        }
+        case 'HAND': {
+          seenCardIds[card.id] = true;
+          break;
+        }
+      }
+      this.placeCard(card);
+    }
+
     console.log('*** seenCardIds:', seenCardIds);
     // XXX: We'll need to expand this to deal with cards leaving the hand, as well.
     document.querySelectorAll('.ewc_card_playarea').forEach((rawEl) => {
@@ -232,10 +268,10 @@ class GameBody extends GameBasics {
       console.log('  - existent card ID:', el.id, cardId);
 
       if (!seenCardIds.hasOwnProperty(cardId)) {
-        console.log('     not seen!');
+        console.log('     not present in update; destroying el!');
         this.fadeOutAndDestroy(el);
       } else {
-        console.log('     seen!');
+        console.log('     present in update; retaining el!');
       }
     });
   }
@@ -356,28 +392,39 @@ class GameBody extends GameBasics {
 
     // XXX: We're going to need to deal with the fact that we have (unique) instances of cards in the play area, but
     // also (potentially not unique) copies of those cards in the prompt area and in tooltips.
-    const el = document.getElementById('cardid_' + card.id);
+    let el = document.getElementById('cardid_' + card.id);
 
     if (el === null) {
+      // This is the table-wide panel in the top right.  If the card is not already in the play-area, we will spawn it
+      // here and slide it into position; if it's leaving the play area, we'll slide it over here and then destroy it.
+      const spawnEl = document.getElementById('tablewide_panel')!;
+
       const cardType = !card.visible ? 'back' : card.cardType;
 
-      if (card.sublocation === 'SETLOC') {
-        const parentEl = document.querySelector(
-          '#ewc_setloc_panel_' + card.sublocationIndex + ' .ewc_setloc_cards',
-        )!;
-        console.log('*** parentEl', parentEl);
+      el = dojo.place(
+        this.format_block('jstpl_playarea_card', {
+          cardType,
+          id: card.id,
+        }),
+        spawnEl,
+      );
+    }
 
-        dojo.place(
-          this.format_block('jstpl_playarea_card', {
-            cardType,
-            id: card.id,
-          }),
-          parentEl,
-        );
+    switch (card.sublocation) {
+      case 'SETLOC': {
+        console.log('  - in setloc');
+        const location = this.locationByPos[card.sublocationIndex];
+        this.locationZones[location.id].placeInZone(el!.id);
+        break;
       }
-
-      if (card.sublocation === 'HAND') {
-        console.log('*** card in hand!', card);
+      case 'HAND': {
+        console.log('  - in hand');
+        this.handZone.placeInZone(el!.id);
+        break;
+      }
+      default: {
+        console.log('  - other sublocation: ' + card.sublocation);
+        break;
       }
     }
   }
