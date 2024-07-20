@@ -53,7 +53,22 @@ class GameBody extends GameBasics {
     )!;
     this.handZone = new ebg.zone();
     this.handZone.create(this, handZoneEl, 50, 100); // XXX: These sizes are stand-ins.
-    this.handZone.setPattern('diagonal'); // XXX: This should be custom eventually
+    this.handZone.setPattern('custom');
+    this.handZone.itemIdToCoords = (i: number, controlWidth: number) => {
+      const spacing = 50;
+      const zone = this.handZone;
+
+      const offset =
+        (controlWidth - (zone.item_width + spacing * (zone.items.length - 1))) /
+        2;
+
+      return {
+        h: zone.item_height,
+        w: zone.item_width,
+        x: offset + spacing * i,
+        y: 0,
+      };
+    };
 
     // Setting up player boards
     for (const playerId in gamedatas.players) {
