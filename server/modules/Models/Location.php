@@ -245,8 +245,22 @@ class CryptLocation extends Location
 
   public function getValidTargets(World $world)
   {
-    // XXX: top 2 of discard; if <2 cards, add top card of deck
-    throw new \feException('XXX: no impl: getValidTargets');
+    // If there are fewer than two cards in the discard pile, we discard the top card of the deck.  (This is per Isaac; )
+    $discard_size = count($world->table()->mainDeck->getAll(['DISCARD']));
+    $cards_needed = max(0, 2 - $discard_size);
+    //throw new \feException('crypt location: cards that need to be discarded: ' . $cards_needed);
+    for ($i = 0; $cards_needed; ++$i) {
+      $world->table()->mainDeck->drawAndDiscard();
+    }
+
+    // Get the top two cards of the discard pile.
+    $discarded_cards = $world->table()->mainDeck->getAll(['DISCARD']);
+    usort($discarded_cards, function (Card $card_a, Card $card_b) {
+      return $card_a->id() - $card_b->id();
+    });
+    $choices = array_slice($discarded_cards, 0, 2);
+
+    return $choices;
   }
 
   public function onVisited(World $world, Seat $seat)

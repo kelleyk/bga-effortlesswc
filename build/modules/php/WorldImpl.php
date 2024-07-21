@@ -161,6 +161,8 @@ class WorldImpl implements World
 
   public function moveCardToHand(Card $card, Seat $seat)
   {
+    $card->setFaceDown(false);
+
     $this->table()->mainDeck->placeOnTop($card, 'HAND', $seat->id());
 
     // XXX: Send more appropriate notifs.
@@ -179,6 +181,8 @@ class WorldImpl implements World
       throw new \BgaVisibleSystemException('XXX: deck is empty');
     }
 
+    $card->setFaceDown(false);
+
     $this->table()->mainDeck->placeOnTop($card, 'HAND', $seat->id());
 
     // XXX: Send more appropriate notifs.
@@ -190,6 +194,8 @@ class WorldImpl implements World
 
   public function discardCard(Card $card)
   {
+    $card->setFaceDown(false);
+
     $this->table()->mainDeck->placeOnTop($card, 'DISCARD');
 
     // XXX: Send more appropriate notifs.

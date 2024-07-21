@@ -139,6 +139,9 @@ class WcDeck extends \APP_DbObject
 
   // Takes cards from all $card_sublocations and moves them to
   // $destination_sublocation.
+  /**
+    @param $card_sublocations string[]
+  */
   public function moveAll($card_sublocations, ?int $sublocation_index = SUBLOCATION_INDEX_ANY, $destination_sublocation = 'DECK'): void
   {
     foreach ($this->rawGetAll($card_sublocations, $sublocation_index) as $card) {
@@ -246,7 +249,7 @@ class WcDeck extends \APP_DbObject
   // sublocation, returns `null`.
   //
   /** @return CardT|null */
-  private function drawAndDiscard(
+  public function drawAndDiscard(
     $card_sublocation = 'DECK',
     ?int $sublocation_index = null,
     string $destination_sublocation = 'DISCARD',
@@ -259,7 +262,7 @@ class WcDeck extends \APP_DbObject
       if (!$auto_reshuffle) {
         return null;
       }
-      $this->moveAll([$destination_sublocation], $card_sublocation);
+      $this->moveAll([$destination_sublocation], $sublocation_index, $card_sublocation);
       $this->shuffle($card_sublocation, $sublocation_index);
       return $this->drawAndDiscard($card_sublocation, $sublocation_index, $destination_sublocation, /*auto_reshuffle=*/ false);
     }

@@ -224,6 +224,7 @@ class GameBody extends GameBasics {
   // - cards moving from setloc to hand
   // - discarding and replacing a setloc
   // - flipping a card at a setloc in place
+  // - a card flipping when a face-down card is drawn from a location
   // - cards moving from hand to setloc (?)
   // - cards moving from hand to discard
   //

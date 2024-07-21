@@ -216,6 +216,12 @@ trait Setup
 
     $this->mainDeck->createCards($card_specs);
     $this->mainDeck->shuffle();
+
+    // Per the rulebook, we discard two cards.  From Isaac, this is designed to ensure that the discard deck isn't
+    // empty, preventing some edge cases that effects that interact with the discard pile might otherwise have.
+    for ($i = 0; $i < 2; ++$i) {
+      $this->mainDeck->drawAndDiscard();
+    }
   }
 
   private function fillSetlocs()
