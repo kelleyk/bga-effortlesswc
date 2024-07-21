@@ -77,6 +77,14 @@ class SeatAttributes implements \JsonSerializable
   // Maps attribute abbreviation to number of stat points.
   public $points = [];
 
+  public function __construct()
+  {
+    foreach (ALL_ATTRIBUTES as $attribute) {
+      $this->cards[$attribute] = 0;
+      $this->points[$attribute] = 0;
+    }
+  }
+
   /**
     @param $cards Card[]
   */

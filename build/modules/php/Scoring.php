@@ -2,8 +2,8 @@
 
 namespace EffortlessWC;
 
-use \EffortlessWC\Models\AttributeCard;
-use \EffortlessWC\Models\Seat;
+use EffortlessWC\Models\AttributeCard;
+use EffortlessWC\Models\Seat;
 
 class TableScore implements \JsonSerializable
 {
@@ -76,6 +76,14 @@ class SeatAttributes implements \JsonSerializable
   public $cards = [];
   // Maps attribute abbreviation to number of stat points.
   public $points = [];
+
+  public function __construct()
+  {
+    foreach (ALL_ATTRIBUTES as $attribute) {
+      $this->cards[$attribute] = 0;
+      $this->points[$attribute] = 0;
+    }
+  }
 
   /**
     @param $cards Card[]

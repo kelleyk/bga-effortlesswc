@@ -42,6 +42,7 @@ class Effortlesswc extends Table
   use EffortlessWC\ActionDispatchTrait;
   use EffortlessWC\BaseTableTrait;
   use EffortlessWC\DatabaseTrait;
+  use EffortlessWC\DebugTrait;
   use EffortlessWC\Setup;
   use EffortlessWC\TurnOrderTrait;
 
