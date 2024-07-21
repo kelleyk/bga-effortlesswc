@@ -3,6 +3,8 @@
   - With "River" (pick a card from any other location to discard) it can be hard to tell which card option is at which
     location.
 
+  - Don't want slide-in animation when we refresh the page.
+
 - Remaining work/questions -- Highest priority
 
   - ISSUE: The cards in the prompt should not have `cardid_*` IDs; these are supposed to be unique and only for cards in

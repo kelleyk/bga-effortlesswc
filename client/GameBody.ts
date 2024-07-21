@@ -232,14 +232,14 @@ class GameBody extends GameBasics {
     mutableBoardState: MutableBoardState | null,
     privateState: PrivateState | null,
   ) {
-    if (mutableBoardState === null) {
+    if (mutableBoardState === null || mutableBoardState === undefined) {
       mutableBoardState = this.mutableBoardState;
       console.log('applyState(): using cached mutableBoardState');
     } else {
       this.mutableBoardState = mutableBoardState;
       console.log('applyState(): using novel mutableBoardState');
     }
-    if (privateState === null) {
+    if (privateState === null || privateState === undefined) {
       privateState = this.privateState;
       console.log('applyState(): using cached privateState');
     } else {
@@ -247,9 +247,18 @@ class GameBody extends GameBasics {
       console.log('applyState(): using novel privateState');
     }
 
+    console.log(
+      'using mutableBoardState & privateState:',
+      mutableBoardState,
+      privateState,
+    );
+
     // XXX: We should finish eliminating this legacy update routine.
     if (mutableBoardState !== null) {
-      console.log('applyState(): updating mutableBoardState');
+      console.log(
+        'applyState(): updating mutableBoardState',
+        mutableBoardState,
+      );
       this.applyMutableBoardState(mutableBoardState);
     }
 

@@ -133,7 +133,7 @@ trait Setup
   {
     $values = [];
     foreach (Seat::getAll($this->world()) as $seat) {
-      $values[] = '(' . $seat->id() . ', NULL, 20)';
+      $values[] = '(' . $seat->id() . ', NULL, ' . STARTING_EFFORT . ')';
       foreach (Location::getAll($this->world()) as $location) {
         $values[] = '(' . $seat->id() . ', ' . $location->id() . ', 0)';
       }
