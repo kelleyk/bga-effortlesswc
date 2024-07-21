@@ -799,6 +799,13 @@ class GameBody extends GameBasics {
         }
         break;
       }
+      case 'stPostScoring': {
+        console.log('*** stPostScoring: ', args);
+        // // XXX: make this clear all selectablse
+        // this.inputArgs = null;
+        // this.updateSelectables(null);
+        break;
+      }
     }
   }
 

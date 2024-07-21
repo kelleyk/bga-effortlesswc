@@ -9,6 +9,9 @@
   <!-- This wrapper is used so that we know where to create prompts. -->
   <div id="ewc_promptarea_wrap"></div>
 
+  <!-- This wrapper is used so that we know where to show scoring details at the end of the game. -->
+  <div id="ewc_scoringarea_wrap"></div>
+
   <div id="ewc_setlocarea" class="ewc_setlocarea">
     <div id="ewc_setlocarea_column_0" class="ewc_setlocarea_column">
     </div>
@@ -121,6 +124,11 @@ var jstpl_tablewide_panel =
 let jstpl_promptarea =
   '<div id="ewc_promptarea" class="ewc_promptarea">' +
   '<div class="ewc_promptarea_choices"></div>' +
+  '</div>';
+
+let jstpl_scoringarea =
+  '<div id="ewc_scoringarea" class="ewc_scoringarea">' +
+  '<div class="ewc_scoringarea_choices"></div>' +
   '</div>';
 
 </script>

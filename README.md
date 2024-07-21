@@ -1,3 +1,12 @@
+- Remaining work/questions -- Highest priority
+
+  - Need to improve `applyState()` to take care of TODOs (more types of updates) -- I think that flipping (e.g. when a
+    face-down card is drawn to the hand) is probably the biggest gap.
+
+  - We probably need to plumb the rest of our static data (in the assets repo in YAML files right now) into the game
+    before we can really do scoring; for example, item details (utilization requirements, point value, and so on) are in
+    there.
+
 - UI concerns
 
   - With "River" (pick a card from any other location to discard) it can be hard to tell which card option is at which
@@ -5,16 +14,10 @@
 
   - Don't want slide-in animation when we refresh the page.
 
-- Remaining work/questions -- Highest priority
+  - Cards sliding from a setloc up to the hand are invisible until they overlap the hand area.
 
-  - ISSUE: The cards in the prompt should not have `cardid_*` IDs; these are supposed to be unique and only for cards in
-    the play-area.
-
-  - Client: hand is not being rendered.
-
-  - Need to improve `applyState()` to take care of TODOs (more types of updates).
-
-  - Need to implement zone layout function for setlocs, hand.
+  - For players other than the active player, cards on setlocs seem not to be positioned correctly after a card slides
+    out.
 
 - Remaining work/questions -- up next
 

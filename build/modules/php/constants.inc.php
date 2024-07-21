@@ -1,6 +1,19 @@
 <?php declare(strict_types=1);
 
 // ------------------------
+// Misc
+// ------------------------
+
+const ALL_ATTRIBUTES = [
+  'str', // red
+  'dex', // green
+  'con', // pink
+  'wis', // purple
+  'int', // orange
+  'cha', // blue
+];
+
+// ------------------------
 // Sets
 // ------------------------
 

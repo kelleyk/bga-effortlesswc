@@ -116,6 +116,16 @@ class AttributeCard extends Card
 
     return $result;
   }
+
+  public function stat(): string
+  {
+    return $this->stat_;
+  }
+
+  public function points(): int
+  {
+    return $this->points_;
+  }
 }
 
 class ArmorCard extends Card
@@ -150,6 +160,16 @@ class ArmorCard extends Card
     }
 
     return $result;
+  }
+
+  public function armorSet(): string
+  {
+    return $this->armor_set_;
+  }
+
+  public function armorPiece(): string
+  {
+    return $this->armor_piece_;
   }
 }
 
