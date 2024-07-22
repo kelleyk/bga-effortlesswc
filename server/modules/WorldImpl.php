@@ -71,9 +71,11 @@ class WorldImpl implements World
   }
 
   // Map from seat ID to effort count.
+  //
+  // XXX: Decide where this logic should live (on `Setting` or on `World`) and remove the other.
   public function effortBySeat(Setting $setting)
   {
-    throw new \feException('no impl: effortbyseat');
+    return $setting->effortBySeat($this);
   }
 
   // Returns an array whose keys are the same as $effort_by_seat.  Values are in the range [1, 5], where key(s) with the
@@ -83,16 +85,51 @@ class WorldImpl implements World
   // $outcome_good should be true iff the ranking is for something that players *want* (e.g. postive points), and false
   // iff it is for something that players do not want (e.g. negative points).  This is important when tie-breaking.
   //
-  // TODO: This function will account for things like the Fighter's tie-breaking ability.
+  // TODO: This function will account for things like the Fighter's tie-breaking ability; when we implement that, we'll
+  // use $outcome_good to decide how ties are broken.
+  //
+  // XXX: Some version of this could almost certainly be cleaned up and moved to WcLib for reuse!
+  //
+  // XXX: This definitely needs some unit tests!
   public function rankByEffort($effort_by_seat, bool $outcome_good, bool $invert = false)
   {
-    throw new \feException('no impl: rankbyeffort');
+    // Sort highest-first (if !$invert) or lowest-first (if $invert).
+    uasort($effort_by_seat, function ($a, $b) use ($invert) {
+      if ($invert) {
+        return $a - $b;
+      }
+      return $b - $a;
+    });
+
+    $rank_by_seat = [];
+
+    $last_rank = 0;
+    $last_rank_value = -1;
+    $i = 0;
+    foreach ($effort_by_seat as $seat_id => $qty) {
+      ++$i;
+
+      if ($qty != $last_rank_value) {
+        $last_rank = $i;
+        $last_rank_value = $qty;
+      }
+
+      $rank_by_seat[$seat_id] = $last_rank;
+    }
+
+    return $rank_by_seat;
   }
 
   // Like `rankByEffort()` but returns a list of the seat IDs at rank 1.
   public function topByEffort($effort_by_seat, bool $outcome_good, bool $invert = false)
   {
-    throw new \feException('no impl: topbyeffort');
+    $rank_by_seat = $this->rankByEffort($effort_by_seat, $outcome_good, $invert);
+
+    return array_values(
+      array_filter($rank_by_seat, function ($rank) {
+        return $rank === 1;
+      })
+    );
   }
 
   public function allEffortPiles(bool $include_reserve_piles = false)

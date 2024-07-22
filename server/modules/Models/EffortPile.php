@@ -74,6 +74,11 @@ class EffortPile
     return Seat::mustGetById($world, $this->seat_id_);
   }
 
+  public function seatId(): int
+  {
+    return $this->seat_id_;
+  }
+
   public function location(World $world): Location
   {
     return Location::mustGetById($world, $this->location_id_);

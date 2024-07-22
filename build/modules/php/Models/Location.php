@@ -10,6 +10,9 @@ use EffortlessWC\Models\EffortPile;
 
 use EffortlessWC\Util\NoChoicesAvailableException;
 
+// XXX: We need to have a simple test that we actually wind up with one more card than we started with for each location
+// type, even e.g. when the location effect cannot be performed.
+
 abstract class Location extends \WcLib\CardBase
 {
   use \EffortlessWC\Util\ParameterInput;
@@ -196,16 +199,18 @@ class CityLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
+    $pile = null;
     try {
       $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
     } catch (NoChoicesAvailableException $e) {
       $world
         ->table()
         ->notifyAllPlayers('XXX_rough', 'XXX: no effort that can be moved; skipping location effect for City...', []);
-      return;
     }
 
-    $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
+    if ($pile !== null) {
+      $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
+    }
 
     $this->takeOnlyCard($world);
   }

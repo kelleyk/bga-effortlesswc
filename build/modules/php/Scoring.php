@@ -2,10 +2,12 @@
 
 namespace EffortlessWC;
 
+// use EffortlessWC\Models\ItemCard;
 use EffortlessWC\Models\ArmorCard;
 use EffortlessWC\Models\AttributeCard;
-// use EffortlessWC\Models\ItemCard;
+use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Seat;
+use EffortlessWC\Models\Setting;
 
 class TableScore implements \JsonSerializable
 {
@@ -166,7 +168,25 @@ function calculateScores(World $world): TableScore
 
   // Calculate setting scoring.
   //
-  // XXX: (Setting)->onScoring($world, $score_ctx)
+  // TODO: We could clean this up if there were an easier way to find setting/location pairs.
+  $setting_by_pos = [];
+  foreach (Setting::getAll($world) as $setting) {
+    $setting_by_pos[$setting->sublocationIndex()] = $setting;
+  }
+  $location_by_pos = [];
+  foreach (Location::getAll($world) as $location) {
+    $location_by_pos[$location->sublocationIndex()] = $location;
+  }
+  for ($i = 0; $i < 6; ++$i) {
+    $score_ctx = new ScoringContext();
+    $setting_by_pos[$i]->onScoring($world, $score_ctx);
+    $setting_scores = $score_ctx->scores();
+
+    foreach (Seat::getAll($world) as $seat) {
+      $score = $setting_scores[$seat->id()] ?? 0;
+      $table_score->by_seat[$seat->id()]->setting[$location_by_pos[$i]->id()] = $score;
+    }
+  }
 
   return $table_score;
 }

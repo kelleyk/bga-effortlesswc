@@ -21,6 +21,23 @@ abstract class Setting extends \WcLib\CardBase
     return $world->table()->settingDeck->get($id);
   }
 
+  public static function mustGetById(World $world, int $id): Setting
+  {
+    $setting = self::getById($world, $id);
+    if ($setting === null) {
+      throw new \WcLib\Exception('Could not find setting with id=' . $id);
+    }
+    return $setting;
+  }
+
+  /**
+    @return Setting[]
+  */
+  public static function getAll(World $world)
+  {
+    return $world->table()->settingDeck->getAll(['SETLOC']);
+  }
+
   // This is meant to be overridden by subclasses; but subclasses sometimes need to change its signature, which is why
   // it's not on `CardBase`.
   //
@@ -43,9 +60,29 @@ abstract class Setting extends \WcLib\CardBase
     return parent::renderForClientBase(/*visible=*/ true);
   }
 
+  // Returns the location in the same position as this setting (that is, the one that is "puzzle pieced" together with
+  // it).
+  public function pairedLocation(World $world): Location
+  {
+    $set_to_loc = $world->table()->getSetToLocMap();
+    return Location::mustGetById($world, $set_to_loc[$this->id()]);
+  }
+
+  /** @return EffortPile[] */
+  public function effortPiles(World $world)
+  {
+    return $this->pairedLocation($world)->effortPiles($world);
+  }
+
+  // Returns an associative array mapping seat ID to number of effort at this setloc.
+  /** @return int[] */
   public function effortBySeat(World $world)
   {
-    throw new \feException('no impl');
+    $qty_by_seat = [];
+    foreach ($this->effortPiles($world) as $pile) {
+      $qty_by_seat[$pile->seatId()] = $pile->qty();
+    }
+    return $qty_by_seat;
   }
 
   // XXX: make abstract
@@ -76,18 +113,25 @@ abstract class Setting extends \WcLib\CardBase
 
   public function isOutcomeGood(): bool
   {
-    $rc = new \ReflectionClass(self::class);
+    $rc = new \ReflectionClass(get_called_class());
     if (!$rc->hasConstant('OUTCOME_GOOD')) {
-      throw new \BgaVisibleSystemException('Class does not define required constant OUTCOME_GOOD.');
+      throw new \BgaVisibleSystemException(
+        'Class ' . get_called_class() . ' does not define required constant OUTCOME_GOOD.'
+      );
     }
+    // XXX: We've changed this function; do we still need this suppression?
     /** @phan-suppress-next-line PhanUndeclaredConstantOfClass */
-    return self::OUTCOME_GOOD;
+    return get_called_class()::OUTCOME_GOOD;
   }
 
   // Returns the total amount of effort at this location.
   public function totalEffort(World $world): int
   {
-    throw new \feException('XXX: no impl: Setting::totalEffort()');
+    return array_sum(
+      array_map(function ($pile) {
+        return $pile->qty();
+      }, $this->effortPiles($world))
+    );
   }
 
   // Returns a list of seat IDs that have at least $n effort here.

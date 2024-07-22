@@ -4,6 +4,13 @@ namespace WcLib;
 
 require_once 'CardBase.php';
 
+/*
+  TODO: Ideas for future improvements:
+
+  - It'd be neat to be able to extend or replace the queries that WcDeck uses.  See "DatabaseTrait.php" in Effortless
+    for an example of a situation where that would be useful.
+ */
+
 class Card extends CardBase {
   const CARD_TYPE_GROUP = 'card';
   const CARD_TYPE = 'default';
