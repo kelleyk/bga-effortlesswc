@@ -2,7 +2,9 @@
 
 namespace EffortlessWC;
 
+use EffortlessWC\Models\ArmorCard;
 use EffortlessWC\Models\AttributeCard;
+// use EffortlessWC\Models\ItemCard;
 use EffortlessWC\Models\Seat;
 
 class TableScore implements \JsonSerializable
@@ -134,6 +136,38 @@ function calculateScores(World $world): TableScore
     }
   }
 
+  // Calculate armor scoring.
+  foreach (Seat::getAll($world) as $seat) {
+    $cards_by_set = [];
+
+    foreach ($seat->hand($world) as $card) {
+      if ($card instanceof ArmorCard) {
+        $cards_by_set[$card->armorSet()] = ($cards_by_set[$card->armorSet()] ?? 0) + 1;
+      }
+    }
+
+    foreach ($cards_by_set as $set_name => $card_qty) {
+      $table_score->by_seat[$seat->id()]->armor[$set_name] = armorSetScore($card_qty);
+    }
+  }
+
+  // XXX: We need to plumb item-card metadata through the asset pipeline before this will work.
+  //
+  // // Calculate item scoring.
+  // foreach (Seat::getAll($world) as $seat) {
+  //   $cards_by_set = [];
+  //
+  //   foreach ($seat->hand($world) as $card) {
+  //     if ($card instanceof ItemCard) {
+  //       table_score->by_seat[$seat->id()]->item[$card->id()] = $card->usable($seat_data) ? $card->points() : 0;
+  //     }
+  //   }
+  // }
+
+  // Calculate setting scoring.
+  //
+  // XXX: (Setting)->onScoring($world, $score_ctx)
+
   return $table_score;
 }
 
@@ -170,4 +204,20 @@ function calculateAttributeScores(World $world, $attr_values)
   return array_map(function ($attr_value) use ($scoring_values) {
     return in_array($attr_value, $scoring_values) ? $attr_value : 0;
   }, $attr_values);
+}
+
+function armorSetScore(int $card_qty): int
+{
+  switch ($card_qty) {
+    case 1:
+      return 1;
+    case 2:
+      return 4;
+    case 3:
+      return 8;
+    case 4:
+      return 13;
+    default:
+      throw new \BgaVisibleSystemException('Unexpected number of cards in armor set: ' . $card_qty);
+  }
 }
