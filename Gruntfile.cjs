@@ -145,6 +145,13 @@ module.exports = function (grunt) {
             dest: 'build/modules/php/WcLib/',
             filter: 'isFile',
           },
+          {
+            expand: true,
+            cwd: 'assets/',
+            src: ['**/*.php'],
+            dest: 'build/modules/php/',
+            filter: 'isFile',
+          },
         ],
       },
       server_tests: {
