@@ -67,8 +67,10 @@ let jstpl_hand_card =
   // XXX: Does this create a problem?  A card may be shown in a prompt and *also* in either the hand or the play-area, which means that these div IDs are not unique.
   //
   // XXX: The prefix here was changed to "#cardidprompt_" in an attempt to address this.
+  //
+  // XXX: Note that this template does not include ".tmp_card_scalable"; that class causes `rescaleCardSprites()` to rescale prompt cards as though they were a play-area cards.  That class isn't necessary for the actual rescaling mechanism anyway; perhaps we should remove it.
 let jstpl_prompt_card =
-  '<div id="cardidprompt_${id}" class="ewc_card card_${cardType} ewc_card_prompt tmp_scalable_card"></div>';
+  '<div id="cardidprompt_${id}" class="ewc_card card_${cardType} ewc_card_prompt"></div>';
 
 let jstpl_effort_counter =
   '<div id="ewc_effort_counter_${id}" class="ewc_effort_counter"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
