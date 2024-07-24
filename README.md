@@ -15,6 +15,8 @@
   - (Debt:) Reduce code duplication around sprite scaling.  Decide if we want to get rid of the ".tmp_card_scalable"
     class and related stuff.
 
+  - (Debt:) Convert Gruntfile to TypeScript.
+
   - Take a pass at cleaning up log messages.
 
   - Implement (server-side) scoring for items.
@@ -47,6 +49,8 @@
     location.
 
   - Don't want slide-in animation when we refresh the page.
+
+    - Can we temporarily enable "instantaneous mode" (`this.page.instantaneousMode`) during page setup?
 
   - Cards sliding from a setloc up to the hand are invisible until they overlap the hand area.
 

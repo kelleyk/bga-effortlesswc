@@ -141,3 +141,47 @@
   height: 30px;
   transition: background-image 1s;
 }
+.icon_fame {
+  background-image: url(../build/img/sprites-alpha.png);
+  background-position: -276px -151.2px;
+  background-size: 312px 302.4px;
+  mask-image: url(../build/img/sprites-alpha.png);
+  mask-position: -276px -151.2px;
+  mask-size: 312px 302.4px;
+  width: 30px;
+  height: 30px;
+  transition: background-image 1s;
+}
+.icon_grit {
+  background-image: url(../build/img/sprites-alpha.png);
+  background-position: -276px -181.2px;
+  background-size: 312px 302.4px;
+  mask-image: url(../build/img/sprites-alpha.png);
+  mask-position: -276px -181.2px;
+  mask-size: 312px 302.4px;
+  width: 30px;
+  height: 30px;
+  transition: background-image 1s;
+}
+.points_neg {
+  background-image: url(../build/img/sprites-alpha.png);
+  background-position: -276px -211.2px;
+  background-size: 312px 302.4px;
+  mask-image: url(../build/img/sprites-alpha.png);
+  mask-position: -276px -211.2px;
+  mask-size: 312px 302.4px;
+  width: 30px;
+  height: 30px;
+  transition: background-image 1s;
+}
+.points_pos {
+  background-image: url(../build/img/sprites-alpha.png);
+  background-position: -120px -242.4px;
+  background-size: 312px 302.4px;
+  mask-image: url(../build/img/sprites-alpha.png);
+  mask-position: -120px -242.4px;
+  mask-size: 312px 302.4px;
+  width: 30px;
+  height: 30px;
+  transition: background-image 1s;
+}
