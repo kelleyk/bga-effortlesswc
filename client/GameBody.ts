@@ -304,9 +304,7 @@ class GameBody extends GameBasics {
 
       if (!seenCardIds.hasOwnProperty(cardId)) {
         console.log('     not present in update; destroying el!');
-        this.fadeOutAndDestroy(el);
-      } else {
-        console.log('     present in update; retaining el!');
+        this.removeFromCardZones(el, /*destroy=*/ true);
       }
     });
 
@@ -455,12 +453,24 @@ class GameBody extends GameBasics {
   //
   // (If we place an element in a second zone without removing it from the first one, the two zones will "argue" over
   // the element.)
-  public placeCardInZone(zone: any, elId: string) {
-    if (!zone.isInZone(elId)) {
-      for (const z of this.allCardZones()) {
-        z.removeFromZone(elId, /*bDestroy=*/ false);
-      }
-      zone.placeInZone(elId);
+  public placeCardInZone(zone: any, el: HTMLElement) {
+    if (!zone.isInZone(el.id)) {
+      this.removeFromCardZones(el, /*destroy=*/ false);
+      zone.placeInZone(el.id);
+    }
+  }
+
+  // Removes the card `elId` from any zone(s) that it currently belongs to.
+  //
+  // If we destroy the corresponding element without removing it from a zone first, it will visually disappear, but it
+  // will still be present in the zone's set of `items` and space will be left for it when the zone arranges its
+  // contents.
+  public removeFromCardZones(el: HTMLElement, destroy: boolean) {
+    for (const z of this.allCardZones()) {
+      z.removeFromZone(el.id, /*bDestroy=*/ false);
+    }
+    if (destroy) {
+      this.fadeOutAndDestroy(el);
     }
   }
 
@@ -500,12 +510,12 @@ class GameBody extends GameBasics {
       case 'SETLOC': {
         console.log('  - in setloc');
         const location = this.locationByPos[card.sublocationIndex];
-        this.placeCardInZone(this.locationZones[location.id], el!.id);
+        this.placeCardInZone(this.locationZones[location.id], el!);
         break;
       }
       case 'HAND': {
         console.log('  - in hand');
-        this.placeCardInZone(this.handZone, el!.id);
+        this.placeCardInZone(this.handZone, el!);
         break;
       }
       default: {
