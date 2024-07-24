@@ -1,11 +1,45 @@
 - Remaining work/questions -- Highest priority
 
-  - Need to improve `applyState()` to take care of TODOs (more types of updates) -- I think that flipping (e.g. when a
-    face-down card is drawn to the hand) is probably the biggest gap.
-
   - We probably need to plumb the rest of our static data (in the assets repo in YAML files right now) into the game
     before we can really do scoring; for example, item details (utilization requirements, point value, and so on) are in
     there.
+
+    - This is *mostly* done; but I should change the server-side
+
+  - Need to add "general" icons (esp. "fame") to the spritesheet.
+
+  - Add attribute card & stat icons to log-entity replacement function.
+
+  - Render reserve effort piles in the player boards.
+
+  - (Debt:) Reduce code duplication around sprite scaling.  Decide if we want to get rid of the ".tmp_card_scalable"
+    class and related stuff.
+
+  - Take a pass at cleaning up log messages.
+
+  - Implement (server-side) scoring for items.
+
+  - Give BGA points to players during end-game scoring.
+
+  - Implement (client-side) a UI element to display scoring information.  Can be primitive; just need something
+    functional.
+
+  - Take a peek at how the hand UI looks with ~20 (or a few more) cards in it.
+
+  - Add card sorting within hands and setlocs.  (For setlocs, it's more about being able to always show threats on the
+    right.)
+
+  - From the BGA prerelease checklist:
+
+    - When giving their turn to a player, you give them some extra time with the giveExtraTime() function.
+
+    - Game progression is implemented (getGameProgression() in php)
+
+    - Zombie turn is implemented (zombieTurn() in php). Note: it can only be tested if you explicitly click on the quit button to create a zombie. If you are expelled it does not generated a Zombie.
+
+    - You have defined and implemented some meaningful statistics for your game (i.e. total points, point from source A, B, C...)
+
+    - You implemented tiebreaking (using aux score field) and updated tiebreaker description in meta-data
 
 - UI concerns
 
@@ -16,32 +50,10 @@
 
   - Cards sliding from a setloc up to the hand are invisible until they overlap the hand area.
 
-  - For players other than the active player, cards on setlocs seem not to be positioned correctly after a card slides
-    out.
-
-- Remaining work/questions -- up next
-
-  - Render reserve effort piles in the player boards.
-
-  - Do we always take the single card on a location?
-
-  - Need to improve static-data bundling so that we have names, tooltip text, etc. on client and server.
-
-    - e.g. it'd be nice if `renderForNotif()` would include names rather than only IDs!
-
-    - This blocks adding tooltips.
-
-    - This blocks enriching log messages (e.g. with attr-stat and attr-card icons).
-
-  - Need to add "general" icons (esp. "fame") to the spritesheet.
-
 - Remaining work/questions -- backlog
 
   - What happens when we need to move cards between areas and they are scaled differently?
     - We're also using different jstpl templates for a card instantiated in each area.
-
-  - When we move cards around, how will we generate notifs?
-    - Does WcDeck need callback support?
 
   - Some of our client-side typing is a little iffy (use of "any", etc.).
 
@@ -50,9 +62,6 @@
   - No support for showing discard pile, other players' hands (in cooperative mode), etc.
 
   - The `renderForNotif()` implementations just show object IDs.
-
-  - On the client-side, we need to recursively format templates until we reach a fixpoint.  Until we do, the data-driven
-    messages in ST_INPUT will not appear correctly.
 
   - On the client-side, we need to draw the table-wide panel.
 
