@@ -31,6 +31,7 @@ class GameBody extends GameBasics {
   // XXX: Do we not have a good type for `ebg.zone`?
   protected handZone: any | null = null;
   protected locationZones: { [locationId: number]: any } = {};
+  protected cardZoneObserver: MutationObserver;
 
   // Maps position (sublocationIndex) to location ID.
   protected locationByPos: { [pos: number]: EffortlessLocation } = {};
@@ -39,6 +40,21 @@ class GameBody extends GameBasics {
   constructor() {
     super();
     console.log('effortlesswc constructor');
+
+    this.cardZoneObserver = new MutationObserver(
+      (records: MutationRecord[], _observer: MutationObserver) => {
+        for (const record of records) {
+          // console.log('mutation observed:', records, observer);
+          for (const _el of Array.from(record.addedNodes)) {
+            const el = _el as HTMLElement;
+            this.onCardAddedToZone(
+              el,
+              this.getCardState(this.cardIdFromElId(el.id))!,
+            );
+          }
+        }
+      },
+    );
   }
 
   /** @gameSpecific See {@link Gamegui.setup} for more information. */
@@ -72,7 +88,27 @@ class GameBody extends GameBasics {
     // Setup game notifications to handle (see "setupNotifications" method below)
     this.setupNotifications();
 
+    for (const z of this.allCardZones()) {
+      this.cardZoneObserver.observe(z.container_div, { childList: true });
+    }
+
     console.log('Ending game setup');
+  }
+
+  // XXX: Needs to be renamed.
+  public onCardAddedToZone(el: HTMLElement, card: Card) {
+    const cardMetadata = !card.visible
+      ? null
+      : StaticDataCards.cardMetadata[card.cardType!];
+    if (cardMetadata !== null) {
+      console.log('  metadata found; adding tooltip: ', el!.id, cardMetadata);
+      this.addTooltipHtml(
+        el!.id,
+        this.format_block('jstpl_tooltip_card', cardMetadata),
+      );
+    } else {
+      this.removeTooltip(el!.id);
+    }
   }
 
   // This overrides a default implementation that BGA provides.
@@ -272,16 +308,8 @@ class GameBody extends GameBasics {
     // -----------
 
     const seenCardIds: { [cardId: number]: boolean } = {};
-    let cards: Card[] = [];
-    // XXX: should we init these things with empty messages so that we don't need all of these null checks?
-    if (privateState !== null) {
-      cards = cards.concat(Object.values(privateState.cards));
-    }
-    if (mutableBoardState !== null) {
-      cards = cards.concat(Object.values(mutableBoardState.cards));
-    }
 
-    for (const card of cards) {
+    for (const card of this.allCardState()) {
       switch (card.sublocation) {
         case 'SETLOC': {
           seenCardIds[card.id] = true;
@@ -318,6 +346,27 @@ class GameBody extends GameBasics {
     // Update UI elements
     // -------
     this.refreshUiElements();
+  }
+
+  public allCardState(): Card[] {
+    let cards: Card[] = [];
+    // XXX: should we init these things with empty messages so that we don't need all of these null checks?
+    if (this.privateState !== null) {
+      cards = cards.concat(Object.values(this.privateState.cards));
+    }
+    if (this.mutableBoardState !== null) {
+      cards = cards.concat(Object.values(this.mutableBoardState.cards));
+    }
+    return cards;
+  }
+
+  public getCardState(cardId: number): Card | null {
+    for (const card of this.allCardState()) {
+      if (card.id === cardId) {
+        return card;
+      }
+    }
+    return null;
   }
 
   // This is called to let UI elements react to changing data and contents.
@@ -541,18 +590,7 @@ class GameBody extends GameBasics {
         this.rescaleSprite(el!, 0.5);
       }
 
-      const cardMetadata = !card.visible
-        ? null
-        : StaticDataCards.cardMetadata[card.cardType!];
-      if (cardMetadata !== null) {
-        console.log('  metadata found; adding tooltip: ', el!.id, cardMetadata);
-        this.addTooltipHtml(
-          el!.id,
-          this.format_block('jstpl_tooltip_card', cardMetadata),
-        );
-      } else {
-        this.removeTooltip(el!.id);
-      }
+      this.onCardAddedToZone(el!, card);
     }
   }
 
