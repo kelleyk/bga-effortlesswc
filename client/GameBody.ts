@@ -516,6 +516,21 @@ class GameBody extends GameBasics {
 
     // XXX: When a card is moved from a setloc zone to the hand zone, the tooltip stops working.
     {
+      // Handle appearance changes (e.g. when the card flips over).
+      const cardType = !card.visible ? 'back' : card.cardType;
+      if (!el!.classList.contains('card_' + cardType)) {
+        for (const className of Array.from(el!.classList).filter((x) => {
+          return x.match(/^card_/);
+        })) {
+          el!.classList.remove(className);
+        }
+        el!.classList.add('card_' + cardType);
+
+        // N.B.: This is necessary in order to recalculate all of the sprite-sheet offsets; without it, the appearance
+        // of the card won't actually change, even though we've replaced the "card_*" CSS class.
+        this.rescaleSprite(el!, 0.5);
+      }
+
       const cardMetadata = !card.visible
         ? null
         : StaticDataCards.cardMetadata[card.cardType!];
@@ -525,6 +540,8 @@ class GameBody extends GameBasics {
           el!.id,
           this.format_block('jstpl_tooltip_card', cardMetadata),
         );
+      } else {
+        this.removeTooltip(el!.id);
       }
     }
   }
@@ -657,27 +674,20 @@ class GameBody extends GameBasics {
       case 'inputtype:card': {
         console.log('  *** inputtype:card', inputArgs);
 
-        // XXX: We need to populate a prompt area with the appropriate cards.
-
         this.placeAndWipeIn(
           this.format_block('jstpl_promptarea', {}),
           'ewc_promptarea_wrap',
         );
 
-        // XXX: Remove previous contents.
-
         for (const _card of Object.values(inputArgs.choices)) {
           // XXX: Hacky; we should instead fix our type definitions.
           const card = _card as Card;
-
-          // console.log('*** card', card);
 
           const cardType = !card.visible ? 'back' : card.cardType;
 
           const parentEl = document.querySelector(
             '.ewc_promptarea .ewc_promptarea_choices',
           )!;
-          // console.log('*** parentEl', parentEl);
 
           // XXX: We also need to make these .ewc_selectable; and we're going to wind up needing to do other stuff such
           // as attaching tooltips and on-click handlers.  We should move this into a reusable function.
