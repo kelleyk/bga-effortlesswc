@@ -102,10 +102,10 @@ class GameBody extends GameBasics {
       'first',
     );
 
-    console.log(
-      'setupSeatBoards(): after tablewide panel creation, player_boards =',
-      $('player_boards').children,
-    );
+    // console.log(
+    //   'setupSeatBoards(): after tablewide panel creation, player_boards =',
+    //   $('player_boards').children,
+    // );
 
     for (const seat of Object.values(mutableBoardState.seats)) {
       if (seat.playerId === null) {
@@ -119,6 +119,11 @@ class GameBody extends GameBasics {
         );
       }
     }
+
+    // Hide scores, since we don't award points until the scoring phase at the end of the game.
+    document.querySelectorAll('.player_score').forEach((el) => {
+      (el as HTMLElement).style.visibility = 'hidden';
+    });
   }
 
   public setupPlayArea(mutableBoardState: MutableBoardState) {
