@@ -585,21 +585,23 @@ class GameBody extends GameBasics {
   ///////////////////////////////////////////////////
   //// Log-message formatting
 
-  // /** @override */
-  // //
-  // public format_string_recursive(log: string, args: any) {
-  //   console.log('XXX:', args);
+  /** @override */
+  //
+  // This override repeatedly substitutes arguments until the string does not change.  This is useful for situations
+  // such as our ST_INPUT, where some of the values in `args` contain substitution patterns themselves.
+  public format_string_recursive(log: string, args: any) {
+    console.log('XXX:', args);
 
-  //   let lastLog: string;
-  //   do {
-  //     lastLog = log;
+    let lastLog: string;
+    do {
+      lastLog = log;
 
-  //     log = this.inherited({ callee: this.format_string_recursive }, arguments);
-  //     // log = super.format_string_recursive(log, args);
-  //   } while (log !== lastLog);
+      log = this.inherited(arguments);
+      // log = super.format_string_recursive(log, args);
+    } while (log !== lastLog);
 
-  //   return log;
-  // }
+    return log;
+  }
 
   ///////////////////////////////////////////////////
   //// User input
