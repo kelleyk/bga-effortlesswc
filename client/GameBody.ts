@@ -605,7 +605,18 @@ class GameBody extends GameBasics {
       // log = super.format_string_recursive(log, args);
     } while (log !== lastLog);
 
-    return log;
+    return this.replaceLogEntities(log);
+  }
+
+  // XXX: This is a short-term stand-in.
+  public replaceLogEntities(log: string): string {
+    return log.replace(
+      /:([a-z0-9-_]+)=([a-z0-9-_]+?):/g,
+      (_m, _entityType, entityName) => {
+        console.log('match parts: ', _m, _entityType, entityName);
+        return entityName.charAt(0).toUpperCase() + entityName.slice(1);
+      },
+    );
   }
 
   ///////////////////////////////////////////////////

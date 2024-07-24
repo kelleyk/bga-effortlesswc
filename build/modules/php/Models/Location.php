@@ -230,10 +230,8 @@ class ColiseumLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $selected_card = $this->getParameterCardAtLocation($world, $this, [
-      'description' =>
-        '${actplayer} must pick a card from the :location=coliseum: to take; the other will be discarded.',
-      'descriptionmyturn' =>
-        '${you} must pick a card from the :location=coliseum: to take; the other will be discarded.',
+      'description' => '${actplayer} must pick a card from :location=coliseum: to take; the other will be discarded.',
+      'descriptionmyturn' => '${you} must pick a card from :location=coliseum: to take; the other will be discarded.',
     ]);
 
     $other_cards = array_values(
