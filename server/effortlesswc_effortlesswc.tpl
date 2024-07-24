@@ -131,6 +131,9 @@ let jstpl_scoringarea =
   '<div class="ewc_scoringarea_choices"></div>' +
   '</div>';
 
+  let jstpl_tooltip_card =
+    '<div class="tooltip-container ewc_tooltip">${title}</div>';
+
 </script>
 
 {OVERALL_GAME_FOOTER}

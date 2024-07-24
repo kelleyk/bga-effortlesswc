@@ -460,6 +460,15 @@ class GameBody extends GameBasics {
   }
 
   public placeCard(card: Card): void {
+    switch (card.sublocation) {
+      case 'SETLOC':
+      case 'HAND':
+        break;
+      default:
+        // Card not in the play-area.
+        return;
+    }
+
     console.log('*** card', card);
 
     // XXX: We're going to need to deal with the fact that we have (unique) instances of cards in the play area, but
@@ -497,6 +506,20 @@ class GameBody extends GameBasics {
       default: {
         console.log('  - other sublocation: ' + card.sublocation);
         break;
+      }
+    }
+
+    // XXX: When a card is moved from a setloc zone to the hand zone, the tooltip stops working.
+    {
+      const cardMetadata = !card.visible
+        ? null
+        : StaticDataCards.cardMetadata[card.cardType!];
+      if (cardMetadata !== null) {
+        console.log('  metadata found; adding tooltip: ', el!.id, cardMetadata);
+        this.addTooltipHtml(
+          el!.id,
+          this.format_block('jstpl_tooltip_card', cardMetadata),
+        );
       }
     }
   }
