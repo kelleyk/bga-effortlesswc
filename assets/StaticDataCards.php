@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-const CARD_METADATA = [
+define('CARD_METADATA', [
     'attr_str_1' => ['title' => clienttranslate('Strength +1')],
     'attr_dex_1' => ['title' => clienttranslate('Dexterity +1')],
     'attr_con_1' => ['title' => clienttranslate('Constitution +1')],
@@ -285,4 +285,4 @@ const CARD_METADATA = [
     ],
     'xp' => ['title' => clienttranslate('Experience')],
     'grit' => ['title' => clienttranslate('Grit')],
-];
+]);
