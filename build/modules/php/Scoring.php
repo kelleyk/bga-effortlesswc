@@ -2,9 +2,9 @@
 
 namespace EffortlessWC;
 
-// use EffortlessWC\Models\ItemCard;
 use EffortlessWC\Models\ArmorCard;
 use EffortlessWC\Models\AttributeCard;
+use EffortlessWC\Models\ItemCard;
 use EffortlessWC\Models\Location;
 use EffortlessWC\Models\Seat;
 use EffortlessWC\Models\Setting;
@@ -153,18 +153,16 @@ function calculateScores(World $world): TableScore
     }
   }
 
-  // XXX: We need to plumb item-card metadata through the asset pipeline before this will work.
-  //
-  // // Calculate item scoring.
-  // foreach (Seat::getAll($world) as $seat) {
-  //   $cards_by_set = [];
-  //
-  //   foreach ($seat->hand($world) as $card) {
-  //     if ($card instanceof ItemCard) {
-  //       table_score->by_seat[$seat->id()]->item[$card->id()] = $card->usable($seat_data) ? $card->points() : 0;
-  //     }
-  //   }
-  // }
+  // Calculate item scoring.
+  foreach (Seat::getAll($world) as $seat) {
+    foreach ($seat->hand($world) as $card) {
+      $seat_attrs = $table_score->by_seat[$seat->id()]->attribute_data;
+
+      if ($card instanceof ItemCard) {
+        $table_score->by_seat[$seat->id()]->item[$card->id()] = $card->usable($seat_attrs) ? $card->points() : 0;
+      }
+    }
+  }
 
   // Calculate setting scoring.
   //

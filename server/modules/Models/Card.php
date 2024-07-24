@@ -2,7 +2,11 @@
 
 namespace EffortlessWC\Models;
 
+require_once realpath(__DIR__ . '/../Scoring.php');
+require_once realpath(__DIR__ . '/../StaticDataCards.php');
+
 use EffortlessWC\World;
+use EffortlessWC\SeatAttributes;
 
 abstract class Card extends \WcLib\CardBase
 {
@@ -202,6 +206,28 @@ class ItemCard extends Card
     }
 
     return $result;
+  }
+
+  public function points(): int
+  {
+    return $this->metadata()['points'];
+  }
+
+  public function usable(SeatAttributes $seat_attrs): bool
+  {
+    $metadata = $this->metadata();
+    foreach ($metadata['requires'] as $attr => $min_value) {
+      $value = $seat_attrs->points[$attr] ?? 0;
+      if ($value < $min_value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected function metadata()
+  {
+    return CARD_METADATA[$this->type()];
   }
 }
 

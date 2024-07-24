@@ -202,8 +202,10 @@ class CityLocation extends Location
     $pile = null;
     try {
       $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world), [
-        'description' => '${actplayer} must pick one of your Effort from another location to move to :location=city:.',
-        'descriptionmyturn' => '${you} must pick one of their Effort from another location to move to :location=city:.',
+        'description' =>
+          '${actplayer} must pick one of their effort from another location to move to the :location=city:.',
+        'descriptionmyturn' =>
+          '${you} must pick one of your effort from another location to move to the :location=city:.',
       ]);
     } catch (NoChoicesAvailableException $e) {
       $world
@@ -230,8 +232,10 @@ class ColiseumLocation extends Location
   public function onVisited(World $world, Seat $seat)
   {
     $selected_card = $this->getParameterCardAtLocation($world, $this, [
-      'description' => '${actplayer} must pick a card from :location=coliseum: to take; the other will be discarded.',
-      'descriptionmyturn' => '${you} must pick a card from :location=coliseum: to take; the other will be discarded.',
+      'description' =>
+        '${actplayer} must pick a card from the :location=coliseum: to take; the other will be discarded.',
+      'descriptionmyturn' =>
+        '${you} must pick a card from the :location=coliseum: to take; the other will be discarded.',
     ]);
 
     $other_cards = array_values(
@@ -311,9 +315,9 @@ class DocksLocation extends Location
       ),
       [
         'description' =>
-          '${actplayer} must pick another location; one of their Effort at :location=docks: will be moved there.',
+          '${actplayer} must pick another location; one of their effort at the :location=docks: will be moved there.',
         'descriptionmyturn' =>
-          '${you} must pick another location; one of your Effort at :location=docks: will be moved there.',
+          '${you} must pick another location; one of your effort at the :location=docks: will be moved there.',
       ]
     );
 
@@ -336,9 +340,9 @@ class LibraryLocation extends Location
     $world->moveCardToHand(
       $this->getParameterCardAtLocation($world, $this, [
         'description' =>
-          '${actplayer} must pick one of the two face-down cards at :location=library: to take; the other will be replaced, face-down.',
+          '${actplayer} must pick one of the two face-down cards at the :location=library: to take; the other will be replaced, face-down.',
         'descriptionmyturn' =>
-          '${you} must pick one of the two face-down cards at :location=library: to take; the other will be replaced, face-down.',
+          '${you} must pick one of the two face-down cards at the :location=library: to take; the other will be replaced, face-down.',
       ]),
       $seat
     );
@@ -398,9 +402,9 @@ class PrisonLocation extends Location
   {
     $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world), [
       'description' =>
-        '${actplayer} must pick another player\'s Effort pile at a different location; one Effort from that pile will be moved to :location=prison:.',
+        '${actplayer} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
       'descriptionmyturn' =>
-        '${you} must pick another player\'s Effort pile at a different location; one Effort from that pile will be moved to :location=prison:.',
+        '${you} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
     ]);
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
   }
@@ -426,8 +430,8 @@ class RiverLocation extends Location
     // XXX: We probably need to handle NoChoicesAvailableException here.
     $world->discardCard(
       $this->getParameterCard($world, $cards, [
-        'description' => '${actplayer} must pick a card at a location other than :location=river: to discard.',
-        'descriptionmyturn' => '${you} must pick a card at a location other than :location=river: to discard.',
+        'description' => '${actplayer} must pick a card at a location other than the :location=river: to discard.',
+        'descriptionmyturn' => '${you} must pick a card at a location other than the :location=river: to discard.',
       ])
     );
 
@@ -491,9 +495,9 @@ class TunnelsLocation extends Location
     try {
       $src_pile = $this->getParameterEffortPile($world, $this->getValidSourcePiles($world), [
         'description' =>
-          '${actplayer} must pick another player\'s Effort pile at :location=tunnels: to move an Effort from.',
+          '${actplayer} must pick another player\'s effort pile at the :location=tunnels: to move an effort from.',
         'descriptionmyturn' =>
-          '${you} must pick another player\'s Effort pile at :location=tunnels: to move an Effort from.',
+          '${you} must pick another player\'s effort pile at the :location=tunnels: to move an effort from.',
       ]);
     } catch (NoChoicesAvailableException $e) {
       $world
@@ -507,8 +511,8 @@ class TunnelsLocation extends Location
     }
 
     $dst_loc = $this->getParameterLocation($world, $this->getValidDestinationLocations($world), [
-      'description' => '${actplayer} must pick a location other than :location=tunnels: to move that Effort to.',
-      'descriptionmyturn' => '${you} must pick a location other than :location=tunnels: to move that Effort to.',
+      'description' => '${actplayer} must pick a location other than the :location=tunnels: to move that effort to.',
+      'descriptionmyturn' => '${you} must pick a location other than the :location=tunnels: to move that effort to.',
     ]);
     $world->moveEffort($src_pile, $dst_loc->effortPileForSeat($world, $src_pile->seat($world)));
 

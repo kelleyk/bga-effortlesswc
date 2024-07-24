@@ -45,6 +45,11 @@
 
 - UI concerns
 
+  - Sometimes, after selecting a location to place Effort at, the location is not deselected when it becomes the next
+    person's turn.
+
+    - This is also now happening with e.g. effort-piles.
+
   - With "River" (pick a card from any other location to discard) it can be hard to tell which card option is at which
     location.
 

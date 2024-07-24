@@ -15,8 +15,8 @@ trait PlaceEffort
 
     try {
       $location = $this->getParameterLocation($world, $world->locations(), [
-        'description' => '${actplayer} must decide where to place one of their Effort.',
-        'descriptionmyturn' => '${you} must decide where to place one of your Effort.',
+        'description' => '${actplayer} must pick a location to visit.',
+        'descriptionmyturn' => '${you} must pick a location to visit.',
       ]);
     } catch (InputRequiredException $e) {
       return;
