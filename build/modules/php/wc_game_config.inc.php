@@ -11,7 +11,8 @@ namespace Effortless;
 //
 // It also appears that the string-literal syntax, at least, is not accepted for constants.  (The above example still doesn't work even when we fix the annotation's name!)
 
-const STARTING_EFFORT = 5;
+const STARTING_EFFORT_PROD = 20;
+const STARTING_EFFORT_STUDIO = 3;
 
 /** @var string[] */
 const DISABLED_LOCATIONS = ['location:laboratory'];

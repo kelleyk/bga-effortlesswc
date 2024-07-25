@@ -131,9 +131,14 @@ trait Setup
 
   private function initEffortPiles(): void
   {
+    $starting_effort = STARTING_EFFORT_PROD;
+    if ($this->getBgaEnvironment() == 'studio') {
+      $starting_effort = STARTING_EFFORT_STUDIO;
+    }
+
     $values = [];
     foreach (Seat::getAll($this->world()) as $seat) {
-      $values[] = '(' . $seat->id() . ', NULL, ' . STARTING_EFFORT . ')';
+      $values[] = '(' . $seat->id() . ', NULL, ' . $starting_effort . ')';
       foreach (Location::getAll($this->world()) as $location) {
         $values[] = '(' . $seat->id() . ', ' . $location->id() . ', 0)';
       }
