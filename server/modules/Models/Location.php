@@ -3,6 +3,7 @@
 namespace Effortless\Models;
 
 require_once 'Seat.php';
+require_once realpath(__DIR__ . '/../StaticDataSetlocs.php');
 
 use Effortless\World;
 use Effortless\Models\Seat;
@@ -67,7 +68,9 @@ abstract class Location extends \WcLib\CardBase
 
   public function renderForNotif(World $world): string
   {
-    return 'Location[' . $this->id() . ']';
+    $setting_type = explode(':', $this->pairedSetting($world)->type())[1];
+    $location_type = explode(':', $this->type())[1];
+    return 'the <strong>:setting=' . $setting_type . ': :location=' . $location_type . ':</strong>';
   }
 
   // /**
@@ -100,6 +103,14 @@ abstract class Location extends \WcLib\CardBase
       throw new \BgaVisibleSystemException('Effort pile not found.');
     }
     return $pile;
+  }
+
+  // Returns the location in the same position as this setting (that is, the one that is "puzzle pieced" together with
+  // it).
+  public function pairedSetting(World $world): Setting
+  {
+    $loc_to_set = $world->table()->getLocToSetMap();
+    return Setting::mustGetById($world, $loc_to_set[$this->id()]);
   }
 
   /** @return EffortPile[] */
@@ -159,6 +170,12 @@ abstract class Location extends \WcLib\CardBase
 
     $card = $cards[array_key_first($cards)];
     $world->moveCardToHand($card, $world->activeSeat());
+  }
+
+  protected function metadata()
+  {
+    $type = explode(':', $this->type())[1];
+    return LOCATION_METADATA[$type];
   }
 }
 

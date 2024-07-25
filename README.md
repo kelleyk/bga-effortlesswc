@@ -1,3 +1,7 @@
+- Issues
+
+  - With the River, should we be able to see face-down cards?
+
 - Remaining work/questions -- Highest priority
 
   - We probably need to plumb the rest of our static data (in the assets repo in YAML files right now) into the game

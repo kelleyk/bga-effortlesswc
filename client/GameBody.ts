@@ -702,6 +702,8 @@ class GameBody extends GameBasics {
   }
 
   // XXX: This is a short-term stand-in.
+  //
+  // TODO: For entityTypes of location, setting we should create tooltips.
   public replaceLogEntities(log: string): string {
     return log.replace(
       /:([a-z0-9-_]+)=([a-z0-9-_]+?):/g,

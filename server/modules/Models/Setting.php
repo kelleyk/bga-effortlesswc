@@ -2,6 +2,8 @@
 
 namespace Effortless\Models;
 
+require_once realpath(__DIR__ . '/../StaticDataSetlocs.php');
+
 use Effortless\ScoringContext;
 use Effortless\World;
 
@@ -58,6 +60,11 @@ abstract class Setting extends \WcLib\CardBase
   public function renderForClient(World $world): array
   {
     return parent::renderForClientBase(/*visible=*/ true);
+  }
+
+  public function renderForNotif(World $world): string
+  {
+    return '<strong>' . $this->metadata()['name'] . '</strong>';
   }
 
   // Returns the location in the same position as this setting (that is, the one that is "puzzle pieced" together with
@@ -144,6 +151,12 @@ abstract class Setting extends \WcLib\CardBase
       }
     }
     return $seats;
+  }
+
+  protected function metadata()
+  {
+    $type = explode(':', $this->type())[1];
+    return SETTING_METADATA[$type];
   }
 }
 
