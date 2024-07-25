@@ -368,7 +368,9 @@ class MarketLocation extends Location
       );
     } catch (NoChoicesAvailableException $e) {
       // XXX: We should consider greying this location out as unselectable on the client side.
-      throw new \BgaUserException('You cannot visit this location because you do not have a card to discard.');
+      throw new \BgaUserException(
+        'You cannot visit this the :location=market: because you do not have a card to discard.'
+      );
     }
 
     foreach ($this->cards($world) as $card) {
@@ -447,12 +449,17 @@ class TempleLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $world->discardCard(
-      $this->getParameterCardInHand($world, $seat, [
-        'description' => '${actplayer} must pick a card from their hand to discard.',
-        'descriptionmyturn' => '${you} must pick a card from your hand to discard.',
-      ])
-    );
+    try {
+      $world->discardCard(
+        $this->getParameterCardInHand($world, $seat, [
+          'description' => '${actplayer} must pick a card from their hand to discard.',
+          'descriptionmyturn' => '${you} must pick a card from your hand to discard.',
+        ])
+      );
+    } catch (NoChoicesAvailableException $e) {
+      // XXX: We should consider greying this location out as unselectable on the client side.
+      throw new \BgaUserException('You cannot visit the :location=temple: because you do not have a card to discard.');
+    }
 
     for ($i = 0; $i < 2; ++$i) {
       $world->drawCardToHand($seat);
