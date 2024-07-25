@@ -1,13 +1,13 @@
 /*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * EffortlessWC implementation : © Kevin Kelley <kelleyk@kelleyk.net>
+ * Effortless implementation : © Kevin Kelley <kelleyk@kelleyk.net>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  */
-/// <amd-module name="bgagame/effortlesswc"/>
+/// <amd-module name="bgagame/effortless"/>
 
 // import Gamegui = require('ebg/core/gamegui');
 // import 'ebg/counter';
@@ -39,7 +39,7 @@ class GameBody extends GameBasics {
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
-    console.log('effortlesswc constructor');
+    console.log('effortless constructor');
 
     this.cardZoneObserver = new MutationObserver(
       (records: MutationRecord[], _observer: MutationObserver) => {
@@ -1096,7 +1096,7 @@ class GameBody extends GameBasics {
 	*/
 }
 
-// // The global 'bgagame.effortlesswc' class is instantiated when the page is loaded. The following code sets this
+// // The global 'bgagame.effortless' class is instantiated when the page is loaded. The following code sets this
 // // variable to your game class.
-// dojo.setObject('bgagame.effortlesswc', EffortlessWC);
-// Same as: (window.bgagame ??= {}).effortlesswc = EffortlessWC;
+// dojo.setObject('bgagame.effortless', Effortless);
+// Same as: (window.bgagame ??= {}).effortless = Effortless;

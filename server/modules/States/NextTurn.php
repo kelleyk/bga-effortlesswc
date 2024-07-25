@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\States;
+namespace Effortless\States;
 
-use EffortlessWC\Models\Player;
+use Effortless\Models\Player;
 
 trait NextTurn
 {
-  use \EffortlessWC\BaseTableTrait;
-  use \EffortlessWC\TurnOrderTrait;
+  use \Effortless\BaseTableTrait;
+  use \Effortless\TurnOrderTrait;
 
   public function stNextTurn()
   {

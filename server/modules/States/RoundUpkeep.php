@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\States;
+namespace Effortless\States;
 
 trait RoundUpkeep
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   public function stRoundUpkeep()
   {

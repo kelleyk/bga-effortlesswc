@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Test;
+namespace Effortless\Test;
 
 require_once '/src/localarena/module/test/IntegrationTestCase.php';
 
@@ -9,8 +9,8 @@ require_once '/src/localarena/module/test/IntegrationTestCase.php';
 //   define('LOCALARENA_GAME_PATH', '/src/game/');
 // }
 
-require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/constants.inc.php';
-require_once LOCALARENA_GAME_PATH . 'effortlesswc/modules/php/WcLib/WcDeck.php';
+require_once LOCALARENA_GAME_PATH . 'effortless/modules/php/constants.inc.php';
+require_once LOCALARENA_GAME_PATH . 'effortless/modules/php/WcLib/WcDeck.php';
 
 use LocalArena\TableParams;
 
@@ -18,8 +18,8 @@ use LocalArena\TableParams;
 
 // use WcLib\WcDeck;
 
-// use EffortlessWC\Models\Npc;
-// use EffortlessWC\Models\Position;
+// use Effortless\Models\Npc;
+// use Effortless\Models\Position;
 
 // function array_value_first($arr)
 // {
@@ -29,7 +29,7 @@ use LocalArena\TableParams;
 
 class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
 {
-  const LOCALARENA_GAME_NAME = 'effortlesswc';
+  const LOCALARENA_GAME_NAME = 'effortless';
 
   function setupCleanState(): void
   {
@@ -209,7 +209,7 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
   // // $dice should be an array of ints in [1..6].
   // public function setDiceResult($dice): void
   // {
-  //   $dice_stub = $this->createStub(\EffortlessWC\Utilities\DiceRoller::class);
+  //   $dice_stub = $this->createStub(\Effortless\Utilities\DiceRoller::class);
   //   $dice_stub->method('roll')->willReturn($dice);
   //   $this->table()->dice_roller = $dice_stub;
   // }
@@ -514,8 +514,8 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
 
 //   public function giveGearCard(string $card_type, bool $prepped = true): CardPeer
 //   {
-//     $gear = new \EffortlessWC\Managers\CardManager('GEAR');
-//     $pc_cards = new \EffortlessWC\Managers\CardManager('CHARACTER', $this->id());
+//     $gear = new \Effortless\Managers\CardManager('GEAR');
+//     $pc_cards = new \Effortless\Managers\CardManager('CHARACTER', $this->id());
 
 //     $n = 0;
 //     $card_id = null;
@@ -922,9 +922,9 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
 //     ]);
 //   }
 
-//   private function implCard(): \EffortlessWC\Managers\Card
+//   private function implCard(): \Effortless\Managers\Card
 //   {
-//     $card_mgr = new \EffortlessWC\Managers\CardManager('no-such-location');
+//     $card_mgr = new \Effortless\Managers\CardManager('no-such-location');
 //     return $card_mgr->get($this->id());
 //   }
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 /*
 This query matches up settings and locations that match on sublocation and sublocation_index (i.e. that are in play and
@@ -21,7 +21,7 @@ on our Setting "cards".
 
 trait DatabaseTrait
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   // -----------
   // Database interface

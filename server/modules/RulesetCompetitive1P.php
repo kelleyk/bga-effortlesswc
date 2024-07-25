@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
-use EffortlessWC\Ruleset;
+use Effortless\Ruleset;
 
 // "In Solo mode, you will be facing off against 2 other adventures destined to best you.
 //

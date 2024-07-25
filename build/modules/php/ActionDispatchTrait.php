@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 /**
   @phan-file-suppress PhanUndeclaredStaticMethod
@@ -10,7 +10,7 @@ namespace EffortlessWC;
 
 trait ActionDispatchTrait
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   // -----------
   // Action handler dispatchers

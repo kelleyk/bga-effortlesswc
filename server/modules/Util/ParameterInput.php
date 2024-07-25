@@ -2,13 +2,13 @@
 
 // TODO: Eventually, at least the core of this should be extracted to WcLib for reuse.
 
-namespace EffortlessWC\Util;
+namespace Effortless\Util;
 
-use EffortlessWC\Models\Card;
-use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\World;
-use EffortlessWC\Models\EffortPile;
+use Effortless\Models\Card;
+use Effortless\Models\Location;
+use Effortless\Models\Seat;
+use Effortless\World;
+use Effortless\Models\EffortPile;
 
 // const INPUTTYPE_LOCATION = 'inputtype:location';
 // const INPUTTYPE_CARD = 'inputtype:card';

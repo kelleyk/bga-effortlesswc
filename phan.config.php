@@ -71,8 +71,8 @@ return [
   // probably match what's in PHPUnit's "autoload.php".
   'include_paths' => [
     '.',
-    '/src/game/effortlesswc',
-    '/src/test/effortlesswc',
+    '/src/game/effortless',
+    '/src/test/effortless',
   ],
 
   'globals_type_map' => [
@@ -91,7 +91,7 @@ return [
     '/src/localarena/vendor',
 
     // XXX: This is hopefully something that we can eventually remove:
-    '/src/game/effortlesswc/localarena_config.inc.php',
+    '/src/game/effortless/localarena_config.inc.php',
   ],
 
   // N.B.: Without this, include/require statements for files that aren't found won't cause errors.  (You'll still get

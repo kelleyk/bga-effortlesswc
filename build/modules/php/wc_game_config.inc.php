@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 // XXX: For some reason, neither of these types of annotations work to address a PhanSuspiciousWeakTypeComparison
 //   finding when we check if something is in DISABLED_SETTINGS.

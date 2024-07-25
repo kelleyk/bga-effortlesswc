@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 require 'Scoring.php';
 
 trait DebugTrait
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   public function loadBugReportSQL(int $reportId, array $studioPlayers): void
   {

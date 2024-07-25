@@ -5,15 +5,15 @@
 /**
   @phan-file-suppress PhanUndeclaredMethod
 
-  XXX: TODO: This is a temporary way to deal with Phan errors related to the `onAct*()` members of Effortlesswc not
+  XXX: TODO: This is a temporary way to deal with Phan errors related to the `onAct*()` members of Effortless not
   being picked up.
 */
 
-class action_effortlesswc extends APP_GameAction
+class action_effortless extends APP_GameAction
 {
   // XXX: Should these be moved to `APP_GameAction`?
 
-  /** @var Effortlesswc $game */
+  /** @var Effortless $game */
   public $game; // Enforces functions exist on Table class
 
   public $view;
@@ -26,7 +26,7 @@ class action_effortlesswc extends APP_GameAction
       $this->view = 'common_notifwindow';
       $this->viewArgs['table'] = self::getArg('table', AT_posint, true);
     } else {
-      $this->view = 'effortlesswc_effortlesswc';
+      $this->view = 'effortless_effortless';
       self::trace('Complete reinitialization of board game');
     }
   }

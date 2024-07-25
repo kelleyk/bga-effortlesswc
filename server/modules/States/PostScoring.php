@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\States;
+namespace Effortless\States;
 
 trait PostScoring
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   public function stPostScoring()
   {
@@ -51,7 +51,7 @@ trait PostScoring
     // // - Most complete armor sets
 
     return array_merge($this->renderBoardState(), [
-      'scoring' => \EffortlessWC\calculateScores($this->world()),
+      'scoring' => \Effortless\calculateScores($this->world()),
     ]);
   }
 }

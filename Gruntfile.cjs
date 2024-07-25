@@ -53,7 +53,7 @@ module.exports = function (grunt) {
           // 'tmp/assets_cards.js',
           'tmp/client/*.js',
         ],
-        dest: 'build/effortlesswc.js',
+        dest: 'build/effortless.js',
       },
     },
     copy: {
@@ -175,7 +175,7 @@ module.exports = function (grunt) {
     },
     // shell: {
     //     deploy: {
-    //         command: "lftp sftp://Oberstille@1.studio.boardgamearena.com -e \"mirror --reverse --parallel=10 --delete $PWD/build/ effortlesswc/; exit\"",
+    //         command: "lftp sftp://Oberstille@1.studio.boardgamearena.com -e \"mirror --reverse --parallel=10 --delete $PWD/build/ effortless/; exit\"",
     //     },
     // },
     jsonlint: {
@@ -210,7 +210,7 @@ module.exports = function (grunt) {
           // mergeIntoShorthands: false,
         },
         files: {
-          'build/effortlesswc.css': [
+          'build/effortless.css': [
             'client/**/*.css',
             'tmp/**/*.css',
             'assets/**/*.css',
@@ -277,8 +277,8 @@ module.exports = function (grunt) {
           'mkdir -p tmp/phan',
           [
             'docker run -i --rm',
-            '-v $PWD/test-build:/src/test/effortlesswc:ro',
-            '-v $PWD/build:/src/game/effortlesswc:ro',
+            '-v $PWD/test-build:/src/test/effortless:ro',
+            '-v $PWD/build:/src/game/effortless:ro',
             '-v $PWD/phan.config.php:/config/phan.config.php:ro',
             '-v $PWD/tmp/phan:/output:rw',
 
@@ -313,11 +313,11 @@ module.exports = function (grunt) {
           '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
           '-v ${LOCALARENA_ROOT}/src/game/localarenanoop:/src/game/localarenanoop:ro',
 
-          '-v $PWD/test-build:/src/test/effortlesswc:ro',
-          '-v $PWD/build:/src/game/effortlesswc:ro',
+          '-v $PWD/test-build:/src/test/effortless:ro',
+          '-v $PWD/build:/src/game/effortless:ro',
 
           'wardcanyon/localarena-testenv:latest',
-          'phpunit --configuration /src/test/effortlesswc/modules/php/Test/phpunit.xml',
+          'phpunit --configuration /src/test/effortless/modules/php/Test/phpunit.xml',
         ]
           .concat(phpunit_args)
           .join(' '),

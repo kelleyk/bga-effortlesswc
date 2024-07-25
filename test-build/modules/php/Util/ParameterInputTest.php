@@ -6,7 +6,7 @@
 require_once 'modules/php/constants.inc.php';
 require_once 'modules/php/Test/IntegrationTestCase.php';
 
-class ParameterInputTest extends \EffortlessWC\Test\IntegrationTestCase
+class ParameterInputTest extends \Effortless\Test\IntegrationTestCase
 {
   protected function setUp(): void
   {

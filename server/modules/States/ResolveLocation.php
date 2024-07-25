@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\States;
+namespace Effortless\States;
 
-use EffortlessWC\Util\InputRequiredException;
+use Effortless\Util\InputRequiredException;
 
 trait ResolveLocation
 {
-  use \EffortlessWC\BaseTableTrait;
-  use \EffortlessWC\Util\ParameterInput;
+  use \Effortless\BaseTableTrait;
+  use \Effortless\Util\ParameterInput;
 
   public function stResolveLocation()
   {

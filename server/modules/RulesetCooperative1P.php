@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
-use EffortlessWC\Ruleset;
+use Effortless\Ruleset;
 
 // "In Solo Cooperative Mode, there are a few changes to gameplay and scoring. Become Famous to win!
 //

@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 require_once 'WcLib/WcDeck.php';
 
-use EffortlessWC\Models\Card;
-use EffortlessWC\Models\EffortPile;
-use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\Models\Setting;
-use EffortlessWC\Ruleset;
+use Effortless\Models\Card;
+use Effortless\Models\EffortPile;
+use Effortless\Models\Location;
+use Effortless\Models\Seat;
+use Effortless\Models\Setting;
+use Effortless\Ruleset;
 
 class WorldImpl implements World
 {
@@ -163,18 +163,18 @@ class WorldImpl implements World
       case GAMEOPTION_RULESET_COMPETITIVE:
         switch ($this->table()->getPlayersNumber()) {
           case 1:
-            return new \EffortlessWC\RulesetCompetitive1P();
+            return new \Effortless\RulesetCompetitive1P();
           case 2:
-            return new \EffortlessWC\RulesetCompetitive2P();
+            return new \Effortless\RulesetCompetitive2P();
           default:
-            return new \EffortlessWC\RulesetCompetitive();
+            return new \Effortless\RulesetCompetitive();
         }
       case GAMEOPTION_RULESET_COOPERATIVE:
         switch ($this->table()->getPlayersNumber()) {
           case 1:
-            return new \EffortlessWC\RulesetCooperative1P();
+            return new \Effortless\RulesetCooperative1P();
           default:
-            return new \EffortlessWC\RulesetCooperative();
+            return new \Effortless\RulesetCooperative();
         }
     }
     throw new \BgaVisibleSystemException('Unexpected value for GAMEOPTION_RULESET: ' . $option_ruleset);

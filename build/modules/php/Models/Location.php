@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Models;
+namespace Effortless\Models;
 
 require_once 'Seat.php';
 
-use EffortlessWC\World;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\Models\EffortPile;
+use Effortless\World;
+use Effortless\Models\Seat;
+use Effortless\Models\EffortPile;
 
-use EffortlessWC\Util\NoChoicesAvailableException;
+use Effortless\Util\NoChoicesAvailableException;
 
 // XXX: We need to have a simple test that we actually wind up with one more card than we started with for each location
 // type, even e.g. when the location effect cannot be performed.
 
 abstract class Location extends \WcLib\CardBase
 {
-  use \EffortlessWC\Util\ParameterInput;
+  use \Effortless\Util\ParameterInput;
 
   const CARD_TYPE_GROUP = 'location';
 

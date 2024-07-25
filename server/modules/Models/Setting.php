@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Models;
+namespace Effortless\Models;
 
-use EffortlessWC\ScoringContext;
-use EffortlessWC\World;
+use Effortless\ScoringContext;
+use Effortless\World;
 
 // XXX: We need a way to do sorting that lets the Fighter attribute do its tiebreaking thing.
 

@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 require_once 'WcLib/WcDeck.php';
 
-use EffortlessWC\Ruleset;
-use EffortlessWC\Models\Card;
-use EffortlessWC\Models\EffortPile;
-use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\Models\Setting;
+use Effortless\Ruleset;
+use Effortless\Models\Card;
+use Effortless\Models\EffortPile;
+use Effortless\Models\Location;
+use Effortless\Models\Seat;
+use Effortless\Models\Setting;
 
 interface World
 {

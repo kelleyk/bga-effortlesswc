@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
-use EffortlessWC\Ruleset;
+use Effortless\Ruleset;
 
 function array_rand_value($array)
 {

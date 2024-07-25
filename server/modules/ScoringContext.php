@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 // Used during end-game scoring.
 class ScoringContext

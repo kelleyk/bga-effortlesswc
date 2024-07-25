@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Models;
+namespace Effortless\Models;
 
-use EffortlessWC\World;
+use Effortless\World;
 
 class Player extends \WcLib\PlayerBase
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 require_once 'wc_game_config.inc.php';
 require_once 'WcLib/BgaTableTrait.php';
@@ -9,19 +9,19 @@ require_once 'WcLib/BgaTableTrait.php';
 require_once 'Models/Setting.php';
 require_once 'Models/Location.php';
 
-use EffortlessWC\Models\Seat;
-use EffortlessWC\Models\Location;
+use Effortless\Models\Seat;
+use Effortless\Models\Location;
 
 // This code performs the setup that's done as the table is created.
 trait Setup
 {
-  use \EffortlessWC\BaseTableTrait;
-  use \EffortlessWC\TurnOrderTrait;
+  use \Effortless\BaseTableTrait;
+  use \Effortless\TurnOrderTrait;
 
   // XXX: What should happen here and what should happen in ST_INITIAL_SETUP?
   protected function setupNewGame($players, $options = [])
   {
-    $this->wc_trace('*** EffortlessWC setupNewGame()');
+    $this->wc_trace('*** Effortless setupNewGame()');
 
     $gameinfos = $this->getGameinfos();
 
@@ -145,7 +145,7 @@ trait Setup
   private function initLocationDeck($sets): void
   {
     $card_specs = [];
-    $this->visitConcreteSubclasses('EffortlessWC\Models\Location', function ($rc) use (&$card_specs, $sets) {
+    $this->visitConcreteSubclasses('Effortless\Models\Location', function ($rc) use (&$card_specs, $sets) {
       $location_id = $rc->getConstant('CARD_TYPE');
       if (in_array($rc->getConstant('SET_ID'), $sets) && !in_array($location_id, DISABLED_LOCATIONS)) {
         $card_specs[] = [
@@ -162,7 +162,7 @@ trait Setup
   private function initSettingDeck($sets): void
   {
     $card_specs = [];
-    $this->visitConcreteSubclasses('EffortlessWC\Models\Setting', function ($rc) use (&$card_specs, $sets) {
+    $this->visitConcreteSubclasses('Effortless\Models\Setting', function ($rc) use (&$card_specs, $sets) {
       $setting_id = $rc->getConstant('CARD_TYPE');
 
       // N.B.: For details on this suppression, see "wc_game_config.inc.php".

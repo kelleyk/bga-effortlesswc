@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
-use EffortlessWC\Models\ArmorCard;
-use EffortlessWC\Models\AttributeCard;
-use EffortlessWC\Models\ItemCard;
-use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\Models\Setting;
+use Effortless\Models\ArmorCard;
+use Effortless\Models\AttributeCard;
+use Effortless\Models\ItemCard;
+use Effortless\Models\Location;
+use Effortless\Models\Seat;
+use Effortless\Models\Setting;
 
 class TableScore implements \JsonSerializable
 {

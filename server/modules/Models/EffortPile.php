@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Models;
+namespace Effortless\Models;
 
-use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\World;
+use Effortless\Models\Location;
+use Effortless\Models\Seat;
+use Effortless\World;
 
 class EffortPile
 {

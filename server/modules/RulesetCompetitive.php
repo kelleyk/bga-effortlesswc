@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
-use EffortlessWC\Ruleset;
+use Effortless\Ruleset;
 
 // This ruleset is the standard one described in the base-game rulebook.  It is used when 3+ players are playing
 // competitively.

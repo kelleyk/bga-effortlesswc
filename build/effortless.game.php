@@ -1,6 +1,6 @@
 <?php
 /**
- * effortlesswc.game.php
+ * effortless.game.php
  *
  * This is the main file for your game logic.
  *
@@ -9,8 +9,8 @@
 
 $swdNamespaceAutoload = function ($class) {
   $classParts = explode('\\', $class);
-  if (in_array($classParts[0], ['EffortlessWC', 'WcLib'])) {
-    if ($classParts[0] == 'EffortlessWC') {
+  if (in_array($classParts[0], ['Effortless', 'WcLib'])) {
+    if ($classParts[0] == 'Effortless') {
       array_shift($classParts);
     }
     $file = dirname(__FILE__) . '/modules/php/' . implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
@@ -33,31 +33,31 @@ require_once 'modules/php/constants.inc.php';
 // require_once 'modules/php/Models/Location.php';
 // require_once 'modules/php/Models/Setting.php';
 
-// // use EffortlessWC\Managers\Board;
+// // use Effortless\Managers\Board;
 
-// use EffortlessWC\Models\Player;
+// use Effortless\Models\Player;
 
-class Effortlesswc extends Table
+class Effortless extends Table
 {
-  use EffortlessWC\ActionDispatchTrait;
-  use EffortlessWC\BaseTableTrait;
-  use EffortlessWC\DatabaseTrait;
-  use EffortlessWC\DebugTrait;
-  use EffortlessWC\Setup;
-  use EffortlessWC\TurnOrderTrait;
+  use Effortless\ActionDispatchTrait;
+  use Effortless\BaseTableTrait;
+  use Effortless\DatabaseTrait;
+  use Effortless\DebugTrait;
+  use Effortless\Setup;
+  use Effortless\TurnOrderTrait;
 
-  use EffortlessWC\States\BotTurn;
-  use EffortlessWC\States\InitialSetup;
-  use EffortlessWC\States\Input;
-  use EffortlessWC\States\NextTurn;
-  use EffortlessWC\States\PlaceEffort;
-  use EffortlessWC\States\PostScoring;
-  use EffortlessWC\States\PreScoring;
-  use EffortlessWC\States\ResolveLocation;
-  use EffortlessWC\States\RoundUpkeep;
-  use EffortlessWC\States\TurnUpkeep;
+  use Effortless\States\BotTurn;
+  use Effortless\States\InitialSetup;
+  use Effortless\States\Input;
+  use Effortless\States\NextTurn;
+  use Effortless\States\PlaceEffort;
+  use Effortless\States\PostScoring;
+  use Effortless\States\PreScoring;
+  use Effortless\States\ResolveLocation;
+  use Effortless\States\RoundUpkeep;
+  use Effortless\States\TurnUpkeep;
 
-  // public \EffortlessWC\Utilities\DiceRoller $dice_roller;
+  // public \Effortless\Utilities\DiceRoller $dice_roller;
 
   function __construct()
   {
@@ -67,17 +67,17 @@ class Effortlesswc extends Table
       'optionAlteredRaceclass' => GAMEOPTION_ALTERED_RACECLASS,
       'optionHuntedThreats' => GAMEOPTION_HUNTED_THREATS,
     ]);
-    // $this->dice_roller = new \Effortlesswc\Utilities\DiceRoller();
+    // $this->dice_roller = new \Effortless\Utilities\DiceRoller();
 
-    $this->mainDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Card::class, 'main');
-    $this->locationDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Location::class, 'location');
-    $this->settingDeck = new \WcLib\WcDeck(\EffortlessWC\Models\Setting::class, 'setting');
+    $this->mainDeck = new \WcLib\WcDeck(\Effortless\Models\Card::class, 'main');
+    $this->locationDeck = new \WcLib\WcDeck(\Effortless\Models\Location::class, 'location');
+    $this->settingDeck = new \WcLib\WcDeck(\Effortless\Models\Setting::class, 'setting');
     $this->valueStack = new \WcLib\ValueStack($this, GAMESTATE_JSON_RESOLVE_VALUE_STACK);
   }
 
   protected function getGameName()
   {
-    return 'effortlesswc';
+    return 'effortless';
   }
 
   // -----------

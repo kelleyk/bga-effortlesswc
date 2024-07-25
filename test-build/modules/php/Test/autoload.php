@@ -3,8 +3,8 @@
 set_include_path(
   implode(PATH_SEPARATOR, [
     get_include_path(),
-    '/src/game/effortlesswc',
-    '/src/test/effortlesswc',
+    '/src/game/effortless',
+    '/src/test/effortless',
     // XXX: removed '/src' as part of path restructuring
   ])
 );

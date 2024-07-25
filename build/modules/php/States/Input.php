@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\States;
+namespace Effortless\States;
 
-use EffortlessWC\Util\ParameterInputConfig;
+use Effortless\Util\ParameterInputConfig;
 
-use EffortlessWC\Models\EffortPile;
-use EffortlessWC\Models\Location;
-use EffortlessWC\Models\Card;
+use Effortless\Models\EffortPile;
+use Effortless\Models\Location;
+use Effortless\Models\Card;
 
 trait Input
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   public function stInput()
   {

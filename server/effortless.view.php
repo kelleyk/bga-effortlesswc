@@ -1,6 +1,6 @@
 <?php
 /**
- * effortlesswc.view.php
+ * effortless.view.php
  *
  * This is your "view" file.
  *
@@ -18,11 +18,11 @@
 // @phan-suppress-next-line PhanUndeclaredConstant
 require_once APP_BASE_PATH . 'view/common/game.view.php';
 
-class view_effortlesswc_effortlesswc extends game_view
+class view_effortless_effortless extends game_view
 {
   function getGameName()
   {
-    return 'effortlesswc';
+    return 'effortless';
   }
 
   function build_page($viewArgs)

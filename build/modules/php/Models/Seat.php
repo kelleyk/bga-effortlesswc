@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Models;
+namespace Effortless\Models;
 
 require_once 'EffortPile.php';
 
-use EffortlessWC\World;
-use EffortlessWC\Models\EffortPile;
+use Effortless\World;
+use Effortless\Models\EffortPile;
 
 class Seat extends \WcLib\SeatBase
 {

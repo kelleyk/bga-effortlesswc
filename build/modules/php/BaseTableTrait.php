@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
 require_once 'WcLib/BgaTableTrait.php';
 require_once 'WcLib/GameState.php';
 require_once 'WcLib/WcDeck.php';
 
-use EffortlessWC\World;
-use EffortlessWC\WorldImpl;
-use EffortlessWC\Models\Seat;
-use EffortlessWC\Models\EffortPile;
+use Effortless\World;
+use Effortless\WorldImpl;
+use Effortless\Models\Seat;
+use Effortless\Models\EffortPile;
 
 // XXX: This doesn't belong here.
 function setDefault(array &$array, $key, mixed $default)
@@ -26,7 +26,7 @@ trait BaseTableTrait
   use \WcLib\BgaTableTrait;
   use \WcLib\GameState;
   use \WcLib\Logging;
-  use \EffortlessWC\RenderTrait;
+  use \Effortless\RenderTrait;
 
   public \WcLib\WcDeck $mainDeck;
   public \WcLib\WcDeck $locationDeck;

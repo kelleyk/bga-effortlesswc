@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\Models;
+namespace Effortless\Models;
 
 require_once realpath(__DIR__ . '/../Scoring.php');
 require_once realpath(__DIR__ . '/../StaticDataCards.php');
 
-use EffortlessWC\World;
-use EffortlessWC\SeatAttributes;
+use Effortless\World;
+use Effortless\SeatAttributes;
 
 abstract class Card extends \WcLib\CardBase
 {

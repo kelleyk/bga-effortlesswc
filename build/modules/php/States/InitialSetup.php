@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC\States;
+namespace Effortless\States;
 
 trait InitialSetup
 {
-  use \EffortlessWC\BaseTableTrait;
-  use \EffortlessWC\Setup;
+  use \Effortless\BaseTableTrait;
+  use \Effortless\Setup;
 
   public function stInitialSetup()
   {

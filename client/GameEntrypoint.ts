@@ -6,5 +6,5 @@ define([
   'ebg/stock',
   'ebg/zone',
 ], (_dojo: any, declare: any) => {
-  declare('bgagame.effortlesswc', ebg.core.gamegui, new GameBody());
+  declare('bgagame.effortless', ebg.core.gamegui, new GameBody());
 });

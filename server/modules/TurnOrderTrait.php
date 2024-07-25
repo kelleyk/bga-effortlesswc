@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace EffortlessWC;
+namespace Effortless;
 
-use EffortlessWC\Models\Seat;
+use Effortless\Models\Seat;
 
 trait TurnOrderTrait
 {
-  use \EffortlessWC\BaseTableTrait;
+  use \Effortless\BaseTableTrait;
 
   // Randomly assign a unique turn order to each character.
   //

@@ -1,5 +1,5 @@
 {
-  "name": "bga-effortlesswc",
+  "name": "bga-effortless",
   "version": "0.0.1",
   "description": "Effortless for BGA",
   "main": "index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kelleyk/bga-effortlesswc.git"
+    "url": "git+https://github.com/kelleyk/bga-effortless.git"
   },
   "author": "Kevin Kelley <kelleyk@kelleyk.net>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/kelleyk/bga-effortlesswc/issues"
+    "url": "https://github.com/kelleyk/bga-effortless/issues"
   },
-  "homepage": "https://github.com/kelleyk/bga-effortlesswc#readme",
+  "homepage": "https://github.com/kelleyk/bga-effortless#readme",
   "devDependencies": {
     "@prettier/plugin-php": "^0.22.2",
     "eslint": "^8.57.0",

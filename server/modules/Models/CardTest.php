@@ -5,7 +5,7 @@ require_once '/src/localarena/module/test/IntegrationTestCase.php';
 require_once 'modules/php/constants.inc.php';
 require_once 'modules/php/Test/IntegrationTestCase.php';
 
-class CardTest extends \EffortlessWC\Test\IntegrationTestCase
+class CardTest extends \Effortless\Test\IntegrationTestCase
 {
   protected function setUp(): void
   {
