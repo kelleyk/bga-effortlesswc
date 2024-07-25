@@ -143,6 +143,13 @@ class GameBody extends GameBasics {
     //   $('player_boards').children,
     // );
 
+    const reservePiles: { [seatId: number]: EffortPile } = {};
+    for (const pile of Object.values(mutableBoardState.effortPiles)) {
+      if (pile.locationId === null) {
+        reservePiles[pile.seatId] = pile;
+      }
+    }
+
     for (const seat of Object.values(mutableBoardState.seats)) {
       if (seat.playerId === null) {
         dojo.place(
@@ -154,6 +161,27 @@ class GameBody extends GameBasics {
           $('player_boards'),
         );
       }
+
+      const seatBoardEl = (
+        seat.playerId === null
+          ? document.querySelector(
+              '#overall_seat_board_' + seat.id + ' .player_panel_content',
+            )
+          : document.querySelector(
+              '#overall_player_board_' +
+                seat.playerId +
+                ' .player_panel_content',
+            )
+      ) as HTMLElement;
+
+      // XXX: Need to find actual values for these params.
+      dojo.place(
+        this.format_block('jstpl_seat_board_contents', {
+          colorName: seat.colorName,
+          reservePileId: reservePiles[seat.id].id,
+        }),
+        seatBoardEl,
+      );
     }
 
     // Hide scores, since we don't award points until the scoring phase at the end of the game.
@@ -426,12 +454,12 @@ class GameBody extends GameBasics {
     }
 
     for (const pile of Object.values(mutableBoardState.effortPiles)) {
-      // Ignore reserve piles.
-      if (pile.locationId !== null) {
-        document.querySelector<HTMLElement>(
-          '#ewc_effort_counter_' + pile.id + ' .ewc_effort_counter_value',
-        )!.innerText = '' + pile.qty;
-      }
+      // // Ignore reserve piles.
+      // if (pile.locationId !== null) {
+      document.querySelector<HTMLElement>(
+        '#ewc_effort_counter_' + pile.id + ' .ewc_effort_counter_value',
+      )!.innerText = '' + pile.qty;
+      // }
     }
     // XXX: We'll also need to update reserve piles once we draw them in player boards, of course.
 

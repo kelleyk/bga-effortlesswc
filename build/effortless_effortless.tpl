@@ -78,15 +78,11 @@ let jstpl_effort_counter =
 // N.B.: We use ".player-board" just for the appearance.
 var jstpl_tablewide_panel =
   '<div class="tablewide_panel player-board" id="tablewide_panel">' +
-  '(table-wide)' +
+  '(discard-pile button)' +
   '</div>';
 
-  /* var jstpl_character_panel =
-   *   '<div class="character_panel" id="character_panel_${id}">' +
-   *   '<div id="character_panel_${id}_heat" class="player-zone"></div>' +
-   *   '<hr />' +
-   *   '<div id="character_panel_${id}_tokens" class="player-zone"></div>' +
-   *   '</div>'; */
+  var jstpl_seat_board_contents =
+    '<div id="ewc_effort_counter_${reservePileId}" class="ewc_effort_counter_reserve"><div class="icon_effort tmp_tintable tmp_offset_cube tmp_scalable_cube ewc_playercolor_${colorName}"></div> <span class="ewc_effort_counter_value"></span></div>';
 
   var jstpl_seat_board =
     '<div id="overall_seat_board_${seatId}" class="player-board current-player-board" style="width: 234px; height: auto;">'+

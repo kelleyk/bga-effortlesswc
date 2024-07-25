@@ -91,7 +91,7 @@ trait BgaTableTrait {
 
   abstract public static function getUniqueValueFromDB(string $sql);
 
-  abstract public function getCollectionFromDB(string $query, bool $single = false);
+  abstract public static function getCollectionFromDB(string $query, bool $single = false);
 
   abstract public function getNonEmptyCollectionFromDB(string $sql);
 

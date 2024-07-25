@@ -203,6 +203,10 @@
   color: #ccc;
 }
 
+.ewc_effort_counter_reserve > * {
+  display: inline-block;
+}
+
 // XXX: This offsets a single cube into the lower right part of the setting area.
 .ewc_effort_counter_wrap {
   // display: flex;
