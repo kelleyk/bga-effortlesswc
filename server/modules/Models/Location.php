@@ -421,13 +421,23 @@ class PrisonLocation extends Location
 
   public function onVisited(World $world, Seat $seat)
   {
-    $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world), [
-      'description' =>
-        '${actplayer} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
-      'descriptionmyturn' =>
-        '${you} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
-    ]);
+    try {
+      $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world), [
+        'description' =>
+          '${actplayer} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
+        'descriptionmyturn' =>
+          '${you} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
+      ]);
+    } catch (NoChoicesAvailableException $e) {
+      $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved to ${location}.', [
+        'location' => $this->renderForNotif($world),
+      ]);
+      return;
+    }
+
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -526,9 +536,9 @@ class TunnelsLocation extends Location
           '${you} must pick another player\'s effort pile at the :location=tunnels: to move an effort from.',
       ]);
     } catch (NoChoicesAvailableException $e) {
-      $world
-        ->table()
-        ->notifyAllPlayers('message', 'There is not any effort that can be moved from the :location=tunnel:.', []);
+      $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved from ${location}.', [
+        'location' => $this->renderForNotif($world),
+      ]);
       return;
     }
 
@@ -577,7 +587,15 @@ class DungeonLocation extends Location
   // XXX: I'm not sure that this is correct; we should probably add some testing.
   public function onVisited(World $world, Seat $seat)
   {
-    $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    try {
+      $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    } catch (NoChoicesAvailableException $e) {
+      $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved to ${location}.', [
+        'location' => $this->renderForNotif($world),
+      ]);
+      return;
+    }
+
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
 
     $this->takeOnlyCard($world);
