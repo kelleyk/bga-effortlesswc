@@ -154,6 +154,23 @@
   // transform: scale(.3);
 }
 
+.ewc_playercolor_fg_blue {
+  color: #001489;
+}
+.ewc_playercolor_fg_pink {
+  color: #ff5fa2;
+}
+.ewc_playercolor_fg_teal {
+  color: #00b796;
+}
+.ewc_playercolor_fg_yellow {
+  color: #ffe900;
+}
+.ewc_playercolor_fg_white {
+  // XXX: Do we need to make this a different color?
+  color: #ffffff;
+}
+
 .ewc_playercolor_bg_blue {
   background-color: #001489;
 }

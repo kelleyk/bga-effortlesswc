@@ -210,7 +210,13 @@ class CityLocation extends Location
     } catch (NoChoicesAvailableException $e) {
       $world
         ->table()
-        ->notifyAllPlayers('XXX_rough', 'XXX: no effort that can be moved; skipping location effect for City...', []);
+        ->notifyAllPlayers(
+          'message',
+          '${seat} does not have any effort at the :location=city:, so none will be moved.',
+          [
+            'seat' => $world->activeSeat()->renderForNotif($world),
+          ]
+        );
     }
 
     if ($pile !== null) {
@@ -368,9 +374,7 @@ class MarketLocation extends Location
       );
     } catch (NoChoicesAvailableException $e) {
       // XXX: We should consider greying this location out as unselectable on the client side.
-      throw new \BgaUserException(
-        'You cannot visit this the :location=market: because you do not have a card to discard.'
-      );
+      throw new \BgaUserException('You cannot visit the Market because you do not have a card to discard.');
     }
 
     foreach ($this->cards($world) as $card) {
@@ -393,9 +397,7 @@ class PrisonLocation extends Location
 
     return array_values(
       array_filter($world->allEffortPiles(), function ($pile) use ($world) {
-        return $pile->qty() > 0 &&
-          $pile->location()->id() != $this->id() &&
-          $pile->seat()->id() != $world->activeSeat()->id();
+        return $pile->qty() > 0 && $pile->locationId() != $this->id() && $pile->seatId() != $world->activeSeat()->id();
       })
     );
   }
@@ -458,7 +460,7 @@ class TempleLocation extends Location
       );
     } catch (NoChoicesAvailableException $e) {
       // XXX: We should consider greying this location out as unselectable on the client side.
-      throw new \BgaUserException('You cannot visit the :location=temple: because you do not have a card to discard.');
+      throw new \BgaUserException('You cannot visit the Temple because you do not have a card to discard.');
     }
 
     for ($i = 0; $i < 2; ++$i) {
@@ -509,11 +511,7 @@ class TunnelsLocation extends Location
     } catch (NoChoicesAvailableException $e) {
       $world
         ->table()
-        ->notifyAllPlayers(
-          'XXX_rough',
-          'XXX: no effort that can be moved; skipping location effect for Tunnels...',
-          []
-        );
+        ->notifyAllPlayers('message', 'There is not any effort that can be moved from the :location=tunnel:.', []);
       return;
     }
 

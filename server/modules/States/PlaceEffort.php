@@ -28,8 +28,9 @@ trait PlaceEffort
       $location->effortPileForSeat($world, $world->activeSeat())
     );
 
-    $this->notifyAllPlayers('XXX_message', 'An effort is placed!', [
-      // XXX: give seat, location details
+    $this->notifyAllPlayers('message', '${seat} visits ${location} and places an effort there.', [
+      'seat' => $world->activeSeat()->renderForNotif($world),
+      'location' => $location->renderForNotif($world),
     ]);
     $this->setGameStateInt(GAMESTATE_INT_VISITED_LOCATION, $location->id());
 

@@ -36,6 +36,8 @@ abstract class Card extends \WcLib\CardBase
   //
   // XXX: We really just want to say "this must return an instance of `get_called_class()` or null"; it should be
   // possible to do that without the template parameter.
+  //
+  // XXX: `Location` is not the correct return type here.
   /**
     @param string[]|null $row
     @return Location|null
@@ -83,7 +85,23 @@ abstract class Card extends \WcLib\CardBase
 
   public function renderForNotif(World $world): string
   {
-    return 'Card[' . $this->id() . ']';
+    return '<strong>' . $this->metadata()['title'] . '</strong>';
+  }
+
+  public function gameLocation(World $world): Location
+  {
+    // XXX: This could be less inefficient.
+    foreach ($world->locations() as $location) {
+      if ($location->sublocation() === 'SETLOC' && $location->sublocationIndex() === $this->sublocationIndex()) {
+        return $location;
+      }
+    }
+    throw new \BgaVisibleSystemException('Unable to find matching location.');
+  }
+
+  protected function metadata()
+  {
+    return CARD_METADATA[$this->type()];
   }
 }
 
@@ -210,24 +228,28 @@ class ItemCard extends Card
 
   public function points(): int
   {
-    return $this->metadata()['points'];
+    $points = $this->metadata()['points'] ?? null;
+    if ($points === null) {
+      throw new \BgaVisibleSystemException('Missing static metadata: ItemCard.points');
+    }
+    return $points;
   }
 
   public function usable(SeatAttributes $seat_attrs): bool
   {
     $metadata = $this->metadata();
-    foreach ($metadata['requires'] as $attr => $min_value) {
+    $requires = $metadata['requires'] ?? null;
+    if ($requires === null) {
+      throw new \BgaVisibleSystemException('Missing static metadata: ItemCard.requires');
+    }
+
+    foreach ($requires as $attr => $min_value) {
       $value = $seat_attrs->points[$attr] ?? 0;
       if ($value < $min_value) {
         return false;
       }
     }
     return true;
-  }
-
-  protected function metadata()
-  {
-    return CARD_METADATA[$this->type()];
   }
 }
 

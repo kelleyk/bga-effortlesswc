@@ -156,7 +156,7 @@ class GameBody extends GameBasics {
           this.format_block('jstpl_seat_board', {
             seatColor: seat.seatColor,
             seatId: seat.id,
-            seatLabel: 'Bot A', // seat.seatLabel, XXX:
+            seatLabel: seat.seatLabel,
           }),
           $('player_boards'),
         );

@@ -198,15 +198,49 @@ class WorldImpl implements World
 
   public function moveCardToHand(Card $card, Seat $seat)
   {
+    // TODO: XXX: If we take a face-down card, I imagine that it remains secret (?).
+
+    $face_down = $card->isFaceDown();
     $card->setFaceDown(false);
 
-    $this->table()->mainDeck->placeOnTop($card, 'HAND', $seat->id());
+    // XXX: This will send multiple notifs when the player draws multiple cards.
+    switch ($card->sublocation()) {
+      case 'SETLOC':
+        if ($face_down) {
+          // XXX: Send more appropriate notifs.
+          $this->table()->notifyAllPlayers('debug', '${seat} takes a card from ${location}.', [
+            'seat' => $seat->renderForNotif($this),
+            'location' => $card->gameLocation($this)->renderForNotif($this),
+          ]);
+        } else {
+          // XXX: Send more appropriate notifs.
+          $this->table()->notifyAllPlayers('debug', '${seat} takes ${card} from ${location}.', [
+            'card' => $card->renderForNotif($this),
+            'seat' => $seat->renderForNotif($this),
+            'location' => $card->gameLocation($this)->renderForNotif($this),
+          ]);
+        }
+        break;
+      case 'DISCARD':
+        if ($face_down) {
+          throw new \BgaVisibleSystemException('Cards in the discard pile should never be face-down.');
+        }
+        $this->table()->notifyAllPlayers('debug', '${seat} takes ${card} from the discard pile.', [
+          'card' => $card->renderForNotif($this),
+          'seat' => $seat->renderForNotif($this),
+        ]);
+        break;
+      case 'DECK':
+        if (!$face_down) {
+          throw new \BgaVisibleSystemException('Cards in the deck should always be face-down.');
+        }
+        $this->table()->notifyAllPlayers('debug', '${seat} draws a card from the deck.', [
+          'seat' => $seat->renderForNotif($this),
+        ]);
+        break;
+    }
 
-    // XXX: Send more appropriate notifs.
-    $this->table()->notifyAllPlayers('debug', 'moveCardToHand(): card=${card} seat=${seat}', [
-      'card' => $card->renderForNotif($this),
-      'seat' => $seat->renderForNotif($this),
-    ]);
+    $this->table()->mainDeck->placeOnTop($card, 'HAND', $seat->id());
   }
 
   // This is roughly `moveCardToHand()` from the deck.
@@ -231,14 +265,45 @@ class WorldImpl implements World
 
   public function discardCard(Card $card)
   {
+    $face_down = $card->isFaceDown();
     $card->setFaceDown(false);
 
-    $this->table()->mainDeck->placeOnTop($card, 'DISCARD');
+    switch ($card->sublocation()) {
+      case 'SETLOC':
+        if ($face_down) {
+          // XXX: Send more appropriate notifs.
+          $this->table()->notifyAllPlayers('debug', 'A card is discarded from ${location}.', [
+            'location' => $card->gameLocation($this)->renderForNotif($this),
+          ]);
+        } else {
+          // XXX: Send more appropriate notifs.
+          $this->table()->notifyAllPlayers('debug', '${card} is discarded from ${location}.', [
+            'card' => $card->renderForNotif($this),
+            'location' => $card->gameLocation($this)->renderForNotif($this),
+          ]);
+        }
+        break;
+      case 'HAND':
+        $seat = Seat::mustGetById($this, $card->sublocationIndex());
+        if ($face_down) {
+          // XXX: Send more appropriate notifs.
+          $this->table()->notifyAllPlayers('debug', '${seat} discards a card from their hand.', [
+            'seat' => $seat->renderForNotif($this),
+          ]);
+        } else {
+          // XXX: Send more appropriate notifs.
+          $this->table()->notifyAllPlayers('debug', '${seat} discards ${card} from their hand.', [
+            'card' => $card->renderForNotif($this),
+            'seat' => $seat->renderForNotif($this),
+          ]);
+        }
+        break;
+      case 'DECK':
+        // No notif for this.
+        break;
+    }
 
-    // XXX: Send more appropriate notifs.
-    $this->table()->notifyAllPlayers('debug', 'discardCard(): card=${card}', [
-      'card' => $card->renderForNotif($this),
-    ]);
+    $this->table()->mainDeck->placeOnTop($card, 'DISCARD');
   }
 
   // Moves one effort from $src to $dst.  The piles must have the same `seat()` and different `location()`.

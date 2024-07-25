@@ -75,7 +75,7 @@ class Seat extends \WcLib\SeatBase
 
   public function renderForNotif(World $world): string
   {
-    return 'Seat[' . $this->id() . ']';
+    return '<strong class="ewc_playercolor_fg_' . $this->color_name() . '">' . $this->seat_label() . '</strong>';
   }
 
   function inputPlayer(World $world): Player

@@ -108,14 +108,14 @@ trait Setup
       $seat_color = $player_info['player_color'];
 
       $used_colors[] = $seat_color;
-      $values[] = '("' . $player_id . '", "' . $seat_color . '", "")';
+      $values[] = '("' . $player_id . '", "' . $seat_color . '", "' . $player_info['player_name'] . '")';
     }
 
     // XXX:
     // $this->world()->ruleset()->onSetup($this->world());
 
     // Set up bot seats when necessary; give 20 effort.
-    for ($i = count($this->loadPlayersBasicInfos()); $i < 3; ++$i) {
+    for ($i = 0; $i < 3 - count($this->loadPlayersBasicInfos()); ++$i) {
       $seat_color = array_values(
         array_filter($player_colors, function ($color) use ($used_colors) {
           return !in_array($color, $used_colors);
@@ -123,7 +123,7 @@ trait Setup
       )[0];
 
       $used_colors[] = $seat_color;
-      $values[] = '(NULL, "' . $seat_color . '", "")';
+      $values[] = '(NULL, "' . $seat_color . '", "' . BOT_SEAT_LABELS[$i] . '")';
     }
 
     self::DbQuery('INSERT INTO `seat` (`player_id`, `seat_color`, `seat_label`) VALUES ' . implode(',', $values));

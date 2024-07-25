@@ -84,6 +84,11 @@ class EffortPile
     return Location::mustGetById($world, $this->location_id_);
   }
 
+  public function locationId(): int
+  {
+    return $this->location_id_;
+  }
+
   public function hasLocation(): bool
   {
     return $this->location_id_ !== null;

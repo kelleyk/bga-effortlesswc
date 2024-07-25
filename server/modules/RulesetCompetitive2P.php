@@ -48,9 +48,10 @@ class RulesetCompetitive2P extends Ruleset
     $world
       ->table()
       ->notifyAllPlayers(
-        'XXX_message',
-        'Bot turn (2P competitive): random location visited; location ability not activated; cards there discarded and replaced. Location=${location}',
+        'message',
+        '${seat} randomly visits ${location} and places an effort there.  The card(s) there are discarded.',
         [
+          'seat' => $world->activeSeat()->renderForNotif($world),
           'location' => $location->renderForNotif($world),
         ]
       );

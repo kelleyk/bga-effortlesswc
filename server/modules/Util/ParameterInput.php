@@ -292,13 +292,13 @@ trait ParameterInput
     // echo '*** resolve_values for $param_index=' . $param_index . ': ' . print_r($resolve_values, true) . "\n----\n";
 
     if ($resolve_value !== null) {
-      $world
-        ->table()
-        ->notifyAllPlayers(
-          'XXX_debug',
-          'we have a resolve-value for param ' . $param_index . ': ' . print_r($resolve_value, true),
-          []
-        );
+      // $world
+      //   ->table()
+      //   ->notifyAllPlayers(
+      //     'XXX_debug',
+      //     'we have a resolve-value for param ' . $param_index . ': ' . print_r($resolve_value, true),
+      //     []
+      //   );
 
       // Okay, we have a value; let's return it!  User-input
       // validation has already happened (when ST_TARGET_SELECTION

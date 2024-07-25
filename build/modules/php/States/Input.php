@@ -39,9 +39,9 @@ trait Input
   {
     $paraminput_config = $this->getParamInputConfig();
 
-    $this->world()
-      ->table()
-      ->notifyAllPlayers('XXX_debug', 'onActSelectInput: ' . print_r($selection, true), []);
+    // $this->world()
+    //   ->table()
+    //   ->notifyAllPlayers('XXX_debug', 'onActSelectInput: ' . print_r($selection, true), []);
 
     // XXX: Validate $selection.  It is an object and contains {
     //   - "inputType"

@@ -22,10 +22,10 @@ trait NextTurn
       $world,
       '' . $world->table()->getGameStateInt(GAMESTATE_INT_DECIDING_PLAYER)
     );
-    $this->notifyAllPlayers('XXX_message', 'ST_NEXT_TURN: activeSeat=${activeSeat} decidingPlayer=${decidingPlayer}', [
-      'activeSeat' => $world->activeSeat()->renderForNotif($world),
-      'decidingPlayer' => $deciding_player->renderForNotif($world),
-    ]);
+    // $this->notifyAllPlayers('XXX_message', 'ST_NEXT_TURN: activeSeat=${activeSeat} decidingPlayer=${decidingPlayer}', [
+    //   'activeSeat' => $world->activeSeat()->renderForNotif($world),
+    //   'decidingPlayer' => $deciding_player->renderForNotif($world),
+    // ]);
 
     if ($world->activeSeat()->reserveEffort($world)->qty() <= 0) {
       // XXX: TODO: Assert that *nobody* has any effort left.  (Or, alternatively, we could skip seats that are out of
