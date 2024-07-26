@@ -344,7 +344,7 @@ class DocksLocation extends Location
       ]
     );
 
-    $world->moveEffort($loc->effortPileForSeat($world, $seat), $this->effortPileForSeat($world, $seat));
+    $world->moveEffort($this->effortPileForSeat($world, $seat), $loc->effortPileForSeat($world, $seat));
 
     $this->takeOnlyCard($world);
   }

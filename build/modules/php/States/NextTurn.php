@@ -36,6 +36,10 @@ trait NextTurn
     } else {
       $world->nextState(T_BEGIN_HUMAN_TURN);
     }
+
+    if (count($this->valueStack->getValueStack()) !== 0) {
+      throw new \BgaVisibleSystemException('Internal error: value-stack is not empty in ST_NEXT_TURN.');
+    }
   }
 
   public function activateNextDecidingPlayer(): void

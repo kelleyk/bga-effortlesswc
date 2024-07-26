@@ -1129,4 +1129,5 @@ class GameBody extends GameBasics {
 // // The global 'bgagame.effortless' class is instantiated when the page is loaded. The following code sets this
 // // variable to your game class.
 // dojo.setObject('bgagame.effortless', Effortless);
-// Same as: (window.bgagame ??= {}).effortless = Effortless;
+// Same as:
+// (window.bgagame ??= {}).effortless = Effortless;

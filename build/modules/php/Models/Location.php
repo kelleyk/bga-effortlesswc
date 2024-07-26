@@ -344,7 +344,7 @@ class DocksLocation extends Location
       ]
     );
 
-    $world->moveEffort($loc->effortPileForSeat($world, $seat), $this->effortPileForSeat($world, $seat));
+    $world->moveEffort($this->effortPileForSeat($world, $seat), $loc->effortPileForSeat($world, $seat));
 
     $this->takeOnlyCard($world);
   }
@@ -429,13 +429,15 @@ class PrisonLocation extends Location
           '${you} must pick another player\'s effort pile at a different location; one effort from that pile will be moved to the :location=prison:.',
       ]);
     } catch (NoChoicesAvailableException $e) {
-      $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved to ${location}', [
+      $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved to ${location}.', [
         'location' => $this->renderForNotif($world),
       ]);
       return;
     }
 
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
+
+    $this->takeOnlyCard($world);
   }
 }
 
@@ -585,7 +587,15 @@ class DungeonLocation extends Location
   // XXX: I'm not sure that this is correct; we should probably add some testing.
   public function onVisited(World $world, Seat $seat)
   {
-    $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    try {
+      $pile = $this->getParameterEffortPile($world, $this->getValidTargets($world));
+    } catch (NoChoicesAvailableException $e) {
+      $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved to ${location}.', [
+        'location' => $this->renderForNotif($world),
+      ]);
+      return;
+    }
+
     $world->moveEffort($pile, $this->effortPileForSeat($world, $pile->seat($world)));
 
     $this->takeOnlyCard($world);

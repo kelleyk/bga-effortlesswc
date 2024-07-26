@@ -106,7 +106,9 @@ class EffortPile
   public function addEffort(World $world, int $n): void
   {
     if ($n + $this->qty() < 0) {
-      throw new \BgaVisibleSystemException('Effort piles cannot shrink below zero items.');
+      throw new \BgaVisibleSystemException(
+        'Effort piles cannot shrink below zero items (pile ID ' . $this->id() . ').'
+      );
     }
 
     $this->qty_ += $n;

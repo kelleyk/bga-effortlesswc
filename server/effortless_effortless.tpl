@@ -1,5 +1,11 @@
 {OVERALL_GAME_HEADER}
 
+<script>
+  if (window.bgagame === undefined) {
+    window.bgagame = {};
+  }
+</script>
+
 <div id="ewc_playarea" class="ewc_playarea">
 
   <div id="ewc_handarea" class="ewc_handarea">
