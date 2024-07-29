@@ -688,14 +688,10 @@ class GameBody extends GameBasics {
   // This override repeatedly substitutes arguments until the string does not change.  This is useful for situations
   // such as our ST_INPUT, where some of the values in `args` contain substitution patterns themselves.
   public override format_string_recursive(log: string, args: any) {
-    console.log('XXX:', args);
-
     let lastLog: string;
     do {
       lastLog = log;
-
-      log = this.inherited(this.format_string_recursive, arguments);
-      // log = super.format_string_recursive(log, args);
+      log = this.inherited(this.format_string_recursive, [log, args]);
     } while (log !== lastLog);
 
     return this.replaceLogEntities(log);
