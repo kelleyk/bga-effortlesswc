@@ -108,6 +108,17 @@ module.exports = function (grunt) {
           },
         ],
       },
+      client_ts_build: {
+        files: [
+          {
+            expand: true,
+            cwd: 'tmp/client/',
+            src: ['*.js', '*.js.map'],
+            dest: 'build/',
+            filter: 'isFile',
+          },
+        ],
+      },
       server_sources: {
         files: [
           {
@@ -333,6 +344,9 @@ module.exports = function (grunt) {
       ts: {
         command: ['npx tsc --project tmp/tsconfig.json'].join(' '),
       },
+      clean: {
+        command: ['rm -rf ./build ./test-build ./tmp'].join(' '),
+      },
     },
   });
 
@@ -352,7 +366,12 @@ module.exports = function (grunt) {
     'shell:phan',
   ]);
 
-  grunt.registerTask('client', ['sass', 'cssmin', 'build-ts', 'uglify']);
+  grunt.registerTask('client', [
+    'sass',
+    'cssmin',
+    'build-ts',
+    'copy:client_ts_build',
+  ]);
 
   grunt.registerTask('tsconfig', [
     'jsonlint:tsconfig', // Lint (but don't modify) the source tsconfig.
@@ -387,4 +406,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test', ['server', 'test:server']);
+
+  grunt.registerTask('clean', ['shell:clean']);
 };

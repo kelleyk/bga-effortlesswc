@@ -51,7 +51,7 @@
     "noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
-		"removeComments": true, // Comments are always removed from JS in production, so you don't need to remove them when compiling.
+		"removeComments": false, // Let this happen in the minification step instead.
 		"sourceMap": true,
 	},
 }
