@@ -1,8 +1,19 @@
 // N.B.: Paths are relative to the "tmp" subdirectory.
 {
   "include": [
+    "client/**/GameGui.ts",
     "client/**/GameBasics.ts",
-    "client/**/*.ts",
+
+    // Hmm: despite "typeRoots" below, our build fails without this.  Why?
+    "client/**/*.d.ts",
+
+    "client/**/StaticDataCards.ts",
+    "client/**/StaticDataSetlocs.ts",
+    "client/**/StaticDataSprites.ts",
+    "client/**/GameBody.ts",
+    "client/**/GameEntrypoint.ts",
+    // "client/**/*.ts",
+
     "wclib/js/**/*.ts",
   ],
   "exclude": [
@@ -10,9 +21,11 @@
     "../**/*.spec.ts",
   ],
 	"compilerOptions": {
-		/* NEVER CHANGE THESE */
 		"target": "es5", // This is the framework's version
 		"module": "AMD", // This is what allows for imports and automatically creates the define function.
+
+    // "out": "client/effortless.js",
+    "outFile": "client/effortless.js",
 
 		/* Recommended, should not need to change. */
 		"moduleResolution": "node10",
@@ -22,10 +35,10 @@
 			"../node_modules/@types", // Recommended (default when typeRoots not defined)
       "client/**/*.d.ts",
 		],
-		"paths": {
-			// When cookbook files are added, this lets you import them without the full path.
-			"cookbook/*": [ "../node_modules/bga-ts-template/typescript/cookbook/*" ]
-		},
+		// "paths": {
+		// 	// When cookbook files are added, this lets you import them without the full path.
+		// 	"cookbook/*": [ "../node_modules/bga-ts-template/typescript/cookbook/*" ]
+		// },
 
     // See https://www.typescriptlang.org/tsconfig/ for details.
     //

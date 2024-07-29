@@ -47,6 +47,14 @@ module.exports = function (grunt) {
       options: {
         banner:
           '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+
+        // // XXX: Need to figure out how to combine multiple source-maps.
+        // sourceMap: true,
+        // sourceMapName: 'build/effortless.js.map',
+        // sourceMapIn: 'tmp/client/**/*.js.map',
+
+        // For more development-friendly output:
+        mangle: false,
       },
       build: {
         src: [
@@ -322,6 +330,9 @@ module.exports = function (grunt) {
           .concat(phpunit_args)
           .join(' '),
       },
+      ts: {
+        command: ['npx tsc --project tmp/tsconfig.json'].join(' '),
+      },
     },
   });
 
@@ -355,7 +366,9 @@ module.exports = function (grunt) {
     'prettier:client_ts',
     'tslint',
     'tsconfig',
-    'ts',
+
+    // XXX: 'ts',
+    'shell:ts',
   ]);
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);

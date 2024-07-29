@@ -58,7 +58,7 @@ class GameBody extends GameBasics {
   }
 
   /** @gameSpecific See {@link Gamegui.setup} for more information. */
-  public setup(gamedatas: Gamedatas): void {
+  public override setup(gamedatas: Gamedatas): void {
     console.log('*** Entering `setup()`; gamedatas=', gamedatas);
 
     // XXX: Where should this go?
@@ -178,7 +178,7 @@ class GameBody extends GameBasics {
       dojo.place(
         this.format_block('jstpl_seat_board_contents', {
           colorName: seat.colorName,
-          reservePileId: reservePiles[seat.id].id,
+          reservePileId: reservePiles[seat.id]!.id,
         }),
         seatBoardEl,
       );
@@ -199,7 +199,7 @@ class GameBody extends GameBasics {
     for (let i = 0; i < 6; ++i) {
       const el = dojo.place(
         this.format_block('jstpl_setloc_panel', {
-          classes: 'ewc_setloc_location_' + this.locationByPos[i].id,
+          classes: 'ewc_setloc_location_' + this.locationByPos[i]!.id,
           id: 'ewc_setloc_panel_' + i,
         }),
         $('ewc_setlocarea_column_' + (i % 2))!,
@@ -210,7 +210,7 @@ class GameBody extends GameBasics {
         'onclick',
         this,
         (evt: any) => {
-          this.onClickLocation(evt, this.locationByPos[i].id);
+          this.onClickLocation(evt, this.locationByPos[i]!.id);
         },
       );
     }
@@ -232,8 +232,8 @@ class GameBody extends GameBasics {
     for (const pile of Object.values(mutableBoardState.effortPiles)) {
       // Ignore reserve piles.
       if (pile.locationId !== null) {
-        const seat = mutableBoardState.seats[pile.seatId];
-        const location = mutableBoardState.locations[pile.locationId];
+        const seat = mutableBoardState.seats[pile.seatId]!;
+        const location = mutableBoardState.locations[pile.locationId]!;
 
         const parentEl = document.querySelector(
           '#ewc_setloc_panel_' +
@@ -409,7 +409,7 @@ class GameBody extends GameBasics {
   public cardIdFromElId(elId: string): number {
     const rxp = /^cardid_(\d+)$/;
     const m = rxp.exec(elId)!;
-    return parseInt(m[1], 10);
+    return parseInt(m[1]!, 10);
   }
 
   // XXX: We should find a way to make this more generic.
@@ -586,7 +586,7 @@ class GameBody extends GameBasics {
     switch (card.sublocation) {
       case 'SETLOC': {
         console.log('  - in setloc');
-        const location = this.locationByPos[card.sublocationIndex];
+        const location = this.locationByPos[card.sublocationIndex]!;
         this.placeCardInZone(this.locationZones[location.id], el!);
         break;
       }
@@ -687,7 +687,7 @@ class GameBody extends GameBasics {
   //
   // This override repeatedly substitutes arguments until the string does not change.  This is useful for situations
   // such as our ST_INPUT, where some of the values in `args` contain substitution patterns themselves.
-  public format_string_recursive(log: string, args: any) {
+  public override format_string_recursive(log: string, args: any) {
     console.log('XXX:', args);
 
     let lastLog: string;
@@ -911,7 +911,7 @@ class GameBody extends GameBasics {
   ///////////////////////////////////////////////////
   //// Game & client states
 
-  public onEnteringState(stateName: string, args: any): void {
+  public override onEnteringState(stateName: string, args: any): void {
     console.log('Entering state', stateName, args);
     super.onEnteringState(stateName, args);
 
@@ -939,7 +939,7 @@ class GameBody extends GameBasics {
   }
 
   /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
-  public onLeavingState(stateName: string): void {
+  public override onLeavingState(stateName: string): void {
     console.log('Leaving state: ' + stateName);
     super.onLeavingState(stateName);
 
@@ -956,7 +956,10 @@ class GameBody extends GameBasics {
     }
   }
 
-  public onUpdateActionButtons(stateName: string, args: any | null): void {
+  public override onUpdateActionButtons(
+    stateName: string,
+    args: any | null,
+  ): void {
     console.log('onUpdateActionButtons()', stateName, args);
 
     if (!this.isCurrentPlayerActive()) {
@@ -1098,7 +1101,7 @@ class GameBody extends GameBasics {
   //// Reaction to cometD notifications
 
   /** @gameSpecific See {@link Gamegui.setupNotifications} for more information. */
-  public setupNotifications() {
+  public override setupNotifications() {
     console.log('notifications subscriptions setup');
 
     // TODO: here, associate your game notifications with local methods

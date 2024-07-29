@@ -27,7 +27,8 @@ trait ActionDispatchTrait
     $stateName = $this->gamestate->state()['name'];
     switch ($stateName) {
       case 'stInput':
-        self::onActSelectInput_stInput($selection);
+        /* @phan-suppress-next-line PhanUndeclaredMethod */
+        $this->onActSelectInput_stInput($selection);
         return;
       default:
         throw new \BgaUserException('Unexpected state for `actSelectInput`: ' . $stateName);

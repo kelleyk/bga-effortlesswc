@@ -1,9 +1,11 @@
-// @ts-ignore
-GameGui = /** @class */ (() => {
-  return () => {
-    /* XXX: Deliberately empty. */
-  };
-})();
+// /* tslint:disable */
+// // @ts-ignore
+// var GameGui = /** @class */ (() => {
+//   return () => {
+//     /* XXX: Deliberately empty. */
+//   };
+// })();
+// /* tslint:enable */
 
 /** Class that extends default bga core game class with more functionality
  */
@@ -21,12 +23,12 @@ class GameBasics extends GameGui {
   }
 
   // state hooks
-  public setup(gamedatas: any) {
+  public override setup(gamedatas: any) {
     console.log('(BASICS) Starting game setup');
     this.gamedatas = gamedatas;
   }
 
-  public onEnteringState(stateName: string, args: any) {
+  public override onEnteringState(stateName: string, args: any) {
     // console.log("(BASICS) onEnteringState: " + stateName, args, this.debugStateInfo());
 
     this.curstate = stateName;
@@ -41,7 +43,7 @@ class GameBasics extends GameGui {
     }
   }
 
-  public onLeavingState(_stateName: string) {
+  public override onLeavingState(_stateName: string) {
     // console.log("(BASICS) onLeavingState: " + stateName, this.debugStateInfo());
     this.currentPlayerWasActive = false;
   }
@@ -49,7 +51,7 @@ class GameBasics extends GameGui {
   // XXX: from looking at
   // https://github.com/elaskavaia/bga-dojoless, it seems like this
   // function is meant to handle all dispatch of these events, not to be called via `super()`
-  public onUpdateActionButtons(stateName: string, args: any) {
+  public override onUpdateActionButtons(stateName: string, args: any) {
     console.log('(BASICS) onUpdateActionButtons()');
     if (this.curstate !== stateName) {
       // delay firing this until onEnteringState is called so they always called in same order
@@ -139,7 +141,11 @@ class GameBasics extends GameGui {
   // }
 
   /** @Override onScriptError from gameui */
-  public onScriptError(msg: string, _url: string, _linenumber: number) {
+  public override onScriptError(
+    msg: string,
+    _url: string,
+    _linenumber: number,
+  ) {
     if (gameui.page_is_unloading) {
       // Don't report errors during page unloading
       return;
