@@ -128,7 +128,8 @@ declare class GameGui {
   showMessage(msg: string, type: string): void;
   showMoveUnauthorized(): void;
   protected onScriptError(msg: string, url?: string, linenumber?: number): void;
-  inherited(args: any): any;
+  // N.B.: The form `inherited(args)` is allowed when strict mode is disabled.
+  inherited(fnRef: any, args: any): any;
   format_string_recursive(log: string, args: any[]): string;
   clienttranslate_string(text: string): string;
 

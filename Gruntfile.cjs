@@ -95,14 +95,14 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'client/',
-            src: ['**/*.ts'],
+            src: ['**/*.ts', '**/*.js'],
             dest: 'tmp/client/',
             filter: 'isFile',
           },
           {
             expand: true,
             cwd: 'assets/',
-            src: ['**/*.ts'],
+            src: ['**/*.ts', '**/*.js'],
             dest: 'tmp/client/',
             filter: 'isFile',
           },
@@ -113,7 +113,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'tmp/client/',
-            src: ['*.js', '*.js.map'],
+            src: ['effortless.js', 'effortless.js.map'],
             dest: 'build/',
             filter: 'isFile',
           },

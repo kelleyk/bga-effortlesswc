@@ -14,15 +14,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-// /* tslint:disable */
-// // @ts-ignore
-// var GameGui = /** @class */ (() => {
-//   return () => {
-//     /* XXX: Deliberately empty. */
-//   };
-// })();
-// /* tslint:enable */
-/** Class that extends default bga core game class with more functionality
+let GameGui = /** @class */ (() => {
+  return () => {
+    /* XXX: Deliberately empty. */
+  };
+})();
+/** class that extends default bga core game class with more functionality
  */
 // XXX: What's the purpose of `curstate` if we have `this.gamedatas.gamestate.name`?`
 var GameBasics = /** @class */ (function (_super) {
@@ -138,7 +135,7 @@ var GameBasics = /** @class */ (function (_super) {
         console.error(msg);
         // // cannot call super - dojo still have to used here
         // super.onScriptError(msg, url, linenumber);
-        return this.inherited(arguments);
+        return this.inherited(this.onScriptError, arguments);
     };
     // XXX: I've only been trying to get this building; fix the typing.
     // XXX: Support easing?
@@ -1722,7 +1719,7 @@ var GameBody = /** @class */ (function (_super) {
         var lastLog;
         do {
             lastLog = log;
-            log = this.inherited(arguments);
+            log = this.inherited(this.format_string_recursive, arguments);
             // log = super.format_string_recursive(log, args);
         } while (log !== lastLog);
         return this.replaceLogEntities(log);
@@ -2013,7 +2010,7 @@ var GameBody = /** @class */ (function (_super) {
     //// Player's action
     /*
           Here, you are defining methods to handle player's action (ex: results of mouse click on game objects).
-  
+
           Most of the time, these methods:
           - check the action is possible at this game state.
           - make a call to the game server
@@ -2023,16 +2020,16 @@ var GameBody = /** @class */ (function (_super) {
       onMyMethodToCall1( evt: Event )
       {
           console.log( 'onMyMethodToCall1' );
-  
+
           // Preventing default browser reaction
           evt.preventDefault();
-  
+
           //	With base Gamegui class...
-  
+
           // Check that this action is possible (see "possibleactions" in states.inc.php)
           if(!this.checkAction( 'myAction' ))
               return;
-  
+
           this.ajaxcall( "/yourgamename/yourgamename/myAction.html", {
               lock: true,
               myArgument1: arg1,
@@ -2041,12 +2038,12 @@ var GameBody = /** @class */ (function (_super) {
               // What to do after the server call if it succeeded
               // (most of the time: nothing)
           }, function( is_error) {
-  
+
               // What to do after the server call in anyway (success or failure)
               // (most of the time: nothing)
           } );
-  
-  
+
+
           //	With GameguiCookbook::Common...
           this.ajaxAction( 'myAction', { myArgument1: arg1, myArgument2: arg2 }, (is_error) => {} );
       }

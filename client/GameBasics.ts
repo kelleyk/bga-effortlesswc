@@ -1,12 +1,3 @@
-// /* tslint:disable */
-// // @ts-ignore
-// var GameGui = /** @class */ (() => {
-//   return () => {
-//     /* XXX: Deliberately empty. */
-//   };
-// })();
-// /* tslint:enable */
-
 /** Class that extends default bga core game class with more functionality
  */
 
@@ -154,7 +145,7 @@ class GameBasics extends GameGui {
     console.error(msg);
     // // cannot call super - dojo still have to used here
     // super.onScriptError(msg, url, linenumber);
-    return this.inherited(arguments);
+    return this.inherited(this.onScriptError, arguments);
   }
 
   // XXX: I've only been trying to get this building; fix the typing.

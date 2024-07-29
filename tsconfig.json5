@@ -1,6 +1,7 @@
 // N.B.: Paths are relative to the "tmp" subdirectory.
 {
   "include": [
+    "client/**/GameGui.js",
     "client/**/GameGui.ts",
     "client/**/GameBasics.ts",
 
@@ -26,6 +27,9 @@
 
     // "out": "client/effortless.js",
     "outFile": "client/effortless.js",
+
+    // XXX: Necessary for our GameGui hack.
+    "allowJs": true,
 
 		/* Recommended, should not need to change. */
 		"moduleResolution": "node10",

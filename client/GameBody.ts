@@ -694,7 +694,7 @@ class GameBody extends GameBasics {
     do {
       lastLog = log;
 
-      log = this.inherited(arguments);
+      log = this.inherited(this.format_string_recursive, arguments);
       // log = super.format_string_recursive(log, args);
     } while (log !== lastLog);
 
