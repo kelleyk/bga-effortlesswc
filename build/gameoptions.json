@@ -1,0 +1,57 @@
+{
+    "100": {
+        "name": "Ruleset",
+        "values": {
+            "1": {
+                "name": "Competitive",
+                "tmdisplay": "Competitive",
+                "description": "The players will compete with each other.  These are the normal rules."
+            },
+            "2": {
+                "name": "Cooperative",
+                "tmdisplay": "Cooperative",
+                "description": "The players will work together.  These rules are from the Altered expansion.  Threats are always used when playing cooperatively, which makes the game a little bit more complex."
+            }
+        },
+        "default": 1
+    },
+    "101": {
+        "name": "Play with race and class module",
+        "values": {
+            "1": {
+                "name": "Disabled",
+                "description": "The races and classes from the Altered expansion will not be used."
+            },
+            "2": {
+                "name": "Enabled",
+                "tmdisplay": "With races and classes",
+                "description": "The races and classes from the Altered expansion will be used."
+            }
+        },
+        "default": 1
+    },
+    "102": {
+        "name": "Play with Threat module",
+        "values": {
+            "1": {
+                "name": "Disabled",
+                "description": "The Threats from the Hunted expansion will not be used."
+            },
+            "2": {
+                "name": "Enabled",
+                "tmdisplay": "With Threats",
+                "description": "The Threats from the Hunted expansion will be used."
+            }
+        },
+        "default": 1,
+        "displaycondition": [
+            {
+                "type": "otheroption",
+                "id": 100,
+                "value": [
+                    1
+                ]
+            }
+        ]
+    }
+}

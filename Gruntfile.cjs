@@ -131,7 +131,11 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'server/',
-            src: ['*.php'],
+            src: [
+              '*.php',
+              // This file is now translated into JSON.
+              '!gameoptions.inc.php',
+            ],
             dest: 'build/',
             filter: 'isFile',
           },
@@ -341,6 +345,40 @@ module.exports = function (grunt) {
           .concat(phpunit_args)
           .join(' '),
       },
+      generate_gameoptions: {
+        // We use the LocalArena testenv here, but we really just need a PHP interpreter.
+        //
+        // XXX: That's not completely true; e.g. `totranslate()` is called from "gameoptions.inc.php".
+        command: [
+          'docker run -i --rm',
+
+          '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+
+          '-v $PWD/:/src/repo/effortless:ro',
+          '-v $PWD/build:/src/game/effortless:rw',
+
+          'wardcanyon/localarena-testenv:latest',
+          'php /src/repo/effortless/scripts/GenerateBgaJson.php --metadata-type=gameoptions --input=/src/repo/effortless/server/gameoptions.inc.php --output=/src/game/effortless/gameoptions.json',
+        ]
+          .concat(phpunit_args)
+          .join(' '),
+      },
+      generate_gamepreferences: {
+        // We use the LocalArena testenv here, but we really just need a PHP interpreter.
+        command: [
+          'docker run -i --rm',
+
+          '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+
+          '-v $PWD/:/src/repo/effortless:ro',
+          '-v $PWD/build:/src/game/effortless:rw',
+
+          'wardcanyon/localarena-testenv:latest',
+          'php /src/repo/effortless/scripts/GenerateBgaJson.php --metadata-type=gamepreferences --input=/src/repo/effortless/server/gameoptions.inc.php --output=/src/game/effortless/gamepreferences.json',
+        ]
+          .concat(phpunit_args)
+          .join(' '),
+      },
       ts: {
         command: ['npx tsc --project tmp/tsconfig.json'].join(' '),
       },
@@ -423,7 +461,12 @@ module.exports = function (grunt) {
 
   grunt.registerTask('lint:server', ['jsonlint:bga_metadata', 'phan']);
 
-  grunt.registerTask('server', ['lint:server', 'copy:server_sources']);
+  grunt.registerTask('server', [
+    'lint:server',
+    'copy:server_sources',
+    // 'shell:generate_gameinfos',
+    'shell:generate_gameoptions',
+  ]);
 
   grunt.registerTask('fix', ['prettier', 'shell:prettier_server_php']);
 

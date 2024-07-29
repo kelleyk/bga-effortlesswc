@@ -160,6 +160,8 @@ class WorldImpl implements World
   {
     $option_ruleset = $this->table()->getGameStateValue('optionRuleset');
     switch ($option_ruleset) {
+      // XXX: The "case 0" is a temporary hack to unstick tables created without these gameoptions enabled.
+      case 0:
       case GAMEOPTION_RULESET_COMPETITIVE:
         switch ($this->table()->getPlayersNumber()) {
           case 1:
