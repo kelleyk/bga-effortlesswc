@@ -360,6 +360,36 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-prettier');
   grunt.loadNpmTasks('grunt-tslint');
 
+  // This is a hack related to the way that we try to extend a Dojo class (ebg.core.gamegui) with TypeScript.
+  //
+  // It uncomments everything between two marker comments; we use this to add an empty `GameGui` class into our JavaScript
+  // output.
+  grunt.registerTask(
+    'copy_and_replace_ts_build',
+    'Copy TS build output and replace special comments',
+    function () {
+      let lines = grunt.file.read('tmp/client/effortless.js').split('\n');
+
+      let uncomment = false;
+      for (let i = 0; i < lines.length; ++i) {
+        const line = lines[i];
+        // console.log(line);
+        if (line.trim() === '/* @@WC_UNCOMMENT_BEGIN@@ */') {
+          // console.log('** uncomment on');
+          uncomment = true;
+        } else if (line.trim() === '/* @@WC_UNCOMMENT_END@@ */') {
+          // console.log('** uncomment off');
+          uncomment = false;
+        } else if (uncomment && line.startsWith('//')) {
+          // console.log('** uncommenting');
+          lines[i] = line.slice(2);
+        }
+      }
+
+      grunt.file.write('build/effortless.js', lines.join('\n'));
+    },
+  );
+
   grunt.registerTask('phan', [
     'copy:server_sources',
     'copy:server_tests',
@@ -371,6 +401,7 @@ module.exports = function (grunt) {
     'cssmin',
     'build-ts',
     'copy:client_ts_build',
+    'copy_and_replace_ts_build',
   ]);
 
   grunt.registerTask('tsconfig', [

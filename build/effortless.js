@@ -14,12 +14,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-let GameGui = /** @class */ (() => {
-  return () => {
-    /* XXX: Deliberately empty. */
-  };
-})();
-/** class that extends default bga core game class with more functionality
+// This will be un-commented by the `copy_and_replace_ts_build` Grunt task.  See that task for details on why this is
+// necessary.
+/* @@WC_UNCOMMENT_BEGIN@@ */
+ let GameGui = /** @class */ (() => {
+   return () => {
+     /* XXX: Deliberately empty. */
+   };
+ })();
+/* @@WC_UNCOMMENT_END@@ */
+/** Class that extends default bga core game class with more functionality
  */
 // XXX: What's the purpose of `curstate` if we have `this.gamedatas.gamestate.name`?`
 var GameBasics = /** @class */ (function (_super) {
@@ -2010,7 +2014,7 @@ var GameBody = /** @class */ (function (_super) {
     //// Player's action
     /*
           Here, you are defining methods to handle player's action (ex: results of mouse click on game objects).
-
+  
           Most of the time, these methods:
           - check the action is possible at this game state.
           - make a call to the game server
@@ -2020,16 +2024,16 @@ var GameBody = /** @class */ (function (_super) {
       onMyMethodToCall1( evt: Event )
       {
           console.log( 'onMyMethodToCall1' );
-
+  
           // Preventing default browser reaction
           evt.preventDefault();
-
+  
           //	With base Gamegui class...
-
+  
           // Check that this action is possible (see "possibleactions" in states.inc.php)
           if(!this.checkAction( 'myAction' ))
               return;
-
+  
           this.ajaxcall( "/yourgamename/yourgamename/myAction.html", {
               lock: true,
               myArgument1: arg1,
@@ -2038,12 +2042,12 @@ var GameBody = /** @class */ (function (_super) {
               // What to do after the server call if it succeeded
               // (most of the time: nothing)
           }, function( is_error) {
-
+  
               // What to do after the server call in anyway (success or failure)
               // (most of the time: nothing)
           } );
-
-
+  
+  
           //	With GameguiCookbook::Common...
           this.ajaxAction( 'myAction', { myArgument1: arg1, myArgument2: arg2 }, (is_error) => {} );
       }
