@@ -44,6 +44,11 @@
 		// 	"cookbook/*": [ "../node_modules/bga-ts-template/typescript/cookbook/*" ]
 		// },
 
+    // Enable source maps for debugging, and include all of the sources in that file so that we don't have to upload a
+    // bunch of individual TypeScript source files.
+		"sourceMap": true,
+    "inlineSources": true,
+
     // See https://www.typescriptlang.org/tsconfig/ for details.
     //
     // Do we want any more of these?
@@ -56,6 +61,5 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"removeComments": false, // Let this happen in the minification step instead.
-		"sourceMap": true,
 	},
 }
