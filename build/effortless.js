@@ -1474,10 +1474,15 @@ var GameBody = /** @class */ (function (_super) {
     };
     // This is called to let UI elements react to changing data and contents.
     GameBody.prototype.refreshUiElements = function () {
-        this.handZone.updateDisplay();
-        for (var _i = 0, _a = Object.values(this.locationZones); _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.allCardZones(); _i < _a.length; _i++) {
             var zone = _a[_i];
             zone.updateDisplay();
+            // Fix z-order so that cards on the right are in front of cards on the left.
+            var i = 0;
+            for (var _b = 0, _c = zone.items; _b < _c.length; _b++) {
+                var item = _c[_b];
+                $(item.id).style.zIndex = '' + ++i;
+            }
         }
     };
     // XXX: It'd be nice if we could eliminate the need for this.

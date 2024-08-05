@@ -14,7 +14,7 @@ namespace Effortless;
 const BOT_SEAT_LABELS = ['Bot A', 'Bot B', 'Bot C', 'Bot D', 'Bot E'];
 
 const STARTING_EFFORT_PROD = 20;
-const STARTING_EFFORT_STUDIO = 3;
+const STARTING_EFFORT_STUDIO = 5;
 
 /** @var string[] */
 const DISABLED_LOCATIONS = ['location:laboratory'];

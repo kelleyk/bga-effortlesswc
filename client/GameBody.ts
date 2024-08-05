@@ -399,9 +399,14 @@ class GameBody extends GameBasics {
 
   // This is called to let UI elements react to changing data and contents.
   public refreshUiElements(): void {
-    this.handZone.updateDisplay();
-    for (const zone of Object.values(this.locationZones)) {
+    for (const zone of this.allCardZones()) {
       zone.updateDisplay();
+
+      // Fix z-order so that cards on the right are in front of cards on the left.
+      let i = 0;
+      for (const item of zone.items) {
+        $(item.id)!.style.zIndex = '' + ++i;
+      }
     }
   }
 
