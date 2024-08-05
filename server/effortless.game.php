@@ -17,6 +17,7 @@ $swdNamespaceAutoload = function ($class) {
     if (file_exists($file)) {
       require_once $file;
     } else {
+      throw new \feException('Cannot find file: ' . $file);
       var_dump('Cannot find file: ' . $file);
     }
   }
@@ -109,6 +110,11 @@ class Effortless extends TableBase
     $this->locationDeck = new \WcLib\WcDeck(\Effortless\Models\Location::class, 'location');
     $this->settingDeck = new \WcLib\WcDeck(\Effortless\Models\Setting::class, 'setting');
     $this->valueStack = new \WcLib\ValueStack($this, GAMESTATE_JSON_RESOLVE_VALUE_STACK);
+
+    $world = $this->world();
+    $this->onEnteringState->addListener(function ($state_id) use ($world) {
+      $this->paramInput_onEnteringState($world, $state_id);
+    });
   }
 
   protected function getGameName()

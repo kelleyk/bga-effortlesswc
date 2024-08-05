@@ -10,6 +10,8 @@ trait BotTurn
 
   public function stBotTurn()
   {
+    $this->triggerStateEvents();
+
     $world = $this->world();
 
     try {

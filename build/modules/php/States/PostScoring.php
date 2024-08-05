@@ -8,6 +8,8 @@ trait PostScoring
 
   public function stPostScoring()
   {
+    $this->triggerStateEvents();
+
     $world = $this->world();
 
     $world->nextState(T_DONE);

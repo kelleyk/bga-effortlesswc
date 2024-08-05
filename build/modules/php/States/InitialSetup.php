@@ -9,6 +9,8 @@ trait InitialSetup
 
   public function stInitialSetup()
   {
+    $this->triggerStateEvents();
+
     // XXX: Eventually, this should be driven by a game option.
     $sets = [
       SET_BASE,

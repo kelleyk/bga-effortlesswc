@@ -58,6 +58,12 @@ const GAMESTATE_JSON_RESOLVE_VALUE_STACK = 'resolveValueStack';
 // Stores serialized configuration related to the `ParameterInput` library.
 const GAMESTATE_JSON_PARAMINPUT_CONFIG = 'paramInputConfig';
 
+// XXX: Write a nice doc comment.
+//
+// `GAMESTATE_INT_PARAMINPUT_READBASE_INDEX` will always be <= `GAMESTATE_INT_PARAMINPUT_NEXT_INDEX`.
+const GAMESTATE_INT_PARAMINPUT_NEXT_INDEX = 'paramInputNextIndex';
+const GAMESTATE_INT_PARAMINPUT_READBASE_INDEX = 'paramInputReadbaseIndex';
+
 // ------------------------
 // Transitions
 // ------------------------

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-// TODO: Eventually, at least the core of this should be extracted to WcLib for reuse.
-
 namespace Effortless\Util;
 
 use Effortless\Models\Card;
@@ -93,24 +91,86 @@ class ParameterInputConfig implements \JsonSerializable
   }
 }
 
+// XXX: Why is this mixed into Location again?
 trait ParameterInput
 {
-  // XXX: We're going to try this without $param_index this time.
-  private int $next_param_index_ = 0;
+  // private ?int $next_read_index_ = null;
 
-  // We want to reset the $next_param_index_ counter on each state transition; we can tell if a state transition has
-  // happened because the $next_move_id_ (BGA's global #6) will have changed.  This stores the last value we saw.
-  private int $next_move_id_ = -1;
+  // // XXX: We're going to try this without $param_index this time.
+  // private int $next_param_index_ = 0;
+
+  // // We want to reset the $next_param_index_ counter on each state transition; we can tell if a state transition has
+  // // happened because the $next_move_id_ (BGA's global #6) will have changed.  This stores the last value we saw.
+  // private int $next_move_id_ = -1;
 
   // We consume value-stack entries as we go, but imagine that we consume a first input and then run into the need for a
   // second.  When that happens, we need to put the value stack back the way it was so that the first input is still
   // there when we get back from accepting the second.
-  private $initial_value_stack_;
+  private $initial_value_stack_ = null;
+
+  private $initial_read_index_ = null;
+
+  private function wc_debug(World $world, string $msg): void
+  {
+    $world->table()->debug('[PARAMINPUT] ' . $msg);
+    $world->table()->debug($this->paramInput_dumpState($world));
+  }
+
+  // This function is called on every state transition.
+  public function paramInput_onEnteringState(World $world, int $state_id): void
+  {
+    if ($state_id !== ST_INPUT) {
+      // // XXX: This is part of our hack to make the parameter-input system work.  Setting the readbase index to the next
+      // // index is important; this is how we know which indices will be assigned to input requested by this new state.
+      // $next_param_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX);
+      // $world->table()->setGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX, $next_param_index);
+      $next_write_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX);
+      $next_read_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX);
+      // if ($next_read_index !== $next_write_index) {
+      //   throw new \WcLib\Exception(
+      //     'At state transition, read and write indices do not match.  (next_read=' .
+      //       $next_read_index .
+      //       ' next_write=' .
+      //       $next_write_index .
+      //       ')'
+      //   );
+      // }
+
+      $this->wc_debug($world, 'paramInput_onEnteringState($state_id=' . $state_id . ')');
+      $this->paramInput_setRevertPoint($world);
+    }
+  }
+
+  public function paramInput_dumpState(World $world): string
+  {
+    $read_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX);
+    $write_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX);
+
+    $paraminput_config = $world->table()->getParamInputConfig();
+    $ici = $paraminput_config->param_index ?? 'null';
+    return '[PARAMINPUT] input-config-index=' .
+      $ici .
+      ' next-read-index=' .
+      $read_index .
+      ' next-write-index=' .
+      $write_index .
+      ' value-stack=' .
+      print_r($world->table()->valueStack->getValueStack(), true);
+  }
+
+  private function paramInput_setRevertPoint(World $world)
+  {
+    $this->initial_value_stack_ = $world->table()->valueStack->getValueStack();
+    $this->initial_read_index_ = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX);
+    $this->wc_debug($world, 'paramInput_setRevertPoint(); next_read_index=' . $this->initial_read_index_);
+  }
 
   // XXX: The `getParameter()` stuff should be moved to their own trait; they throw a special exception if we need to
   // ask for user input still.
   public function getParameterEffortPile(World $world, $valid_targets, $args = null): EffortPile
   {
+    $this->wc_debug($world, 'getParameterEffortPile()');
+
     if ($args === null) {
       $args = [];
     }
@@ -140,6 +200,8 @@ trait ParameterInput
    */
   public function getParameterLocation(World $world, $valid_targets, $args = null): Location
   {
+    $this->wc_debug($world, 'getParameterLocation()');
+
     if ($args === null) {
       $args = [];
     }
@@ -168,6 +230,8 @@ trait ParameterInput
 
   public function getParameterCardInHand(World $world, Seat $seat, $args = null): Card
   {
+    $this->wc_debug($world, 'getParameterCardInHand()');
+
     $args = $args ?? [];
     $args['selectionType'] = 'fromPrompt';
 
@@ -177,6 +241,8 @@ trait ParameterInput
   // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
   public function getParameterCardAtLocation(World $world, Location $location, $args = null): Card
   {
+    $this->wc_debug($world, 'getParameterCardAtLocation()');
+
     // XXX: for now, at least, using 'fromPrompt' rather than 'inPlay' is just a way to avoid the "reveal face-down
     // cards" problem
     $args = $args ?? [];
@@ -197,6 +263,8 @@ trait ParameterInput
   //
   public function getParameterCard(World $world, $cards, $args = null): Card
   {
+    $this->wc_debug($world, 'getParameterCard()');
+
     if ($args === null) {
       $args = [];
     }
@@ -232,30 +300,85 @@ trait ParameterInput
   //   throw new \feException('XXX: no impl: getParameterCard');
   // }
 
+  private function getNextReadIndex(World $world): int
+  {
+    $this->wc_debug($world, 'getNextReadIndex()');
+
+    return $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX);
+    // if ($this->next_read_index_ === null) {
+    //   $this->next_read_index_ = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX);
+    // }
+    // return $this->next_read_index_;
+  }
+
+  private function consumeNextReadIndex(World $world): int
+  {
+    $this->wc_debug($world, 'consumeNextReadIndex()');
+
+    $read_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX);
+    $world->table()->setGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX, $read_index + 1);
+    $this->wc_debug($world, 'PARAMINPUT: consumeNextReadIndex(): ' . $read_index);
+    return $read_index;
+  }
+
+  private function getNextParameterIndex(World $world): int
+  {
+    $this->wc_debug($world, 'getNextParameterIndex()');
+
+    return $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX);
+  }
+
   private function consumeNextParameterIndex(World $world): int
   {
-    $next_move_id = intval($world->table()->getGameStateValue('next_move_id'));
-    // // XXX:
-    // $next_move_id = -1;
+    $this->wc_debug($world, 'consumeNextParameterIndex()');
 
-    if ($this->next_move_id_ != $next_move_id) {
-      $this->next_move_id_ = $next_move_id;
-      $this->next_param_index_ = 0;
-      $this->initial_value_stack_ = $world->table()->valueStack->getValueStack();
-    }
-
-    $retval = $this->next_param_index_++;
-    // if ($retval > 0) {
-    //   throw new \WcLib\Exception('param index: ' . $retval);
-    // }
-    return $retval;
+    $next_param_index = $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX);
+    $world->table()->setGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX, $next_param_index + 1);
+    $this->wc_debug($world, 'PARAMINPUT: consumeNextParameterIndex(): ' . $next_param_index);
+    return $next_param_index;
   }
+
+  // private function getNextMoveId(World $world): int
+  // {
+  //   // XXX: This could be implemented with the following line, except that the caching that the BGA globals system does
+  //   // will break our ability to detect when we've transitioned to the next state.
+  //   //
+  //   // intval($world->table()->getGameStateValue('next_move_id'));
+
+  //   // XXX: This doesn't seem to be changed during one server-side call, even when we move through multiple states.
+  //   return intval($world->table()->getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3;'));
+  // }
+
+  // private function consumeNextParameterIndex(World $world): int
+  // {
+  //   $next_move_id = $this->getNextMoveId($world);
+  //   // // XXX:
+  //   // $next_move_id = -1;
+
+  //   if ($this->next_move_id_ != $next_move_id) {
+  //     $this->next_move_id_ = $next_move_id;
+  //     $this->next_param_index_ = 0;
+  //     $this->initial_value_stack_ = $world->table()->valueStack->getValueStack();
+  //   }
+
+  //   $retval = $this->next_param_index_++;
+  //   if ($retval > 0) {
+  //     throw new \WcLib\Exception('param index: ' . $retval . '; next_move_id=' . $next_move_id);
+  //   }
+  //   return $retval;
+  // }
 
   private function revertValueStack(World $world): void
   {
-    // throw new \feException('Reverting value stack: ' . print_r($this->initial_value_stack_, true));
+    $this->wc_debug($world, 'revertValueStack(): setting readbase index back to ' . $this->initial_read_index_);
 
-    $world->table()->valueStack->setValueStack($this->initial_value_stack_);
+    // If we haven't initialized $this->initial_value_stack_, then we're reverting before ever modifying the stack.
+    if ($this->initial_value_stack_ !== null) {
+      $world->table()->valueStack->setValueStack($this->initial_value_stack_);
+      // XXX: The -1 here is a hack; I'm not sure that it will work in multiple-input situations, and I don't (yet)
+      // understand why it's necessary.
+      $world->table()->setGameStateInt(GAMESTATE_INT_PARAMINPUT_READBASE_INDEX, $this->initial_read_index_ - 1);
+    }
   }
 
   // XXX: we want the config to be passed in from the call site
@@ -263,6 +386,8 @@ trait ParameterInput
   // - except $
   private function getParameterInner(World $world, string $input_type, $json_choices, $args)
   {
+    $this->wc_debug($world, 'getParameterInner()');
+
     $default_return_transition = 'ret:' . $world->table()->gamestate->state()['name'];
 
     $args['cancellable'] = $args['cancellable'] ?? false;
@@ -274,12 +399,30 @@ trait ParameterInput
       throw new NoChoicesAvailableException('There are no valid targets for this effect!');
     }
 
-    $param_index = $this->consumeNextParameterIndex($world);
+    // throw new \WcLib\Exception(
+    //   'next_index=' .
+    //     $world->table()->getGameStateInt(GAMESTATE_INT_PARAMINPUT_NEXT_INDEX) .
+    //     ' next_read_index=' .
+    //     $this->getNextReadIndex($world)
+    // );
+
+    $read_index = $this->consumeNextReadIndex($world);
+
+    // We need to save the initial value of the stack in case we wind up needing to revert (because e.g. we need
+    // additional input before we can finish resolving this state).  Traits can't have constructors, so we lazily
+    // initialize this before the first time we modify the value-stack.
+    if ($this->initial_value_stack_ === null) {
+      $this->wc_debug($world, 'getParameterInner() -- initializing initial_value_stack_');
+      $this->paramInput_setRevertPoint($world);
+    }
 
     // First, let's check and see if we already have a value waiting.
-    $resolve_value = $world->table()->valueStack->consumeFirstMatching(function ($resolve_value) use ($param_index) {
-      return $resolve_value['sourceType'] == 'USER_INPUT' && $resolve_value['paramIndex'] == $param_index;
+    $resolve_value = $world->table()->valueStack->consumeFirstMatching(function ($resolve_value) use ($read_index) {
+      return $resolve_value['sourceType'] == 'USER_INPUT' && $resolve_value['paramIndex'] == $read_index;
     });
+
+    // $value_stack = $world->table()->valueStack->getValueStack();
+    // throw new \BgaVisibleSystemException('XXX: Internal error: value-stack contents: ' . print_r($value_stack, true));
 
     // // // XXX: Add a "require to be unique" flag?
     // if (count($resolve_values) > 1) {
@@ -292,6 +435,9 @@ trait ParameterInput
     // echo '*** resolve_values for $param_index=' . $param_index . ': ' . print_r($resolve_values, true) . "\n----\n";
 
     if ($resolve_value !== null) {
+      $this->wc_debug($world, 'PARAMINPUT: we have a value for read_index=' . $read_index);
+      // throw new \feException('hey hey we have a value for you!');
+
       // $world
       //   ->table()
       //   ->notifyAllPlayers(
@@ -310,6 +456,10 @@ trait ParameterInput
       }
       return $resolve_value;
     }
+    $this->wc_debug(
+      $world,
+      'PARAMINPUT: we DO NOT have a value for read_index=' . $read_index . '; moving to input state'
+    );
 
     // XXX: We're going to need to add the code that generates the target index automatically!
     //
@@ -320,9 +470,13 @@ trait ParameterInput
       array_merge($args, [
         'inputType' => $input_type,
         'choices' => $json_choices,
-        'paramIndex' => $param_index,
+        'paramIndex' => $this->consumeNextParameterIndex($world),
       ])
     );
+
+    // if ($param_index > 0) {
+    // throw new \WcLib\Exception('oops: about to push a paraminput-config: ' . print_r($paraminput_config, true));
+    // }
 
     // Okay: we don't have a value waiting, so let's ask the player for input.
     $world->table()->setGameStateJson(GAMESTATE_JSON_PARAMINPUT_CONFIG, $paraminput_config->jsonSerialize());
@@ -338,6 +492,7 @@ trait ParameterInput
       ->table()
       ->gamestate->setPlayersMultiactive([$input_player->id()], $paraminput_config->return_transition, true);
 
+    // throw new \feException('XXX: input needed: ' . print_r(json_encode($paraminput_config), true));
     $world->nextState(T_GET_INPUT);
     $this->revertValueStack($world);
     throw new InputRequiredException();

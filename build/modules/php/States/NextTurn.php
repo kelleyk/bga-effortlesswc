@@ -11,6 +11,8 @@ trait NextTurn
 
   public function stNextTurn()
   {
+    $this->triggerStateEvents();
+
     // throw new \feException('XXX: stNextTurn - 000');
     $world = $this->world();
 
@@ -37,9 +39,25 @@ trait NextTurn
       $world->nextState(T_BEGIN_HUMAN_TURN);
     }
 
-    if (count($this->valueStack->getValueStack()) !== 0) {
-      throw new \BgaVisibleSystemException('Internal error: value-stack is not empty in ST_NEXT_TURN.');
+    // Invariant assertions for the parameter-input system.
+    $value_stack = $this->valueStack->getValueStack();
+    if (count($value_stack) !== 0) {
+      throw new \BgaVisibleSystemException(
+        'Internal error: value-stack is not empty in ST_NEXT_TURN.  Contents: ' . print_r($value_stack, true)
+      );
     }
+    $read_index = $world->table()->getNextReadIndex($world);
+    $write_index = $world->table()->getNextParameterIndex($world);
+    // XXX: re-enable me!
+    //
+    // if ($read_index != $write_index) {
+    //   throw new \BgaVisibleSystemException(
+    //     'Read/write parameter index mismatch at turn transition.  read_index=' .
+    //       $read_index .
+    //       ' and write_index=' .
+    //       $write_index
+    //   );
+    // }
   }
 
   public function activateNextDecidingPlayer(): void

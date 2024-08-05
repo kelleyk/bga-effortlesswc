@@ -38,6 +38,8 @@ trait BaseTableTrait
     return new WorldImpl($this);
   }
 
+  abstract function triggerStateEvents(): void;
+
   // XXX: Move to better home
   public function renderForClient(World $world, $x)
   {

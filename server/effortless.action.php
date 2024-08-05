@@ -33,6 +33,9 @@ class action_effortless extends APP_GameAction
 
   public function actSelectInput(): void
   {
+    $this->game->debug('------[ ACTION: actSelectInput ]--------');
+    $this->game->debug('[PARAMINPUT] ' . $this->game->paramInput_dumpState($this->game->world()));
+
     self::setAjaxMode();
 
     $selection = self::getArg('selection', AT_json, /*mandatory=*/ true);

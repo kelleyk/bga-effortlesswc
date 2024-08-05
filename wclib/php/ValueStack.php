@@ -99,7 +99,11 @@ class ValueStack {
     @return mixed[][]
   */
   public /*protected*/ function getValueStack() {
-    return $this->gamestate_impl_->getGameStateJson($this->gamestate_key_);
+    $raw_value = $this->gamestate_impl_->getGameStateJson($this->gamestate_key_);
+    if ($raw_value === null) {
+      throw new \feException('The game-state value (with key='.$this->gamestate_key_.' backing this value stack is `null`.  It may not have been initialized correctly.');
+    }
+    return $raw_value;
   }
 
   /**

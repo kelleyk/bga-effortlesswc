@@ -72,7 +72,7 @@ trait Input
         }
         $location = Location::mustGetById($this->world(), $value);
 
-        $this->valueStack->push([
+        $entry = [
           'paramIndex' => $paraminput_config->param_index,
           'valueType' => INPUTTYPE_LOCATION,
           'value' => $location->id(),
@@ -84,7 +84,13 @@ trait Input
           // XXX: Do we still need this?
           // 'sourceType' => 'TARGET_SELECTION',
           //
-        ]);
+        ];
+
+        // throw new \WcLib\Exception(
+        //   'paraminput: ' . print_r($paraminput_config, true) . ' --- entry to be pushed: ' . print_r($entry, true)
+        // );
+
+        $this->valueStack->push($entry);
         $this->world()->nextState($paraminput_config->return_transition);
         break;
       case INPUTTYPE_EFFORT_PILE:

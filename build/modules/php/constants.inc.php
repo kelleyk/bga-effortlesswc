@@ -22,6 +22,14 @@ const SET_ALTERED = 'set:altered';
 const SET_HUNTED = 'set:hunted';
 
 // ------------------------
+// Constants for the BGA-provided gamestate values
+// ------------------------
+
+// (This can/should be moved to WcLib.)
+
+const BGA_GAMESTATE_CURRENT_STATE = 3;
+
+// ------------------------
 // Global game-state types
 // ------------------------
 
@@ -49,6 +57,12 @@ const GAMESTATE_JSON_RESOLVE_VALUE_STACK = 'resolveValueStack';
 
 // Stores serialized configuration related to the `ParameterInput` library.
 const GAMESTATE_JSON_PARAMINPUT_CONFIG = 'paramInputConfig';
+
+// XXX: Write a nice doc comment.
+//
+// `GAMESTATE_INT_PARAMINPUT_READBASE_INDEX` will always be <= `GAMESTATE_INT_PARAMINPUT_NEXT_INDEX`.
+const GAMESTATE_INT_PARAMINPUT_NEXT_INDEX = 'paramInputNextIndex';
+const GAMESTATE_INT_PARAMINPUT_READBASE_INDEX = 'paramInputReadbaseIndex';
 
 // ------------------------
 // Transitions
