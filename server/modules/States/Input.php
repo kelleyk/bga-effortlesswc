@@ -14,6 +14,7 @@ trait Input
 
   public function stInput()
   {
+    $this->triggerStateEvents();
   }
 
   public function getParamInputConfig(): ParameterInputConfig

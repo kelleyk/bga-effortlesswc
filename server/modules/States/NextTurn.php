@@ -11,6 +11,8 @@ trait NextTurn
 
   public function stNextTurn()
   {
+    $this->triggerStateEvents();
+
     // throw new \feException('XXX: stNextTurn - 000');
     $world = $this->world();
 

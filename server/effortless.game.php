@@ -37,7 +37,41 @@ require_once 'modules/php/constants.inc.php';
 
 // use Effortless\Models\Player;
 
-class Effortless extends Table
+use WcLib\EventDispatcher;
+
+abstract class TableBase extends Table
+{
+  /** @var EventDispatcher<int> */
+  public $onEnteringState;
+  /** @var EventDispatcher<int> */
+  public $onLeavingState;
+
+  private ?int $last_state_ = null;
+
+  function __construct()
+  {
+    parent::__construct();
+
+    /** @var EventDispatcher<int> */
+    $this->onEnteringState = new EventDispatcher(null);
+    /** @var EventDispatcher<int> */
+    $this->onLeavingState = new EventDispatcher(null);
+  }
+
+  // This should be the first function called at the top of each `st*()` (state action) function.
+  function triggerStateEvents(): void
+  {
+    if ($this->last_state_ !== null) {
+      $this->onLeavingState->dispatch($this->last_state_);
+    }
+
+    $next_state = $this->getGameStateValue('bgaCurrentState');
+    $this->last_state_ = $next_state;
+    $this->onEnteringState->dispatch($next_state);
+  }
+}
+
+class Effortless extends TableBase
 {
   use Effortless\ActionDispatchTrait;
   use Effortless\BaseTableTrait;
@@ -63,6 +97,8 @@ class Effortless extends Table
   {
     parent::__construct();
     self::initGameStateLabels([
+      'bgaCurrentState' => BGA_GAMESTATE_CURRENT_STATE,
+
       'optionRuleset' => GAMEOPTION_RULESET,
       'optionAlteredRaceclass' => GAMEOPTION_ALTERED_RACECLASS,
       'optionHuntedThreats' => GAMEOPTION_HUNTED_THREATS,

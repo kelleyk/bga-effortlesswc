@@ -8,6 +8,8 @@ trait RoundUpkeep
 
   public function stRoundUpkeep()
   {
+    $this->triggerStateEvents();
+
     $this->world()->nextState(T_DONE);
   }
 }

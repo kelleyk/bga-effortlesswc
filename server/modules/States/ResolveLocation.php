@@ -11,6 +11,8 @@ trait ResolveLocation
 
   public function stResolveLocation()
   {
+    $this->triggerStateEvents();
+
     $world = $this->world();
 
     $visited_location = $world->visitedLocation();

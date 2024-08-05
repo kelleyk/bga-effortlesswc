@@ -11,6 +11,8 @@ trait PlaceEffort
 
   public function stPlaceEffort()
   {
+    $this->triggerStateEvents();
+
     $world = $this->world();
 
     try {

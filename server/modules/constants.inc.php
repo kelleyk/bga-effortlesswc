@@ -22,6 +22,14 @@ const SET_ALTERED = 'set:altered';
 const SET_HUNTED = 'set:hunted';
 
 // ------------------------
+// Constants for the BGA-provided gamestate values
+// ------------------------
+
+// (This can/should be moved to WcLib.)
+
+const BGA_GAMESTATE_CURRENT_STATE = 3;
+
+// ------------------------
 // Global game-state types
 // ------------------------
 
