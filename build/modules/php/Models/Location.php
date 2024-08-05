@@ -539,6 +539,7 @@ class TunnelsLocation extends Location
       $world->table()->notifyAllPlayers('message', 'There is not any effort that can be moved from ${location}.', [
         'location' => $this->renderForNotif($world),
       ]);
+      $this->takeOnlyCard($world);
       return;
     }
 
