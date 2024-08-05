@@ -44,7 +44,7 @@ trait DebugTrait
     $this->reloadPlayersBasicInfos();
   }
 
-  public function dbg_calculateScores()
+  public function debug_calculateScores()
   {
     $scoring = calculateScores($this->world());
 
