@@ -530,10 +530,16 @@ class GameBody extends GameBasics {
   //
   // (If we place an element in a second zone without removing it from the first one, the two zones will "argue" over
   // the element.)
-  public placeCardInZone(zone: any, el: HTMLElement) {
+  public placeCardInZone(zone: any, card: Card, el: HTMLElement) {
     if (!zone.isInZone(el.id)) {
       this.removeFromCardZones(el, /*destroy=*/ false);
-      zone.placeInZone(el.id);
+
+      const cardMetadata = !card.visible
+        ? -1
+        : StaticDataCards.cardMetadata[card.cardType!];
+      console.log('zone el', el.id, 'sort weight', cardMetadata);
+
+      zone.placeInZone(el.id, cardMetadata.sortWeight);
     }
   }
 
@@ -587,12 +593,12 @@ class GameBody extends GameBasics {
       case 'SETLOC': {
         console.log('  - in setloc');
         const location = this.locationByPos[card.sublocationIndex]!;
-        this.placeCardInZone(this.locationZones[location.id], el!);
+        this.placeCardInZone(this.locationZones[location.id], card, el!);
         break;
       }
       case 'HAND': {
         console.log('  - in hand');
-        this.placeCardInZone(this.handZone, el!);
+        this.placeCardInZone(this.handZone, card, el!);
         break;
       }
       default: {
