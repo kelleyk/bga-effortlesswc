@@ -41,9 +41,17 @@
 
     - Game progression is implemented (getGameProgression() in php)
 
-    - Zombie turn is implemented (zombieTurn() in php). Note: it can only be tested if you explicitly click on the quit button to create a zombie. If you are expelled it does not generated a Zombie.
+    - Zombie turn is implemented (zombieTurn() in php). Note: it can only be tested if you explicitly click on the quit
+      button to create a zombie. If you are expelled it does not generated a Zombie.
 
-    - You have defined and implemented some meaningful statistics for your game (i.e. total points, point from source A, B, C...)
+      - Zombie turn should just be randomly selecting a visitable location.  Before implementing Zombie behavior, we'll
+        need to add an `isVisitable()` member to locations.  We should also use it to improve what we send the client.
+
+      - We need to figure out what to do with decisions other than which location to visit.  Maybe also just a random
+        choice?
+
+    - You have defined and implemented some meaningful statistics for your game (i.e. total points, point from source A,
+      B, C...)
 
     - You implemented tiebreaking (using aux score field) and updated tiebreaker description in meta-data
 

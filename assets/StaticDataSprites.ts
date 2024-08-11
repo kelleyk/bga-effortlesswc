@@ -443,139 +443,99 @@ class StaticDataSprites {
       offsetX: -2800.8,
       offsetY: -2545.2,
     },
-    threat_threat_1: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -2334,
-      offsetY: 0,
-    },
-    threat_threat_10: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -2334,
-      offsetY: -363.6,
-    },
-    threat_threat_11: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -2334,
-      offsetY: -727.2,
-    },
-    threat_threat_12: {
+    threat_1: { width: 233.4, height: 363.6, offsetX: -2334, offsetY: 0 },
+    threat_10: { width: 233.4, height: 363.6, offsetX: -2334, offsetY: -363.6 },
+    threat_11: { width: 233.4, height: 363.6, offsetX: -2334, offsetY: -727.2 },
+    threat_12: {
       width: 233.4,
       height: 363.6,
       offsetX: -2334,
       offsetY: -1090.8,
     },
-    threat_threat_13: {
+    threat_13: {
       width: 233.4,
       height: 363.6,
       offsetX: -2334,
       offsetY: -1454.4,
     },
-    threat_threat_14: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -2334,
-      offsetY: -1818,
-    },
-    threat_threat_15: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: 0,
-      offsetY: -2181.6,
-    },
-    threat_threat_16: {
+    threat_14: { width: 233.4, height: 363.6, offsetX: -2334, offsetY: -1818 },
+    threat_15: { width: 233.4, height: 363.6, offsetX: 0, offsetY: -2181.6 },
+    threat_16: {
       width: 233.4,
       height: 363.6,
       offsetX: -233.4,
       offsetY: -2181.6,
     },
-    threat_threat_17: {
+    threat_17: {
       width: 233.4,
       height: 363.6,
       offsetX: -466.8,
       offsetY: -2181.6,
     },
-    threat_threat_18: {
+    threat_18: {
       width: 233.4,
       height: 363.6,
       offsetX: -700.2,
       offsetY: -2181.6,
     },
-    threat_threat_19: {
+    threat_19: {
       width: 233.4,
       height: 363.6,
       offsetX: -933.6,
       offsetY: -2181.6,
     },
-    threat_threat_2: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -1167,
-      offsetY: -2181.6,
-    },
-    threat_threat_20: {
+    threat_2: { width: 233.4, height: 363.6, offsetX: -1167, offsetY: -2181.6 },
+    threat_20: {
       width: 233.4,
       height: 363.6,
       offsetX: -1400.4,
       offsetY: -2181.6,
     },
-    threat_threat_21: {
+    threat_21: {
       width: 233.4,
       height: 363.6,
       offsetX: -1633.8,
       offsetY: -2181.6,
     },
-    threat_threat_3: {
+    threat_3: {
       width: 233.4,
       height: 363.6,
       offsetX: -1867.2,
       offsetY: -2181.6,
     },
-    threat_threat_4: {
+    threat_4: {
       width: 233.4,
       height: 363.6,
       offsetX: -2100.6,
       offsetY: -2181.6,
     },
-    threat_threat_5: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -2334,
-      offsetY: -2181.6,
-    },
-    threat_threat_6: {
-      width: 233.4,
-      height: 363.6,
-      offsetX: -2567.4,
-      offsetY: 0,
-    },
-    threat_threat_7: {
+    threat_5: { width: 233.4, height: 363.6, offsetX: -2334, offsetY: -2181.6 },
+    threat_6: { width: 233.4, height: 363.6, offsetX: -2567.4, offsetY: 0 },
+    threat_7: {
       width: 233.4,
       height: 363.6,
       offsetX: -2567.4,
       offsetY: -363.6,
     },
-    threat_threat_8: {
+    threat_8: {
       width: 233.4,
       height: 363.6,
       offsetX: -2567.4,
       offsetY: -727.2,
     },
-    threat_threat_9: {
+    threat_9: {
       width: 233.4,
       height: 363.6,
       offsetX: -2567.4,
       offsetY: -1090.8,
     },
-    threat_threat_back: {
+    threat_back: {
       width: 233.4,
       height: 363.6,
       offsetX: -2567.4,
       offsetY: -1454.4,
     },
-    threat_threat_vacant: {
+    threat_vacant: {
       width: 233.4,
       height: 363.6,
       offsetX: -2567.4,
