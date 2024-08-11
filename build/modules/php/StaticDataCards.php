@@ -364,6 +364,244 @@ define('CARD_METADATA', [
         'sort_weight' => 153,
         'title' => clienttranslate('Armor: assassin feet'),
     ],
+    'threat_1' => [
+        'threat_no' => 1,
+        'weaknesses' => ['str', 'armor'],
+        'title' => clienttranslate('Savage Werewolf'),
+        'sort_weight' => 500,
+    ],
+    'threat_2' => [
+        'threat_no' => 2,
+        'weaknesses' => ['dex', 'armor'],
+        'title' => clienttranslate('Soaring Griffin'),
+        'sort_weight' => 501,
+    ],
+    'threat_3' => [
+        'threat_no' => 3,
+        'weaknesses' => ['con', 'armor'],
+        'title' => clienttranslate('Beastly Manticore'),
+        'sort_weight' => 502,
+    ],
+    'threat_4' => [
+        'threat_no' => 4,
+        'weaknesses' => ['int', 'armor'],
+        'title' => clienttranslate('Towering Cyclops'),
+        'sort_weight' => 503,
+    ],
+    'threat_5' => [
+        'threat_no' => 5,
+        'weaknesses' => ['wis', 'armor'],
+        'title' => clienttranslate('Vengeful Wraith'),
+        'sort_weight' => 504,
+    ],
+    'threat_6' => [
+        'threat_no' => 6,
+        'weaknesses' => ['cha', 'armor'],
+        'title' => clienttranslate('Local Cheater'),
+        'sort_weight' => 505,
+    ],
+    'threat_7' => [
+        'threat_no' => 7,
+        'weaknesses' => ['str', 'dex'],
+        'title' => clienttranslate('Weathered Gargoyle'),
+        'sort_weight' => 506,
+    ],
+    'threat_8' => [
+        'threat_no' => 8,
+        'weaknesses' => ['wis', 'int'],
+        'title' => clienttranslate('Petrifying Gorgon'),
+        'sort_weight' => 507,
+    ],
+    'threat_9' => [
+        'threat_no' => 9,
+        'weaknesses' => ['con', 'cha'],
+        'title' => clienttranslate('Eldritch Cthulhu'),
+        'sort_weight' => 508,
+    ],
+    'threat_10' => [
+        'threat_no' => 10,
+        'weaknesses' => ['str', 'cha'],
+        'title' => clienttranslate('Bloodthirsty Vampire'),
+        'sort_weight' => 509,
+    ],
+    'threat_11' => [
+        'threat_no' => 11,
+        'weaknesses' => ['str', 'int'],
+        'title' => clienttranslate('Ooze Cube'),
+        'sort_weight' => 510,
+    ],
+    'threat_12' => [
+        'threat_no' => 12,
+        'weaknesses' => ['str', 'wis'],
+        'title' => clienttranslate('Abyssal Kraken'),
+        'sort_weight' => 511,
+    ],
+    'threat_13' => [
+        'threat_no' => 13,
+        'weaknesses' => ['str', 'int'],
+        'title' => clienttranslate('Lurking Kelpie'),
+        'sort_weight' => 512,
+    ],
+    'threat_14' => [
+        'threat_no' => 14,
+        'weaknesses' => ['dex', 'con'],
+        'title' => clienttranslate('Playful Imp'),
+        'sort_weight' => 513,
+    ],
+    'threat_15' => [
+        'threat_no' => 15,
+        'weaknesses' => ['dex', 'int'],
+        'title' => clienttranslate('Stone Golem'),
+        'sort_weight' => 514,
+    ],
+    'threat_16' => [
+        'threat_no' => 16,
+        'weaknesses' => ['dex', 'wis'],
+        'title' => clienttranslate('Screeching Harpy'),
+        'sort_weight' => 515,
+    ],
+    'threat_17' => [
+        'threat_no' => 17,
+        'weaknesses' => ['dex', 'cha'],
+        'title' => clienttranslate('Guardian Cerberus'),
+        'sort_weight' => 516,
+    ],
+    'threat_18' => [
+        'threat_no' => 18,
+        'weaknesses' => ['con', 'int'],
+        'title' => clienttranslate('Scaly Basilisk'),
+        'sort_weight' => 517,
+    ],
+    'threat_19' => [
+        'threat_no' => 19,
+        'weaknesses' => ['con', 'wis'],
+        'title' => clienttranslate('Giant Spider'),
+        'sort_weight' => 518,
+    ],
+    'threat_20' => [
+        'threat_no' => 20,
+        'weaknesses' => ['con', 'int'],
+        'title' => clienttranslate('Screaming Banshee'),
+        'sort_weight' => 519,
+    ],
+    'threat_21' => [
+        'threat_no' => 21,
+        'weaknesses' => ['wis', 'cha'],
+        'title' => clienttranslate('Rat Swarm'),
+        'sort_weight' => 520,
+    ],
+    'class_elf' => [
+        'title' => clienttranslate('Elf'),
+        'sort_weight' => 1000,
+        'attributes' => ['dex' => 2, 'con' => -2],
+    ],
+    'class_dwarf' => [
+        'title' => clienttranslate('Dwarf'),
+        'sort_weight' => 1001,
+        'attributes' => ['wis' => -2, 'cha' => 2],
+    ],
+    'class_human' => [
+        'title' => clienttranslate('Human'),
+        'sort_weight' => 1002,
+        'attributes' => [],
+    ],
+    'class_gnome' => [
+        'title' => clienttranslate('Gnome'),
+        'sort_weight' => 1003,
+        'attributes' => ['dex' => -2, 'con' => 2],
+    ],
+    'class_goblin' => [
+        'title' => clienttranslate('Goblin'),
+        'sort_weight' => 1004,
+        'attributes' => ['int' => 2, 'cha' => -2],
+    ],
+    'class_orc' => [
+        'title' => clienttranslate('Orc'),
+        'sort_weight' => 1005,
+        'attributes' => ['str' => 2, 'int' => -2],
+    ],
+    'class_fairy' => [
+        'title' => clienttranslate('Fairy'),
+        'sort_weight' => 1006,
+        'attributes' => ['str' => -2, 'int' => 2],
+    ],
+    'class_alchemist' => [
+        'title' => clienttranslate('Alchemist'),
+        'sort_weight' => 1100,
+        'special_ability' =>
+            'After the last turn of the game, before scoring, swap up to 3 of your cards with cards in the discard.',
+    ],
+    'class_artificer' => [
+        'title' => clienttranslate('Artificer'),
+        'sort_weight' => 1101,
+        'special_ability' => 'You may use 2 Items per turn.',
+    ],
+    'class_barbarian' => [
+        'title' => clienttranslate('Barbarian'),
+        'sort_weight' => 1102,
+        'special_ability' =>
+            'Once per turn, you may discard 1 card to add +1 to your roll.',
+    ],
+    'class_bard' => [
+        'title' => clienttranslate('Bard'),
+        'sort_weight' => 1103,
+        'special_ability' => 'When another player defeats a Threat, gain 1 XP.',
+    ],
+    'class_cleric' => [
+        'title' => clienttranslate('Cleric'),
+        'sort_weight' => 1104,
+        'special_ability' =>
+            'Once per turn, you may discard 1 card to heal 1 HP to any player.',
+    ],
+    'class_druid' => [
+        'title' => clienttranslate('Druid'),
+        'sort_weight' => 1105,
+        'special_ability' =>
+            'At the end of your turn, you may discard any number of cards, then draw that many cards.',
+    ],
+    'class_fighter' => [
+        'title' => clienttranslate('Fighter'),
+        'sort_weight' => 1106,
+        'special_ability' => 'You have +1 max HP.',
+    ],
+    'class_merchant' => [
+        'title' => clienttranslate('Merchant'),
+        'sort_weight' => 1107,
+        'special_ability' => 'At the start of your turn, gain 1 Gold.',
+    ],
+    'class_monk' => [
+        'title' => clienttranslate('Monk'),
+        'sort_weight' => 1108,
+        'special_ability' => 'At the start of your turn, gain 1 Grit.',
+    ],
+    'class_necromancer' => [
+        'title' => clienttranslate('Necromancer'),
+        'sort_weight' => 1109,
+        'special_ability' => 'When you use Grit, gain 1 additional Grit.',
+    ],
+    'class_paladin' => [
+        'title' => clienttranslate('Paladin'),
+        'sort_weight' => 1110,
+        'special_ability' =>
+            'Once per turn, you may spend 1 XP to add +2 to your roll.',
+    ],
+    'class_ranger' => [
+        'title' => clienttranslate('Ranger'),
+        'sort_weight' => 1111,
+        'special_ability' =>
+            'Once per turn, you may spend 1 Grit to draw 1 card.',
+    ],
+    'class_rogue' => [
+        'title' => clienttranslate('Rogue'),
+        'sort_weight' => 1112,
+        'special_ability' => 'When you defeat a Threat, gain 1 Gold.',
+    ],
+    'class_wizard' => [
+        'title' => clienttranslate('Wizard'),
+        'sort_weight' => 1113,
+        'special_ability' =>
+            'At the start of your turn, draw 1 card, then discard 1 card.',
+    ],
     'xp' => ['title' => clienttranslate('Experience'), 'sort_weight' => 300],
     'grit' => ['title' => clienttranslate('Grit'), 'sort_weight' => 301],
 ]);

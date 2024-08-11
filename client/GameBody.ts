@@ -432,7 +432,7 @@ class GameBody extends GameBasics {
         }
         el.classList.add('tmp_scaled_card');
 
-        const scaleFactor = 0.5;
+        const scaleFactor = 0.75;
         this.rescaleSprite(el, scaleFactor);
       });
   }
