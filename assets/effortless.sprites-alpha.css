@@ -1,186 +1,186 @@
 .icon_attr_cha_card {
   background-image: url(../build/img/sprites-alpha.png);
   background-position: 0px 0px;
-  background-size: 312px 302.4px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
   mask-position: 0px 0px;
-  mask-size: 312px 302.4px;
+  mask-size: 330px 314.4px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_cha_stat {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -156px -121.2px;
-  background-size: 312px 302.4px;
+  background-position: -168px -127.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -156px -121.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -168px -127.2px;
+  mask-size: 330px 314.4px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_con_card {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -78px 0px;
-  background-size: 312px 302.4px;
+  background-position: -84px 0px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -78px 0px;
-  mask-size: 312px 302.4px;
+  mask-position: -84px 0px;
+  mask-size: 330px 314.4px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_con_stat {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -216px -121.2px;
-  background-size: 312px 302.4px;
+  background-position: -234px -127.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -216px -121.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -234px -127.2px;
+  mask-size: 330px 314.4px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_dex_card {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -156px 0px;
-  background-size: 312px 302.4px;
+  background-position: -168px 0px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -156px 0px;
-  mask-size: 312px 302.4px;
+  mask-position: -168px 0px;
+  mask-size: 330px 314.4px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_dex_stat {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -156px -181.2px;
-  background-size: 312px 302.4px;
+  background-position: 0px -254.4px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -156px -181.2px;
-  mask-size: 312px 302.4px;
+  mask-position: 0px -254.4px;
+  mask-size: 330px 314.4px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_int_card {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -234px 0px;
-  background-size: 312px 302.4px;
+  background-position: -252px 0px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -234px 0px;
-  mask-size: 312px 302.4px;
+  mask-position: -252px 0px;
+  mask-size: 330px 314.4px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_int_stat {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -216px -181.2px;
-  background-size: 312px 302.4px;
+  background-position: -66px -254.4px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -216px -181.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -66px -254.4px;
+  mask-size: 330px 314.4px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_str_card {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: 0px -121.2px;
-  background-size: 312px 302.4px;
+  background-position: 0px -127.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: 0px -121.2px;
-  mask-size: 312px 302.4px;
+  mask-position: 0px -127.2px;
+  mask-size: 330px 314.4px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_str_stat {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: 0px -242.4px;
-  background-size: 312px 302.4px;
+  background-position: -132px -254.4px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: 0px -242.4px;
-  mask-size: 312px 302.4px;
+  mask-position: -132px -254.4px;
+  mask-size: 330px 314.4px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_attr_wis_card {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -78px -121.2px;
-  background-size: 312px 302.4px;
+  background-position: -84px -127.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -78px -121.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -84px -127.2px;
+  mask-size: 330px 314.4px;
   width: 78px;
   height: 121.2px;
   transition: background-image 1s;
 }
 .icon_attr_wis_stat {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -60px -242.4px;
-  background-size: 312px 302.4px;
+  background-position: -198px -254.4px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -60px -242.4px;
-  mask-size: 312px 302.4px;
+  mask-position: -198px -254.4px;
+  mask-size: 330px 314.4px;
   width: 60px;
   height: 60px;
   transition: background-image 1s;
 }
 .icon_effort {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -276px -121.2px;
-  background-size: 312px 302.4px;
+  background-position: -300px -127.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -276px -121.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -300px -127.2px;
+  mask-size: 330px 314.4px;
   width: 30px;
   height: 30px;
   transition: background-image 1s;
 }
 .icon_fame {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -276px -151.2px;
-  background-size: 312px 302.4px;
+  background-position: -168px -193.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -276px -151.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -168px -193.2px;
+  mask-size: 330px 314.4px;
   width: 30px;
   height: 30px;
   transition: background-image 1s;
 }
 .icon_grit {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -276px -181.2px;
-  background-size: 312px 302.4px;
+  background-position: -204px -193.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -276px -181.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -204px -193.2px;
+  mask-size: 330px 314.4px;
   width: 30px;
   height: 30px;
   transition: background-image 1s;
 }
 .points_neg {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -276px -211.2px;
-  background-size: 312px 302.4px;
+  background-position: -240px -193.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -276px -211.2px;
-  mask-size: 312px 302.4px;
+  mask-position: -240px -193.2px;
+  mask-size: 330px 314.4px;
   width: 30px;
   height: 30px;
   transition: background-image 1s;
 }
 .points_pos {
   background-image: url(../build/img/sprites-alpha.png);
-  background-position: -120px -242.4px;
-  background-size: 312px 302.4px;
+  background-position: -276px -193.2px;
+  background-size: 330px 314.4px;
   mask-image: url(../build/img/sprites-alpha.png);
-  mask-position: -120px -242.4px;
-  mask-size: 312px 302.4px;
+  mask-position: -276px -193.2px;
+  mask-size: 330px 314.4px;
   width: 30px;
   height: 30px;
   transition: background-image 1s;

@@ -513,7 +513,8 @@ class GameBody extends GameBasics {
         this.tintSprite(el, '#ff5fa2');
       }
       if (el.classList.contains('ewc_playercolor_blue')) {
-        this.tintSprite(el, '#001489');
+        // N.B.: The actual player color is #001489, but that doesn't look very good with our tinting; it's too dark.
+        this.tintSprite(el, '#4A5AE8');
       }
       if (el.classList.contains('ewc_playercolor_yellow')) {
         this.tintSprite(el, '#ffe900');

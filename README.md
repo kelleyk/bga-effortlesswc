@@ -2,38 +2,45 @@
 
   - With the River, should we be able to see face-down cards?
 
+- Suggestions from Kat
+
+  - Tooltips for icons (we need tooltips in general, really).
+
 - Remaining work/questions -- Highest priority
 
-  - We probably need to plumb the rest of our static data (in the assets repo in YAML files right now) into the game
-    before we can really do scoring; for example, item details (utilization requirements, point value, and so on) are in
-    there.
-
-    - This is *mostly* done; but I should change the server-side
-
-  - Need to add "general" icons (esp. "fame") to the spritesheet.
+  - Sequence animations a little bit.
 
   - Add attribute card & stat icons to log-entity replacement function.
 
-  - Render reserve effort piles in the player boards.
+  - UI/UX
 
-  - (Debt:) Reduce code duplication around sprite scaling.  Decide if we want to get rid of the ".tmp_card_scalable"
-    class and related stuff.
+    - Make playable/unplayable effort piles more visible.
 
-  - (Debt:) Convert Gruntfile to TypeScript.
+    - Reorder effort piles (and have them "slide out" a bit?) to show which seat(s) are currently affected by scoring.
+
+    - Implement (client-side) a UI element to display scoring information.  Can be primitive; just need something
+      functional.
+
+    - We need a way to show Threat fights and end-game scoring.  Maybe we save a JSON object describing what happened
+      and reference that from the log, notifs, etc.?
+
+    - Take a peek at how the hand UI looks with ~20 (or a few more) cards in it.
+
+    - Something isn't quite right with the effort-cube sprite; there's an artifact in the corner.  (This is related to
+      our padding experiments.)
+
+    - CSS layer/ordering thing.
+
+  - Debt/cleanup
+
+    - Reduce code duplication around sprite scaling.  Decide if we want to get rid of the ".tmp_card_scalable" class and
+      related stuff.
+
+    - Convert Gruntfile to TypeScript.
 
   - Take a pass at cleaning up log messages.
 
-  - Implement (server-side) scoring for items.
-
   - Give BGA points to players during end-game scoring.
-
-  - Implement (client-side) a UI element to display scoring information.  Can be primitive; just need something
-    functional.
-
-  - Take a peek at how the hand UI looks with ~20 (or a few more) cards in it.
-
-  - Add card sorting within hands and setlocs.  (For setlocs, it's more about being able to always show threats on the
-    right.)
 
   - From the BGA prerelease checklist:
 
