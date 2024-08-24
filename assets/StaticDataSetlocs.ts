@@ -45,33 +45,54 @@ class StaticDataSetlocs {
     },
   };
   static settingMetadata: any = {
-    active: { name: 'Active', text: 'Most here gains 4 points.' },
+    active: {
+      name: 'Active',
+      text: 'The player with the most effort here gains 4 points.',
+    },
     crowded: {
       name: 'Crowded',
-      text: 'Gain 10 points if you have at least 5 effort here.',
+      text: 'Each player with at least 5 effort here gains 10 points.',
     },
-    lively: { name: 'Lively', text: 'Gain 1 point for each effort here.' },
+    lively: {
+      name: 'Lively',
+      text: 'Each player gains 1 point for each effort they have here.',
+    },
     peaceful: {
       name: 'Peaceful',
-      text: 'Gain 3 points for every 2 effort here.',
+      text: 'Each player gains 3 points for every 2 effort they have here.',
     },
-    battling: { name: 'Battling', text: 'Most here gains 8 points.' },
+    battling: {
+      name: 'Battling',
+      text: 'The player with the most effort here gains 8 points.',
+    },
     barren: { name: 'Barren', text: '' },
-    hidden: { name: 'Hidden', text: 'Least here loses 5 points.' },
+    hidden: {
+      name: 'Hidden',
+      text: 'The player with the least effort here loses 5 points.',
+    },
     treacherous: {
       name: 'Treacherous',
-      text: 'Lose 1 point for each effort here.',
+      text: 'Each player loses 1 point for each effort they have here.',
     },
-    quiet: { name: 'Quiet', text: 'Most here loses 5 points.' },
-    eerie: { name: 'Eerie', text: 'Least here gains 5 points.' },
-    holy: { name: 'Holy', text: 'Most here gains 2 points for each effort.' },
+    quiet: {
+      name: 'Quiet',
+      text: 'The player with the most effort here loses 5 points.',
+    },
+    eerie: {
+      name: 'Eerie',
+      text: 'The player with the least effort here gains 5 points.',
+    },
+    holy: {
+      name: 'Holy',
+      text: 'The player with the most effort here gains 2 points for each effort.',
+    },
     ghostly: {
       name: 'Ghostly',
-      text: 'Lose 2 points for every 2 effort here.',
+      text: 'Each player loses 2 points for every 2 effort here.',
     },
     frozen: {
       name: 'Frozen',
-      text: 'Once all players have placed half of their effort, replace this setting at random.',
+      text: 'Once all players have placed half of their effort, this setting will be replaced at random.',
     },
   };
 }
