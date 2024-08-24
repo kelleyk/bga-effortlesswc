@@ -34,17 +34,8 @@ class RulesetCompetitive2P extends Ruleset
     // Randomly choose a location.
     $location = array_rand_value($world->locations());
 
-    // Move one effort from the active seat's reserve to their effort-pile at that location.
-    $world->moveEffort(
-      $world->activeSeat()->reserveEffort($world),
-      $location->effortPileForSeat($world, $world->activeSeat())
-    );
-
-    // Discard all cards; they will be replaced from the deck during ST_TURN_UPKEEP.
-    foreach ($location->cards($world) as $card) {
-      $world->discardCard($card);
-    }
-
+    // Send this notif first, so that the log message appears before any of the log messages that describe individual
+    // effects (such as cards being discarded).
     $world
       ->table()
       ->notifyAllPlayers(
@@ -55,5 +46,16 @@ class RulesetCompetitive2P extends Ruleset
           'location' => $location->renderForNotif($world),
         ]
       );
+
+    // Move one effort from the active seat's reserve to their effort-pile at that location.
+    $world->moveEffort(
+      $world->activeSeat()->reserveEffort($world),
+      $location->effortPileForSeat($world, $world->activeSeat())
+    );
+
+    // Discard all cards; they will be replaced from the deck during ST_TURN_UPKEEP.
+    foreach ($location->cards($world) as $card) {
+      $world->discardCard($card);
+    }
   }
 }
