@@ -2,6 +2,8 @@
 
   - With the River, should we be able to see face-down cards?
 
+  - Disable locations that we can't visit.  (Don't present them as valid choices.)
+
 - Suggestions from Kat
 
   - Tooltips for icons (we need tooltips in general, really).
@@ -10,7 +12,10 @@
 
   - Sequence animations a little bit.
 
-  - Add attribute card & stat icons to log-entity replacement function.
+  - Add attribute card & stat icons to log-entity replacement function.  (Do we have examples of places where we'd like
+    to use this?)
+
+  - Fix scoring for settings that were buggy in my game with Kat.
 
   - UI/UX
 
@@ -24,21 +29,13 @@
     - We need a way to show Threat fights and end-game scoring.  Maybe we save a JSON object describing what happened
       and reference that from the log, notifs, etc.?
 
-    - Take a peek at how the hand UI looks with ~20 (or a few more) cards in it.
-
-    - Something isn't quite right with the effort-cube sprite; there's an artifact in the corner.  (This is related to
-      our padding experiments.)
-
     - CSS layer/ordering thing.
 
   - Debt/cleanup
 
-    - Reduce code duplication around sprite scaling.  Decide if we want to get rid of the ".tmp_card_scalable" class and
-      related stuff.
+    - Go through all of the "tmp_*" CSS classes and see if we still need them.
 
     - Convert Gruntfile to TypeScript.
-
-  - Take a pass at cleaning up log messages.
 
   - Give BGA points to players during end-game scoring.
 
@@ -88,8 +85,6 @@
   - The client-side input code does not support cancellation yet.  (Do we ever actually need this?)
 
   - No support for showing discard pile, other players' hands (in cooperative mode), etc.
-
-  - The `renderForNotif()` implementations just show object IDs.
 
   - On the client-side, we need to draw the table-wide panel.
 
