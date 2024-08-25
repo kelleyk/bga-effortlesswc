@@ -17,6 +17,8 @@
 
   - Fix scoring for settings that were buggy in my game with Kat.
 
+    - Also, "Hidden Market" is giving "seat 1" -15 points when all three seats have 0 effort on the location.
+
   - UI/UX
 
     - Make playable/unplayable effort piles more visible.

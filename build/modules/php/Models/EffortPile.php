@@ -84,7 +84,8 @@ class EffortPile
     return Location::mustGetById($world, $this->location_id_);
   }
 
-  public function locationId(): int
+  // Returns `null` only for reserve effort piles which don't sit on a location.  For these piles, `!hasLocation()`.
+  public function locationId(): ?int
   {
     return $this->location_id_;
   }
@@ -115,13 +116,23 @@ class EffortPile
     $world->table()->updateEffort($this->id(), $this->qty());
   }
 
-  public function renderForClient(World $world): array
+  public function renderForClient(World $world, $all_setting_scores): array
   {
+    $location_id = $this->locationId();
+
+    if ($location_id === null) {
+      $scoring = false;
+    } else {
+      // Reserve piles never score.
+      $scoring = ($all_setting_scores[$location_id][$this->seatId()] ?? 0) != 0;
+    }
+
     return [
       'id' => $this->id(),
       'seatId' => $this->seat_id_,
       'locationId' => $this->location_id_,
       'qty' => $this->qty(),
+      'scoring' => $scoring,
     ];
   }
 }

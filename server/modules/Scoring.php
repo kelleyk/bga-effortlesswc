@@ -167,6 +167,24 @@ function calculateScores(World $world): TableScore
   // Calculate setting scoring.
   //
   // TODO: We could clean this up if there were an easier way to find setting/location pairs.
+  $all_setting_scores = calculateAllSettingScores($world);
+  foreach (Seat::getAll($world) as $seat) {
+    foreach ($all_setting_scores as $location_id => $setting_scores) {
+      $score = $setting_scores[$seat->id()] ?? 0;
+      $table_score->by_seat[$seat->id()]->setting[$location_id] = $score;
+    }
+  }
+
+  return $table_score;
+}
+
+// Returns {location_id: {setting_id: points}}.
+//
+// It's not a mistake that this function returns location IDs; we use the location's ID to refer to a setloc.
+function calculateAllSettingScores(World $world)
+{
+  $scores = [];
+
   $setting_by_pos = [];
   foreach (Setting::getAll($world) as $setting) {
     $setting_by_pos[$setting->sublocationIndex()] = $setting;
@@ -178,16 +196,23 @@ function calculateScores(World $world): TableScore
   for ($i = 0; $i < 6; ++$i) {
     $score_ctx = new ScoringContext();
     $setting_by_pos[$i]->onScoring($world, $score_ctx);
-    $setting_scores = $score_ctx->scores();
 
-    foreach (Seat::getAll($world) as $seat) {
-      $score = $setting_scores[$seat->id()] ?? 0;
-      $table_score->by_seat[$seat->id()]->setting[$location_by_pos[$i]->id()] = $score;
-    }
+    $scores[$location_by_pos[$i]->id()] = $score_ctx->scores();
   }
 
-  return $table_score;
+  return $scores;
 }
+
+// // Returns {seat_id: points}.
+// //
+// // It's not a mistake that this function takes a $location; we use the location's ID to refer to a setloc.
+// function calculateSettingScores(World $world, Location $location) {
+//   $setting = $location->pairedSetting($world);
+//
+//   $score_ctx = new ScoringContext();
+//   $setting->onScoring($world, $score_ctx);
+//   return $score_ctx->scores();
+// }
 
 // $attr_values is {seat_id: attr_points}; returns {seat_id: points}.
 //

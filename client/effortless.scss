@@ -157,11 +157,6 @@
 //   -webkit-mask-size: 981px 887px;
 // }
 
-
-.ewc_effort_counter_wrap {
-  width: 90px;
-}
-
 .ewc_effort_counter {
   text-align: center;
   width: 50px;
@@ -180,12 +175,21 @@
   padding: 2px 0;
 }
 
+// A "scoring" effort counter is one that belongs to a player who will receive (or lose) points as a result of the
+// setting that the effort counter is associated with.
+.ewc_effort_counter_scoring {
+  padding-left: 10px;
+  transition: padding-left 1.0s;
+}
+
 .ewc_effort_counter_reserve > * {
   display: inline-block;
 }
 
 // XXX: This offsets a single cube into the lower right part of the setting area.
 .ewc_effort_counter_wrap {
+  width: 90px;
+
   // display: flex;
   // margin-top: 175px;
   // margin-left: 65px;

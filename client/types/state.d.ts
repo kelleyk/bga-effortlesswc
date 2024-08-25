@@ -67,7 +67,10 @@ interface EffortlessLocation extends CardBase {
   effort: { [seatId: number]: number };
 }
 
-interface EffortlessSetting extends CardBase {}
+interface EffortlessSetting extends CardBase {
+  // If true, sort effort piles here lowest-to-highest rather than highest-to-lowest.
+  sortPilesInverted: boolean;
+}
 
 // This is an Effortless "main-deck card".
 interface Card extends CardBase {
@@ -98,6 +101,10 @@ interface EffortPile {
   seatId: number;
   locationId: number | null;
   qty: number;
+
+  // True iff this pile will lead to the seat that owns it gaining or losing points; this is used to highlight those
+  // piles in the UI.
+  scoring: boolean;
 }
 
 // interface SetlocState {

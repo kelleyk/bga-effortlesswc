@@ -459,12 +459,14 @@ class GameBody extends GameBasics {
     }
 
     for (const pile of Object.values(mutableBoardState.effortPiles)) {
-      // // Ignore reserve piles.
-      // if (pile.locationId !== null) {
-      document.querySelector<HTMLElement>(
-        '#ewc_effort_counter_' + pile.id + ' .ewc_effort_counter_value',
-      )!.innerText = '' + pile.qty;
-      // }
+      // N.B.: This is the ".ewc_effort_counter" element.
+      const el: HTMLElement = document.querySelector<HTMLElement>(
+        '#ewc_effort_counter_' + pile.id,
+      )!;
+
+      el.classList.toggle('ewc_effort_counter_scoring', pile.scoring);
+      el.querySelector<HTMLElement>('.ewc_effort_counter_value')!.innerText =
+        '' + pile.qty;
     }
     // XXX: We'll also need to update reserve piles once we draw them in player boards, of course.
 

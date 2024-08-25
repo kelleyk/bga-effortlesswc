@@ -316,7 +316,7 @@ var StaticDataSetlocs = /** @class */ (function () {
             name: 'Market',
             text: 'Discard a card from your hand and take both cards here.',
         },
-        cave: { name: 'Cave', text: '' },
+        cave: { name: 'Cave', text: '(No effect.)' },
         river: { name: 'River', text: 'Discard a card at another location.' },
         prison: {
             name: 'Prison',
@@ -330,7 +330,7 @@ var StaticDataSetlocs = /** @class */ (function () {
             name: 'City',
             text: 'Move one of your effort from any other location to here.',
         },
-        wasteland: { name: 'Wasteland', text: '' },
+        wasteland: { name: 'Wasteland', text: '(No effect.)' },
         docks: {
             name: 'Docks',
             text: 'Move one of your effort from here to any other location.',
@@ -369,7 +369,7 @@ var StaticDataSetlocs = /** @class */ (function () {
             name: 'Battling',
             text: 'The player with the most effort here gains 8 points.',
         },
-        barren: { name: 'Barren', text: '' },
+        barren: { name: 'Barren', text: '(No effect.)' },
         hidden: {
             name: 'Hidden',
             text: 'The player with the least effort here loses 5 points.',
@@ -1836,10 +1836,11 @@ var GameBody = /** @class */ (function (_super) {
         }
         for (var _b = 0, _c = Object.values(mutableBoardState.effortPiles); _b < _c.length; _b++) {
             var pile = _c[_b];
-            // // Ignore reserve piles.
-            // if (pile.locationId !== null) {
-            document.querySelector('#ewc_effort_counter_' + pile.id + ' .ewc_effort_counter_value').innerText = '' + pile.qty;
-            // }
+            // N.B.: This is the ".ewc_effort_counter" element.
+            var el = document.querySelector('#ewc_effort_counter_' + pile.id);
+            el.classList.toggle('ewc_effort_counter_scoring', pile.scoring);
+            el.querySelector('.ewc_effort_counter_value').innerText =
+                '' + pile.qty;
         }
         // XXX: We'll also need to update reserve piles once we draw them in player boards, of course.
         for (var _d = 0, _e = Object.values(mutableBoardState.settings); _d < _e.length; _d++) {

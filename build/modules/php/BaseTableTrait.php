@@ -41,14 +41,14 @@ trait BaseTableTrait
   abstract function triggerStateEvents(): void;
 
   // XXX: Move to better home
-  public function renderForClient(World $world, $x)
+  public function renderForClient(World $world, $x, ...$args)
   {
     if (is_array($x)) {
-      return array_map(function ($y) use ($world) {
-        return $this->renderForClient($world, $y);
+      return array_map(function ($y) use ($world, $args) {
+        return $this->renderForClient($world, $y, ...$args);
       }, $x);
     }
-    return $x->renderForClient($world);
+    return $x->renderForClient($world, ...$args);
   }
 
   // This function returns everything we need to refresh all mutable state.
@@ -69,7 +69,7 @@ trait BaseTableTrait
         'cards' => $this->renderForClient($world, $this->mainDeck->getAll(['SETLOC', 'DISCARD'])),
         'locations' => $this->renderForClient($world, $this->locationDeck->getAll(['SETLOC'])),
         'settings' => $this->renderForClient($world, $this->settingDeck->getAll(['SETLOC'])),
-        'effortPiles' => $this->renderForClient($world, EffortPile::getAll($world)),
+        'effortPiles' => $this->renderForClient($world, EffortPile::getAll($world), calculateAllSettingScores($world)),
       ],
     ];
 

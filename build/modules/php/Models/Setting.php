@@ -59,7 +59,9 @@ abstract class Setting extends \WcLib\CardBase
 
   public function renderForClient(World $world): array
   {
-    return parent::renderForClientBase(/*visible=*/ true);
+    return array_merge(parent::renderForClientBase(/*visible=*/ true), [
+      'sortEffortInverted' => false, // XXX: need actual values
+    ]);
   }
 
   public function renderForNotif(World $world): string

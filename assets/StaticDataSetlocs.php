@@ -21,7 +21,7 @@ define('LOCATION_METADATA', [
     ],
     'cave' => [
         'name' => clienttranslate('Cave'),
-        'text' => clienttranslate(''),
+        'text' => clienttranslate('(No effect.)'),
     ],
     'river' => [
         'name' => clienttranslate('River'),
@@ -47,7 +47,7 @@ define('LOCATION_METADATA', [
     ],
     'wasteland' => [
         'name' => clienttranslate('Wasteland'),
-        'text' => clienttranslate(''),
+        'text' => clienttranslate('(No effect.)'),
     ],
     'docks' => [
         'name' => clienttranslate('Docks'),
@@ -107,7 +107,7 @@ define('SETTING_METADATA', [
     ],
     'barren' => [
         'name' => clienttranslate('Barren'),
-        'text' => clienttranslate(''),
+        'text' => clienttranslate('(No effect.)'),
     ],
     'hidden' => [
         'name' => clienttranslate('Hidden'),

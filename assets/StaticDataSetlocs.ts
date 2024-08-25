@@ -12,7 +12,7 @@ class StaticDataSetlocs {
       name: 'Market',
       text: 'Discard a card from your hand and take both cards here.',
     },
-    cave: { name: 'Cave', text: '' },
+    cave: { name: 'Cave', text: '(No effect.)' },
     river: { name: 'River', text: 'Discard a card at another location.' },
     prison: {
       name: 'Prison',
@@ -26,7 +26,7 @@ class StaticDataSetlocs {
       name: 'City',
       text: 'Move one of your effort from any other location to here.',
     },
-    wasteland: { name: 'Wasteland', text: '' },
+    wasteland: { name: 'Wasteland', text: '(No effect.)' },
     docks: {
       name: 'Docks',
       text: 'Move one of your effort from here to any other location.',
@@ -65,7 +65,7 @@ class StaticDataSetlocs {
       name: 'Battling',
       text: 'The player with the most effort here gains 8 points.',
     },
-    barren: { name: 'Barren', text: '' },
+    barren: { name: 'Barren', text: '(No effect.)' },
     hidden: {
       name: 'Hidden',
       text: 'The player with the least effort here loses 5 points.',
