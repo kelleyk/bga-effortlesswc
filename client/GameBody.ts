@@ -492,7 +492,7 @@ class GameBody extends GameBasics {
         }
         el.classList.add('tmp_scale_cube');
 
-        this.rescaleSpriteCube(el, 0.6);
+        this.rescaleSprite(el, 0.6);
       });
 
     document.querySelectorAll('.tmp_tintable').forEach((rawEl: Element) => {
@@ -640,7 +640,11 @@ class GameBody extends GameBasics {
 
     for (const className of Object.values(el.classList)) {
       console.log(className);
+      // XXX: We should really just have a consistent class prefix for these.
       if (className.match(/^card_/g)) {
+        return className;
+      }
+      if (className.match(/^icon_/g)) {
         return className;
       }
     }
@@ -650,39 +654,25 @@ class GameBody extends GameBasics {
   public rescaleSprite(el: HTMLElement, scale: number) {
     const spriteName = this.getSpriteName(el);
     const spriteMetadata = StaticDataSprites.spriteMetadata[spriteName];
-
-    // console.log('rescaleSprite for spriteName=', spriteName);
-
-    // XXX: We should pull these numbers from static card data.
+    const spritesheetMetadata =
+      StaticDataSprites.spritesheetMetadata[spriteMetadata.spritesheet];
 
     el.style.height = spriteMetadata.height * scale + 'px';
     el.style.width = spriteMetadata.width * scale + 'px';
 
     const bgSize =
-      StaticDataSprites.totalWidth * scale +
+      spritesheetMetadata.totalWidth * scale +
       'px ' +
-      StaticDataSprites.totalHeight * scale +
+      spritesheetMetadata.totalHeight * scale +
       'px';
-    // console.log('*** bgSize = ', bgSize);
     el.style.backgroundSize = bgSize;
+    el.style.maskSize = bgSize;
 
-    el.style.backgroundPosition =
+    const spritesheetPos =
       spriteMetadata.offsetX * scale +
       'px ' +
       spriteMetadata.offsetY * scale +
       'px';
-  }
-
-  public rescaleSpriteCube(el: HTMLElement, scale: number) {
-    // console.log('** rescaleSpriteCube()', el, scale);
-
-    el.style.height = 30.0 * scale + 'px';
-    el.style.width = 30.0 * scale + 'px';
-    const spritesheetSize = 312.0 * scale + 'px ' + 302.4 * scale + 'px';
-    // console.log('*** bgSize = ', spritesheetSize);
-    el.style.backgroundSize = spritesheetSize;
-    el.style.maskSize = spritesheetSize;
-    const spritesheetPos = -276.0 * scale + 'px ' + -121.2 * scale + 'px';
     el.style.backgroundPosition = spritesheetPos;
     el.style.maskPosition = spritesheetPos;
   }

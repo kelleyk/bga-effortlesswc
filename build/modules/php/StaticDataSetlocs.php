@@ -77,25 +77,33 @@ define('LOCATION_METADATA', [
 define('SETTING_METADATA', [
     'active' => [
         'name' => clienttranslate('Active'),
-        'text' => clienttranslate('Most here gains 4 points.'),
+        'text' => clienttranslate(
+            'The player with the most effort here gains 4 points.'
+        ),
     ],
     'crowded' => [
         'name' => clienttranslate('Crowded'),
         'text' => clienttranslate(
-            'Gain 10 points if you have at least 5 effort here.'
+            'Each player with at least 5 effort here gains 10 points.'
         ),
     ],
     'lively' => [
         'name' => clienttranslate('Lively'),
-        'text' => clienttranslate('Gain 1 point for each effort here.'),
+        'text' => clienttranslate(
+            'Each player gains 1 point for each effort they have here.'
+        ),
     ],
     'peaceful' => [
         'name' => clienttranslate('Peaceful'),
-        'text' => clienttranslate('Gain 3 points for every 2 effort here.'),
+        'text' => clienttranslate(
+            'Each player gains 3 points for every 2 effort they have here.'
+        ),
     ],
     'battling' => [
         'name' => clienttranslate('Battling'),
-        'text' => clienttranslate('Most here gains 8 points.'),
+        'text' => clienttranslate(
+            'The player with the most effort here gains 8 points.'
+        ),
     ],
     'barren' => [
         'name' => clienttranslate('Barren'),
@@ -103,32 +111,44 @@ define('SETTING_METADATA', [
     ],
     'hidden' => [
         'name' => clienttranslate('Hidden'),
-        'text' => clienttranslate('Least here loses 5 points.'),
+        'text' => clienttranslate(
+            'The player with the least effort here loses 5 points.'
+        ),
     ],
     'treacherous' => [
         'name' => clienttranslate('Treacherous'),
-        'text' => clienttranslate('Lose 1 point for each effort here.'),
+        'text' => clienttranslate(
+            'Each player loses 1 point for each effort they have here.'
+        ),
     ],
     'quiet' => [
         'name' => clienttranslate('Quiet'),
-        'text' => clienttranslate('Most here loses 5 points.'),
+        'text' => clienttranslate(
+            'The player with the most effort here loses 5 points.'
+        ),
     ],
     'eerie' => [
         'name' => clienttranslate('Eerie'),
-        'text' => clienttranslate('Least here gains 5 points.'),
+        'text' => clienttranslate(
+            'The player with the least effort here gains 5 points.'
+        ),
     ],
     'holy' => [
         'name' => clienttranslate('Holy'),
-        'text' => clienttranslate('Most here gains 2 points for each effort.'),
+        'text' => clienttranslate(
+            'The player with the most effort here gains 2 points for each effort.'
+        ),
     ],
     'ghostly' => [
         'name' => clienttranslate('Ghostly'),
-        'text' => clienttranslate('Lose 2 points for every 2 effort here.'),
+        'text' => clienttranslate(
+            'Each player loses 2 points for every 2 effort here.'
+        ),
     ],
     'frozen' => [
         'name' => clienttranslate('Frozen'),
         'text' => clienttranslate(
-            'Once all players have placed half of their effort, replace this setting at random.'
+            'Once all players have placed half of their effort, this setting will be replaced at random.'
         ),
     ],
 ]);
