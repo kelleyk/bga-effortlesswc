@@ -19,6 +19,8 @@
 
     - Also, "Hidden Market" is giving "seat 1" -15 points when all three seats have 0 effort on the location.
 
+    - (from the game with kat:) battling cave
+
   - UI/UX
 
     - Make playable/unplayable effort piles more visible.

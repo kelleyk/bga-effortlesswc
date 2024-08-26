@@ -42,9 +42,10 @@
 <script type="text/javascript">
 /** XXX: Find a better way to define templates. **/
 
+  // N.B.: The .ewc_setloc_setloc_wrap element needs a unique ID for `addTooltipHtml()`.
 let jstpl_setloc_panel =
   '<div id="${id}" class="ewc_setloc_panel ${classes}">' +
-  '<div class="ewc_setloc_setloc_wrap">' +
+  '<div id="${id}_wrap" class="ewc_setloc_setloc_wrap">' +
   '<div class="ewc_setloc_setting_wrap">' +
 
   '<div class="ewc_setloc_setting">' +
@@ -137,6 +138,12 @@ let jstpl_scoringarea =
 
   let jstpl_tooltip_card =
     '<div class="tooltip-container ewc_tooltip">${title}</div>';
+
+  let jstpl_tooltip_setloc =
+    '<div class="tooltip-container ewc_tooltip">' +
+    '<strong>${setting.name}</strong><br />${setting.text}<br />' +
+    '<strong>${location.name}</strong><br />${location.text}' +
+    '</div>';
 
 </script>
 

@@ -33,8 +33,11 @@ class GameBody extends GameBasics {
   protected locationZones: { [locationId: number]: any } = {};
   protected cardZoneObserver: MutationObserver;
 
-  // Maps position (sublocationIndex) to location ID.
+  // Maps position (sublocationIndex) to location.
   protected locationByPos: { [pos: number]: EffortlessLocation } = {};
+
+  // Maps position (sublocationIndex) to setting.
+  protected settingByPos: { [pos: number]: EffortlessSetting } = {};
 
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
@@ -190,16 +193,38 @@ class GameBody extends GameBasics {
     });
   }
 
+  // XXX: Given a cardType value such as "location:foo", returns "foo".  We can probably eliminate the need for this by
+  // removing the prefix from the cardType on the server side; the same value is already present as the cardTypeGroup.
+  public extractSetlocKey(s: string): string | null {
+    const k = s.split(':')[1] ?? null;
+    console.log('*** s/k =', s, k);
+    return k;
+  }
+
   public setupPlayArea(mutableBoardState: MutableBoardState) {
     for (const location of Object.values(mutableBoardState.locations)) {
       this.locationByPos[location.sublocationIndex] = location;
     }
+    for (const setting of Object.values(mutableBoardState.settings)) {
+      this.settingByPos[setting.sublocationIndex] = setting;
+    }
 
     // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
+      const locationId = this.locationByPos[i]!.id;
+      const settingKey: string = this.extractSetlocKey(
+        this.settingByPos[i]!.cardType!,
+      )!;
+      const locationKey: string = this.extractSetlocKey(
+        this.locationByPos[i]!.cardType!,
+      )!;
+
+      console.log('*** location:', this.locationByPos[i]!);
+      console.log('*** setting:', this.settingByPos[i]!);
+
       const el = dojo.place(
         this.format_block('jstpl_setloc_panel', {
-          classes: 'ewc_setloc_location_' + this.locationByPos[i]!.id,
+          classes: 'ewc_setloc_location_' + locationId,
           id: 'ewc_setloc_panel_' + i,
         }),
         $('ewc_setlocarea_column_' + (i % 2))!,
@@ -210,8 +235,19 @@ class GameBody extends GameBasics {
         'onclick',
         this,
         (evt: any) => {
-          this.onClickLocation(evt, this.locationByPos[i]!.id);
+          this.onClickLocation(evt, locationId);
         },
+      );
+
+      this.addTooltipHtml(
+        el.querySelector('.ewc_setloc_setloc_wrap')!.id,
+        this.format_block('jstpl_tooltip_setloc', {
+          // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
+          // things by ID
+          location: StaticDataSetlocs.locationMetadata[locationKey],
+          setting: StaticDataSetlocs.settingMetadata[settingKey],
+        }),
+        // '<div class="tooltip-container ewc_tooltip">WOOHOO TOOLTIP</div>',
       );
     }
 

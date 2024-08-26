@@ -1500,8 +1500,10 @@ var GameBody = /** @class */ (function (_super) {
         // XXX: Do we not have a good type for `ebg.zone`?
         _this.handZone = null;
         _this.locationZones = {};
-        // Maps position (sublocationIndex) to location ID.
+        // Maps position (sublocationIndex) to location.
         _this.locationByPos = {};
+        // Maps position (sublocationIndex) to setting.
+        _this.settingByPos = {};
         console.log('effortless constructor');
         _this.cardZoneObserver = new MutationObserver(function (records, _observer) {
             for (var _i = 0, records_1 = records; _i < records_1.length; _i++) {
@@ -1609,28 +1611,51 @@ var GameBody = /** @class */ (function (_super) {
             el.style.visibility = 'hidden';
         });
     };
+    // XXX: Given a cardType value such as "location:foo", returns "foo".  We can probably eliminate the need for this by
+    // removing the prefix from the cardType on the server side; the same value is already present as the cardTypeGroup.
+    GameBody.prototype.extractSetlocKey = function (s) {
+        var _a;
+        var k = (_a = s.split(':')[1]) !== null && _a !== void 0 ? _a : null;
+        console.log('*** s/k =', s, k);
+        return k;
+    };
     GameBody.prototype.setupPlayArea = function (mutableBoardState) {
         var _this = this;
         for (var _i = 0, _a = Object.values(mutableBoardState.locations); _i < _a.length; _i++) {
             var location_1 = _a[_i];
             this.locationByPos[location_1.sublocationIndex] = location_1;
         }
+        for (var _b = 0, _c = Object.values(mutableBoardState.settings); _b < _c.length; _b++) {
+            var setting = _c[_b];
+            this.settingByPos[setting.sublocationIndex] = setting;
+        }
         var _loop_1 = function (i) {
+            var locationId = this_1.locationByPos[i].id;
+            var settingKey = this_1.extractSetlocKey(this_1.settingByPos[i].cardType);
+            var locationKey = this_1.extractSetlocKey(this_1.locationByPos[i].cardType);
+            console.log('*** location:', this_1.locationByPos[i]);
+            console.log('*** setting:', this_1.settingByPos[i]);
             var el = dojo.place(this_1.format_block('jstpl_setloc_panel', {
-                classes: 'ewc_setloc_location_' + this_1.locationByPos[i].id,
+                classes: 'ewc_setloc_location_' + locationId,
                 id: 'ewc_setloc_panel_' + i,
             }), $('ewc_setlocarea_column_' + (i % 2)));
             dojo.connect(el.querySelector('.ewc_setloc_setloc_wrap'), 'onclick', this_1, function (evt) {
-                _this.onClickLocation(evt, _this.locationByPos[i].id);
+                _this.onClickLocation(evt, locationId);
             });
+            this_1.addTooltipHtml(el.querySelector('.ewc_setloc_setloc_wrap').id, this_1.format_block('jstpl_tooltip_setloc', {
+                // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
+                // things by ID
+                location: StaticDataSetlocs.locationMetadata[locationKey],
+                setting: StaticDataSetlocs.settingMetadata[settingKey],
+            }));
         };
         var this_1 = this;
         // Create the element that will display each setting-location pair and associated cards.
         for (var i = 0; i < 6; ++i) {
             _loop_1(i);
         }
-        for (var _b = 0, _c = Object.values(mutableBoardState.locations); _b < _c.length; _b++) {
-            var location_2 = _c[_b];
+        for (var _d = 0, _e = Object.values(mutableBoardState.locations); _d < _e.length; _d++) {
+            var location_2 = _e[_d];
             console.log('*** location', location_2);
             var parentEl = document.querySelector('#ewc_setloc_panel_' + location_2.sublocationIndex + ' .ewc_setloc_cards');
             var zone = new ebg.zone();
@@ -1656,8 +1681,8 @@ var GameBody = /** @class */ (function (_super) {
         };
         var this_2 = this;
         // Create a counter for the amount of effort that each seat has on each location.
-        for (var _d = 0, _e = Object.values(mutableBoardState.effortPiles); _d < _e.length; _d++) {
-            var pile = _e[_d];
+        for (var _f = 0, _g = Object.values(mutableBoardState.effortPiles); _f < _g.length; _f++) {
+            var pile = _g[_f];
             _loop_2(pile);
         }
         this.applyState(mutableBoardState, /*privateState=*/ null);
