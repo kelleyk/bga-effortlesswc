@@ -120,6 +120,7 @@ class EffortPile
   {
     $location_id = $this->locationId();
 
+    // XXX: This idea of "scoring" is related to `Setting::affectedSeats()`.
     if ($location_id === null) {
       $scoring = false;
     } else {

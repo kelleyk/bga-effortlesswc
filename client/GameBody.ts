@@ -239,16 +239,18 @@ class GameBody extends GameBasics {
         },
       );
 
-      this.addTooltipHtml(
-        el.querySelector('.ewc_setloc_setloc_wrap')!.id,
-        this.format_block('jstpl_tooltip_setloc', {
-          // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
-          // things by ID
-          location: StaticDataSetlocs.locationMetadata[locationKey],
-          setting: StaticDataSetlocs.settingMetadata[settingKey],
-        }),
-        // '<div class="tooltip-container ewc_tooltip">WOOHOO TOOLTIP</div>',
-      );
+      // XXX: Breaks click events; we need to have an inner and outer element here.
+      //
+      // this.addTooltipHtml(
+      //   el.querySelector('.ewc_setloc_setloc_wrap')!.id,
+      //   this.format_block('jstpl_tooltip_setloc', {
+      //     // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
+      //     // things by ID
+      //     location: StaticDataSetlocs.locationMetadata[locationKey],
+      //     setting: StaticDataSetlocs.settingMetadata[settingKey],
+      //   }),
+      //   // '<div class="tooltip-container ewc_tooltip">WOOHOO TOOLTIP</div>',
+      // );
     }
 
     for (const location of Object.values(mutableBoardState.locations)) {
