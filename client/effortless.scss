@@ -237,7 +237,17 @@
   border-top: 1px solid #333;
   border-bottom: 1px solid #333;
 
-  mask-image: linear-gradient(to right, transparent, white 1%, white 99%, transparent);
+  // // XXX: Causes clipping issues with cards being moved into the hand.
+  //
+  // mask-image: linear-gradient(to right, transparent, white 1%, white 99%, transparent);
+}
+
+.ewc_handarea .ewc_card {
+  // (80 = the 90px height of the hand area plus double the 5px margin)
+  clip: rect(0, auto, 80px, 0);
+  margin-top: 5px;
+
+  // transition: clip 1.0s;  // N.B.: This doesn't seem to work, at least in Firefox.
 }
 
 /* Prompt area */

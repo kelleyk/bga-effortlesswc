@@ -212,12 +212,12 @@ class GameBody extends GameBasics {
     // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
       const locationId = this.locationByPos[i]!.id;
-      const settingKey: string = this.extractSetlocKey(
-        this.settingByPos[i]!.cardType!,
-      )!;
-      const locationKey: string = this.extractSetlocKey(
-        this.locationByPos[i]!.cardType!,
-      )!;
+      // const settingKey: string = this.extractSetlocKey(
+      //   this.settingByPos[i]!.cardType!,
+      // )!;
+      // const locationKey: string = this.extractSetlocKey(
+      //   this.locationByPos[i]!.cardType!,
+      // )!;
 
       console.log('*** location:', this.locationByPos[i]!);
       console.log('*** setting:', this.settingByPos[i]!);
@@ -692,6 +692,8 @@ class GameBody extends GameBasics {
   }
 
   public rescaleSprite(el: HTMLElement, scale: number) {
+    console.log('rescaleSprite()', el.id, scale);
+
     const spriteName = this.getSpriteName(el);
     const spriteMetadata = StaticDataSprites.spriteMetadata[spriteName];
     const spritesheetMetadata =

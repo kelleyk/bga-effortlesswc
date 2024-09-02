@@ -1631,8 +1631,12 @@ var GameBody = /** @class */ (function (_super) {
         }
         var _loop_1 = function (i) {
             var locationId = this_1.locationByPos[i].id;
-            var settingKey = this_1.extractSetlocKey(this_1.settingByPos[i].cardType);
-            var locationKey = this_1.extractSetlocKey(this_1.locationByPos[i].cardType);
+            // const settingKey: string = this.extractSetlocKey(
+            //   this.settingByPos[i]!.cardType!,
+            // )!;
+            // const locationKey: string = this.extractSetlocKey(
+            //   this.locationByPos[i]!.cardType!,
+            // )!;
             console.log('*** location:', this_1.locationByPos[i]);
             console.log('*** setting:', this_1.settingByPos[i]);
             var el = dojo.place(this_1.format_block('jstpl_setloc_panel', {
@@ -1642,12 +1646,6 @@ var GameBody = /** @class */ (function (_super) {
             dojo.connect(el.querySelector('.ewc_setloc_setloc_wrap'), 'onclick', this_1, function (evt) {
                 _this.onClickLocation(evt, locationId);
             });
-            this_1.addTooltipHtml(el.querySelector('.ewc_setloc_setloc_wrap').id, this_1.format_block('jstpl_tooltip_setloc', {
-                // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
-                // things by ID
-                location: StaticDataSetlocs.locationMetadata[locationKey],
-                setting: StaticDataSetlocs.settingMetadata[settingKey],
-            }));
         };
         var this_1 = this;
         // Create the element that will display each setting-location pair and associated cards.
@@ -2026,6 +2024,7 @@ var GameBody = /** @class */ (function (_super) {
         throw new Error('XXX: Unable to find sprite name.');
     };
     GameBody.prototype.rescaleSprite = function (el, scale) {
+        console.log('rescaleSprite()', el.id, scale);
         var spriteName = this.getSpriteName(el);
         var spriteMetadata = StaticDataSprites.spriteMetadata[spriteName];
         var spritesheetMetadata = StaticDataSprites.spritesheetMetadata[spriteMetadata.spritesheet];
