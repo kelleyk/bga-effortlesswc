@@ -1,6 +1,7 @@
-# Built files
-# (XXX: Will we still use this?)
-client/build/
+# Temporary & built files
+build/
+test-build/
+tmp/
 
 # Node.js
 node_modules/
@@ -15,7 +16,6 @@ yarn-error.log
 package-lock.json
 yarn.lock
 
-tmp/
 .tscache/
 .DS_Store
 .sass-cache/
