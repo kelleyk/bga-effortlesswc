@@ -15,7 +15,7 @@ class ParameterInputTest extends \Effortless\Test\IntegrationTestCase
 
   function testTableSetup(): void
   {
-    $this->assertGameState(ST_PLACE_EFFORT);
+    $this->assertGameState(ST_INPUT);
 
     // XXX: Deliberately empty.
   }

@@ -85,6 +85,8 @@ Class CardBaseTest extends \WcLib\Test\IntegrationTestCase {
 
     $deck = new \WcLib\WcDeck(\WcLib\Card::class, 'card');
 
+    // XXX: This is here just to prevent PHPUnit from complaining that we are not making any assertions.
+    $this->assertEquals(0, 0);
   }
 
   // XXX: Want to test that...

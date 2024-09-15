@@ -14,6 +14,8 @@ class CardTest extends \Effortless\Test\IntegrationTestCase
 
   function testTableSetup(): void
   {
+    $this->assertGameState(ST_INPUT);
+
     // XXX: Deliberately empty.
   }
 
