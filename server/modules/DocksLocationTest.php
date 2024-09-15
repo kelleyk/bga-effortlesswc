@@ -7,9 +7,6 @@ require_once 'modules/php/Test/IntegrationTestCase.php';
 
 // use LocalArena\TableParams;
 
-// use \Effortless\Test\IntegrationTestCase as X;
-// use \LocalArena\Test\IntegrationTestCase as Y;
-
 final class DocksLocationTest extends \Effortless\Test\IntegrationTestCase
 {
   protected function setUp(): void

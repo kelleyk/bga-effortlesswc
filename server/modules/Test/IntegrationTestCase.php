@@ -50,13 +50,13 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
   public function setlocByPos(int $pos): SetlocPeer
   {
     // XXX:
-    throw new \BgaUserException('no impl');
+    throw new \BgaUserException('no impl: setlocbypos');
   }
 
   public function activeSeat(): SeatPeer
   {
     // XXX:
-    throw new \BgaUserException('no impl');
+    throw new \BgaUserException('no impl: activeseat');
   }
 }
 
@@ -108,7 +108,7 @@ class SeatPeer
 
   public function actVisit(SetlocPeer $setloc): void
   {
-    throw new \BgaUserException('XXX: no impl');
+    throw new \BgaUserException('XXX: no impl: actVisit');
   }
 }
 
@@ -146,7 +146,7 @@ class SetlocPeer
 
   public function setLocation(string $cardType): void
   {
-    throw new \BgaUserException('no impl');
+    throw new \BgaUserException('no impl: setlocation');
   }
 
   public function location(): LocationPeer
@@ -156,7 +156,7 @@ class SetlocPeer
 
   public function setSetting(string $cardType): void
   {
-    throw new \BgaUserException('no impl');
+    throw new \BgaUserException('no impl: setsetting');
   }
 
   public function setting(): SettingPeer
@@ -166,7 +166,7 @@ class SetlocPeer
 
   public function effortPileBySeat(SeatPeer $seat): EffortPilePeer
   {
-    throw new \BgaUserException('no impl');
+    throw new \BgaUserException('no impl: effortpilebyseat');
   }
 }
 
@@ -200,7 +200,7 @@ class LocationPeer
   // XXX: We need a better name for this.
   public function implObj(): Location
   {
-    throw new \BgaUserException('XXX: no impl');
+    throw new \BgaUserException('XXX: no impl: locationPeer::implObj()');
     // return ArcanaCard::getById($this->table()->world(), $this->id());
   }
 
@@ -230,7 +230,7 @@ class EffortPilePeer
 {
   public function qty(): int
   {
-    throw new \BgaUserException('no impl');
+    throw new \BgaUserException('no impl: EffortPilePeer::qty()');
   }
 }
 
