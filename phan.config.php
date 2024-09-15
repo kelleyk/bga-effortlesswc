@@ -65,6 +65,16 @@ return [
     '/src/game',
     '/src/test',
     '/src/localarena',
+
+    // XXX: This path is where vendored PHP libraries that are baked into the Docker image (i.e. are installed by
+    // invoking Composer in the Dockerfile), such as PHPUnit, live.  Without this, `grunt phan` complains about things
+    // like `SomethingTest::assertEquals()` being undefined, presumably because it hasn't found definitions for PHPUnit
+    // classes.
+    //
+    // We shouldn't need two different PHP vendoring paths; this is probably something that we overlooked when improving
+    // the Composer situation.
+    //
+    '/vendor',
   ],
 
   // N.B.: These are include paths in the same sense that `set_include_path()`/`get_include_path()` mean; these should
@@ -92,6 +102,9 @@ return [
 
     // XXX: This is hopefully something that we can eventually remove:
     '/src/game/effortless/localarena_config.inc.php',
+
+    // XXX: See above note about "/vendor".
+    '/vendor',
   ],
 
   // N.B.: Without this, include/require statements for files that aren't found won't cause errors.  (You'll still get
