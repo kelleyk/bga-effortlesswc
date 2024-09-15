@@ -6,6 +6,9 @@ set_include_path(
     '/src/game/effortless',
     '/src/test/effortless',
     // XXX: removed '/src' as part of path restructuring
+
+    // XXX: Has that broken access to PHPUnit (or even to LocalArena?)
+    // BurgleBros adds '/src' to the include path
   ])
 );
 

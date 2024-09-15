@@ -398,6 +398,25 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-prettier');
   grunt.loadNpmTasks('grunt-tslint');
 
+  console.log(
+    [
+      'docker run -i --rm',
+
+      '--network localarena_default',
+      '-v ${LOCALARENA_ROOT}/db/password.txt:/run/secrets/db-password:ro',
+      '-v ${LOCALARENA_ROOT}/src/module:/src/localarena/module:ro',
+      '-v ${LOCALARENA_ROOT}/src/game/localarenanoop:/src/game/localarenanoop:ro',
+
+      '-v $PWD/test-build:/src/test/effortless:ro',
+      '-v $PWD/build:/src/game/effortless:ro',
+
+      'wardcanyon/localarena-testenv:latest',
+      'phpunit --configuration /src/test/effortless/modules/php/Test/phpunit.xml',
+    ]
+      .concat(phpunit_args)
+      .join(' '),
+  );
+
   // This is a hack related to the way that we try to extend a Dojo class (ebg.core.gamegui) with TypeScript.
   //
   // It uncomments everything between two marker comments; we use this to add an empty `GameGui` class into our JavaScript
@@ -475,11 +494,15 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['fix', 'build']);
 
   grunt.registerTask('test:server', [
-    'copy:server_sources',
+    'server',
+    'copy:server_tests',
     'shell:test_server',
   ]);
 
-  grunt.registerTask('test', ['server', 'test:server']);
+  // XXX: It'd be nice to have a "run test:server, but skip linting" option, rather than needing to do something like
+  // `grunt copy:server_{sources,tests} shell:generate_gameoptions shell:test_server`.
+
+  grunt.registerTask('test', ['test:server']);
 
   grunt.registerTask('clean', ['shell:clean']);
 };
