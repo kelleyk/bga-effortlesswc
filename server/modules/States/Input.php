@@ -68,7 +68,7 @@ trait Input
         $value = intval($raw_value);
 
         if (!in_array($value, $paraminput_config->choices)) {
-          throw new \BgaUserException('Invalid target (location with ID=' . $value . ').');
+          throw new \BgaUserException('Invalid target (location with ID=' . $value . ').  Valid targets are: ' . print_r($paraminput_config->choices, true));
         }
         $location = Location::mustGetById($this->world(), $value);
 

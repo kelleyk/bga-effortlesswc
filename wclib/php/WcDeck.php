@@ -11,6 +11,12 @@ require_once 'CardBase.php';
     for an example of a situation where that would be useful.
  */
 
+function array_value_first($arr)
+{
+  $k = array_key_first($arr);
+  return $arr[$k];
+}
+
 class Card extends CardBase {
   const CARD_TYPE_GROUP = 'card';
   const CARD_TYPE = 'default';
@@ -184,6 +190,22 @@ class WcDeck extends \APP_DbObject
   }
 
   /** @return CardT|null */
+  public function getUniqueByLocation($card_sublocation, ?int $sublocation_index = SUBLOCATION_INDEX_ANY) {
+    $cards = $this->getAll([$card_sublocation], $sublocation_index);
+    switch (count($cards)) {
+    case 0: {
+      return null;
+    }
+    case 1: {
+      return array_value_first($cards);
+    }
+    default: {
+      throw new \BgaVisibleSystemException('Call to `getUniqueByLocation()` returned more than one match.');
+    }
+    }
+  }
+
+  /** @return CardT|null */
   public function get(int $card_id)
   {
     return $this->CardT_::fromRow($this->CardT_, $this, $this->rawGet($card_id));
@@ -208,24 +230,43 @@ class WcDeck extends \APP_DbObject
     return $this->getObjectFromDB('SELECT * FROM `card` WHERE `id` = ' . $card_id);
   }
 
-  // XXX: This should be `static` once `getCollectionFromDB()` is.
-  private function rawGetAllOfType($card_type)
+  // XXX: See comments on `getAllOfType()`.
+  private function rawGetAllOfType(string $card_type_group, ?string $card_type)
   {
-    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type` = "' . $card_type . '"');
+    $where_clauses = [
+      '`card_type_group` = "' . $card_type_group . '"',
+    ];
+    if ($card_type !== null) {
+      $where_clauses[] = '`card_type` = "' . $card_type . '"';
+    }
+    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE ' . implode(' AND ', $where_clauses));
   }
 
+  // XXX: The signature of this function doesn't quite make sense; we should decide if there is supposed to be exactly
+  // one $card_type_group per deck or not.
+  //
   // XXX: This should be `static` once `getCollectionFromDB()` is.
-  private function rawGetAllOfTypeGroup(string $card_type_group)
-  {
-    return $this->getCollectionFromDB('SELECT * FROM `card` WHERE `card_type_group` = "' . $card_type_group . '"');
-  }
-
-  // XXX: This should be `static` once `getCollectionFromDB()` is.
-  function getAllOfTypeGroup(string $card_type_group)
+  function getAllOfType(string $card_type_group, ?string $card_type)
   {
     return array_map(function ($row) {
       return $this->CardT_::fromRow($this->CardT_, $this, $row);
-    }, $this->rawGetAllOfTypeGroup($card_type_group));
+    }, $this->rawGetAllOfType($card_type_group, $card_type));
+  }
+
+  /** @return CardT|null */
+  function getUniqueByType(string $card_type_group, ?string $card_type) {
+    $cards = $this->getAllOfType($card_type_group, $card_type);
+    switch (count($cards)) {
+    case 0: {
+      return null;
+    }
+    case 1: {
+      return array_value_first($cards);
+    }
+    default: {
+      throw new \BgaVisibleSystemException('Call to `getUniqueByType()` returned more than one match.');
+    }
+    }
   }
 
   // Returns the top `Card` in the indicated $card_sublocation, or
@@ -322,7 +363,8 @@ class WcDeck extends \APP_DbObject
     $this->updateCard_legacy($card, $sublocation, /*card_order=*/ 0, $sublocation_index);
   }
 
-  public function placeOnBottom(Card $card, string $card_sublocation, ?int $sublocation_index = NULL): void
+  /** @param CardT $card */
+  public function placeOnBottom($card, string $card_sublocation, ?int $sublocation_index = NULL): void
   {
     $this->updateCard_legacy($card, $card_sublocation, /*card_order=*/ $this->readMaxCardOrder($card_sublocation, $sublocation_index) + 1, $sublocation_index);
   }

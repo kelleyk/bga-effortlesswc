@@ -96,9 +96,8 @@ abstract class Location extends \WcLib\CardBase
   public function effortPileForSeat(World $world, Seat $seat): EffortPile
   {
     $rows_by_id = $world->table()->rawGetEffortPilesBySeat($this->id());
-    // throw new \feException(print_r($rows_by_id, true));
-
-    $pile = EffortPile::fromRow($rows_by_id[$seat->id()]);
+    $row = $rows_by_id[$seat->id()];
+    $pile = EffortPile::fromRow($row);
     if ($pile === null) {
       throw new \BgaVisibleSystemException('Effort pile not found.');
     }

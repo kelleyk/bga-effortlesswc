@@ -23,6 +23,11 @@ abstract class Setting extends \WcLib\CardBase
     return $world->table()->settingDeck->get($id);
   }
 
+  public static function getByPos(World $world, int $pos): ?Setting
+  {
+    return $world->table()->settingDeck->getByLocation('setloc', $pos);
+  }
+
   public static function mustGetById(World $world, int $id): Setting
   {
     $setting = self::getById($world, $id);
