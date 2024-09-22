@@ -165,6 +165,11 @@ abstract class Setting extends \WcLib\CardBase
     $type = explode(':', $this->type())[1];
     return SETTING_METADATA[$type];
   }
+
+  public function locationArg(): int
+  {
+    return $this->sublocationIndex();
+  }
 }
 
 // >=1 effort -> 3 pt

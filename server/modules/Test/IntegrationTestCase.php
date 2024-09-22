@@ -53,7 +53,8 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
     return new SetlocPeer($this, $pos);
   }
 
-  public function seat(int $id): SeatPeer {
+  public function seat(int $id): SeatPeer
+  {
     return new SeatPeer($this, $id);
   }
 
@@ -62,7 +63,8 @@ class IntegrationTestCase extends \LocalArena\Test\IntegrationTestCase
     return $this->seat($this->activeSeatId());
   }
 
-  public function activeSeatId(): int {
+  public function activeSeatId(): int
+  {
     return $this->table()->world()->activeSeat()->id();
   }
 }
@@ -74,7 +76,7 @@ class PlayerPeer extends \LocalArena\Test\PlayerPeer
     // N.B.: In Effortless, we're experimenting with having peers that only store primary keys, so that they don't need
     // to be `refresh()`ed like the originals in Burgle Bros 2 do.  The `PlayerPeer` in LocalArena still uses the
     // original style, which is why we need to go fetch the row like this.
-   $row = $itc->table()->rawGetPlayerById($player_id);
+    $row = $itc->table()->rawGetPlayerById($player_id);
     parent::__construct($itc, $row);
   }
 }
@@ -106,7 +108,8 @@ class SeatPeer
   }
 
   // XXX: We need a better name for this.
-  public function implObj(): Seat {
+  public function implObj(): Seat
+  {
     return Seat::mustGetById($this->table()->world(), $this->id());
   }
 
@@ -132,7 +135,7 @@ class SeatPeer
   {
     $this->player()->act('actSelectInput', [
       'selection' => [
-        'inputType' => 'inputtype:location',  // XXX: This is `INPUTTYPE_LOCATION`.
+        'inputType' => 'inputtype:location', // XXX: This is `INPUTTYPE_LOCATION`.
         'value' => $setloc->locationId(),
       ],
     ]);
@@ -161,27 +164,96 @@ class SetlocPeer
     return $this->pos_;
   }
 
+  // Moves a $location in play (with sublocation SETLOC) back to the deck.  Any cards at that location are discarded.
+  //
+  // This isn't intended to be used directly; see `setLocation()`.
+  private function unplaceLocation(LocationPeer $location): void
+  {
+    $world = $this->table()->world();
+    $deck = $this->table()->locationDeck;
+
+    if ($location->sublocation() != 'SETLOC') {
+      throw new \BgaVisibleSystemException('Cannot `unplaceLocation()` a location that is not in play.');
+    }
+
+    // Discard all cards.
+    foreach ($location->implObj()->cards($world) as $card) {
+      $world->discardCard($card);
+    }
+
+    $deck->placeOnBottom($location, 'DECK', null);
+  }
+
+  // Moves a $location that is in the deck or discard pile (with sublocation DECK or DISCARD) into play at $pos.  There
+  // must not be any card already in play at (SETLOC, $pos).  The location is refilled with cards from the deck.
+  //
+  // This isn't intended to be used directly; see `setLocation()`.
+  //
+  // N.B.: This does *not* update effort-piles.  Doing that requires knowing the index of the location that previously
+  // occupied $pos.
+  private function placeLocation(LocationPeer $location, int $pos): void
+  {
+    $world = $this->table()->world();
+    $deck = $this->table()->locationDeck;
+
+    if ($location->sublocation() != 'DECK' && $location->sublocation() != 'DISCARD') {
+      throw new \BgaVisibleSystemException(
+        'Cannot `placeLocation()` a location that is not in either the deck or discard pile.'
+      );
+    }
+
+    $existing_location = $deck->getUniqueByLocation('SETLOC', $pos);
+    if ($existing_location !== null) {
+      throw new \BgaVisibleSystemException(
+        'Cannot `placeLocation()` a location at position ' .
+          $pos .
+          '; ' .
+          $existing_location->type() .
+          ' is already there.'
+      );
+    }
+
+    $deck->placeOnTop($location, 'SETLOC', $pos);
+
+    // Refill with cards from the deck.
+    $world->fillCards($location->implObj());
+  }
+
+  // XXX: We also need to change the card(s) that are at each new location so that they match the number and
+  // face-up/down state that the new location expects (rather than what the previous location expects).
   public function setLocation(string $card_type): void
   {
     $deck = $this->table()->locationDeck;
 
-    // Put the current location back in the deck.
-    $prev_location_id = $this->locationId();
-    $deck->placeOnBottom($deck->mustGet($prev_location_id), 'DECK', null);
+    // Get the location that is currently at this position before we start making state changes.
+    $prev_location = $this->location();
 
-    // Find the given location, and put it in `$this->pos_`.
-    $matching_location = $deck->getUniqueByType(Location::CARD_TYPE_GROUP, $card_type);
-    if ($matching_location === null) {
+    $matching_location_implobj = $deck->getUniqueByType(Location::CARD_TYPE_GROUP, $card_type);
+    if ($matching_location_implobj === null) {
       throw new \BgaVisibleSystemException('No location found for type: ' . $card_type);
     }
-    $next_location_id = $matching_location->id();
-    $deck->placeOnTop($matching_location, 'SETLOC', $this->pos_);
+    $matching_location = new LocationPeer($this->itc_, $matching_location_implobj->id());
+
+    // N.B.: This function (and `setSetting()`) need to handle the situation where $card_type is already in play, but at
+    // a different `$this->pos_`; otherwise, we'll leave a gap at its previous position.
+    if ($matching_location->sublocation() == 'SETLOC') {
+      $matching_location_prev_pos = $matching_location->sublocationIndex();
+      $this->unplaceLocation($matching_location);
+      $this->placeLocation(new LocationPeer($this->itc_, $deck->peekTop()->id()), $matching_location_prev_pos);
+    }
+
+    // Put the location currently at `$this->pos_` back in the deck, and place the target location into play in that position.
+    $this->unplaceLocation($prev_location);
+    $this->placeLocation($matching_location, $this->pos_);
 
     // Update effort-piles that were tied to the replaced location.  This is necessary because effort-piles are (perhaps
     // unwisely) keyed by location and not by position on the board.  We're going to need to do the same thing in the
     // game itself if we ever implement any of the content that involves replacing setlocs.
     $this->table()->DbQuery(
-      'UPDATE `effort_pile` SET `location_id` = ' . $next_location_id . ' WHERE `location_id` = ' . $prev_location_id,
+      'UPDATE `effort_pile` SET `location_id` = ' .
+        $matching_location->id() .
+        ' WHERE `location_id` = ' .
+        $prev_location->id()
     );
   }
 
@@ -190,7 +262,8 @@ class SetlocPeer
     return new LocationPeer($this->itc_, $this->locationId());
   }
 
-  public function locationId(): int {
+  public function locationId(): int
+  {
     $location_implobj = $this->table()->locationDeck->getUniqueByLocation('SETLOC', $this->pos_);
     if ($location_implobj === null) {
       throw new \BgaVisibleSystemException('No location found for position: ' . $this->pos_);
@@ -198,23 +271,80 @@ class SetlocPeer
     return $location_implobj->id();
   }
 
+  // Moves a $setting in play (with sublocation SETLOC) back to the deck.  Any cards at that setting are discarded.
+  //
+  // This isn't intended to be used directly; see `setSetting()`.
+  private function unplaceSetting(SettingPeer $setting): void
+  {
+    $world = $this->table()->world();
+    $deck = $this->table()->settingDeck;
+
+    if ($setting->sublocation() != 'SETLOC') {
+      throw new \BgaVisibleSystemException('Cannot `unplaceSetting()` a setting that is not in play.');
+    }
+
+    $deck->placeOnBottom($setting, 'DECK', null);
+  }
+
+  // Moves a $setting that is in the deck or discard pile (with sublocation DECK or DISCARD) into play at $pos.  There
+  // must not be any card already in play at (SETLOC, $pos).
+  //
+  // This isn't intended to be used directly; see `setSetting()`.
+  private function placeSetting(SettingPeer $setting, int $pos): void
+  {
+    $world = $this->table()->world();
+    $deck = $this->table()->settingDeck;
+
+    if ($setting->sublocation() != 'DECK' && $setting->sublocation() != 'DISCARD') {
+      throw new \BgaVisibleSystemException(
+        'Cannot `placeSetting()` a setting that is not in either the deck or discard pile.'
+      );
+    }
+
+    $existing_setting = $deck->getUniqueByLocation('SETLOC', $pos);
+    if ($existing_setting !== null) {
+      throw new \BgaVisibleSystemException(
+        'Cannot `placeSetting()` a setting at position ' .
+          $pos .
+          '; ' .
+          $existing_setting->type() .
+          ' is already there.'
+      );
+    }
+
+    $deck->placeOnTop($setting, 'SETLOC', $pos);
+  }
+
+  // XXX: We also need to change the card(s) that are at each new setting so that they match the number and
+  // face-up/down state that the new setting expects (rather than what the previous setting expects).
   public function setSetting(string $card_type): void
   {
     $deck = $this->table()->settingDeck;
 
-    // Put the current setting back in the deck.
-    $prev_setting = $deck->mustGet($this->settingId());
-    $deck->placeOnBottom($prev_setting, 'DECK', null);
+    // Get the setting that is currently at this position before we start making state changes.
+    $prev_setting = $this->setting();
 
-    // Find the given setting, and put it in `$this->pos_`.
-    $matching_setting = $deck->getUniqueByType(Setting::CARD_TYPE_GROUP, $card_type);
-    if ($matching_setting === null) {
+    $matching_setting_implobj = $deck->getUniqueByType(Setting::CARD_TYPE_GROUP, $card_type);
+    if ($matching_setting_implobj === null) {
       throw new \BgaVisibleSystemException('No setting found for type: ' . $card_type);
     }
-    $deck->placeOnTop($matching_setting, 'SETLOC', $this->pos_);
+    $matching_setting = new SettingPeer($this->itc_, $matching_setting_implobj->id());
+
+    // N.B.: This function (and `setSetting()`) need to handle the situation where $card_type is already in play, but at
+    // a different `$this->pos_`; otherwise, we'll leave a gap at its previous position.
+    if ($matching_setting->sublocation() == 'SETLOC') {
+      $matching_setting_prev_pos = $matching_setting->sublocationIndex();
+      $this->unplaceSetting($matching_setting);
+      $this->placeSetting(new SettingPeer($this->itc_, $deck->peekTop()->id()), $matching_setting_prev_pos);
+    }
+
+    // Put the setting currently at `$this->pos_` back in the deck, and place the target setting into play in that position.
+    $this->unplaceSetting($prev_setting);
+    $this->placeSetting($matching_setting, $this->pos_);
   }
 
-  public function settingId(): int {
+  public function settingId(): int
+  {
     $setting_implobj = $this->table()->settingDeck->getUniqueByLocation('SETLOC', $this->pos_);
     if ($setting_implobj === null) {
       throw new \BgaVisibleSystemException('No setting found for position: ' . $this->pos_);
@@ -229,14 +359,12 @@ class SetlocPeer
 
   public function effortPileBySeat(SeatPeer $seat): EffortPilePeer
   {
-    $pile_implobj = $this->location()->implObj()->effortPileForSeat(
-      $this->table()->world(),
-      $seat->implObj(),
-    );
+    $pile_implobj = $this->location()->implObj()->effortPileForSeat($this->table()->world(), $seat->implObj());
     return new EffortPilePeer($this->itc_, $pile_implobj->id());
   }
 }
 
+// XXX: A lot of this could be replaced with a `CardBasePeer` in `WcLib`.
 class LocationPeer
 {
   private IntegrationTestCase $itc_;
@@ -280,6 +408,16 @@ class LocationPeer
   {
     return $this->implObj()->locationArg();
   }
+
+  public function sublocation(): string
+  {
+    return $this->implObj()->sublocation();
+  }
+
+  public function sublocationIndex(): int
+  {
+    return $this->implObj()->sublocationIndex();
+  }
 }
 
 class EffortPilePeer
@@ -299,7 +437,8 @@ class EffortPilePeer
     $this->id_ = $id;
   }
 
-  public function implObj(): EffortPile {
+  public function implObj(): EffortPile
+  {
     return EffortPile::mustGetById($this->table()->world(), $this->id());
   }
 
@@ -331,12 +470,33 @@ class SettingPeer
     $this->id_ = $id;
   }
 
-  public function implObj(): Setting {
+  public function implObj(): Setting
+  {
     return Setting::mustGetById($this->table()->world(), $this->id());
   }
 
   public function id(): int
   {
     return $this->id_;
+  }
+
+  public function location(): string
+  {
+    return $this->implObj()->location();
+  }
+
+  public function locationArg(): int
+  {
+    return $this->implObj()->locationArg();
+  }
+
+  public function sublocation(): string
+  {
+    return $this->implObj()->sublocation();
+  }
+
+  public function sublocationIndex(): int
+  {
+    return $this->implObj()->sublocationIndex();
   }
 }

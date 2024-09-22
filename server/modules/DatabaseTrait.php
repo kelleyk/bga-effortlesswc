@@ -120,7 +120,9 @@ END_QUERY
     // XXX: This won't be true if/when we add support for any game effects that cause settings or locations to be
     // discarded without replacement.
     if (count($rows) != 6) {
-      throw new \BgaVisibleSystemException('Unable to find all setting-location mappings.');
+      throw new \BgaVisibleSystemException(
+        'Unable to find all setting-location mappings; expected 6 rows, but got ' . count($rows) . '.'
+      );
     }
 
     return $rows;

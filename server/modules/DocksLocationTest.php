@@ -18,6 +18,15 @@ final class DocksLocationTest extends \Effortless\Test\IntegrationTestCase
   // Internal error: value-stack is not empty in ST_NEXT_TURN."
   function testVisitWithoutEffort(): void
   {
+    $world = $this->table()->world();
+
+    $locs = \Effortless\Models\Location::getAll($world);
+    echo "\n*** All locations (at test entry):\n";
+    foreach ($locs as $loc) {
+      echo ' - ' . $loc->type() . "\n";
+    }
+    echo "\n";
+
     $setloc = $this->setlocByPos(0);
     $setloc->setLocation('location:docks'); // XXX: This is a CARD_TYPE.  Is there a better const or similar to use?
     $setloc->setSetting('setting:ghostly'); // XXX: I don't think this actually matters for reproducing the bug.
