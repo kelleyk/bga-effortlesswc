@@ -171,6 +171,11 @@ abstract class Location extends \WcLib\CardBase
     $world->moveCardToHand($card, $world->activeSeat());
   }
 
+  public function canVisit(World $world, Seat $seat): bool
+  {
+    return true;
+  }
+
   protected function metadata()
   {
     $type = explode(':', $this->type())[1];
@@ -397,6 +402,11 @@ class MarketLocation extends Location
       $world->moveCardToHand($card, $seat);
     }
   }
+
+  public function canVisit(World $world, Seat $seat): bool
+  {
+    return count($seat->hand($world)) > 0;
+  }
 }
 
 // "Move another player's effort from any other location to here."
@@ -492,6 +502,11 @@ class TempleLocation extends Location
     for ($i = 0; $i < 2; ++$i) {
       $world->drawCardToHand($seat);
     }
+  }
+
+  public function canVisit(World $world, Seat $seat): bool
+  {
+    return count($seat->hand($world)) > 0;
   }
 }
 

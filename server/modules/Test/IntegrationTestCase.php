@@ -217,6 +217,33 @@ class SetlocPeer
 
     // Refill with cards from the deck.
     $world->fillCards($location->implObj());
+
+    // N.B.: We need to do this because the list of location IDs is embedded in the input config.
+    $this->regenerateParamInputConfig();
+  }
+
+  private function regenerateParamInputConfig(): void
+  {
+    $world = $this->table()->world();
+    $paraminput_config = $this->table()->getParamInputConfig();
+
+    switch ($paraminput_config->return_transition) {
+      case T_RET_PLACE_EFFORT:
+        if ($paraminput_config->input_type != INPUTTYPE_LOCATION) {
+          throw new \BgaVisibleSystemException(
+            'Return transition is T_RET_PLACE_EFFORT but input type is not INPUTTTYPE_LOCATION.'
+          );
+        }
+        $paraminput_config->choices = array_values(
+          array_map(function ($location) {
+            return $location->id();
+          }, $this->table()->getValidEffortPlacementTargets())
+        );
+        $world->table()->setGameStateJson(GAMESTATE_JSON_PARAMINPUT_CONFIG, $paraminput_config->jsonSerialize());
+        break;
+      default:
+        throw new \BgaUserException('Unexpected `return_transition`.');
+    }
   }
 
   // XXX: We also need to change the card(s) that are at each new location so that they match the number and
