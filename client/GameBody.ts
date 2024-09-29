@@ -745,9 +745,8 @@ class GameBody extends GameBasics {
   ///////////////////////////////////////////////////
   //// User input
 
-  // XXX: Now that we have `this.inputArgs`, should we always use that?
-  public updateSelectables(inputArgs: InputArgs) {
-    console.log('*** updateSelectables()');
+  // Clear UI state related to input selection.
+  public clearSelectables() {
     document.querySelectorAll('.ewc_selectable').forEach((el) => {
       el.classList.remove('ewc_selectable');
     });
@@ -757,6 +756,13 @@ class GameBody extends GameBasics {
     document.querySelectorAll('.ewc_selected').forEach((el) => {
       el.classList.remove('ewc_selected');
     });
+  }
+
+  // XXX: Now that we have `this.inputArgs`, should we always use that?
+  public updateSelectables(inputArgs: InputArgs) {
+    console.log('*** updateSelectables()');
+
+    this.clearSelectables();
 
     switch (inputArgs.inputType) {
       case 'inputtype:location': {
@@ -947,6 +953,8 @@ class GameBody extends GameBasics {
       this.applyState(args.args.mutableBoardState, args.args._private);
     }
 
+    this.clearSelectables();
+
     switch (stateName) {
       case 'stInput': {
         if (this.isCurrentPlayerActive()) {
@@ -958,9 +966,6 @@ class GameBody extends GameBasics {
       }
       case 'stPostScoring': {
         console.log('*** stPostScoring: ', args);
-        // // XXX: make this clear all selectablse
-        // this.inputArgs = null;
-        // this.updateSelectables(null);
         break;
       }
     }
