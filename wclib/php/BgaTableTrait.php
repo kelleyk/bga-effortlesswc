@@ -91,9 +91,10 @@ trait BgaTableTrait {
 
   abstract public static function getUniqueValueFromDB(string $sql);
 
-  // XXX: YYY(method-staticness): This is not currently static in LocalArena; changing it to non-static to get local
-  // tests to run, but I wonder if that will break when we upload to BGA Studio.
-  abstract public function getCollectionFromDB(string $query, bool $single = false);
+  // N.B: I've checked this against BGA Studio; there, this is definitely a static function.
+  //
+  // XXX: Other functions in this interface probably disagree with the BGA implementation in terms of staticness.
+  abstract public static function getCollectionFromDB(string $query, bool $single = false);
 
   abstract public function getNonEmptyCollectionFromDB(string $sql);
 
