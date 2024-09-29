@@ -1,3 +1,5 @@
+$selected_color: #00f;
+
 .ewc_setlocarea {
   // background:purple;
 }
@@ -52,6 +54,14 @@
   filter: drop-shadow(4px 4px 3px #555555);
 }
 
+// // These two rules override the black shadow color from the above rule.
+// .ewc_setloc_setloc_wrap.ewc_selectable:not(.ewc_selected):hover {
+//   box-shadow: 0 0 3px 3px lighten($selected_color, 20%);
+// }
+// .ewc_setloc_setloc_wrap.ewc_selected {
+//   box-shadow: 0 0 3px 3px $selected_color;
+// }
+
 // XXX: Maybe this gets replaced with a "within playarea" selector for .ewc_card?
 .ewc_card_playarea {
   position: absolute;  // Required because this is an `ebg.zone` item.
@@ -90,10 +100,6 @@
   // height: 33%;
 }
 
-.ewc_selectable:not(.ewc_selected):hover {
-  transition: box-shadow 0.2s;
-}
-
 .ewc_unselectable {
   cursor: not-allowed;
 
@@ -101,8 +107,15 @@
   transition: opacity 0.2s;
 }
 
+// N.B.: The "!important" here and in the below rule are to ensure that $selected_color overrides the normal black
+// drop-shadow that some UI elements have.
+.ewc_selectable:not(.ewc_selected):hover {
+  box-shadow: 0 0 3px 3px lighten($selected_color, 20%) !important;
+  transition: box-shadow 0.2s;
+}
+
 .ewc_selected {
-  box-shadow: 0 0 3px 3px #00f;
+  box-shadow: 0 0 3px 3px $selected_color !important;
   transition: opacity 0.2s;
 }
 

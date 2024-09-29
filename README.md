@@ -1,19 +1,6 @@
 - Issues, Studio playthrough, 2024-09-29
 
-  - Holy Wasteland effort (2,1,0) - placing as pink (I think seat #2, certainly #2 in that effort order) and getting the
-    "value-stack not empty in ST_NEXT_TURN" error.
-
-
-
-  - We don't always want all of the animation to happen all at once.
-
   - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
-
-  - Doesn't seem like we can click on effort-piles on the board to select them.  There is no mouse-over effect either.
-    The greying-out of unselectable ones works like you'd expect though.  (Maybe this is related to the tooltip changes?)
-
-    Ah: I think that this actually does work, just that there are no visually-apparent styles.  Probably a leftover from when
-    we changed the CSS for these.
 
   - Do we still need "tmp_tintable", "tmp_offset_cube", "tmp_scalable_cube", etc.?
 
