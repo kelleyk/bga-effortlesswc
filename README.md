@@ -1,5 +1,10 @@
 - Issues, Studio playthrough, 2024-09-29
 
+  - Holy Wasteland effort (2,1,0) - placing as pink (I think seat #2, certainly #2 in that effort order) and getting the
+    "value-stack not empty in ST_NEXT_TURN" error.
+
+
+
   - We don't always want all of the animation to happen all at once.
 
   - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.

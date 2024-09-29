@@ -40,16 +40,20 @@ trait NextTurn
     }
 
     // Invariant assertions for the parameter-input system.
+    //
+    // XXX: Write a comment about why this assertion happens at the *end* of this function rather than at the beginning.
+    // (It's because here we've made it through the whole turn-state transition without throwing an
+    // InputRequiredException, blah blah.)
     $value_stack = $this->valueStack->getValueStack();
     if (count($value_stack) !== 0) {
       throw new \BgaVisibleSystemException(
         'Internal error: value-stack is not empty in ST_NEXT_TURN.  Contents: ' . print_r($value_stack, true)
       );
     }
-    $read_index = $world->table()->getNextReadIndex($world);
-    $write_index = $world->table()->getNextParameterIndex($world);
     // XXX: re-enable me!
     //
+    // $read_index = $world->table()->getNextReadIndex($world);
+    // $write_index = $world->table()->getNextParameterIndex($world);
     // if ($read_index != $write_index) {
     //   throw new \BgaVisibleSystemException(
     //     'Read/write parameter index mismatch at turn transition.  read_index=' .

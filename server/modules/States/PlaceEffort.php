@@ -29,6 +29,14 @@ trait PlaceEffort
 
     $world = $this->world();
 
+    // XXX: I think that this is a postcondition for `getParameterLocation()`, right?  Either you've consumed a value
+    // from the value-stack or you've thrown `InputRequiredException.`
+    $this->world()->table()->debug('*** stPlaceEffort(): before call to `getParameter()`');
+    $paraminput_config = $this->world()->table()->getParamInputConfig();
+    if ($paraminput_config !== null) {
+      $this->world()->table()->dump('paraminput_config', $paraminput_config->jsonSerialize());
+    }
+
     try {
       $location = $this->getParameterLocation($world, $this->getValidEffortPlacementTargets(), [
         'description' => '${actplayer} must pick a location to visit.',
@@ -36,6 +44,12 @@ trait PlaceEffort
       ]);
     } catch (InputRequiredException $e) {
       return;
+    }
+
+    $this->world()->table()->debug('*** stPlaceEffort(): after call to `getParameter()`');
+    $paraminput_config = $this->world()->table()->getParamInputConfig();
+    if ($paraminput_config !== null) {
+      $this->world()->table()->dump('paraminput_config', $paraminput_config->jsonSerialize());
     }
 
     // Move one effort from the active seat's reserve to their effort-pile at that location.

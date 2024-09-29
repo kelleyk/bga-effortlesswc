@@ -17,9 +17,13 @@ trait Input
     $this->triggerStateEvents();
   }
 
-  public function getParamInputConfig(): ParameterInputConfig
+  public function getParamInputConfig(): ?ParameterInputConfig
   {
-    return new ParameterInputConfig($this->getGameStateJson(GAMESTATE_JSON_PARAMINPUT_CONFIG));
+    $raw_value = $this->getGameStateJson(GAMESTATE_JSON_PARAMINPUT_CONFIG);
+    if ($raw_value === null) {
+      return null;
+    }
+    return new ParameterInputConfig($raw_value);
   }
 
   public function argInput()
