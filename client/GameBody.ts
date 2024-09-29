@@ -458,17 +458,11 @@ class GameBody extends GameBasics {
   // XXX: We should find a way to make this more generic.
   public rescaleCardSprites(): void {
     // This function assumes that the matched element has a parent wrapper element.
-    console.log('*** qsa ***');
+    console.log('*** rescaleCardSprites() ***');
     document
       .querySelectorAll('.tmp_scalable_card')
       .forEach((rawEl: Element) => {
         const el = rawEl as HTMLElement;
-
-        // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
-        if (el.classList.contains('tmp_scaled_card')) {
-          return;
-        }
-        el.classList.add('tmp_scaled_card');
 
         const scaleFactor = 0.75;
         this.rescaleSprite(el, scaleFactor);
@@ -526,19 +520,13 @@ class GameBody extends GameBasics {
       .forEach((rawEl: Element) => {
         const el = rawEl as HTMLElement;
 
-        // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
-        if (el.classList.contains('tmp_scaled_cube')) {
-          return;
-        }
-        el.classList.add('tmp_scale_cube');
-
         this.rescaleSprite(el, 0.6);
       });
 
     document.querySelectorAll('.tmp_tintable').forEach((rawEl: Element) => {
       const el = rawEl as HTMLElement;
 
-      // Don't rescale on multiple calls.  We may not need this if we're always rescaling from "source dimensions".
+      // Don't re-tint on multiple calls.  Do we need this?
       if (el.classList.contains('tmp_tinted')) {
         return;
       }
@@ -692,12 +680,12 @@ class GameBody extends GameBasics {
   }
 
   public rescaleSprite(el: HTMLElement, scale: number) {
-    console.log('rescaleSprite()', el.id, scale);
-
     const spriteName = this.getSpriteName(el);
     const spriteMetadata = StaticDataSprites.spriteMetadata[spriteName];
     const spritesheetMetadata =
       StaticDataSprites.spritesheetMetadata[spriteMetadata.spritesheet];
+
+    console.log('rescaleSprite()', el.id, spriteName, scale);
 
     el.style.height = spriteMetadata.height * scale + 'px';
     el.style.width = spriteMetadata.width * scale + 'px';

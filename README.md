@@ -1,3 +1,52 @@
+- Issues, Studio playthrough, 2024-09-29
+
+  - We don't always want all of the animation to happen all at once.
+
+  - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
+
+  - Doesn't seem like we can click on effort-piles on the board to select them.  There is no mouse-over effect either.
+    The greying-out of unselectable ones works like you'd expect though.  (Maybe this is related to the tooltip changes?)
+
+    Ah: I think that this actually does work, just that there are no visually-apparent styles.  Probably a leftover from when
+    we changed the CSS for these.
+
+  - Do we still need "tmp_tintable", "tmp_offset_cube", "tmp_scalable_cube", etc.?
+
+  - I visited the "Crowded Wasteland" as Oberstille0, and then it became Oberstille1's turn.  However, "Crowded
+    Wasteland" was not deselected in my UI.  The other setlocs all still had ".ewc_selectable" as well.
+
+    - I think that we are never explicitly clearing selectable UI state, but that this is only visible when you visit a
+      setloc that does not ask for any input afterwards---otherwise, the selectable UI state is cleared when the UI sets
+      up to ask you for that other input (and then those UI elements are hidden or destroyed).  The selectable UI state
+      is correctly cleared if the other player takes a turn and then it becomes your turn again (because then the UI is
+      setting up for another selection input).
+
+  - The position of cards in hand is not adjusted after the window is resized.  Probably need to propagate events or something?
+
+  - The positioning of setlocs in the play-area is still a bit odd (need to check widths, maybe center stuff a bit, etc.).
+
+  - Add debug function that shows ID/name mappings for setlocs, seats, etc.?
+
+  - We probably need to give additional turn time.
+
+  - We need to fix the CSS issues that forced us to disable setloc tooltips.
+
+  - Scoring:
+
+    - We aren't giving BGA points to players at endgame.
+
+    - There are the actual scoring bugs that I'm aware of (but can't find my notes about).
+
+      - 118/market: presence (2,0,1); seat 1 only gets 1 point
+
+      - 112/cave: presence (0,1,0); seat 2 gets -1 point but should get 0
+
+      - 116/crypt: presence (0,1,1); scoring of (0,3,3) seems correct
+
+      - 120/coliseum: presence (1,0,0); scoring of (-3,0,0) seems correct
+
+    - We aren't showing scoring to players at all.
+
 - Issues
 
   - With the River, should we be able to see face-down cards?
