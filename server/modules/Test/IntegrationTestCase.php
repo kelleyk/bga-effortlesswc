@@ -261,17 +261,27 @@ class SetlocPeer
     }
     $matching_location = new LocationPeer($this->itc_, $matching_location_implobj->id());
 
-    // N.B.: This function (and `setSetting()`) need to handle the situation where $card_type is already in play, but at
-    // a different `$this->pos_`; otherwise, we'll leave a gap at its previous position.
-    if ($matching_location->sublocation() == 'SETLOC') {
-      $matching_location_prev_pos = $matching_location->sublocationIndex();
-      $this->unplaceLocation($matching_location);
-      $this->placeLocation(new LocationPeer($this->itc_, $deck->peekTop()->id()), $matching_location_prev_pos);
-    }
+    if ($matching_location->id() != $prev_location->id()) {
+      // N.B.: This function (and `setSetting()`) need to handle the situation where $card_type is already in play, but at
+      // a different `$this->pos_`; otherwise, we'll leave a gap at its previous position.
+      if ($matching_location->sublocation() == 'SETLOC') {
+        $matching_location_prev_pos = $matching_location->sublocationIndex();
+        $this->unplaceLocation($matching_location);
+        $this->placeLocation(new LocationPeer($this->itc_, $deck->peekTop()->id()), $matching_location_prev_pos);
+      }
 
-    // Put the location currently at `$this->pos_` back in the deck, and place the target location into play in that position.
-    $this->unplaceLocation($prev_location);
-    $this->placeLocation($matching_location, $this->pos_);
+      // Put the location currently at `$this->pos_` back in the deck, and place the target location into play in that position.
+      $this->unplaceLocation($prev_location);
+      $this->placeLocation($matching_location, $this->pos_);
+    } else {
+      // N.B.: When we change a location, we might change how many cards need to be in play at that setloc (and their
+      // face-up/down state); as a result, we discard and refill cards when changing locations.  That isn't strictly
+      // necessary in this case, where the location is not actually changing, but doing it anyhow means that we can
+      // offer a consistent postcondition, rather than sometimes (in the subset of test executions where the location
+      // happens to already be in the right spot) not refilling cards.
+      $this->unplaceLocation($prev_location);
+      $this->placeLocation($prev_location, $this->pos_);
+    }
 
     // Update effort-piles that were tied to the replaced location.  This is necessary because effort-piles are (perhaps
     // unwisely) keyed by location and not by position on the board.  We're going to need to do the same thing in the
@@ -307,7 +317,9 @@ class SetlocPeer
     $deck = $this->table()->settingDeck;
 
     if ($setting->sublocation() != 'SETLOC') {
-      throw new \BgaVisibleSystemException('Cannot `unplaceSetting()` a setting that is not in play.');
+      throw new \BgaVisibleSystemException(
+        'Cannot `unplaceSetting()` a setting (' . $setting->debugString() . ') that is not in play.'
+      );
     }
 
     $deck->placeOnBottom($setting, 'DECK', null);
@@ -357,17 +369,24 @@ class SetlocPeer
     }
     $matching_setting = new SettingPeer($this->itc_, $matching_setting_implobj->id());
 
-    // N.B.: This function (and `setSetting()`) need to handle the situation where $card_type is already in play, but at
-    // a different `$this->pos_`; otherwise, we'll leave a gap at its previous position.
-    if ($matching_setting->sublocation() == 'SETLOC') {
-      $matching_setting_prev_pos = $matching_setting->sublocationIndex();
-      $this->unplaceSetting($matching_setting);
-      $this->placeSetting(new SettingPeer($this->itc_, $deck->peekTop()->id()), $matching_setting_prev_pos);
-    }
+    if ($matching_setting->id() != $prev_setting->id()) {
+      // N.B.: This function (and `setSetting()`) need to handle the situation where $card_type is already in play, but at
+      // a different `$this->pos_`; otherwise, we'll leave a gap at its previous position.
+      if ($matching_setting->sublocation() == 'SETLOC') {
+        $matching_setting_prev_pos = $matching_setting->sublocationIndex();
+        $this->unplaceSetting($matching_setting);
+        $this->placeSetting(new SettingPeer($this->itc_, $deck->peekTop()->id()), $matching_setting_prev_pos);
+      }
 
-    // Put the setting currently at `$this->pos_` back in the deck, and place the target setting into play in that position.
-    $this->unplaceSetting($prev_setting);
-    $this->placeSetting($matching_setting, $this->pos_);
+      // Put the setting currently at `$this->pos_` back in the deck, and place the target setting into play in that position.
+      $this->unplaceSetting($prev_setting);
+      $this->placeSetting($matching_setting, $this->pos_);
+    } else {
+      // N.B.: This is here more or less only so that `setSetting()` stays congruent to `setLocation()`; see the comment
+      // there.
+      $this->unplaceSetting($prev_setting);
+      $this->placeSetting($prev_setting, $this->pos_);
+    }
   }
 
   public function settingId(): int
@@ -525,5 +544,13 @@ class SettingPeer
   public function sublocationIndex(): int
   {
     return $this->implObj()->sublocationIndex();
+  }
+
+  public function debugString(): string
+  {
+    // XXX: Should move this to WcLib as well.  We don't need to print the card_type_group here since it's always the
+    // same, but probably would if we used this in more general solutions.  There's not a way to print the in-game title
+    // of the card because (at the moment) that is handled outside of WcLib/CardBase.
+    return "SettingPeer(id={$this->id_}, type={$this->implObj()->type()})";
   }
 }
