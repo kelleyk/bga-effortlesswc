@@ -58,6 +58,8 @@ class GameBody extends GameBasics {
         }
       },
     );
+
+    addEventListener('resize', (event) => this.onWindowResize(event));
   }
 
   /** @gameSpecific See {@link Gamegui.setup} for more information. */
@@ -317,6 +319,16 @@ class GameBody extends GameBasics {
     };
   }
 
+  public onWindowResize(event: any): void {
+    // XXX: This should use some sort of publish-subscribe event mechanism where we don't have to explicitly list
+    // everything that needs an update here.
+
+    console.log('onWindowResize event: ', event);
+
+    // This does more than we need; I think that calling `updateDisplay()` on each `zone` would be enough.
+    this.refreshUiElements(/*animate=*/ false);
+  }
+
   // This is the top-level state update function.  It's called each time we get an update from the server that includes
   // one or more of the state update messages (public and private) that the server generates.
   //
@@ -436,9 +448,15 @@ class GameBody extends GameBasics {
   }
 
   // This is called to let UI elements react to changing data and contents.
-  public refreshUiElements(): void {
+  public refreshUiElements(animate: boolean = true): void {
     for (const zone of this.allCardZones()) {
-      zone.updateDisplay();
+      if (animate) {
+        zone.updateDisplay();
+      } else {
+        zone.instantaneous = true;
+        zone.updateDisplay();
+        zone.instantaneous = false;
+      }
 
       // Fix z-order so that cards on the right are in front of cards on the left.
       let i = 0;

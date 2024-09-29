@@ -1,27 +1,12 @@
 - Issues, Studio playthrough, 2024-09-29
 
-  - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
+  - UX/client issues
 
-  - Do we still need "tmp_tintable", "tmp_offset_cube", "tmp_scalable_cube", etc.?
+    - We need to fix the CSS issues that forced us to disable setloc tooltips.
 
-  - I visited the "Crowded Wasteland" as Oberstille0, and then it became Oberstille1's turn.  However, "Crowded
-    Wasteland" was not deselected in my UI.  The other setlocs all still had ".ewc_selectable" as well.
+    - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
 
-    - I think that we are never explicitly clearing selectable UI state, but that this is only visible when you visit a
-      setloc that does not ask for any input afterwards---otherwise, the selectable UI state is cleared when the UI sets
-      up to ask you for that other input (and then those UI elements are hidden or destroyed).  The selectable UI state
-      is correctly cleared if the other player takes a turn and then it becomes your turn again (because then the UI is
-      setting up for another selection input).
-
-  - The position of cards in hand is not adjusted after the window is resized.  Probably need to propagate events or something?
-
-  - The positioning of setlocs in the play-area is still a bit odd (need to check widths, maybe center stuff a bit, etc.).
-
-  - Add debug function that shows ID/name mappings for setlocs, seats, etc.?
-
-  - We probably need to give additional turn time.
-
-  - We need to fix the CSS issues that forced us to disable setloc tooltips.
+    - The positioning of setlocs in the play-area is still a bit odd (need to check widths, maybe center stuff a bit, etc.).
 
   - Scoring:
 
@@ -38,6 +23,14 @@
       - 120/coliseum: presence (1,0,0); scoring of (-3,0,0) seems correct
 
     - We aren't showing scoring to players at all.
+
+  - BGA integration
+
+    - We probably need to give additional turn time.
+
+  - Debuggability
+
+    - Add debug function that shows ID/name mappings for setlocs, seats, etc.?
 
 - Issues
 
