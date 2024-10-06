@@ -408,6 +408,14 @@ class SetlocPeer
     $pile_implobj = $this->location()->implObj()->effortPileForSeat($this->table()->world(), $seat->implObj());
     return new EffortPilePeer($this->itc_, $pile_implobj->id());
   }
+
+  /** @return EffortPilePeer[] */
+  public function effortPiles()
+  {
+    return array_map(function ($pile_implobj) {
+      return new EffortPilePeer($this->itc_, $pile_implobj->id());
+    }, $this->location()->implObj()->effortPiles($this->table()->world()));
+  }
 }
 
 // XXX: A lot of this could be replaced with a `CardBasePeer` in `WcLib`.
@@ -496,6 +504,17 @@ class EffortPilePeer
   public function qty(): int
   {
     return $this->implObj()->qty();
+  }
+
+  public function seatId(): int
+  {
+    return $this->implObj()->seatId();
+  }
+
+  public function setQty(int $qty): void
+  {
+    $impl_obj = $this->implObj();
+    $impl_obj->addEffort($this->table()->world(), $qty - $impl_obj->qty());
   }
 }
 

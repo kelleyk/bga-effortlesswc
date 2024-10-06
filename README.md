@@ -36,8 +36,6 @@
 
   - With the River, should we be able to see face-down cards?
 
-  - Disable locations that we can't visit.  (Don't present them as valid choices.)
-
 - Suggestions from Kat
 
   - Tooltips for icons (we need tooltips in general, really).
