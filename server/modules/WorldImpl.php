@@ -121,11 +121,12 @@ class WorldImpl implements World
   }
 
   // Like `rankByEffort()` but returns a list of the seat IDs at rank 1.
+  /** @return int[] */
   public function topByEffort($effort_by_seat, bool $outcome_good, bool $invert = false)
   {
     $rank_by_seat = $this->rankByEffort($effort_by_seat, $outcome_good, $invert);
 
-    return array_values(
+    return array_keys(
       array_filter($rank_by_seat, function ($rank) {
         return $rank === 1;
       })

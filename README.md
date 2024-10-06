@@ -12,16 +12,6 @@
 
     - We aren't giving BGA points to players at endgame.
 
-    - There are the actual scoring bugs that I'm aware of (but can't find my notes about).
-
-      - 118/market: presence (2,0,1); seat 1 only gets 1 point
-
-      - 112/cave: presence (0,1,0); seat 2 gets -1 point but should get 0
-
-      - 116/crypt: presence (0,1,1); scoring of (0,3,3) seems correct
-
-      - 120/coliseum: presence (1,0,0); scoring of (-3,0,0) seems correct
-
     - We aren't showing scoring to players at all.
 
   - BGA integration

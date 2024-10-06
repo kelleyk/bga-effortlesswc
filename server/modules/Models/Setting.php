@@ -107,6 +107,7 @@ abstract class Setting extends \WcLib\CardBase
 
   // Returns an array containing the IDs of the seat(s) that will be affected by this setting at scoring time.  This is
   // used to highlight certain seats' effort counts in the UI.
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     throw new \feException('XXX: needs to be implemented on each thing');
@@ -119,6 +120,7 @@ abstract class Setting extends \WcLib\CardBase
   }
 
   // Like `rankByEffort()` but returns a list of the seat IDs at rank 1.
+  /** @return int[] */
   public function topByEffort(World $world, bool $invert = false)
   {
     // XXX: read $outcome_good from class
@@ -149,6 +151,7 @@ abstract class Setting extends \WcLib\CardBase
   }
 
   // Returns a list of seat IDs that have at least $n effort here.
+  /** @return int[] */
   public function seatsWithEffort(World $world, int $n)
   {
     $seats = [];
@@ -180,6 +183,7 @@ class ActiveSetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->seatsWithEffort($world, 1);
@@ -200,6 +204,7 @@ class BarrenSetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return [];
@@ -219,8 +224,13 @@ class BattlingSetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
+    // $top = $this->topByEffort($world);
+    // print('*** affectedSeats() for battling: ' . print_r($top, true) . "\n");
+    // return $top;
+
     return $this->topByEffort($world);
   }
 
@@ -240,6 +250,7 @@ class TreacherousSetting extends Setting
 
   const OUTCOME_GOOD = false;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->seatsWithEffort($world, 1);
@@ -261,6 +272,7 @@ class CrowdedSetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->seatsWithEffort($world, 5);
@@ -282,6 +294,7 @@ class EerieSetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->topByEffort($world, /*invert=*/ true);
@@ -298,7 +311,7 @@ class EerieSetting extends Setting
   }
 }
 
-// XXX: (?) The person with the most effort here gets -1 point for each 2 total effort here.
+// The person with the most effort here gets -1 point for each effort they have here.
 class GhostlySetting extends Setting
 {
   const CARD_TYPE = 'setting:ghostly';
@@ -306,6 +319,7 @@ class GhostlySetting extends Setting
 
   const OUTCOME_GOOD = false;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->topByEffort($world);
@@ -313,8 +327,9 @@ class GhostlySetting extends Setting
 
   public function onScoring(World $world, ScoringContext $score_ctx): void
   {
+    $effort_by_seat = $this->effortBySeat($world);
     foreach ($this->affectedSeats($world) as $seatId) {
-      $score_ctx->givePoints($seatId, -1 * intdiv($this->totalEffort($world), 2));
+      $score_ctx->givePoints($seatId, -1 * $effort_by_seat[$seatId]);
     }
   }
 }
@@ -327,6 +342,7 @@ class HiddenSetting extends Setting
 
   const OUTCOME_GOOD = false;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->topByEffort($world, /*invert=*/ true);
@@ -340,7 +356,7 @@ class HiddenSetting extends Setting
   }
 }
 
-// Most effort => 1 point for every 2 total effort here.
+// Most effort => 1 point for every effort they have here.
 class HolySetting extends Setting
 {
   const CARD_TYPE = 'setting:holy';
@@ -348,6 +364,7 @@ class HolySetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->topByEffort($world);
@@ -355,8 +372,9 @@ class HolySetting extends Setting
 
   public function onScoring(World $world, ScoringContext $score_ctx): void
   {
+    $effort_by_seat = $this->effortBySeat($world);
     foreach ($this->affectedSeats($world) as $seatId) {
-      $score_ctx->givePoints($seatId, intdiv($this->totalEffort($world), 2));
+      $score_ctx->givePoints($seatId, $effort_by_seat[$seatId]);
     }
   }
 }
@@ -369,6 +387,7 @@ class LivelySetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->seatsWithEffort($world, 1);
@@ -390,6 +409,7 @@ class PeacefulSetting extends Setting
 
   const OUTCOME_GOOD = true;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->seatsWithEffort($world, 2);
@@ -411,6 +431,7 @@ class QuietSetting extends Setting
 
   const OUTCOME_GOOD = false;
 
+  /** @return int[] */
   public function affectedSeats(World $world)
   {
     return $this->topByEffort($world);

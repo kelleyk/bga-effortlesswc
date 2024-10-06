@@ -10,7 +10,9 @@ class ScoringContext
   // $points may be positive or negative.
   public function givePoints(int $seatId, int $points)
   {
+    // echo '*** givePoints(seatId='.$seatId.', points='.$points.'): before giving points: ' . print_r($this->scores_, true) . "\n-------(end before)\n";
     $this->scores_[$seatId] = ($this->scores_[$seatId] ?? 0) + $points;
+    // echo '*** givePoints(): after giving points: ' . print_r($this->scores_, true) . "\n-------(end after)\n";
   }
 
   public function scores()

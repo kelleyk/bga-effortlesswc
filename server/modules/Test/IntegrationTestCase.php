@@ -472,6 +472,14 @@ class LocationPeer
   {
     return $this->implObj()->sublocationIndex();
   }
+
+  public function debugString(): string
+  {
+    // XXX: Should move this to WcLib as well.  We don't need to print the card_type_group here since it's always the
+    // same, but probably would if we used this in more general solutions.  There's not a way to print the in-game title
+    // of the card because (at the moment) that is handled outside of WcLib/CardBase.
+    return "LocationPeer(id={$this->id_}, type={$this->implObj()->type()})";
+  }
 }
 
 class EffortPilePeer
