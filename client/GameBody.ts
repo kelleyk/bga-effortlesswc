@@ -39,6 +39,9 @@ class GameBody extends GameBasics {
   // Maps position (sublocationIndex) to setting.
   protected settingByPos: { [pos: number]: EffortlessSetting } = {};
 
+  // Set true once `setup()` has finished running.
+  protected setupDone: boolean = false;
+
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
@@ -98,6 +101,7 @@ class GameBody extends GameBasics {
     }
 
     console.log('Ending game setup');
+    this.setupDone = true;
   }
 
   // XXX: Needs to be renamed.
@@ -320,6 +324,11 @@ class GameBody extends GameBasics {
   }
 
   public onWindowResize(event: any): void {
+    if (!this.setupDone) {
+      // Before setup is done, some of the UI elements and state that this handler uses aren't available.
+      return;
+    }
+
     // XXX: This should use some sort of publish-subscribe event mechanism where we don't have to explicitly list
     // everything that needs an update here.
 
