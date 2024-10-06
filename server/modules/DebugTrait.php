@@ -2,7 +2,7 @@
 
 namespace Effortless;
 
-require 'Scoring.php';
+require_once realpath(__DIR__ . '/Scoring.php');
 
 trait DebugTrait
 {
