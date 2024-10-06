@@ -10,8 +10,6 @@
 
   - Scoring:
 
-    - We aren't giving BGA points to players at endgame.
-
     - We aren't showing scoring to players at all.
 
   - BGA integration

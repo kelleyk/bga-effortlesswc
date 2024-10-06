@@ -13,4 +13,9 @@ abstract class Ruleset
   {
     throw new \BgaVisibleSystemException('This ruleset does not support bot players.');
   }
+
+  public function setBgaScore(World $world, TableScore $table_score): void
+  {
+    throw new \BgaVisibleSystemException('XXX: no impl for `setBgaScore()` for this ruleset.');
+  }
 }

@@ -12,6 +12,8 @@ trait PostScoring
 
     $world = $this->world();
 
+    $world->ruleset()->setBgaScore($world, \Effortless\calculateScores($world));
+
     $world->nextState(T_DONE);
   }
 
