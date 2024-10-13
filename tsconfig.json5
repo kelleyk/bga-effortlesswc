@@ -1,21 +1,10 @@
 // N.B.: Paths are relative to the "tmp" subdirectory.
 {
   "include": [
-    "client/**/GameGui.js",
-    "client/**/GameGui.ts",
-    "client/**/GameBasics.ts",
-
-    // Hmm: despite "typeRoots" below, our build fails without this.  Why?
-    "client/**/*.d.ts",
-
-    "client/**/StaticDataCards.ts",
-    "client/**/StaticDataSetlocs.ts",
-    "client/**/StaticDataSprites.ts",
-    "client/**/GameBody.ts",
-    "client/**/GameEntrypoint.ts",
-    // "client/**/*.ts",
-
-    "wclib/js/**/*.ts",
+     "client/**/GameGui.ts",
+     "client/**/GameBasics.ts",
+     "client/**/*.ts",
+     "wclib/js/**/*.ts",
   ],
   "exclude": [
     "../node_modules",

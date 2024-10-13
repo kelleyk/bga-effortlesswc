@@ -201,6 +201,8 @@ class GameBody extends GameBasics {
 
   // XXX: Given a cardType value such as "location:foo", returns "foo".  We can probably eliminate the need for this by
   // removing the prefix from the cardType on the server side; the same value is already present as the cardTypeGroup.
+  //
+  // XXX: Move to shared utils.
   public extractSetlocKey(s: string): string | null {
     const k = s.split(':')[1] ?? null;
     console.log('*** s/k =', s, k);
@@ -702,6 +704,10 @@ class GameBody extends GameBasics {
       if (className.match(/^icon_/g)) {
         return className;
       }
+      // XXX: Can/should rename these two sprites to "icon_points_".
+      if (className.match(/^points_/g)) {
+        return className;
+      }
     }
     throw new Error('XXX: Unable to find sprite name.');
   }
@@ -763,7 +769,7 @@ class GameBody extends GameBasics {
     return log.replace(
       /:([a-z0-9-_]+)=([a-z0-9-_]+?):/g,
       (_m, _entityType, entityName) => {
-        console.log('match parts: ', _m, _entityType, entityName);
+        // console.log('match parts: ', _m, _entityType, entityName);
         return entityName.charAt(0).toUpperCase() + entityName.slice(1);
       },
     );
@@ -991,14 +997,13 @@ class GameBody extends GameBasics {
         }
         break;
       }
-      case 'stPostScoring': {
-        console.log('*** stPostScoring: ', args);
+      case 'gameEnd': {
+        this.showScoringDetail(args.args.scoringDetail);
         break;
       }
     }
   }
 
-  /** @gameSpecific See {@link Gamegui.onLeavingState} for more information. */
   public override onLeavingState(stateName: string): void {
     console.log('Leaving state: ' + stateName);
     super.onLeavingState(stateName);
@@ -1102,6 +1107,51 @@ class GameBody extends GameBasics {
         break;
       }
     }
+  }
+
+  public showScoringDetail(scoringDetail: any) {
+    console.log('scoringDetail:', JSON.stringify(scoringDetail));
+
+    const builder = new ScoringTableBuilder(
+      this.mutableBoardState!,
+      scoringDetail,
+    );
+    console.log(builder.render());
+
+    const areaEl = dojo.place(
+      builder.render(),
+      'pagesection_gameresult',
+      'first',
+    );
+
+    // const areaEl = document.querySelector('.ewc_scoringarea')!;
+    areaEl.querySelectorAll('.ewc_icon_attr').forEach((el: HTMLElement) => {
+      this.rescaleSprite(el, 0.75);
+    });
+    areaEl.querySelectorAll('.ewc_icon_points').forEach((el: HTMLElement) => {
+      this.rescaleSprite(el, 0.66);
+    });
+
+    // const scoringDivEl = dojo.place(
+    //   this.format_block('jstpl_scoringarea', scoringDetail),
+    //   'pagesection_gameresult',
+    //   'first',
+    // );
+
+    // const tableEl = scoringDivEl.querySelector('table.ewc_scoringtable')!;
+
+    // {
+    //   const theadEl = dojo.place('<thead><tr /></thead>', tableEl);
+    //   console.log(theadEl);
+
+    //   dojo.place('<tr>Foobar</tr>', theadEl);
+
+    //   const seats = Object.entries(this.mutableBoardState!.seats);
+    //   for (const [_, seat] of seats) {
+    //     // dojo.place('<tr>' + seat.seatLabel + '</tr>', theadEl);
+    //     console.log(seat);
+    //   }
+    // }
   }
 
   ///////////////////////////////////////////////////

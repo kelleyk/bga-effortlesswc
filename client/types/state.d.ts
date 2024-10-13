@@ -152,3 +152,35 @@ interface InputArgs {
   choices: any; // XXX: but always an array of int IDs so far?
   inputType: string;
 }
+
+interface TableScoring {
+  bySeat: { [seatId: number]: SeatScoring };
+}
+
+interface SeatScoring {
+  // Map from attribute abbreviation to score.
+  attribute: { [attr: string]: number };
+
+  // Detailed information on the number of cards and points for each attribute that the seat has.
+  attributeData: SeatScoringAttributeData;
+
+  // Map from set name to score.
+  armor: { [setName: string]: number };
+
+  // Map from card ID to score; score will be 0 if the seat does not have the `attributes` to utilize the item.
+  item: { [cardId: number]: number };
+
+  // Map from location ID (yes, location ID, not setting ID) to the score from the corresponding setting.
+  setting: { [locationId: number]: number };
+
+  // The total score for this seat.
+  total: number;
+
+  // Where the seat ranked against the others; 1 is first place.
+  place: number;
+}
+
+interface SeatScoringAttributeData {
+  cards: { [attr: string]: number };
+  points: { [attr: string]: number };
+}

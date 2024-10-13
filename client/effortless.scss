@@ -280,4 +280,45 @@ $selected_color: #00f;
   text-align: center;
 }
 
+/* Scoring table */
+
+table.ewc_scoringtable {
+  width: 90%;
+  margin: 0 auto;
+}
+
+table.ewc_scoringtable div {
+  display: inline-block;
+}
+
+table.ewc_scoringtable th {
+  text-align: center;
+  padding: 5px;
+}
+
+table.ewc_scoringtable td {
+  text-align: center;
+  height: 2em;
+}
+
+table.ewc_scoringtable tr:nth-child(2n) {
+  text-align: right !important;
+}
+
+table.ewc_scoringtable tr:nth-child(2n+1) {
+  text-align: left !important;
+}
+
+table.ewc_scoringtable tr.ewc_scoringtable_subtotals {
+  border-top: 1px black;
+}
+
+table.ewc_scoringtable tr.ewc_scoringtable_category {
+  background: #ccc;
+}
+
+table.ewc_scoringtable tr.ewc_scoringtable_totals {
+  background: #aaa;
+}
+
 /* -- end -- */

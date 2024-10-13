@@ -1,5 +1,7 @@
 - Issues, Studio playthrough, 2024-09-29
 
+  - The value-selection bug still exists!
+
   - UX/client issues
 
     - We need to fix the CSS issues that forced us to disable setloc tooltips.

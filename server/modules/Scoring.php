@@ -28,7 +28,7 @@ class SeatScore implements \JsonSerializable
 
   // Map from attribute abbreviation to score.
   public $attribute = [];
-  // Map from set name to count.
+  // Map from set name to score.
   public $armor = [];
   // Map from card ID to score; score will be 0 if the seat does not have the $attributes to utilize the item.
   public $item = [];

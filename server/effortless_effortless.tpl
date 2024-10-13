@@ -131,10 +131,12 @@ let jstpl_promptarea =
   '<div class="ewc_promptarea_choices"></div>' +
   '</div>';
 
-let jstpl_scoringarea =
-  '<div id="ewc_scoringarea" class="ewc_scoringarea">' +
-  '<div class="ewc_scoringarea_choices"></div>' +
-  '</div>';
+  let jstpl_scoringarea =
+    '<div id="ewc_scoringarea" class="ewc_scoringarea pagesection">' +
+    '<h3>Scoring</h3>' +
+    '<table class="ewc_scoringtable">' +
+    '</table>' +
+    '</div>';
 
   let jstpl_tooltip_card =
     '<div class="tooltip-container ewc_tooltip">${title}</div>';
