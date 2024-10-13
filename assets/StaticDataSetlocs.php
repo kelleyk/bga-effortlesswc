@@ -78,7 +78,7 @@ define('SETTING_METADATA', [
     'active' => [
         'name' => clienttranslate('Active'),
         'text' => clienttranslate(
-            'The player with the most effort here gains 4 points.'
+            'Each player with at least 1 effort here gains 3 points.'
         ),
     ],
     'crowded' => [
@@ -124,25 +124,25 @@ define('SETTING_METADATA', [
     'quiet' => [
         'name' => clienttranslate('Quiet'),
         'text' => clienttranslate(
-            'The player with the most effort here loses 5 points.'
+            'The player with the most effort here loses 3 points.'
         ),
     ],
     'eerie' => [
         'name' => clienttranslate('Eerie'),
         'text' => clienttranslate(
-            'The player with the least effort here gains 5 points.'
+            'The player with the least effort here gains 3 points.'
         ),
     ],
     'holy' => [
         'name' => clienttranslate('Holy'),
         'text' => clienttranslate(
-            'The player with the most effort here gains 2 points for each effort.'
+            'The player with the most effort here gains 1 point for each effort they have here.'
         ),
     ],
     'ghostly' => [
         'name' => clienttranslate('Ghostly'),
         'text' => clienttranslate(
-            'Each player loses 2 points for every 2 effort here.'
+            'The player with the most effort here loses 1 point for each effort they have here.'
         ),
     ],
     'frozen' => [

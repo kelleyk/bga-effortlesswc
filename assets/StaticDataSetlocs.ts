@@ -47,7 +47,7 @@ class StaticDataSetlocs {
   static settingMetadata: any = {
     active: {
       name: 'Active',
-      text: 'The player with the most effort here gains 4 points.',
+      text: 'Each player with at least 1 effort here gains 3 points.',
     },
     crowded: {
       name: 'Crowded',
@@ -76,19 +76,19 @@ class StaticDataSetlocs {
     },
     quiet: {
       name: 'Quiet',
-      text: 'The player with the most effort here loses 5 points.',
+      text: 'The player with the most effort here loses 3 points.',
     },
     eerie: {
       name: 'Eerie',
-      text: 'The player with the least effort here gains 5 points.',
+      text: 'The player with the least effort here gains 3 points.',
     },
     holy: {
       name: 'Holy',
-      text: 'The player with the most effort here gains 2 points for each effort.',
+      text: 'The player with the most effort here gains 1 point for each effort they have here.',
     },
     ghostly: {
       name: 'Ghostly',
-      text: 'Each player loses 2 points for every 2 effort here.',
+      text: 'The player with the most effort here loses 1 point for each effort they have here.',
     },
     frozen: {
       name: 'Frozen',
