@@ -285,21 +285,24 @@ $selected_color: #00f;
 table.ewc_scoringtable {
   width: 90%;
   margin: 0 auto;
-}
 
-table.ewc_scoringtable div {
-  display: inline-block;
-}
+  div {
+    display: inline-block;
+  }
 
-table.ewc_scoringtable th {
-  text-align: center;
-  padding: 5px;
-}
+  th {
+    text-align: center;
+    padding: 5px;
+  }
 
-table.ewc_scoringtable td {
-  text-align: center;
-  height: 2em;
-}
+  td {
+    text-align: center;
+    padding: 5px;
+    height: 2em;
+  }
+
+  /*
+XXX: These didn't work for some reason.
 
 table.ewc_scoringtable tr:nth-child(2n) {
   text-align: right !important;
@@ -308,17 +311,30 @@ table.ewc_scoringtable tr:nth-child(2n) {
 table.ewc_scoringtable tr:nth-child(2n+1) {
   text-align: left !important;
 }
+ */
 
-table.ewc_scoringtable tr.ewc_scoringtable_subtotals {
-  border-top: 1px black;
+  td.ewc_scoringtable_splita {
+    text-align: right;
+  }
+
+  td.ewc_scoringtable_splitb {
+    text-align: left;
+  }
+
+  tr.ewc_scoringtable_subtotal {
+    /* border-top: 1px black; */
+
+    td {
+      border-top: 1px black;
+    }
+  }
+
+  tr.ewc_scoringtable_category {
+    background: #ccc;
+  }
+
+  tr.ewc_scoringtable_total {
+    background: #aaa;
+    border: 1px solid black;
+  }
 }
-
-table.ewc_scoringtable tr.ewc_scoringtable_category {
-  background: #ccc;
-}
-
-table.ewc_scoringtable tr.ewc_scoringtable_totals {
-  background: #aaa;
-}
-
-/* -- end -- */

@@ -2,9 +2,15 @@ class ScoringTableBuilder {
   private mutableBoardState: MutableBoardState;
   private scoringDetail: TableScoring;
 
-  // XXX: Depending on the ruleset, we may want to hide scoring for certain seats (e.g. the bot seats).
-
   private ATTRS = ['cha', 'con', 'dex', 'int', 'str', 'wis'];
+  private ARMOR_SETS = {
+    assasin: 'Assassin',
+    leather: 'Leather',
+    mage: 'Mage',
+    obsidian: 'Obsidian',
+    plate: 'Plate',
+    scale: 'Scale',
+  };
 
   constructor(
     mutableBoardState: MutableBoardState,
@@ -15,7 +21,13 @@ class ScoringTableBuilder {
   }
 
   public render(): string {
-    const seatCount = Object.keys(this.scoringDetail.bySeat).length;
+    // Get a fixed order to render the seats in.  Filtering out unscored seats (e.g. bot seats) is done on the server
+    // side.
+    const scoringSeats: number[] = Object.keys(
+      this.mutableBoardState.seats,
+    ).map((key: string): number => {
+      return +key;
+    });
 
     console.log(this.scoringDetail);
     let s =
@@ -23,6 +35,7 @@ class ScoringTableBuilder {
       '<h3>Scoring</h3>' +
       '<table class="ewc_scoringtable">';
 
+    /* Seat labels */
     s += '<thead><tr><th></th>';
     for (const seat of Object.values(this.mutableBoardState.seats)) {
       s += '<th colspan="2">' + seat.seatLabel + '</th>';
@@ -31,14 +44,16 @@ class ScoringTableBuilder {
 
     s += '<tbody>';
 
+    /* Attributes */
     s +=
       '<tr class="ewc_scoringtable_category"><td colspan="' +
-      (1 + 2 * seatCount) +
+      (1 + 2 * scoringSeats.length) +
       '">Attributes</td></tr>';
 
+    const attrSubtotals = new Map<number, number>();
     for (const attr of this.ATTRS) {
       s +=
-        '<tr class="subcategory">' +
+        '<tr>' +
         '<td>' +
         ' <div class="ewc_icon_attr icon_attr_' +
         attr +
@@ -49,40 +64,41 @@ class ScoringTableBuilder {
         const seatScoring = this.scoringDetail.bySeat[+seatId]!;
         const statPoints = seatScoring.attributeData.points[attr];
         const points = seatScoring.attribute[attr]!;
-        s += '<td>' + statPoints + '</td>';
-        s += '<td>' + this.formatScore(points) + '</td>';
+        s += '<td class="ewc_scoringtable_splita">' + statPoints + '</td>';
+        s +=
+          '<td class="ewc_scoringtable_splitb">' +
+          this.formatScore(points) +
+          '</td>';
+
+        attrSubtotals.set(+seatId, (attrSubtotals.get(+seatId) ?? 0) + points);
       }
 
       s += '</tr>';
     }
+    s += this.formatSubtotals(scoringSeats, attrSubtotals);
 
-    // s +=
-    //   '<tr class="subtotal">' +
-    //   '<td>Attribute Total</td>' +
-    //   '<td>5</td>' +
-    //   '<td>4</td>' +
-    //   '<td>0</td>' +
-    //   '</tr>';
+    /* Settings */
 
     // {sublocationIndex: Setting}
-    // {sublocationIndex: Location}
     const settingByPos = [];
     for (const setting of Object.values(this.mutableBoardState.settings)) {
       settingByPos[setting.sublocationIndex] = setting;
     }
 
+    // {sublocationIndex: Location}
     const locationByPos = [];
     for (const location of Object.values(this.mutableBoardState.locations)) {
       locationByPos[location.sublocationIndex] = location;
     }
 
-    console.log('**** scoring table');
-    console.log(settingByPos);
-    console.log(locationByPos);
+    // console.log('**** scoring table');
+    // console.log(settingByPos);
+    // console.log(locationByPos);
 
+    const settingSubtotals = new Map<number, number>();
     s +=
       '<tr class="ewc_scoringtable_category"><td colspan="' +
-      (1 + 2 * seatCount) +
+      (1 + 2 * scoringSeats.length) +
       '">Settings</td></tr>';
     for (let i = 0; i < 6; ++i) {
       const settingKey: string = this.extractSetlocKey(
@@ -98,9 +114,9 @@ class ScoringTableBuilder {
       const locationMetadata = StaticDataSetlocs.locationMetadata[locationKey];
       const settingMetadata = StaticDataSetlocs.settingMetadata[settingKey];
 
-      console.log(StaticDataSetlocs);
-      console.log(locationMetadata);
-      console.log(settingMetadata);
+      // console.log(StaticDataSetlocs);
+      // console.log(locationMetadata);
+      // console.log(settingMetadata);
 
       s +=
         '<tr><td>' +
@@ -109,31 +125,102 @@ class ScoringTableBuilder {
         locationMetadata.name +
         '</td>';
 
-      for (const seatId of Object.keys(this.mutableBoardState.seats)) {
+      for (const seatId of scoringSeats) {
         const seatScoring = this.scoringDetail.bySeat[+seatId]!;
+        const points = seatScoring.setting[location.id]!;
+        s += '<td colspan="2">' + this.formatScore(points) + '</td>';
 
-        s +=
-          '<td colspan="2">' +
-          this.formatScore(seatScoring.setting[location.id]!) +
-          '</td>';
+        settingSubtotals.set(
+          +seatId,
+          (attrSubtotals.get(+seatId) ?? 0) + points,
+        );
       }
 
       s += '</tr>';
     }
+    s += this.formatSubtotals(scoringSeats, settingSubtotals);
 
+    /* Armor */
     s +=
       '<tr class="ewc_scoringtable_category"><td colspan="' +
-      (1 + 2 * seatCount) +
+      (1 + 2 * scoringSeats.length) +
       '">Armor</td></tr>';
+    const armorSubtotals = new Map<number, number>();
+    for (const seatId of scoringSeats) {
+      const seatScoring = this.scoringDetail.bySeat[+seatId]!;
 
+      armorSubtotals[seatId] = 0;
+      s += '<td colspan="2">';
+      for (const [setName, points] of Object.entries(seatScoring.armor)) {
+        s +=
+          this.ARMOR_SETS[setName] + ' ' + this.formatScore(points) + '<br />';
+      }
+      if (seatScoring.armor.length === 0) {
+        s += '&ndash; <br />';
+      }
+      s += '</td>';
+    }
+    s += this.formatSubtotals(scoringSeats, armorSubtotals);
+
+    /* Items */
     s +=
       '<tr class="ewc_scoringtable_category"><td colspan="' +
-      (1 + 2 * seatCount) +
+      (1 + 2 * scoringSeats.length) +
       '">Items</td></tr>';
+    const itemSubtotals = new Map<number, number>();
+    for (const seatId of scoringSeats) {
+      itemSubtotals[seatId] = 0;
+      const seatScoring = this.scoringDetail.bySeat[+seatId]!;
+
+      s += '<td>';
+      for (const [itemId, points] of Object.entries(seatScoring.item)) {
+        const cardType = seatScoring.itemCards[itemId]!;
+        const cardMetadata = StaticDataCards.cardMetadata[card.cardType!];
+
+        if (points === 0) {
+          s +=
+            '<span class="ewc_scoringtable_unusable">' +
+            cardMetadata.title +
+            '</span><br />';
+        } else {
+          s += cardMetadata.title + ' ' + this.formatScore(points) + '<br />';
+        }
+      }
+      if (seatScoring.items.length === 0) {
+        s += '&ndash; <br />';
+      }
+      s += '</td>';
+    }
+    s += this.formatSubtotals(scoringSeats, itemSubtotals);
+
+    /* Overall totals */
+    s += '<tr class="ewc_scoringtable_total">' + '<td></td>';
+    for (const seatId of scoringSeats) {
+      const seatScoring = this.scoringDetail.bySeat[+seatId]!;
+
+      s += '<td colspan="2">' + this.formatScore(seatScoring.total) + '</td>';
+    }
+    s += '</tr>';
 
     s += '</tbody>';
 
     s += '</table>' + '</div>';
+    return s;
+  }
+
+  private formatSubtotals(
+    scoringSeats: number[],
+    subtotals: Map<number, number>,
+  ): string {
+    let s = '';
+    s += '<tr class="ewc_scoringtable_subtotal">' + '<td></td>';
+    for (const seatId of scoringSeats) {
+      s +=
+        '<td colspan="2">' +
+        this.formatScore(subtotals.get(+seatId)!) +
+        '</td>';
+    }
+    s += '</tr>';
     return s;
   }
 

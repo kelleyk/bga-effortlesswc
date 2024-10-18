@@ -1,6 +1,6 @@
-- Issues, Studio playthrough, 2024-09-29
+- Issues, blocking / high-sev
 
-  - The value-selection bug still exists!
+  - The value-selection bug still exists (but much more rarely?)!
 
   - UX/client issues
 
@@ -8,62 +8,50 @@
 
     - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
 
+      - With the River, should we be able to see face-down cards?
+
     - The positioning of setlocs in the play-area is still a bit odd (need to check widths, maybe center stuff a bit, etc.).
+
+    - Sequence animation a little bit.
+
+    - Add "show discard pile" feature or remove the "(discard pile button)" thing.
 
   - Scoring:
 
-    - We aren't showing scoring to players at all.
+    - Finish scoring table.
+
+    - Add tooltips to icons?
+
+    - "scoring seats" - need data from server
+
+    - column widths are really wonky; we want equal widths for all of the columns other than the label column on the left
+
+    - text and icons are not vertically aligned; having an icon pushes the text down
 
   - BGA integration
 
     - We probably need to give additional turn time.
 
+    - Add metadata images.
+
+  - Suggestions from Kat
+
+    - Tooltips for icons (we need tooltips in general, really).
+
+- Other
+
   - Debuggability
 
     - Add debug function that shows ID/name mappings for setlocs, seats, etc.?
 
-- Issues
-
-  - With the River, should we be able to see face-down cards?
-
-- Suggestions from Kat
-
-  - Tooltips for icons (we need tooltips in general, really).
-
-- Remaining work/questions -- Highest priority
-
-  - Sequence animations a little bit.
-
   - Add attribute card & stat icons to log-entity replacement function.  (Do we have examples of places where we'd like
     to use this?)
-
-  - Fix scoring for settings that were buggy in my game with Kat.
-
-    - Also, "Hidden Market" is giving "seat 1" -15 points when all three seats have 0 effort on the location.
-
-    - (from the game with kat:) battling cave
-
-  - UI/UX
-
-    - Make playable/unplayable effort piles more visible.
-
-    - Reorder effort piles (and have them "slide out" a bit?) to show which seat(s) are currently affected by scoring.
-
-    - Implement (client-side) a UI element to display scoring information.  Can be primitive; just need something
-      functional.
-
-    - We need a way to show Threat fights and end-game scoring.  Maybe we save a JSON object describing what happened
-      and reference that from the log, notifs, etc.?
-
-    - CSS layer/ordering thing.
 
   - Debt/cleanup
 
     - Go through all of the "tmp_*" CSS classes and see if we still need them.
 
     - Convert Gruntfile to TypeScript.
-
-  - Give BGA points to players during end-game scoring.
 
   - From the BGA prerelease checklist:
 
@@ -85,26 +73,11 @@
 
     - You implemented tiebreaking (using aux score field) and updated tiebreaker description in meta-data
 
-- UI concerns
-
-  - Sometimes, after selecting a location to place Effort at, the location is not deselected when it becomes the next
-    person's turn.
-
-    - This is also now happening with e.g. effort-piles.
-
-  - With "River" (pick a card from any other location to discard) it can be hard to tell which card option is at which
-    location.
-
   - Don't want slide-in animation when we refresh the page.
 
     - Can we temporarily enable "instantaneous mode" (`this.page.instantaneousMode`) during page setup?
 
   - Cards sliding from a setloc up to the hand are invisible until they overlap the hand area.
-
-- Remaining work/questions -- backlog
-
-  - What happens when we need to move cards between areas and they are scaled differently?
-    - We're also using different jstpl templates for a card instantiated in each area.
 
   - Some of our client-side typing is a little iffy (use of "any", etc.).
 
@@ -128,12 +101,6 @@
 
   - Client: highlight last-drawn card(s).
 
-- Rules questions
-
-  - What happens when the deck is emptied?
-
-  - When someone draws a face-down card, it stays secret from the other players, right?
-
 - Future improvements
 
   - Server/client improvement: remember which seat(s) have seen which face-down card(s), and show those cards to the
@@ -143,15 +110,3 @@
 
   - Included content: at the designer/publisher's request, Kickstarter-exclusive content (Rings, Dragons) is not
     available.
-
-- Things to test
-
-  - When we visit Library (two face-down cards, pick one), we should be shown the cards face-up for selection
-    purposes.
-
-  - For locations such as Market, which require that you discard a card from your hand, you cannot visit if you do not
-    have a card in your hand to discard.
-
-    - We could add an "isVisitable()" function  to `Location` so that we don't let players select these locations in the first place.
-
-  - Need to go through each call to the parameter-input system and check what happens when each exception is thrown (NoChoicesAvailable, InputRequired, InputCancelled, etc.).

@@ -303,7 +303,7 @@ class EerieSetting extends Setting
   public function onScoring(World $world, ScoringContext $score_ctx): void
   {
     $affected_seats = $this->affectedSeats($world);
-    $world->table()->notifyAllPlayers('XXX_debug', 'XXX: EERIE affected seats: ' . implode(',', $affected_seats), []);
+    // $world->table()->notifyAllPlayers('XXX_debug', 'XXX: EERIE affected seats: ' . implode(',', $affected_seats), []);
 
     foreach ($affected_seats as $seatId) {
       $score_ctx->givePoints($seatId, 3);

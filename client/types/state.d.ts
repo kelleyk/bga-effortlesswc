@@ -170,6 +170,10 @@ interface SeatScoring {
   // Map from card ID to score; score will be 0 if the seat does not have the `attributes` to utilize the item.
   item: { [cardId: number]: number };
 
+  // Metadata for the cards in `items`.  This lets us map card IDs to types, and that lets us fetch static metadata such
+  // as card titles.
+  itemCards: { [cardId: number]: Card };
+
   // Map from location ID (yes, location ID, not setting ID) to the score from the corresponding setting.
   setting: { [locationId: number]: number };
 

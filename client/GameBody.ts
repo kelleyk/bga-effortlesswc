@@ -193,10 +193,10 @@ class GameBody extends GameBasics {
       );
     }
 
-    // Hide scores, since we don't award points until the scoring phase at the end of the game.
-    document.querySelectorAll('.player_score').forEach((el) => {
-      (el as HTMLElement).style.visibility = 'hidden';
-    });
+    // // Hide scores, since we don't award points until the scoring phase at the end of the game.
+    // document.querySelectorAll('.player_score').forEach((el) => {
+    //   (el as HTMLElement).style.visibility = 'hidden';
+    // });
   }
 
   // XXX: Given a cardType value such as "location:foo", returns "foo".  We can probably eliminate the need for this by
@@ -1131,6 +1131,10 @@ class GameBody extends GameBasics {
     areaEl.querySelectorAll('.ewc_icon_points').forEach((el: HTMLElement) => {
       this.rescaleSprite(el, 0.66);
     });
+
+    // // XXX: We could also calculate this from the scoringSeats count.
+    // const numCols =
+    // areaEl.querySelectorAll('')
 
     // const scoringDivEl = dojo.place(
     //   this.format_block('jstpl_scoringarea', scoringDetail),
