@@ -23,6 +23,7 @@ class GameBody extends GameBasics {
 
   protected tablewidePanelEl: HTMLElement | undefined = undefined;
   protected discardPileButtonEl: HTMLElement | undefined = undefined;
+  protected activeModalEl: HTMLElement | undefined = undefined;
 
   protected inputArgs: InputArgs | null = null;
   protected selectedLocation: number | null = null;
@@ -831,7 +832,7 @@ class GameBody extends GameBasics {
       case 'inputtype:card': {
         console.log('  *** inputtype:card', inputArgs);
 
-        this.placeAndWipeIn(
+        dojo.place(
           this.format_block('jstpl_promptarea', {}),
           'ewc_promptarea_wrap',
         );
@@ -1243,7 +1244,43 @@ class GameBody extends GameBasics {
   }
 
   public notif_discardPile(notif: any): void {
-    console.log('got notif discardpile', notif);
+    console.log('got notif discardpile; placing modal', notif);
+    console.log('- ', notif.args.cards);
+    console.log('- ', Object.values(notif.args.cards));
+    for (const _card of Object.values(notif.args.cards)) {
+      console.log('- ', _card);
+    }
+
+    // const parentEl = document.querySelector('.ewc_modal_content2')!;
+    // console.log('parentEl:', parentEl);
+
+    this.activeModalEl = dojo.place(
+      this.format_block('jstpl_modal', {}),
+      'ewc_playarea',
+    );
+
+    // XXX: Reduce duplication between this and the 'inputtype:card' block.
+    for (const _card of Object.values(notif.args.cards)) {
+      console.log('modal got card:', _card);
+      // XXX: Hacky; we should instead fix our type definitions.
+      const card = _card as Card;
+
+      const cardType = !card.visible ? 'back' : card.cardType;
+      console.log('got cardtype:', cardType);
+
+      const parentEl = document.querySelector('.ewc_modal_content2')!;
+      console.log('got parentel:', parentEl);
+
+      // notif.args.cards
+      const el = dojo.place(
+        this.format_block('jstpl_modal_card', {
+          cardType,
+          id: card.id,
+        }),
+        parentEl,
+      );
+      this.rescaleSprite(el, 0.66);
+    }
   }
 
   /*

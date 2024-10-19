@@ -16,6 +16,8 @@
 
     - Add "show discard pile" feature or remove the "(discard pile button)" thing.
 
+    - Need to center when in single-column.
+
   - Scoring:
 
     - Finish scoring table.

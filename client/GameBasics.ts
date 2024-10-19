@@ -167,7 +167,7 @@ class GameBasics extends GameGui {
   }
 
   // XXX: I've only been trying to get this building; fix the typing.
-  public placeAndWipeIn(node: any, parentId: any, args: any = {}) {
+  public placeAndWipeIn(node: any, parentId: any, args: any = {}): HTMLElement {
     const el = dojo.place(node, parentId);
     dojo.setStyle(el, 'display', 'none');
 
@@ -181,6 +181,7 @@ class GameBasics extends GameGui {
 
     const anim = dojo.fx.wipeIn(args);
     anim.play();
+    return el;
   }
 
   /**
