@@ -152,6 +152,7 @@ class GameBody extends GameBasics {
     dojo.connect(this.discardPileButtonEl, 'onclick', this, (evt: any) => {
       console.log('buttonel evt', evt);
       if (!this.discardPileButtonEl!.classList.contains('disabled')) {
+        this.discardPileButtonEl!.classList.add('disabled');
         this.ajaxCallWrapper(
           'actGetDiscardPile',
           {},
@@ -1244,12 +1245,12 @@ class GameBody extends GameBasics {
   }
 
   public notif_discardPile(notif: any): void {
-    console.log('got notif discardpile; placing modal', notif);
-    console.log('- ', notif.args.cards);
-    console.log('- ', Object.values(notif.args.cards));
-    for (const _card of Object.values(notif.args.cards)) {
-      console.log('- ', _card);
-    }
+    // console.log('got notif discardpile; placing modal', notif);
+    // console.log('- ', notif.args.cards);
+    // console.log('- ', Object.values(notif.args.cards));
+    // for (const _card of Object.values(notif.args.cards)) {
+    //   console.log('- ', _card);
+    // }
 
     // const parentEl = document.querySelector('.ewc_modal_content2')!;
     // console.log('parentEl:', parentEl);
@@ -1281,6 +1282,16 @@ class GameBody extends GameBasics {
       );
       this.rescaleSprite(el, 0.66);
     }
+
+    dojo.connect(
+      this.activeModalEl!.querySelector('.ewc_modal_close'),
+      'onclick',
+      this,
+      (_evt: any) => {
+        this.activeModalEl!.remove();
+        this.discardPileButtonEl!.classList.remove('disabled');
+      },
+    );
   }
 
   /*

@@ -73,7 +73,7 @@ let jstpl_hand_card =
 
 // XXX: For future projects, we should find a way to avoid multiple different kinds of cards.
 let jstpl_modal_card =
-  '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_discardpile tmp_scalable_card"></div>';
+  '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_modal tmp_scalable_card"></div>';
 
   // XXX: Does this create a problem?  A card may be shown in a prompt and *also* in either the hand or the play-area, which means that these div IDs are not unique.
   //
@@ -154,7 +154,7 @@ let jstpl_promptarea =
   let jstpl_modal =
     '<div class="ewc_modal">' +
     '<div class="ewc_modal_content">' +
-    '<span class="close">&times;</span>' +
+    '<span class="ewc_modal_close">&times;</span>' +
     '<span class="ewc_modal_title">Discard pile (top first)</span>' +
     '<div id="ewc_modal_content2" class="ewc_modal_content2"></div>' +
     '</div>' +
