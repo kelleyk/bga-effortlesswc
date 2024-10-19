@@ -75,6 +75,7 @@ abstract class TableBase extends Table
 class Effortless extends TableBase
 {
   use Effortless\ActionDispatchTrait;
+  use Effortless\GetDiscardPileTrait;
   use Effortless\BaseTableTrait;
   use Effortless\DatabaseTrait;
   use Effortless\DebugTrait;

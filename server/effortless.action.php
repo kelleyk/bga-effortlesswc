@@ -44,6 +44,13 @@ class action_effortless extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actGetDiscardPile(): void
+  {
+    self::setAjaxMode();
+    $this->game->onActGetDiscardPile();
+    self::ajaxResponse();
+  }
+
   // public function playCard()
   // {
   //   self::setAjaxMode();

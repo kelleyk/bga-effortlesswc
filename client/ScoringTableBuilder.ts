@@ -3,7 +3,7 @@ class ScoringTableBuilder {
   private scoringDetail: TableScoring;
 
   private ATTRS = ['cha', 'con', 'dex', 'int', 'str', 'wis'];
-  private ARMOR_SETS = {
+  private ARMOR_SETS: Record<string, string> = {
     assasin: 'Assassin',
     leather: 'Leather',
     mage: 'Mage',
@@ -149,7 +149,7 @@ class ScoringTableBuilder {
     for (const seatId of scoringSeats) {
       const seatScoring = this.scoringDetail.bySeat[+seatId]!;
 
-      armorSubtotals[seatId] = 0;
+      armorSubtotals.set(seatId, 0);
       s += '<td colspan="2">';
       for (const [setName, points] of Object.entries(seatScoring.armor)) {
         s +=
@@ -169,12 +169,12 @@ class ScoringTableBuilder {
       '">Items</td></tr>';
     const itemSubtotals = new Map<number, number>();
     for (const seatId of scoringSeats) {
-      itemSubtotals[seatId] = 0;
+      itemSubtotals.set(seatId, 0);
       const seatScoring = this.scoringDetail.bySeat[+seatId]!;
 
       s += '<td>';
       for (const [itemId, points] of Object.entries(seatScoring.item)) {
-        const cardType = seatScoring.itemCards[itemId]!;
+        const card = seatScoring.itemCards[+itemId]!;
         const cardMetadata = StaticDataCards.cardMetadata[card.cardType!];
 
         if (points === 0) {
@@ -186,7 +186,8 @@ class ScoringTableBuilder {
           s += cardMetadata.title + ' ' + this.formatScore(points) + '<br />';
         }
       }
-      if (seatScoring.items.length === 0) {
+      // XXX: Not clear to me why the `Object.keys()` call is necessary here.
+      if (Object.keys(seatScoring.item).length === 0) {
         s += '&ndash; <br />';
       }
       s += '</td>';

@@ -192,6 +192,34 @@ trait BgaTableTrait {
   */
   abstract public function notifyAllPlayers($notif_type, $message, $args);
 
+  /**
+    @param string $player_id
+    @param string $notif_type
+    @param string $message
+    @param mixed[] $args
+    @return void
+  */
+  abstract public function notifyPlayer($player_id, $notif_type, $message, $args);
+
+  // -----
+
+  /**
+    @param string $message
+    @return void
+  */
+  abstract public function trace($message);
+
+  // -----
+
+  /**
+    @return string
+  */
+  abstract public function getActivePlayerId();
+
+  /**
+    @return string
+  */
+  abstract public function getCurrentPlayerId();
 
   // -----
 }

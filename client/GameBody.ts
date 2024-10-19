@@ -22,6 +22,7 @@ class GameBody extends GameBasics {
   protected privateState: PrivateState | null = null;
 
   protected tablewidePanelEl: HTMLElement | undefined = undefined;
+  protected discardPileButtonEl: HTMLElement | undefined = undefined;
 
   protected inputArgs: InputArgs | null = null;
   protected selectedLocation: number | null = null;
@@ -87,8 +88,6 @@ class GameBody extends GameBasics {
       }
     }
 
-    // TODO: Set up your game interface here, according to "gamedatas"
-
     this.setupSeatBoards(gamedatas.mutableBoardState);
 
     this.setupPlayArea(gamedatas.mutableBoardState);
@@ -146,6 +145,19 @@ class GameBody extends GameBasics {
       $('player_boards'),
       'first',
     );
+    this.discardPileButtonEl = this.tablewidePanelEl!.querySelector(
+      '#ewc_discardpile_button',
+    )! as HTMLElement;
+    dojo.connect(this.discardPileButtonEl, 'onclick', this, (evt: any) => {
+      console.log('buttonel evt', evt);
+      if (!this.discardPileButtonEl!.classList.contains('disabled')) {
+        this.ajaxCallWrapper(
+          'actGetDiscardPile',
+          {},
+          /*skipCheckAction=*/ true,
+        );
+      }
+    });
 
     // console.log(
     //   'setupSeatBoards(): after tablewide panel creation, player_boards =',
@@ -1225,6 +1237,13 @@ class GameBody extends GameBasics {
 
     // With GameguiCookbook::Common class...
     // this.subscribeNotif( 'cardPlayed', this.notif_cardPlayed ); // Adds type safety to the subscription
+
+    // XXX: Copy over auto-subscription logic.
+    dojo.subscribe('discardPile', this, 'notif_discardPile');
+  }
+
+  public notif_discardPile(notif: any): void {
+    console.log('got notif discardpile', notif);
   }
 
   /*

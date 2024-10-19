@@ -63,7 +63,7 @@ let jstpl_setloc_panel =
     '</div>' +
   '</div>' +  // .ewc_setloc_cards_wrap
   //'<div class="ewc_setloc_threat"></div>' +
-  '</div>';  // .ewc_setloc_panel
+ '</div>';  // .ewc_setloc_panel
 
 let jstpl_playarea_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_playarea tmp_scalable_card"></div>';
@@ -85,7 +85,7 @@ let jstpl_effort_counter =
 // N.B.: We use ".player-board" just for the appearance.
 var jstpl_tablewide_panel =
   '<div class="tablewide_panel player-board" id="tablewide_panel">' +
-  '(discard-pile button)' +
+  '<span id="ewc_discardpile_button">(discard-pile button)</span>' +
   '</div>';
 
   var jstpl_seat_board_contents =
