@@ -12,7 +12,7 @@ trait GetDiscardPileTrait
     $world = $this->world();
     $player_id = $this->getCurrentPlayerId();
 
-    $this->notifyPlayer($player_id, 'discardPile', 'XXX: notif for discardPile', [
+    $this->notifyPlayer($player_id, 'discardPile', '', [
       'cards' => $this->renderForClient($world, $world->table()->mainDeck->getAll(['DISCARD'])),
     ]);
   }
