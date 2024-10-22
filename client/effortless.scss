@@ -1,5 +1,9 @@
 $selected_color: #00f;
 
+.ewc_playarea {
+  text-align: center;
+}
+
 // This is the container for the responsive one/two-column layout.
 .ewc_setlocarea {
   // background:purple;
@@ -218,6 +222,9 @@ $selected_color: #00f;
   // piece.
   bottom: 5px;
   left: 0px;
+
+  // Became necessary when we added "text-align: center" to .ewc_playarea.
+  text-align: left;
 }
 
 // All children.  XXX: This doesn't actually appear to work; the cubes are still translucent!
