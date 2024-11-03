@@ -32,12 +32,6 @@
 
     - text and icons are not vertically aligned; having an icon pushes the text down
 
-  - BGA integration
-
-    - We probably need to give additional turn time.
-
-    - Add metadata images.
-
   - Suggestions from Kat
 
     - Tooltips for icons (we need tooltips in general, really).

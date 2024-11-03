@@ -222,4 +222,12 @@ trait BgaTableTrait {
   abstract public function getCurrentPlayerId();
 
   // -----
+
+  /**
+    @param string $player_id
+    @return void
+  */
+  abstract public function giveExtraTime($player_id);
+
+  // -----
 }

@@ -43,7 +43,13 @@ trait TurnOrderTrait
       $turn_order = Seat::mustGetById($this->world(), $seat_id)->turn_order();
     }
 
-    $this->setGameStateInt(GAMESTATE_INT_ACTIVE_SEAT, $this->getNextSeatInTurnOrder($turn_order));
+    $next_seat_id = $this->getNextSeatInTurnOrder($turn_order);
+    $this->setGameStateInt(GAMESTATE_INT_ACTIVE_SEAT, $next_seat_id);
+    $next_player_id = Seat::mustGetById($this->world(), $next_seat_id)->player_id();
+    if ($next_player_id !== null) {
+      // $next_player_id will be null iff this is a bot seat.
+      $this->giveExtraTime($next_player_id);
+    }
   }
 
   // Returns the ID of the seat that goes next in the turn order after `$turnOrder`.
