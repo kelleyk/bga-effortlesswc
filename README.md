@@ -16,9 +16,11 @@
 
       - Improve button.
 
-  - Scoring:
+  - Finish scoring table.
 
-    - Finish scoring table.
+    - a subtotal line would be great
+
+    - finish / fix-up armor and items sections
 
     - Add tooltips to icons?
 
