@@ -175,6 +175,13 @@ function calculateScores(World $world): TableScore
     }
   }
 
+  // Remove scores for non-scoring seats (e.g. bot seats).
+  foreach (Seat::getAll($world) as $seat) {
+    if (!$world->ruleset()->isScoringSeat($world, $seat)) {
+      unset($table_score->by_seat[$seat->id()]);
+    }
+  }
+
   return $table_score;
 }
 

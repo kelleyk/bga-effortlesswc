@@ -164,7 +164,9 @@ abstract class Location extends \WcLib\CardBase
   {
     $cards = $this->cards($world);
     if (count($cards) != 1) {
-      throw new \BgaVisibleSystemException('Location does not have exactly one card.');
+      throw new \BgaVisibleSystemException(
+        'Location (id=' . $this->id() . ', type=' . $this->type() . ') does not have exactly one card.'
+      );
     }
 
     $card = $cards[array_key_first($cards)];
@@ -419,8 +421,6 @@ class PrisonLocation extends Location
 
   public function getValidTargets(World $world)
   {
-    $this->takeOnlyCard($world);
-
     return array_values(
       array_filter($world->allEffortPiles(), function ($pile) use ($world) {
         return $pile->qty() > 0 && $pile->locationId() != $this->id() && $pile->seatId() != $world->activeSeat()->id();

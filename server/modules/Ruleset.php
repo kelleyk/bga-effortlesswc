@@ -2,6 +2,8 @@
 
 namespace Effortless;
 
+use Effortless\Models\Seat;
+
 abstract class Ruleset
 {
   public function onSetup(World $world)
@@ -17,5 +19,10 @@ abstract class Ruleset
   public function setBgaScore(World $world, TableScore $table_score): void
   {
     throw new \BgaVisibleSystemException('XXX: no impl for `setBgaScore()` for this ruleset.');
+  }
+
+  public function isScoringSeat(World $world, Seat $seat): bool
+  {
+    return $seat->player_id() !== null;
   }
 }
