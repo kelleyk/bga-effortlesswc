@@ -44,6 +44,9 @@ class GameBody extends GameBasics {
   // Set true once `setup()` has finished running.
   protected setupDone: boolean = false;
 
+  // Set true once `applyState()` has been called for the first time.
+  protected firstStateUpdateDone: boolean = false;
+
   /** @gameSpecific See {@link Gamegui} for more information. */
   constructor() {
     super();
@@ -376,6 +379,12 @@ class GameBody extends GameBasics {
     mutableBoardState: MutableBoardState | null,
     privateState: PrivateState | null,
   ) {
+    const prevInstantaneousMode = this.instantaneousMode;
+    if (!this.firstStateUpdateDone) {
+      console.log('*** enabling instantaneous mode for first state update');
+      this.instantaneousMode = true;
+    }
+
     if (mutableBoardState === null || mutableBoardState === undefined) {
       mutableBoardState = this.mutableBoardState;
       console.log('applyState(): using cached mutableBoardState');
@@ -442,13 +451,20 @@ class GameBody extends GameBasics {
     // -------
     // Rescaling (and tinting eventually?)
     // -------
-
     this.rescaleCardSprites();
 
     // -------
     // Update UI elements
     // -------
     this.refreshUiElements();
+
+    // -------
+    if (this.setupDone) {
+      console.log('*** setup done; setting state-update done flag');
+      this.firstStateUpdateDone = true;
+    }
+    console.log('*** restoring previous value for instantaneous mode');
+    this.instantaneousMode = prevInstantaneousMode;
   }
 
   public allCardState(): Card[] {

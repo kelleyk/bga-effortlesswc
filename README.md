@@ -1,3 +1,17 @@
+- High-prio stuff
+
+  - New selection mechanism
+
+  - Tooltips for setlocs
+
+  - Sequence animation
+
+  - Styles for discard-pile button
+
+  - Game progression
+
+  - Zombie turn (?) - randomly select from available choices?
+
 - Issues, blocking / high-sev
 
   - The value-selection bug still exists (but much more rarely?)!
@@ -57,10 +71,6 @@
     B, C...)
 
   - You implemented tiebreaking (using aux score field) and updated tiebreaker description in meta-data
-
-  - Don't want slide-in animation when we refresh the page.
-
-    - Can we temporarily enable "instantaneous mode" (`this.page.instantaneousMode`) during page setup?
 
   - Some of our client-side typing is a little iffy (use of "any", etc.).
 
