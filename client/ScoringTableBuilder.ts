@@ -22,12 +22,12 @@ class ScoringTableBuilder {
 
   public render(): string {
     // Get a fixed order to render the seats in.  Filtering out unscored seats (e.g. bot seats) is done on the server
-    // side.
-    const scoringSeats: number[] = Object.keys(
-      this.mutableBoardState.seats,
-    ).map((key: string): number => {
-      return +key;
-    });
+    // side.  This will be a subset of the keys in `this.mutableBoardState.seats`.
+    const scoringSeats: number[] = Object.keys(this.scoringDetail.bySeat).map(
+      (key: string): number => {
+        return +key;
+      },
+    );
 
     console.log(this.scoringDetail);
     let s =
@@ -37,7 +37,8 @@ class ScoringTableBuilder {
 
     /* Seat labels */
     s += '<thead><tr><th></th>';
-    for (const seat of Object.values(this.mutableBoardState.seats)) {
+    for (const seatId of scoringSeats) {
+      const seat = this.mutableBoardState.seats[seatId]!;
       s += '<th colspan="2">' + seat.seatLabel + '</th>';
     }
     s += '</tr></thead>';
@@ -60,7 +61,7 @@ class ScoringTableBuilder {
         '_stat"></div></td>';
 
       // XXX: Ensure constant iteration order over seats?
-      for (const seatId of Object.keys(this.mutableBoardState.seats)) {
+      for (const seatId of scoringSeats) {
         const seatScoring = this.scoringDetail.bySeat[+seatId]!;
         const statPoints = seatScoring.attributeData.points[attr];
         const points = seatScoring.attribute[attr]!;

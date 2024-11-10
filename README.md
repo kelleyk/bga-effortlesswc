@@ -24,8 +24,6 @@
 
     - Add tooltips to icons?
 
-    - "scoring seats" - need server to only send data for them
-
     - column widths are really wonky; we want equal widths for all of the columns other than the label column on the left
 
       - just give up and do this with javascript, or inline width styles?
