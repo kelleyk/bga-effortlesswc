@@ -145,7 +145,7 @@ class ScoringTableBuilder {
     s +=
       '<tr class="ewc_scoringtable_category"><td colspan="' +
       (1 + 2 * scoringSeats.length) +
-      '">Armor</td></tr>';
+      '">Armor</td></tr><tr><td></td>';
     const armorSubtotals = new Map<number, number>();
     for (const seatId of scoringSeats) {
       const seatScoring = this.scoringDetail.bySeat[+seatId]!;
@@ -157,23 +157,24 @@ class ScoringTableBuilder {
           this.ARMOR_SETS[setName] + ' ' + this.formatScore(points) + '<br />';
       }
       if (seatScoring.armor.length === 0) {
-        s += '&ndash; <br />';
+        s += 'No armor.<br />';
       }
       s += '</td>';
     }
+    s += '</tr>';
     s += this.formatSubtotals(scoringSeats, armorSubtotals);
 
     /* Items */
     s +=
       '<tr class="ewc_scoringtable_category"><td colspan="' +
       (1 + 2 * scoringSeats.length) +
-      '">Items</td></tr>';
+      '">Items</td></tr><tr><td></td>';
     const itemSubtotals = new Map<number, number>();
     for (const seatId of scoringSeats) {
       itemSubtotals.set(seatId, 0);
       const seatScoring = this.scoringDetail.bySeat[+seatId]!;
 
-      s += '<td>';
+      s += '<td colspan="2">';
       for (const [itemId, points] of Object.entries(seatScoring.item)) {
         const card = seatScoring.itemCards[+itemId]!;
         const cardMetadata = StaticDataCards.cardMetadata[card.cardType!];
@@ -189,10 +190,11 @@ class ScoringTableBuilder {
       }
       // XXX: Not clear to me why the `Object.keys()` call is necessary here.
       if (Object.keys(seatScoring.item).length === 0) {
-        s += '&ndash; <br />';
+        s += 'No items.<br />';
       }
       s += '</td>';
     }
+    s += '</tr>';
     s += this.formatSubtotals(scoringSeats, itemSubtotals);
 
     /* Overall totals */
@@ -219,18 +221,18 @@ class ScoringTableBuilder {
     for (const seatId of scoringSeats) {
       s +=
         '<td colspan="2">' +
-        this.formatScore(subtotals.get(+seatId)!) +
+        this.formatScore(subtotals.get(+seatId)!, /*showZero=*/ true) +
         '</td>';
     }
     s += '</tr>';
     return s;
   }
 
-  private formatScore(points: number): string {
-    if (points === 0) {
+  private formatScore(points: number, showZero: boolean = false): string {
+    if (points === 0 && showZero !== true) {
       return '&ndash;';
     }
-    if (points > 0) {
+    if (points >= 0) {
       return points + '<div class="ewc_icon_points points_pos"></div>';
     }
     return -1 * points + '<div class="ewc_icon_points points_neg"></div>';
