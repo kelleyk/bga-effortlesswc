@@ -108,8 +108,9 @@ $selected_color: #00f;
 .ewc_unselectable {
   cursor: not-allowed;
 
-  opacity: 0.6;
-  transition: opacity 0.2s;
+  // N.B.: We use this instead of opacity because translucent elements look odd when they overlap.
+  filter: grayscale(60%) brightness(0.5);
+  transition: filter 0.2s;
 }
 
 // N.B.: The "!important" here and in the below rule are to ensure that $selected_color overrides the normal black
