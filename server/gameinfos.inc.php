@@ -7,7 +7,8 @@ $gameinfos = [
   'publisher_website' => 'https://www.barnmadegames.com/',
   'publisher_bgg_id' => 54543,
   'bgg_id' => 396716,
-  'players' => [1, 2, 3, 4, 5],
+  // TODO: Solo mode is possible, but not yet implemented.
+  'players' => [2, 3, 4, 5],
   // N.B.: These are official player colors from the designer.
   'player_colors' => [
     '001489', // blue
