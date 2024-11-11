@@ -2,8 +2,6 @@
 
   - New selection mechanism
 
-  - Tooltips for setlocs
-
   - Sequence animation
 
   - Styles for discard-pile button

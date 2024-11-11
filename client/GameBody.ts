@@ -237,12 +237,12 @@ class GameBody extends GameBasics {
     // Create the element that will display each setting-location pair and associated cards.
     for (let i = 0; i < 6; ++i) {
       const locationId = this.locationByPos[i]!.id;
-      // const settingKey: string = this.extractSetlocKey(
-      //   this.settingByPos[i]!.cardType!,
-      // )!;
-      // const locationKey: string = this.extractSetlocKey(
-      //   this.locationByPos[i]!.cardType!,
-      // )!;
+      const settingKey: string = this.extractSetlocKey(
+        this.settingByPos[i]!.cardType!,
+      )!;
+      const locationKey: string = this.extractSetlocKey(
+        this.locationByPos[i]!.cardType!,
+      )!;
 
       console.log('*** location:', this.locationByPos[i]!);
       console.log('*** setting:', this.settingByPos[i]!);
@@ -265,17 +265,16 @@ class GameBody extends GameBasics {
       );
 
       // XXX: Breaks click events; we need to have an inner and outer element here.
-      //
-      // this.addTooltipHtml(
-      //   el.querySelector('.ewc_setloc_setloc_wrap')!.id,
-      //   this.format_block('jstpl_tooltip_setloc', {
-      //     // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
-      //     // things by ID
-      //     location: StaticDataSetlocs.locationMetadata[locationKey],
-      //     setting: StaticDataSetlocs.settingMetadata[settingKey],
-      //   }),
-      //   // '<div class="tooltip-container ewc_tooltip">WOOHOO TOOLTIP</div>',
-      // );
+      this.addTooltipHtml(
+        el.querySelector('.ewc_setloc_setloc_superwrap')!.id,
+        this.format_block('jstpl_tooltip_setloc', {
+          // XXX: we have a name/ID problem here; the static metadata is keyed by name, but most of the game tracks
+          // things by ID
+          location: StaticDataSetlocs.locationMetadata[locationKey],
+          setting: StaticDataSetlocs.settingMetadata[settingKey],
+        }),
+        // '<div class="tooltip-container ewc_tooltip">WOOHOO TOOLTIP</div>',
+      );
     }
 
     for (const location of Object.values(mutableBoardState.locations)) {

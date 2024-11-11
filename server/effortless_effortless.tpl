@@ -45,6 +45,7 @@
   // N.B.: The .ewc_setloc_setloc_wrap element needs a unique ID for `addTooltipHtml()`.
 let jstpl_setloc_panel =
   '<div id="${id}" class="ewc_setloc_panel ${classes}">' +
+  '<div id="${id}_superwrap" class="ewc_setloc_setloc_superwrap">' +
   '<div id="${id}_wrap" class="ewc_setloc_setloc_wrap">' +
   '<div class="ewc_setloc_setting_wrap">' +
 
@@ -62,8 +63,8 @@ let jstpl_setloc_panel =
     '<div class="ewc_setloc_cards">' +
     '</div>' +
   '</div>' +  // .ewc_setloc_cards_wrap
-  //'<div class="ewc_setloc_threat"></div>' +
- '</div>';  // .ewc_setloc_panel
+  '</div>' +  // .ewc_setloc_cards_superwrap
+  '</div>';  // .ewc_setloc_panel
 
 let jstpl_playarea_card =
   '<div id="cardid_${id}" class="ewc_card card_${cardType} ewc_card_playarea tmp_scalable_card"></div>';
