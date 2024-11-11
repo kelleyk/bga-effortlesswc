@@ -8,8 +8,6 @@
 
   - Styles for discard-pile button
 
-  - Game progression
-
   - Zombie turn (?) - randomly select from available choices?
 
 - Issues, blocking / high-sev

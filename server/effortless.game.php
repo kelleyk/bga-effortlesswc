@@ -36,7 +36,7 @@ require_once 'modules/php/constants.inc.php';
 
 // // use Effortless\Managers\Board;
 
-// use Effortless\Models\Player;
+use Effortless\Models\Seat;
 
 use WcLib\EventDispatcher;
 
@@ -141,7 +141,16 @@ class Effortless extends TableBase
 
   function getGameProgression()
   {
-    return 42;
+    $world = $this->world();
+
+    $reserve_effort = 0;
+    $total_effort = 0;
+    foreach (Seat::getAll($world) as $seat) {
+      $reserve_effort += $seat->reserveEffort($world)->qty();
+      $total_effort += \Effortless\STARTING_EFFORT_PROD;
+    }
+
+    return floor(100 * (1 - $reserve_effort / $total_effort));
   }
 
   // -----------
