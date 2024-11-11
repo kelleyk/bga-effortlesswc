@@ -1,44 +1,36 @@
-- High-prio stuff
+- Blocking stuff
 
-  - New selection mechanism
+  - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
+
+    - With the River, should we be able to see face-down cards?
+
+  - Check out other competitive rulesets & player counts
+
+- High-priority stuff that is not blocking
 
   - Sequence animation
 
   - Zombie turn (?) - randomly select from available choices?
 
-  - Check out other competitive rulesets & player counts
+  - Write docs
 
-- Issues, blocking / high-sev
+- Smaller stuff
 
   - The value-selection bug still exists (but much more rarely?)!
 
   - UX/client issues
 
-    - We need to fix the CSS issues that forced us to disable setloc tooltips.
-
-    - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
-
-      - With the River, should we be able to see face-down cards?
-
     - Sequence animation a little bit.
 
-  - Finish scoring table.
+  - Scoring table
 
-    - a subtotal line would be great
-
-    - finish / fix-up armor and items sections
-
-    - Add tooltips to icons?
+    - add info icons with tooltips explaining scoring for each section
 
     - column widths are really wonky; we want equal widths for all of the columns other than the label column on the left
 
       - just give up and do this with javascript, or inline width styles?
 
     - text and icons are not vertically aligned; having an icon pushes the text down
-
-  - Suggestions from Kat
-
-    - Tooltips for icons (we need tooltips in general, really).
 
 - Other
 
