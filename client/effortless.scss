@@ -264,8 +264,18 @@ $selected_color: #00f;
 }
 
 .ewc_handarea .ewc_card {
-  // (80 = the 90px height of the hand area plus double the 5px margin)
-  clip: rect(0, auto, 80px, 0);
+  // // (80 = the 90px height of the hand area plus double the 5px margin)
+  // clip: rect(0, auto, 80px, 0);
+
+  // Notes:
+  // - 80 = the 90px height of the hand area plus double the 5px margin.
+  // - The 15px offset gives enough room for the glow added by the hover and selected to show.
+  clip-path: polygon(
+    -15px -15px,
+    calc(100% + 15px) -15px,
+    calc(100% + 15px) 80px,
+    -15px 80px
+  );
   margin-top: 5px;
 
   // transition: clip 1.0s;  // N.B.: This doesn't seem to work, at least in Firefox.

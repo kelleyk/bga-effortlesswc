@@ -108,7 +108,17 @@ class GameBody extends GameBasics {
   }
 
   // XXX: Needs to be renamed.
+  //
+  // When a card is moved from a setloc zone to the hand zone (or between zones in general), the tooltip and other event
+  // handlers stop working.  We address that by calling this function, which re-adds them.
   public onCardAddedToZone(el: HTMLElement, card: Card) {
+    // XXX: Same for on-click handlers.
+    console.log('adding onclick handler for in-play card with ID=', card.id);
+    dojo.connect(el, 'onclick', this, (evt: any) => {
+      this.onClickCard(evt, card.id);
+    });
+
+    // Tooltip
     const cardMetadata = !card.visible
       ? null
       : StaticDataCards.cardMetadata[card.cardType!];
@@ -699,7 +709,6 @@ class GameBody extends GameBasics {
       }
     }
 
-    // XXX: When a card is moved from a setloc zone to the hand zone, the tooltip stops working.
     {
       // Handle appearance changes (e.g. when the card flips over).
       const cardType = !card.visible ? 'back' : card.cardType;
@@ -715,16 +724,9 @@ class GameBody extends GameBasics {
         // of the card won't actually change, even though we've replaced the "card_*" CSS class.
         this.rescaleSprite(el!, 0.5);
       }
-
-      // XXX: Same for on-click handlers.
-      {
-        dojo.connect(el, 'onclick', this, (evt: any) => {
-          this.onClickCard(evt, card.id);
-        });
-      }
-
-      this.onCardAddedToZone(el!, card);
     }
+
+    this.onCardAddedToZone(el!, card);
   }
 
   // XXX: The need for this is a bit unfortunate; we could eliminate it.
@@ -966,7 +968,7 @@ class GameBody extends GameBasics {
   }
 
   public updateSelectablesCardFromHand() {
-    this.updateSelectablesCardFromPrompt();
+    this.updateSelectablesCardInPlay();
   }
 
   // XXX: Pick better type than `any`

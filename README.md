@@ -16,6 +16,9 @@
 
   - Write docs
 
+  - For unselectables, can we come up with a style where they appear greyed out but aren't transparent?  (As is, they
+    look odd when overlapped.)
+
 - Smaller stuff
 
   - The value-selection bug still exists (but much more rarely?)!
