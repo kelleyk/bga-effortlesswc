@@ -716,6 +716,13 @@ class GameBody extends GameBasics {
         this.rescaleSprite(el!, 0.5);
       }
 
+      // XXX: Same for on-click handlers.
+      {
+        dojo.connect(el, 'onclick', this, (evt: any) => {
+          this.onClickCard(evt, card.id);
+        });
+      }
+
       this.onCardAddedToZone(el!, card);
     }
   }
@@ -938,11 +945,27 @@ class GameBody extends GameBasics {
     // }
   }
 
-  public updateSelectablesCardFromHand() {
-    this.updateSelectablesCardFromPrompt();
+  // N.B.: This `selectionType` does not support making face-down cards visible.
+  public updateSelectablesCardInPlay() {
+    const inputArgs = this.inputArgs!;
+
+    for (const _card of Object.values(inputArgs.choices)) {
+      // XXX: Hacky; we should instead fix our type definitions.
+      const card = _card as Card;
+
+      document
+        .querySelector('#cardid_' + card.id)!
+        .classList.add('ewc_selectable');
+    }
+
+    document
+      .querySelectorAll('.ewc_card_playarea:not(.ewc_selectable)')
+      .forEach((el) => {
+        el.classList.add('ewc_unselectable');
+      });
   }
 
-  public updateSelectablesCardInPlay() {
+  public updateSelectablesCardFromHand() {
     this.updateSelectablesCardFromPrompt();
   }
 

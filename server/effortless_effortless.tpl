@@ -59,11 +59,11 @@ let jstpl_setloc_panel =
         '</div>' +  // .ewc_setloc_location
   '</div>' +    // .ewc_setloc_location_wrap
   '</div>' +    // .ewc_setloc_setloc_wrap
+  '</div>' +  // .ewc_setloc_setloc_superwrap
   '<div class="ewc_setloc_cards_wrap">' +
     '<div class="ewc_setloc_cards">' +
     '</div>' +
   '</div>' +  // .ewc_setloc_cards_wrap
-  '</div>' +  // .ewc_setloc_cards_superwrap
   '</div>';  // .ewc_setloc_panel
 
 let jstpl_playarea_card =
