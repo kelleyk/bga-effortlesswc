@@ -6,6 +6,8 @@
 
   - Zombie turn (?) - randomly select from available choices?
 
+  - Check out other competitive rulesets & player counts
+
 - Issues, blocking / high-sev
 
   - The value-selection bug still exists (but much more rarely?)!
