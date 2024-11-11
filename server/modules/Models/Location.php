@@ -313,6 +313,7 @@ class CryptLocation extends Location
       $this->getParameterCard($world, $this->getValidTargets($world), [
         'description' => '${actplayer} must pick one of the top two cards of the discard pile to take.',
         'descriptionmyturn' => '${you} must pick one of the top two cards of the discard pile to take.',
+        'showFaceDown' => true, // Just in case cards in the discard pile happen to be face-down.
       ]),
       $seat
     );
@@ -372,6 +373,9 @@ class LibraryLocation extends Location
           '${actplayer} must pick one of the two face-down cards at the :location=library: to take; the other will be replaced, face-down.',
         'descriptionmyturn' =>
           '${you} must pick one of the two face-down cards at the :location=library: to take; the other will be replaced, face-down.',
+        // Because we want the player to be able to see the face-down cards here, we need to use a selection prompt.
+        'selectionType' => 'fromPrompt',
+        'showFaceDown' => true,
       ]),
       $seat
     );
@@ -472,6 +476,9 @@ class RiverLocation extends Location
       $this->getParameterCard($world, $cards, [
         'description' => '${actplayer} must pick a card at a location other than the :location=river: to discard.',
         'descriptionmyturn' => '${you} must pick a card at a location other than the :location=river: to discard.',
+        'selectionType' => 'inPlay',
+        // Face-down cards should *not* be revealed.
+        'showFaceDown' => false,
       ])
     );
 

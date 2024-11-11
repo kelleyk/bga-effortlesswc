@@ -237,7 +237,9 @@ trait ParameterInput
     $this->wc_debug($world, 'getParameterCardInHand()');
 
     $args = $args ?? [];
-    $args['selectionType'] = 'fromHand';
+    if (!array_key_exists('selectionType', $args)) {
+      $args['selectionType'] = 'fromHand';
+    }
 
     return $this->getParameterCard($world, $seat->hand($world), $args);
   }
@@ -249,7 +251,9 @@ trait ParameterInput
     $this->wc_debug($world, 'getParameterCardAtLocation()');
 
     $args = $args ?? [];
-    $args['selectionType'] = 'inPlay';
+    if (!array_key_exists('selectionType', $args)) {
+      $args['selectionType'] = 'inPlay';
+    }
 
     return $this->getParameterCard($world, $location->cards($world), $args);
   }
@@ -286,12 +290,13 @@ trait ParameterInput
     if (!array_key_exists('selectionType', $args)) {
       $args['selectionType'] = 'fromPrompt';
     }
+    $force_visible = $args['showFaceDown'] ?? false;
 
     $json_choices = array_values(
-      array_map(function ($card) use ($world) {
+      array_map(function ($card) use ($world, $force_visible) {
         // N.B.: We have to send all of the metadata about the card, instead of only its ID, because it might not
         // necessarily be face-up on the board.  That's what the $force_visible parameter here does.
-        return $card->renderForClient($world, /*force_visible=*/ true);
+        return $card->renderForClient($world, /*force_visible=*/ $force_visible);
       }, $cards)
     );
 
@@ -303,12 +308,6 @@ trait ParameterInput
     // throw new \feException('XXX: raw_value=' . $raw_value);
     return $world->table()->mainDeck->mustGet($raw_value);
   }
-
-  // // Each element of $valid_targets is a `Card`.
-  // public function getParameterCard(World $world, $valid_targets, $args = null)
-  // {
-  //   throw new \feException('XXX: no impl: getParameterCard');
-  // }
 
   private function getNextReadIndex(World $world): int
   {
