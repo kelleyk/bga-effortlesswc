@@ -4,9 +4,9 @@
 
   - Sequence animation
 
-  - Styles for discard-pile button
-
   - Zombie turn (?) - randomly select from available choices?
+
+  - Address unused options
 
 - Issues, blocking / high-sev
 
@@ -21,10 +21,6 @@
       - With the River, should we be able to see face-down cards?
 
     - Sequence animation a little bit.
-
-    - Finish "show discard pile" feature.
-
-      - Improve button.
 
   - Finish scoring table.
 

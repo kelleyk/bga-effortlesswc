@@ -90,7 +90,7 @@ let jstpl_effort_counter =
 // N.B.: We use ".player-board" just for the appearance.
 var jstpl_tablewide_panel =
   '<div class="tablewide_panel player-board" id="tablewide_panel">' +
-  '<span id="ewc_discardpile_button">(discard-pile button)</span>' +
+  '<span id="ewc_discardpile_button" class="action-button bgabutton bgabutton_blue">Show discard</span>' +
   '</div>';
 
   var jstpl_seat_board_contents =
