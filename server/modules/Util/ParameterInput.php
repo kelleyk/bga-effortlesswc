@@ -42,6 +42,7 @@ class ParameterInputConfig implements \JsonSerializable
   public string $descriptionmyturn;
   /** @var mixed[] */
   public $state_args;
+  public ?string $selection_type;
 
   // These parameters are set automatically.
   public string $return_transition;
@@ -58,6 +59,7 @@ class ParameterInputConfig implements \JsonSerializable
       $this->description = $json['description'];
       $this->descriptionmyturn = $json['descriptionmyturn'];
       $this->state_args = $json['stateArgs'];
+      $this->selection_type = $json['selectionType'] ?? null;
       $this->return_transition = $json['returnTransition'];
       $this->param_index = $json['paramIndex'];
       $this->input_type = $json['inputType'];
@@ -76,6 +78,7 @@ class ParameterInputConfig implements \JsonSerializable
       'paramIndex' => $this->param_index,
       'inputType' => $this->input_type,
       'choices' => $this->choices,
+      ...$this->selection_type !== null ? ['selectionType' => $this->selection_type] : [],
     ];
   }
 
@@ -87,6 +90,7 @@ class ParameterInputConfig implements \JsonSerializable
       'cancellable' => $this->cancellable,
       'choices' => $this->choices,
       'inputType' => $this->input_type,
+      'selectionType' => $this->selection_type,
     ];
   }
 }
@@ -233,25 +237,25 @@ trait ParameterInput
     $this->wc_debug($world, 'getParameterCardInHand()');
 
     $args = $args ?? [];
-    $args['selectionType'] = 'fromPrompt';
+    $args['selectionType'] = 'fromHand';
 
     return $this->getParameterCard($world, $seat->hand($world), $args);
   }
 
-  // XXX: This needs to show the player making the decision any face-down cards when they make their decision.
+  // XXX: This *sometimes* needs to show the player making the decision any face-down cards when they make their
+  // decision.
   public function getParameterCardAtLocation(World $world, Location $location, $args = null): Card
   {
     $this->wc_debug($world, 'getParameterCardAtLocation()');
 
-    // XXX: for now, at least, using 'fromPrompt' rather than 'inPlay' is just a way to avoid the "reveal face-down
-    // cards" problem
     $args = $args ?? [];
-    $args['selectionType'] = 'fromPrompt';
+    $args['selectionType'] = 'inPlay';
 
     return $this->getParameterCard($world, $location->cards($world), $args);
   }
 
-  // There are two allowed values for $args['selectionType']:
+  // There are several allowed values for $args['selectionType'].  These don't affect which cards are selectable;
+  // rather, they control how the client-side UI will ask the player for input.
   //
   // - "inPlay": This is one of the "foundational" card input mechanisms.  It allows the player to select one of the
   //   given cards, which must be "in play" (at a location).
@@ -259,7 +263,10 @@ trait ParameterInput
   // - "fromPrompt": This is one of the "foundational" card input mechanisms.  It shows the player all of the given
   //   cards in a prompt and lets them choose one.  The cards may *also* be in play, but they are not required to be.
   //
-  // XXX: We need to send full data about the $cards to the client even if they are face-down.
+  // - "fromHand": This is one of the "foundational" card input mechanisms.  It allows the player to select any of the
+  //   given cards from their hand.
+  //
+  // The caller may also pass $args['showFaceDown'], which will let the player see the front of face-down cards.
   //
   public function getParameterCard(World $world, $cards, $args = null): Card
   {
@@ -275,6 +282,9 @@ trait ParameterInput
     }
     if (!array_key_exists('descriptionmyturn', $args)) {
       $args['descriptionmyturn'] = '${you} must pick a card.';
+    }
+    if (!array_key_exists('selectionType', $args)) {
+      $args['selectionType'] = 'fromPrompt';
     }
 
     $json_choices = array_values(

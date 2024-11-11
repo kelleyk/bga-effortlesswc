@@ -151,6 +151,10 @@ interface InputArgs {
   cancellable: boolean;
   choices: any; // XXX: but always an array of int IDs so far?
   inputType: string;
+
+  // For inputType=="inputtype:card" only, one of "inPlay", "fromPrompt", "fromHand"; see "ParameterInput.php" for
+  // details.
+  selectionType: string | undefined;
 }
 
 interface TableScoring {

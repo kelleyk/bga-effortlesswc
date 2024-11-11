@@ -820,9 +820,10 @@ class GameBody extends GameBasics {
     });
   }
 
-  // XXX: Now that we have `this.inputArgs`, should we always use that?
-  public updateSelectables(inputArgs: InputArgs) {
+  // XXX: Now that we have `this.inputArgs`, should we always use that?  (It used to be a parameter here.)
+  public updateSelectables() {
     console.log('*** updateSelectables()');
+    const inputArgs: InputArgs = this.inputArgs!;
 
     this.clearSelectables();
 
@@ -847,46 +848,25 @@ class GameBody extends GameBasics {
       }
       case 'inputtype:card': {
         console.log('  *** inputtype:card', inputArgs);
-
-        dojo.place(
-          this.format_block('jstpl_promptarea', {}),
-          'ewc_promptarea_wrap',
-        );
-
-        for (const _card of Object.values(inputArgs.choices)) {
-          // XXX: Hacky; we should instead fix our type definitions.
-          const card = _card as Card;
-
-          const cardType = !card.visible ? 'back' : card.cardType;
-
-          const parentEl = document.querySelector(
-            '.ewc_promptarea .ewc_promptarea_choices',
-          )!;
-
-          // XXX: We also need to make these .ewc_selectable; and we're going to wind up needing to do other stuff such
-          // as attaching tooltips and on-click handlers.  We should move this into a reusable function.
-          const el = dojo.place(
-            this.format_block('jstpl_prompt_card', {
-              cardType,
-              id: card.id,
-            }),
-            parentEl,
-          );
-          this.rescaleSprite(el, 0.35);
-          el.classList.add('ewc_selectable');
-          dojo.connect(el, 'onclick', this, (evt: any) => {
-            this.onClickCard(evt, card.id);
-          });
+        switch (inputArgs.selectionType) {
+          case 'fromPrompt': {
+            this.updateSelectablesCardFromPrompt();
+            break;
+          }
+          case 'fromHand': {
+            this.updateSelectablesCardFromHand();
+            break;
+          }
+          case 'inPlay': {
+            this.updateSelectablesCardInPlay();
+            break;
+          }
+          default: {
+            throw new Error(
+              'Unexpected card selectionType: ' + inputArgs.selectionType,
+            );
+          }
         }
-
-        // for (const id of inputArgs.choices) {
-        //   document
-        //     .querySelector(
-        //       '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
-        //     )!
-        //     .classList.add('ewc_selectable');
-        // }
-
         break;
       }
       case 'inputtype:effort-pile': {
@@ -913,6 +893,57 @@ class GameBody extends GameBasics {
         throw new Error('Unexpected input type: ' + inputArgs.inputType);
       }
     }
+  }
+
+  public updateSelectablesCardFromPrompt() {
+    const inputArgs: InputArgs = this.inputArgs!;
+
+    dojo.place(
+      this.format_block('jstpl_promptarea', {}),
+      'ewc_promptarea_wrap',
+    );
+
+    for (const _card of Object.values(inputArgs.choices)) {
+      // XXX: Hacky; we should instead fix our type definitions.
+      const card = _card as Card;
+
+      const cardType = !card.visible ? 'back' : card.cardType;
+
+      const parentEl = document.querySelector(
+        '.ewc_promptarea .ewc_promptarea_choices',
+      )!;
+
+      // XXX: We also need to make these .ewc_selectable; and we're going to wind up needing to do other stuff such
+      // as attaching tooltips and on-click handlers.  We should move this into a reusable function.
+      const el = dojo.place(
+        this.format_block('jstpl_prompt_card', {
+          cardType,
+          id: card.id,
+        }),
+        parentEl,
+      );
+      this.rescaleSprite(el, 0.35);
+      el.classList.add('ewc_selectable');
+      dojo.connect(el, 'onclick', this, (evt: any) => {
+        this.onClickCard(evt, card.id);
+      });
+    }
+
+    // for (const id of inputArgs.choices) {
+    //   document
+    //     .querySelector(
+    //       '.ewc_setloc_location_' + id + ' .ewc_setloc_setloc_wrap',
+    //     )!
+    //     .classList.add('ewc_selectable');
+    // }
+  }
+
+  public updateSelectablesCardFromHand() {
+    this.updateSelectablesCardFromPrompt();
+  }
+
+  public updateSelectablesCardInPlay() {
+    this.updateSelectablesCardFromPrompt();
   }
 
   // XXX: Pick better type than `any`
@@ -1022,7 +1053,7 @@ class GameBody extends GameBasics {
         if (this.isCurrentPlayerActive()) {
           console.log('*** stInput: ', args);
           this.inputArgs = args.args.input;
-          this.updateSelectables(args.args.input);
+          this.updateSelectables();
         }
         break;
       }

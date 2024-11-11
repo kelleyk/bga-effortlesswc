@@ -4,6 +4,8 @@
 
     - With the River, should we be able to see face-down cards?
 
+    - Can/should we also do a method for "cards in hand"?
+
   - Check out other competitive rulesets & player counts
 
 - High-priority stuff that is not blocking

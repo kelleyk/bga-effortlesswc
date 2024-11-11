@@ -4,8 +4,6 @@ namespace Effortless;
 
 use Effortless\Ruleset;
 
-use Effortless\Models\Seat;
-
 function array_rand_value($array)
 {
   $key = array_rand($array);
