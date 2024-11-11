@@ -35,14 +35,14 @@ $game_options = [
         'tmdisplay' => totranslate('Competitive'),
         'description' => totranslate('The players will compete with each other.  These are the normal rules.'),
       ],
-      GAMEOPTION_RULESET_COOPERATIVE => [
-        'name' => totranslate('Cooperative'),
-        'tmdisplay' => totranslate('Cooperative'),
-        // XXX:
-        'description' => totranslate(
-          'The players will work together.  These rules are from the Altered expansion.  Threats are always used when playing cooperatively, which makes the game a little bit more complex.'
-        ),
-      ],
+      // GAMEOPTION_RULESET_COOPERATIVE => [
+      //   'name' => totranslate('Cooperative'),
+      //   'tmdisplay' => totranslate('Cooperative'),
+      //   // XXX:
+      //   'description' => totranslate(
+      //     'The players will work together.  These rules are from the Altered expansion.  Threats are always used when playing cooperatively, which makes the game a little bit more complex.'
+      //   ),
+      // ],
     ],
     'default' => GAMEOPTION_RULESET_COMPETITIVE,
   ],
@@ -63,11 +63,11 @@ $game_options = [
         'name' => totranslate('Disabled'),
         'description' => totranslate('The races and classes from the Altered expansion will not be used.'),
       ],
-      GAMEOPTION_ENABLED => [
-        'name' => totranslate('Enabled'),
-        'tmdisplay' => totranslate('With races and classes'),
-        'description' => totranslate('The races and classes from the Altered expansion will be used.'),
-      ],
+      // GAMEOPTION_ENABLED => [
+      //   'name' => totranslate('Enabled'),
+      //   'tmdisplay' => totranslate('With races and classes'),
+      //   'description' => totranslate('The races and classes from the Altered expansion will be used.'),
+      // ],
     ],
     'default' => GAMEOPTION_DISABLED,
   ],
@@ -79,11 +79,11 @@ $game_options = [
         'name' => totranslate('Disabled'),
         'description' => totranslate('The Threats from the Hunted expansion will not be used.'),
       ],
-      GAMEOPTION_ENABLED => [
-        'name' => totranslate('Enabled'),
-        'tmdisplay' => totranslate('With Threats'),
-        'description' => totranslate('The Threats from the Hunted expansion will be used.'),
-      ],
+      // GAMEOPTION_ENABLED => [
+      //   'name' => totranslate('Enabled'),
+      //   'tmdisplay' => totranslate('With Threats'),
+      //   'description' => totranslate('The Threats from the Hunted expansion will be used.'),
+      // ],
     ],
     'default' => GAMEOPTION_DISABLED,
     'displaycondition' => [

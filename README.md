@@ -6,8 +6,6 @@
 
   - Zombie turn (?) - randomly select from available choices?
 
-  - Address unused options
-
 - Issues, blocking / high-sev
 
   - The value-selection bug still exists (but much more rarely?)!
