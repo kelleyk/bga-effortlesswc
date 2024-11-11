@@ -32,6 +32,9 @@ class SeatScore implements \JsonSerializable
   public $armor = [];
   // Map from card ID to score; score will be 0 if the seat does not have the $attributes to utilize the item.
   public $item = [];
+  // Map from card ID to rendered card metadata.  Keys will match those in $item.  This gives the client the mapping
+  // between card ID and card type it needs to show the card in the scoring display.
+  public $item_cards = [];
   // Map from location ID (yes, location ID, not setting ID) to the score from the corresponding setting.
   public $setting = [];
 
@@ -65,6 +68,7 @@ class SeatScore implements \JsonSerializable
       'attribute' => $this->attribute,
       'armor' => $this->armor,
       'item' => $this->item,
+      'itemCards' => $this->item_cards,
       'setting' => $this->setting,
       'total' => $this->total(),
       'place' => $this->place,
@@ -156,10 +160,11 @@ function calculateScores(World $world): TableScore
   // Calculate item scoring.
   foreach (Seat::getAll($world) as $seat) {
     foreach ($seat->hand($world) as $card) {
-      $seat_attrs = $table_score->by_seat[$seat->id()]->attribute_data;
+      $seat_score = $table_score->by_seat[$seat->id()];
 
       if ($card instanceof ItemCard) {
-        $table_score->by_seat[$seat->id()]->item[$card->id()] = $card->usable($seat_attrs) ? $card->points() : 0;
+        $seat_score->item[$card->id()] = $card->usable($seat_score->attribute_data) ? $card->points() : 0;
+        $seat_score->item_cards[$card->id()] = $card->renderForClient($world, /*force_visible=*/ true);
       }
     }
   }

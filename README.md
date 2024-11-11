@@ -1,6 +1,11 @@
 - Blocking stuff
 
-  - Check out other competitive rulesets & player counts
+  - Card selection
+
+    - Fix Library card selection (we need to force prompt mode)
+
+    - Make sure that full card metadata isn't being sent when players are not supposed to be able to look at face-down
+      cards
 
 - High-priority stuff that is not blocking
 
@@ -9,6 +14,8 @@
   - Zombie turn (?) - randomly select from available choices?
 
   - Write docs
+
+  - Implement game statistics
 
 - Smaller stuff
 

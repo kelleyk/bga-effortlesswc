@@ -129,11 +129,12 @@ class ScoringTableBuilder {
       for (const seatId of scoringSeats) {
         const seatScoring = this.scoringDetail.bySeat[+seatId]!;
         const points = seatScoring.setting[location.id]!;
+        // console.log('scoring detail: setting:', seatId, location.id, points);
         s += '<td colspan="2">' + this.formatScore(points) + '</td>';
 
         settingSubtotals.set(
           +seatId,
-          (attrSubtotals.get(+seatId) ?? 0) + points,
+          (settingSubtotals.get(+seatId) ?? 0) + points,
         );
       }
 
@@ -148,13 +149,14 @@ class ScoringTableBuilder {
       '">Armor</td></tr><tr><td></td>';
     const armorSubtotals = new Map<number, number>();
     for (const seatId of scoringSeats) {
+      armorSubtotals.set(seatId, 0);
       const seatScoring = this.scoringDetail.bySeat[+seatId]!;
 
-      armorSubtotals.set(seatId, 0);
       s += '<td colspan="2">';
       for (const [setName, points] of Object.entries(seatScoring.armor)) {
         s +=
           this.ARMOR_SETS[setName] + ' ' + this.formatScore(points) + '<br />';
+        armorSubtotals.set(seatId, armorSubtotals.get(seatId)! + points);
       }
       if (seatScoring.armor.length === 0) {
         s += 'No armor.<br />';
@@ -178,6 +180,8 @@ class ScoringTableBuilder {
       for (const [itemId, points] of Object.entries(seatScoring.item)) {
         const card = seatScoring.itemCards[+itemId]!;
         const cardMetadata = StaticDataCards.cardMetadata[card.cardType!];
+
+        itemSubtotals.set(seatId, itemSubtotals.get(seatId)! + points);
 
         if (points === 0) {
           s +=
