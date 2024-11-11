@@ -1,11 +1,5 @@
 - Blocking stuff
 
-  - We really need a "click the card in the play-area" selection mode for the situations where that's appropriate.
-
-    - With the River, should we be able to see face-down cards?
-
-    - Can/should we also do a method for "cards in hand"?
-
   - Check out other competitive rulesets & player counts
 
 - High-priority stuff that is not blocking
@@ -15,9 +9,6 @@
   - Zombie turn (?) - randomly select from available choices?
 
   - Write docs
-
-  - For unselectables, can we come up with a style where they appear greyed out but aren't transparent?  (As is, they
-    look odd when overlapped.)
 
 - Smaller stuff
 
